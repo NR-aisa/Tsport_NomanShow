@@ -89,12 +89,21 @@ class PlayerDashboardScreen extends StatelessWidget {
                         color: AppColors.surface2,
                         border: Border.all(color: AppColors.primary, width: 1.5),
                       ),
-                      child: Center(
-                        child: Text(
-                          user.initials,
-                          style: GoogleFonts.bebasNeue(fontSize: 18, color: AppColors.primary),
-                        ),
-                      ),
+                      child: user.avatarUrl != null
+                          ? ClipOval(
+                              child: Image.asset(
+                                user.avatarUrl!,
+                                width: 44,
+                                height: 44,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : Center(
+                              child: Text(
+                                user.initials,
+                                style: GoogleFonts.bebasNeue(fontSize: 18, color: AppColors.primary),
+                              ),
+                            ),
                     ),
                   ),
                 ],
@@ -458,10 +467,14 @@ class PlayerDashboardScreen extends StatelessWidget {
           CircleAvatar(
             radius: 20,
             backgroundColor: AppColors.surface3,
-            child: Text(
-              c.challenger.initials,
-              style: GoogleFonts.bebasNeue(fontSize: 14, color: AppColors.primary),
-            ),
+            backgroundImage:
+                c.challenger.avatarUrl != null ? AssetImage(c.challenger.avatarUrl!) : null,
+            child: c.challenger.avatarUrl != null
+                ? null
+                : Text(
+                    c.challenger.initials,
+                    style: GoogleFonts.bebasNeue(fontSize: 14, color: AppColors.primary),
+                  ),
           ),
           const SizedBox(width: 12),
           Expanded(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/session/demo_avatars.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme_controller.dart';
@@ -972,6 +973,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   context,
                   name: 'Jason T.',
                   initial: 'J',
+                  avatarAsset: DemoAvatars.jason,
                   level: 'LVL 14',
                   streak: '🔥 3W',
                   isLiveAtVenue: true,
@@ -983,6 +985,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   context,
                   name: 'Sara K.',
                   initial: 'S',
+                  avatarAsset: DemoAvatars.sara,
                   level: 'LVL 18',
                   streak: '🔥 5W',
                   isLiveAtVenue: true,
@@ -994,6 +997,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   context,
                   name: 'Nurul P.',
                   initial: 'N',
+                  avatarAsset: DemoAvatars.nurul,
                   level: 'LVL 11',
                   streak: '1W',
                   isLiveAtVenue: false,
@@ -1005,6 +1009,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   context,
                   name: 'Daniel L.',
                   initial: '👑',
+                  avatarAsset: DemoAvatars.daniel,
                   level: 'LVL 22',
                   streak: '🔥 7W',
                   isLiveAtVenue: false,
@@ -1025,6 +1030,7 @@ class _SplashScreenState extends State<SplashScreen> {
     BuildContext context, {
     required String name,
     required String initial,
+    String? avatarAsset,
     required String level,
     required String streak,
     required bool isLiveAtVenue,
@@ -1062,16 +1068,25 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   ],
                 ),
-                child: Center(
-                  child: Text(
-                    initial,
-                    style: AppTypography.ui(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      color: isDark ? Colors.white : AppColors.slate900,
-                    ),
-                  ),
-                ),
+                child: avatarAsset != null
+                    ? ClipOval(
+                        child: Image.asset(
+                          avatarAsset,
+                          width: 52,
+                          height: 52,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Center(
+                        child: Text(
+                          initial,
+                          style: AppTypography.ui(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            color: isDark ? Colors.white : AppColors.slate900,
+                          ),
+                        ),
+                      ),
               ),
               if (isLiveAtVenue)
                 Positioned(

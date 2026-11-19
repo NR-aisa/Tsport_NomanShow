@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../core/session/app_session.dart';
+import '../../../core/session/demo_avatars.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme_controller.dart';
 import '../../../core/navigation/app_navigator.dart';
@@ -206,6 +208,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
                     // Player Card: #1 Daniel L.
                     _buildPlayerCard(
+                      avatarAsset: DemoAvatars.daniel,
                       name: 'Daniel L.',
                       points: '1,620',
                       rank: '#1',
@@ -216,6 +219,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
                     // Player Card: #2 Sara K.
                     _buildPlayerCard(
+                      avatarAsset: DemoAvatars.sara,
                       name: 'Sara K.',
                       points: '1,480',
                       rank: '#2',
@@ -226,6 +230,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
                     // Player Card: #3 Mei R.
                     _buildPlayerCard(
+                      avatarAsset: DemoAvatars.mei,
                       name: 'Mei R.',
                       points: '1,395',
                       rank: '#3',
@@ -237,6 +242,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     // Player Card: #4 — the user themselves. Arena DS rule:
                     // your own row is always in the list, highlighted.
                     _buildPlayerCard(
+                      avatarAsset: AppSession.avatarAsset,
                       name: 'You',
                       points: '1,240',
                       rank: '#4',
@@ -248,6 +254,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
                     // Player Card: #5 Rajan K.
                     _buildPlayerCard(
+                      avatarAsset: DemoAvatars.rajan,
                       name: 'Rajan K.',
                       points: '1,180',
                       rank: '#5',
@@ -285,6 +292,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     required String form,
     VoidCallback? onChallenge,
     bool isYou = false,
+    String? avatarAsset,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -298,15 +306,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         children: [
           Row(
             children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceSubtle,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.obsidianBorder),
-                ),
-                child: const Icon(Icons.sports_tennis, size: 20, color: AppColors.ittfTableBorder),
+              AvatarPhoto(
+                size: 36,
+                initial: name.isNotEmpty ? name[0] : '?',
+                asset: avatarAsset,
+                ringColor: AppColors.obsidianBorder,
+                ringWidth: 1,
               ),
               const SizedBox(width: 12),
               Expanded(

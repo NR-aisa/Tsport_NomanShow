@@ -1,9 +1,11 @@
 import '../models/app_models.dart';
+import '../../core/session/demo_avatars.dart';
 
 class MockData {
   MockData._();
 
   static const currentUser = AppUser(
+    avatarUrl: DemoAvatars.user,
     id: 'u001',
     name: 'Noman Rashid',
     email: 'noman@example.com',
@@ -16,12 +18,12 @@ class MockData {
   );
 
   static const List<AppUser> players = [
-    AppUser(id: 'u002', name: 'Amir Hassan', email: 'amir@e.com', phone: '', xp: 2340, rank: 1, wins: 56, losses: 8, membershipStatus: MembershipStatus.active),
-    AppUser(id: 'u003', name: 'Priya Nair', email: 'priya@e.com', phone: '', xp: 1890, rank: 2, wins: 41, losses: 14, membershipStatus: MembershipStatus.active),
-    AppUser(id: 'u004', name: 'Lee Wei Ming', email: 'wei@e.com', phone: '', xp: 1650, rank: 3, wins: 35, losses: 18, membershipStatus: MembershipStatus.none),
-    AppUser(id: 'u005', name: 'Farah Zainudin', email: 'farah@e.com', phone: '', xp: 1540, rank: 4, wins: 29, losses: 15, membershipStatus: MembershipStatus.active),
-    AppUser(id: 'u006', name: 'Rajan Kumar', email: 'rajan@e.com', phone: '', xp: 1500, rank: 5, wins: 25, losses: 20, membershipStatus: MembershipStatus.active),
-    AppUser(id: 'u007', name: 'Siti Rahimah', email: 'siti@e.com', phone: '', xp: 1480, rank: 6, wins: 22, losses: 17, membershipStatus: MembershipStatus.expired),
+    AppUser(id: 'u002', avatarUrl: DemoAvatars.amir, name: 'Amir Hassan', email: 'amir@e.com', phone: '', xp: 2340, rank: 1, wins: 56, losses: 8, membershipStatus: MembershipStatus.active),
+    AppUser(id: 'u003', avatarUrl: DemoAvatars.priya, name: 'Priya Nair', email: 'priya@e.com', phone: '', xp: 1890, rank: 2, wins: 41, losses: 14, membershipStatus: MembershipStatus.active),
+    AppUser(id: 'u004', avatarUrl: DemoAvatars.lee, name: 'Lee Wei Ming', email: 'wei@e.com', phone: '', xp: 1650, rank: 3, wins: 35, losses: 18, membershipStatus: MembershipStatus.none),
+    AppUser(id: 'u005', avatarUrl: DemoAvatars.nurul, name: 'Farah Zainudin', email: 'farah@e.com', phone: '', xp: 1540, rank: 4, wins: 29, losses: 15, membershipStatus: MembershipStatus.active),
+    AppUser(id: 'u006', avatarUrl: DemoAvatars.rajan, name: 'Rajan Kumar', email: 'rajan@e.com', phone: '', xp: 1500, rank: 5, wins: 25, losses: 20, membershipStatus: MembershipStatus.active),
+    AppUser(id: 'u007', avatarUrl: DemoAvatars.siti, name: 'Siti Rahimah', email: 'siti@e.com', phone: '', xp: 1480, rank: 6, wins: 22, losses: 17, membershipStatus: MembershipStatus.expired),
   ];
 
   static List<LeaderboardEntry> get leaderboard => [
@@ -112,7 +114,7 @@ class MockData {
       name: 'Zhang Wei',
       email: 'zhang@pro.com',
       phone: '',
-      avatarUrl: null,
+      avatarUrl: DemoAvatars.champion,
       xp: 4800,
       rank: 1,
       wins: 142,

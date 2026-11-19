@@ -98,15 +98,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Row(
                             children: [
-                              Container(
-                                width: 52,
-                                height: 52,
-                                decoration: BoxDecoration(
-                                  color: AppColors.surfaceSubtle,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: AppColors.obsidianBorder),
+                              GestureDetector(
+                                onTap: () => setState(() => AppSession.cycleAvatar()),
+                                child: AvatarPhoto(
+                                  size: 52,
+                                  initial: 'A',
+                                  asset: AppSession.avatarAsset,
+                                  ringColor: AppColors.obsidianBorder,
+                                  ringWidth: 1,
                                 ),
-                                child: const Icon(Icons.sports_tennis, size: 28, color: AppColors.ittfTableBorder),
                               ),
                               const SizedBox(width: 14),
                               Expanded(

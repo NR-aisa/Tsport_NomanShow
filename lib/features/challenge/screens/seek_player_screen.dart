@@ -175,10 +175,13 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
                     CircleAvatar(
                       radius: 20,
                       backgroundColor: AppColors.surface3,
-                      child: Text(
-                        p.initials,
-                        style: GoogleFonts.bebasNeue(fontSize: 14, color: AppColors.primary),
-                      ),
+                      backgroundImage: p.avatarUrl != null ? AssetImage(p.avatarUrl!) : null,
+                      child: p.avatarUrl != null
+                          ? null
+                          : Text(
+                              p.initials,
+                              style: GoogleFonts.bebasNeue(fontSize: 14, color: AppColors.primary),
+                            ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/session/demo_avatars.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
@@ -119,7 +120,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                             ),
                             child: ClipOval(
                               child: Image.asset(
-                                'assets/images/company_logo.png',
+                                DemoAvatars.champion,
                                 width: 44,
                                 height: 44,
                                 fit: BoxFit.cover,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/session/app_session.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
@@ -292,7 +293,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                 ),
                                 child: ClipOval(
                                   child: Image.asset(
-                                    'assets/images/company_logo.png',
+                                    AppSession.avatarAsset,
                                     width: 44,
                                     height: 44,
                                     fit: BoxFit.cover,

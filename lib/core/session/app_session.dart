@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'demo_avatars.dart';
 
 /// Front-end session state (Arena DS Phase 1B).
 ///
@@ -9,6 +10,14 @@ import 'package:flutter/foundation.dart';
 enum SessionKind { none, member, guest }
 
 class AppSession {
+  /// Demo DP for the signed-in user (front-end only). Index into
+  /// [DemoAvatars.all]; Register and Profile avatars tap to cycle it.
+  static int avatarIndex = 0;
+  static String get avatarAsset => DemoAvatars.all[avatarIndex];
+  static void cycleAvatar() {
+    avatarIndex = (avatarIndex + 1) % DemoAvatars.all.length;
+  }
+
   AppSession._();
 
   static final ValueNotifier<SessionKind> kind =

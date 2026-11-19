@@ -417,3 +417,57 @@ extension ArenaEntrance on Widget {
         );
   }
 }
+
+/// Circular profile picture (DP). Shows the bundled demo photo when
+/// [asset] is set, otherwise falls back to an initial letter — the same
+/// fallback the app used everywhere before DPs were wired.
+class AvatarPhoto extends StatelessWidget {
+  const AvatarPhoto({
+    super.key,
+    required this.size,
+    required this.initial,
+    this.asset,
+    this.ringColor,
+    this.ringWidth = 1.5,
+  });
+
+  final double size;
+  final String initial;
+  final String? asset;
+  final Color? ringColor;
+  final double ringWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppColors.surfaceSubtle,
+        border: ringColor != null
+            ? Border.all(color: ringColor!, width: ringWidth)
+            : null,
+      ),
+      child: ClipOval(
+        child: asset != null
+            ? Image.asset(
+                asset!,
+                width: size,
+                height: size,
+                fit: BoxFit.cover,
+              )
+            : Center(
+                child: Text(
+                  initial,
+                  style: AppTypography.ui(
+                    fontSize: size * 0.38,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+      ),
+    );
+  }
+}

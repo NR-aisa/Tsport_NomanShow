@@ -147,13 +147,16 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
                   CircleAvatar(
                     radius: 22,
                     backgroundColor: AppColors.surface3,
-                    child: Text(
-                      user.initials,
-                      style: GoogleFonts.bebasNeue(
-                        fontSize: 16,
-                        color: _selectedStake == 500 ? AppColors.challengeRed : AppColors.primary,
-                      ),
-                    ),
+                    backgroundImage: user.avatarUrl != null ? AssetImage(user.avatarUrl!) : null,
+                    child: user.avatarUrl != null
+                        ? null
+                        : Text(
+                            user.initials,
+                            style: GoogleFonts.bebasNeue(
+                              fontSize: 16,
+                              color: _selectedStake == 500 ? AppColors.challengeRed : AppColors.primary,
+                            ),
+                          ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(

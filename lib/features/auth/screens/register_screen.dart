@@ -85,9 +85,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             const SizedBox(height: 24),
 
-            // Avatar Upload Picker
+            // Avatar Upload Picker — demo DPs: tap to cycle the bundled set.
             Center(
-              child: Stack(
+              child: GestureDetector(
+                onTap: () => setState(() => AppSession.cycleAvatar()),
+                child: Stack(
                 children: [
                   Container(
                     width: 96,
@@ -103,13 +105,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ],
                     ),
-                    child: Center(
-                      child: Text(
-                        'NR',
-                        style: GoogleFonts.bebasNeue(
-                          fontSize: 36,
-                          color: AppColors.primary,
-                        ),
+                    child: ClipOval(
+                      child: Image.asset(
+                        AppSession.avatarAsset,
+                        width: 96,
+                        height: 96,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -130,12 +131,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ],
+                ),
               ),
             ),
             const SizedBox(height: 8),
             Center(
               child: Text(
-                'Photo for TV Leaderboard & VS Match Screen',
+                'Photo for TV Leaderboard & VS Match Screen · Tap to change',
                 style: AppTypography.ui(fontSize: 12, color: AppColors.textMuted),
               ),
             ),

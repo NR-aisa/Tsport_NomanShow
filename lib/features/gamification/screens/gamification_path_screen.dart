@@ -1,4 +1,5 @@
 import 'package:confetti/confetti.dart';
+import '../../../core/session/app_session.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -183,7 +184,14 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                   shape: BoxShape.circle,
                   border: Border.all(color: isDark ? AppColors.slate600 : AppColors.slate300, width: 1.5),
                 ),
-                child: const Icon(Icons.person, color: AppColors.ittfTableBorder, size: 20),
+                child: ClipOval(
+                  child: Image.asset(
+                    AppSession.avatarAsset,
+                    width: 36,
+                    height: 36,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 8),
