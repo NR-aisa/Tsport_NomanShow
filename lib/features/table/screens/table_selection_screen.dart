@@ -613,14 +613,19 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
             ),
           ),
           const SizedBox(height: 2),
-          Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTypography.ui(
-              fontSize: 11,
-              fontWeight: FontWeight.w900,
-              color: accentColor,
+          // Phase 6.1: scale down instead of ellipsising — long state
+          // labels ("Waiting for players") must always read in full.
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              maxLines: 1,
+              style: AppTypography.ui(
+                fontSize: 11,
+                fontWeight: FontWeight.w900,
+                color: accentColor,
+              ),
             ),
           ),
         ],
