@@ -56,59 +56,53 @@ class JomnittakuNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = AppColors.isDark;
 
-    // Phase 8 (Fluent pass): true acrylic — a blurred, translucent dock.
-    // The shadow lives on the outer shell; the clip + backdrop filter
-    // soften whatever scrolls behind the bar.
+    // Windows 11 Fluent Taskbar style: clean 12px squircle dock, flat, de-boxed.
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 4, 16, 12),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.55 : 0.08),
-            blurRadius: 28,
-            offset: const Offset(0, 10),
+            color: Colors.black.withValues(alpha: isDark ? 0.45 : 0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 6),
           ),
-          if (isDark)
-            BoxShadow(
-              color: Colors.white.withValues(alpha: 0.12),
-              offset: const Offset(0, 1),
-              blurRadius: 0,
-            ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(12),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
             decoration: BoxDecoration(
               color: isDark
-                  ? Colors.black.withValues(alpha: 0.62)
-                  : Colors.white.withValues(alpha: 0.78), // Acrylic tint
-              borderRadius: BorderRadius.circular(28),
+                  ? const Color(0xFF0D1526).withValues(alpha: 0.88)
+                  : Colors.white.withValues(alpha: 0.90), // Fluent acrylic tint
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: isDark ? Colors.white.withValues(alpha: 0.10) : AppColors.lightBorder,
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.08)
+                    : AppColors.slate300.withValues(alpha: 0.6),
                 width: 1.0,
               ),
             ),
             child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildNavItem(context, 0, Icons.home_rounded, 'Home'),
-            _buildNavItem(context, 1, Icons.emoji_events_rounded, 'Ranks'),
-            _buildCenterPlayItem(context, 2),
-            _buildNavItem(context, 3, Icons.table_restaurant_rounded, 'Tables'),
-            _buildNavItem(context, 4, Icons.alt_route_rounded, 'Path'),
-          ],
+              top: false,
+              bottom: false,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildNavItem(context, 0, Icons.home_rounded, 'Home'),
+                  _buildNavItem(context, 1, Icons.emoji_events_rounded, 'Ranks'),
+                  _buildCenterPlayItem(context, 2),
+                  _buildNavItem(context, 3, Icons.table_restaurant_rounded, 'Tables'),
+                  _buildNavItem(context, 4, Icons.alt_route_rounded, 'Path'),
+                ],
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -116,62 +110,59 @@ class JomnittakuNavBar extends StatelessWidget {
   Widget _buildNavItem(BuildContext context, int index, IconData icon, String label) {
     final isSelected = activeIndex == index;
     final isDark = AppColors.isDark;
-    // ONE colour family for the whole menu (Phase 8.3, user rule):
-    // action blue — chip, icon and label. Emerald is signal-only
-    // and no longer appears in the navigation.
-    const chipColor = AppColors.actionBlue;
-    final labelColor = isDark ? AppColors.ittfTableBorder : AppColors.actionBlue;
 
     return GestureDetector(
       onTap: () => _handleTabTap(context, index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            width: isSelected ? 46 : 40,
-            height: isSelected ? 46 : 40,
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? chipColor
-                  : (isDark ? Colors.white.withValues(alpha: 0.05) : AppColors.lightCanvasBg),
-              shape: BoxShape.circle,
-              border: Border.all(
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
                 color: isSelected
-                    ? Colors.white.withValues(alpha: 0.3)
-                    : (isDark ? Colors.white.withValues(alpha: 0.06) : AppColors.lightBorder),
-                width: 1,
+                    ? (isDark ? Colors.white.withValues(alpha: 0.10) : AppColors.actionBlue.withValues(alpha: 0.12))
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(6), // Windows 11 Fluent squircle
               ),
-              boxShadow: isSelected
-                  ? [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.25),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      ),
-                    ]
-                  : null,
+              child: Icon(
+                icon,
+                size: 20,
+                color: isSelected
+                    ? (isDark ? Colors.white : AppColors.actionBlue)
+                    : (isDark ? Colors.white.withValues(alpha: 0.60) : AppColors.slate500),
+              ),
             ),
-            child: Icon(
-              icon,
-              size: isSelected ? 21 : 18,
-              color: isSelected
-                  ? Colors.white
-                  : (isDark ? Colors.white.withValues(alpha: 0.65) : AppColors.slate500),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: AppTypography.ui(
+                fontSize: 10,
+                fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
+                color: isSelected
+                    ? (isDark ? Colors.white : AppColors.actionBlue)
+                    : (isDark ? Colors.white.withValues(alpha: 0.55) : AppColors.slate500),
+              ),
             ),
-          ),
-          const SizedBox(height: 3),
-          Text(
-            label,
-            style: AppTypography.ui(
-              fontSize: 9,
-              fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
-              color: isSelected
-                  ? labelColor
-                  : (isDark ? Colors.white.withValues(alpha: 0.55) : AppColors.slate500),
+            const SizedBox(height: 2),
+            // Windows 11 Active Indicator Pill
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              width: isSelected ? 16 : 0,
+              height: 3,
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? (isDark ? AppColors.tobyCtaStart : AppColors.actionBlue)
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -182,47 +173,57 @@ class JomnittakuNavBar extends StatelessWidget {
 
     return GestureDetector(
       onTap: () => _handleTabTap(context, index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              // Phase 8.5: the primary action wears the charming Toby reddish gradient & glow
-              gradient: AppColors.tobyCtaGradient,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.tobyCtaGlow.withValues(alpha: isDark ? 0.48 : 0.32),
-                  blurRadius: 14,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-              border: Border.all(
-                color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.35),
-                width: 2,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10), // Windows 11 Fluent squircle
+                gradient: AppColors.tobyCtaGradient,
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.tobyCtaGlow.withValues(alpha: isDark ? 0.45 : 0.28),
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: const Icon(
+                Icons.sports_mma_rounded,
+                color: Colors.white,
+                size: 22,
               ),
             ),
-            child: const Icon(
-              Icons.sports_mma_rounded,
-              color: Colors.white,
-              size: 24,
+            const SizedBox(height: 2),
+            Text(
+              'Play',
+              style: AppTypography.ui(
+                fontSize: 10,
+                fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
+                color: isSelected
+                    ? (isDark ? Colors.white : AppColors.actionBlue)
+                    : (isDark ? Colors.white.withValues(alpha: 0.55) : AppColors.slate500),
+              ),
             ),
-          ),
-          const SizedBox(height: 3),
-          Text(
-            'Play',
-            style: AppTypography.ui(
-              fontSize: 9,
-              fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
-              color: isSelected
-                  ? (isDark ? AppColors.ittfTableBorder : AppColors.actionBlue)
-                  : (isDark ? Colors.white.withValues(alpha: 0.55) : AppColors.slate500),
+            const SizedBox(height: 2),
+            // Active Indicator
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              width: isSelected ? 16 : 0,
+              height: 3,
+              decoration: BoxDecoration(
+                color: isSelected ? AppColors.tobyCtaStart : Colors.transparent,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

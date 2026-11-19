@@ -90,7 +90,7 @@ class PaymentScreen extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         ),
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: AppColors.voltLime.withValues(alpha: 0.35),
                           width: 1.2,
@@ -176,7 +176,7 @@ class PaymentScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: AppColors.obsidianBorder,
                           width: 1,

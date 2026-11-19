@@ -176,7 +176,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                         padding: const EdgeInsets.all(18),
                         decoration: BoxDecoration(
                           color: AppColors.obsidianCard,
-                          borderRadius: BorderRadius.circular(28),
+                          borderRadius: BorderRadius.circular(12), // Windows 11 Fluent 12px
                           boxShadow: AppColors.cardShadow,
                         ),
                         child: Column(
@@ -234,7 +234,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                         padding: const EdgeInsets.all(18),
                         decoration: BoxDecoration(
                           color: AppColors.obsidianCard,
-                          borderRadius: BorderRadius.circular(28),
+                          borderRadius: BorderRadius.circular(12), // Windows 11 Fluent 12px
                           boxShadow: AppColors.cardShadow,
                         ),
                         child: Column(
@@ -443,7 +443,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           decoration: BoxDecoration(
                             color: AppColors.obsidianCard,
-                            borderRadius: BorderRadius.circular(28),
+                            borderRadius: BorderRadius.circular(8), // Windows 11 Fluent 8px button
                             boxShadow: AppColors.cardShadow,
                           ),
                           child: Center(

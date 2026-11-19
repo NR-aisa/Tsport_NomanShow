@@ -109,7 +109,7 @@ class _ChallengeAcceptedScreenState extends State<ChallengeAcceptedScreen> {
                             padding: const EdgeInsets.all(14),
                             decoration: BoxDecoration(
                               color: AppColors.pastelPurple,
-                              borderRadius: BorderRadius.circular(28),
+                              borderRadius: BorderRadius.circular(12),
                               border: Border.all(color: AppColors.obsidianBorder),
                             ),
                             child: Column(
@@ -153,7 +153,7 @@ class _ChallengeAcceptedScreenState extends State<ChallengeAcceptedScreen> {
                             padding: const EdgeInsets.all(14),
                             decoration: BoxDecoration(
                               color: AppColors.pastelPink,
-                              borderRadius: BorderRadius.circular(28),
+                              borderRadius: BorderRadius.circular(12),
                               border: Border.all(color: AppColors.obsidianBorder),
                             ),
                             child: Column(

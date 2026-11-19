@@ -1203,28 +1203,28 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _buildFlashPromoBanner(bool isDark) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         gradient: AppColors.promoBannerGradient,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(10), // Windows 11 Fluent 10px
         border: Border.all(
-          color: isDark ? AppColors.radiantGold.withValues(alpha: 0.4) : AppColors.xpGold,
-          width: 1.2,
+          color: isDark ? AppColors.radiantGold.withValues(alpha: 0.25) : AppColors.xpGold,
+          width: 0.8,
         ),
         boxShadow: AppColors.cardShadow,
       ),
       child: Row(
         children: [
           Container(
-            width: 38,
-            height: 38,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
                 colors: [AppColors.radiantGold, AppColors.pingPongOrange],
               ),
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(6), // Windows 11 squircle
             ),
-            child: const Icon(Icons.bolt_rounded, color: Colors.white, size: 22),
+            child: const Icon(Icons.bolt_rounded, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -1250,14 +1250,14 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
               color: AppColors.electricCrimson,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(6), // Windows 11 badge
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.electricCrimson.withValues(alpha: 0.3),
-                  blurRadius: 6,
+                  color: AppColors.electricCrimson.withValues(alpha: 0.25),
+                  blurRadius: 4,
                 ),
               ],
             ),
@@ -1304,7 +1304,7 @@ class _SplashScreenState extends State<SplashScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
                 color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.15) : AppColors.lightCanvasBg,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(4), // Windows 11 4px badge
                 border: Border.all(
                   color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.3) : AppColors.slate300,
                   width: 0.8,
@@ -1331,9 +1331,9 @@ class _SplashScreenState extends State<SplashScreen> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               gradient: AppColors.cardGradient,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(12), // Windows 11 Fluent 12px
               border: Border.all(
-                color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.12) : AppColors.lightBorder,
+                color: isDark ? Colors.white.withValues(alpha: 0.06) : AppColors.lightBorder,
                 width: 1,
               ),
               boxShadow: AppColors.cardShadow,
@@ -1351,7 +1351,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
                               color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.15) : AppColors.lightCanvasBg,
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(6), // Windows 11 6px
                             ),
                             child: Icon(
                               Icons.radar_rounded,
@@ -1543,11 +1543,11 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         color: courtColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: borderColor, width: 1.2),
+        borderRadius: BorderRadius.circular(6), // Windows 11 Fluent 6px tile
+        border: Border.all(color: borderColor.withValues(alpha: isDark ? 0.7 : 0.9), width: 0.8),
         boxShadow: [
           BoxShadow(
-            color: isDark ? Colors.black.withValues(alpha: 0.3) : AppColors.slate900.withValues(alpha: 0.05),
+            color: isDark ? Colors.black.withValues(alpha: 0.25) : AppColors.slate900.withValues(alpha: 0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -1600,9 +1600,9 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: AppColors.cardGradient,
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(10), // Windows 11 Fluent 10px squircle
         border: Border.all(
-          color: isDark ? accentColor.withValues(alpha: 0.25) : AppColors.lightBorder,
+          color: isDark ? Colors.white.withValues(alpha: 0.06) : AppColors.lightBorder,
           width: 1,
         ),
         boxShadow: AppColors.cardShadow,
@@ -1614,10 +1614,10 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(7),
                 decoration: BoxDecoration(
                   color: accentColor.withValues(alpha: isDark ? 0.15 : 0.12),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(6), // Windows 11 6px icon tile
                 ),
                 child: Icon(icon, size: 20, color: accentColor),
               ),
@@ -1627,9 +1627,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
                     color: badgeColor.withValues(alpha: isDark ? 0.2 : 0.12),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(4), // Windows 11 4px badge
                     border: Border.all(
-                      color: badgeColor.withValues(alpha: isDark ? 0.4 : 0.3),
+                      color: badgeColor.withValues(alpha: isDark ? 0.35 : 0.25),
                       width: 0.8,
                     ),
                   ),
@@ -1676,13 +1676,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _buildQuickPill(String label, Color color, bool isDark) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 9),
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(6), // Windows 11 Fluent 6px
         border: Border.all(
-          color: color.withValues(alpha: isDark ? 0.3 : 0.4),
-          width: 1,
+          color: isDark ? Colors.white.withValues(alpha: 0.08) : AppColors.lightBorder,
+          width: 0.8,
         ),
         boxShadow: AppColors.cardShadow,
       ),
@@ -1707,7 +1707,7 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         gradient: AppColors.cardGradient,
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(12),
         border: AppColors.cardBorder,
         boxShadow: AppColors.cardShadow,
       ),
@@ -1778,10 +1778,10 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         gradient: AppColors.cardGradient,
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(12), // Windows 11 Fluent 12px
         border: Border.all(
           color: isDark
-              ? AppColors.voltLime.withValues(alpha: 0.25)
+              ? Colors.white.withValues(alpha: 0.06)
               : AppColors.lightBorder,
           width: 1,
         ),

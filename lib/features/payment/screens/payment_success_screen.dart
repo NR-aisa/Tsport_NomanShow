@@ -99,7 +99,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: AppColors.obsidianCard,
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.obsidianBorder),
                 ),
                 child: Row(
@@ -173,7 +173,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: AppColors.voltLime.withValues(alpha: 0.35),
                           width: 1.2,
@@ -347,7 +347,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                       decoration: BoxDecoration(
                         color: AppColors.surfaceDark,
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: Center(
                         child: Text(

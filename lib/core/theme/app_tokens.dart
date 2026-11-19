@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
-/// Arena DS v1 — radius, spacing and motion tokens.
-/// The whole app draws from these scales; no ad-hoc values in feature code.
+/// Arena DS — Windows 11 Fluent radius scale (crisp, flat, de-boxed).
+/// Replaces hyper-round 28px bubble capsules with disciplined 4–12px corners.
 class AppRadius {
   AppRadius._();
 
-  /// Chips, small buttons.
-  static const double sm = 8;
+  /// Chips, badges, micro indicators.
+  static const double sm = 4;
 
-  /// Cards.
-  static const double md = 12;
+  /// Buttons, inputs, tiles.
+  static const double md = 8;
 
-  /// Sheets, modals, large cards.
-  static const double lg = 16;
+  /// Secondary cards, headers.
+  static const double lg = 10;
 
-  /// Phase 6 ArenaCard recipe radius (Toby cards measure 16–20).
-  static const double card = 20;
+  /// Primary card recipe radius (clean modern squircle, never bubble).
+  static const double card = 12;
 
-  /// Nav pill, hero surfaces.
-  static const double xl = 28;
+  /// Modals, sheets, outer containers.
+  static const double xl = 14;
 
   static const Radius rSm = Radius.circular(sm);
   static const Radius rMd = Radius.circular(md);

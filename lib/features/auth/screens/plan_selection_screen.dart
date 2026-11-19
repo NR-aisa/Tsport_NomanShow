@@ -53,7 +53,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(10), // Windows 11 Fluent
                         border: Border.all(color: AppColors.obsidianBorder),
                       ),
                       child: Row(
@@ -62,10 +62,10 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                             child: GestureDetector(
                               onTap: () => setState(() => _activeTab = 0),
                               child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 8),
                                 decoration: BoxDecoration(
                                   color: _activeTab == 0 ? AppColors.ittfTableBlue : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(16),
+                                  borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -84,10 +84,10 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                             child: GestureDetector(
                               onTap: () => setState(() => _activeTab = 1),
                               child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 8),
                                 decoration: BoxDecoration(
                                   color: _activeTab == 1 ? AppColors.ittfTableBlue : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(16),
+                                  borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -130,7 +130,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                             ),
-                            borderRadius: BorderRadius.circular(28),
+                            borderRadius: BorderRadius.circular(12), // Windows 11 Fluent 12px
                             border: Border.all(
                               color: AppColors.ittfTableBorder.withValues(alpha: 0.35),
                               width: 1.2,
@@ -266,7 +266,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                       padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(12), // Windows 11 Fluent 12px
                         border: Border.all(
                           color: AppColors.obsidianBorder,
                           width: 1,

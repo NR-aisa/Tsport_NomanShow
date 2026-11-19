@@ -33,7 +33,7 @@ class TactileButton extends StatefulWidget {
     this.icon,
     this.fontSize = 15,
     this.isFullWidth = true,
-    this.borderRadius = 28,
+    this.borderRadius = 8, // Windows 11 Fluent: crisp 8px radius, never 28px bubble
     this.flat = false,
     this.gradient,
     this.glowColor,

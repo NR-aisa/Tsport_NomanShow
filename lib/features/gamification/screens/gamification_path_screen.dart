@@ -307,7 +307,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           color: isDark ? AppColors.paddleBlack : Colors.white,
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(color: isDark ? AppColors.paddleBlack : AppColors.lightBorder),
         ),
         child: Row(
@@ -397,7 +397,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
               // replaced with an always-dark premium slate — adult, sporty,
               // and the white headline reads on it in both themes.
               color: AppColors.surfaceDark,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(12),
               boxShadow: AppColors.cardShadow,
             ),
             child: Row(
@@ -457,7 +457,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                       height: 80,
                       decoration: BoxDecoration(
                         color: AppColors.paddleBlack,
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: AppColors.radiantGold, width: 1.5),
                       ),
                       child: const Center(
@@ -794,7 +794,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: AppColors.amethystPurple,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(12),
               boxShadow: const [
                 BoxShadow(color: AppColors.slate600, offset: Offset(0, 5), blurRadius: 0),
               ],
@@ -834,7 +834,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               color: AppColors.paddleBlack,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.slate600, width: 1.5),
             ),
             child: Column(
@@ -887,7 +887,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               color: AppColors.paddleBlack,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.slate600, width: 1.5),
             ),
             child: Column(
@@ -993,7 +993,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: AppColors.ittfTableBorder,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(12),
               boxShadow: const [
                 BoxShadow(color: AppColors.voltLime, offset: Offset(0, 5), blurRadius: 0),
               ],
@@ -1027,7 +1027,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
               color: AppColors.paddleBlack,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.slate600, width: 1.5),
             ),
             child: Column(

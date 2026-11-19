@@ -93,7 +93,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: AppColors.obsidianCard,
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.obsidianBorder),
                 ),
                 child: Row(
@@ -162,7 +162,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: AppColors.pastelPurple,
-                              borderRadius: BorderRadius.circular(28),
+                              borderRadius: BorderRadius.circular(12),
                               border: Border.all(color: AppColors.obsidianBorder),
                             ),
                             child: Column(
@@ -204,7 +204,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: AppColors.pastelPink,
-                              borderRadius: BorderRadius.circular(28),
+                              borderRadius: BorderRadius.circular(12),
                               border: Border.all(color: AppColors.obsidianBorder),
                             ),
                             child: Column(
