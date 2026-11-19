@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppThemeController {
   AppThemeController._();
 
-  static final ValueNotifier<bool> isDarkMode = ValueNotifier<bool>(true);
+  static final ValueNotifier<bool> isDarkMode = ValueNotifier<bool>(false);
 
   static bool get isDark => isDarkMode.value;
 
