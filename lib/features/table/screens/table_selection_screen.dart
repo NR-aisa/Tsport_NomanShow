@@ -494,10 +494,9 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
 
   Widget _buildGridTableCard(String name, {required bool isFree, String? timeLabel, Color? labelColor, required bool isDark}) {
     final isSelected = _selectedTable == name;
-    final courtColor = isFree ? AppColors.ittfTableBlue : (isDark ? AppColors.paddleBlack : AppColors.slate500);
-    final borderColor = isSelected
-        ? (isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface)
-        : (isFree ? AppColors.voltLime.withValues(alpha: 0.4) : AppColors.border);
+    // Phase 8.2: no pastel outlines — tiles are borderless recipe cards;
+    // only the SELECTED tile earns a ring, at full strength.
+    final ringColor = isDark ? AppColors.ittfTableBorder : AppColors.actionBlue;
 
     return GestureDetector(
       onTap: () => setState(() => _selectedTable = name),
@@ -505,13 +504,10 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? (isDark ? AppColors.ittfTableBlue.withValues(alpha: 0.3) : AppColors.lightBorder)
+              ? (isDark ? AppColors.ittfTableBlue.withValues(alpha: 0.22) : AppColors.obsidianCard)
               : AppColors.obsidianCard,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: borderColor,
-            width: isSelected ? 2.0 : 1.0,
-          ),
+          border: isSelected ? Border.all(color: ringColor, width: 2.0) : null,
           boxShadow: [
             if (isSelected)
               BoxShadow(
@@ -525,12 +521,20 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
         ),
         child: Column(
           children: [
-            // Mini ITTF Table Visual
+            // Mini ITTF Table Visual — gradient court, not flat clip-art.
             Container(
               width: 48,
               height: 28,
               decoration: BoxDecoration(
-                color: courtColor,
+                gradient: LinearGradient(
+                  colors: isFree
+                      ? [AppColors.ittfTableSurface, AppColors.ittfTableBlue]
+                      : (isDark
+                          ? [AppColors.slate600, AppColors.paddleBlack]
+                          : [AppColors.slate500, AppColors.slate600]),
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: isSelected ? AppColors.ittfTableBorder : Colors.white.withValues(alpha: 0.4),
@@ -540,7 +544,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Container(width: 1, color: Colors.white.withValues(alpha: 0.6)),
+                  Container(width: 1.5, color: Colors.white.withValues(alpha: 0.85)),
                   if (!isFree)
                     Positioned(
                       left: 8,
@@ -578,16 +582,45 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
               ),
             ),
             const SizedBox(height: 2),
-            Text(
-              isFree ? '• FREE' : (timeLabel ?? 'IN GAME'),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTypography.ui(
-                fontSize: 9,
-                fontWeight: FontWeight.w800,
-                color: labelColor ?? (isFree ? AppColors.voltLime : AppColors.electricCrimson),
-              ),
-            ),
+            Builder(builder: (_) {
+              // Colour lives in the dot (full saturation); the word gets
+              // a deep, readable variant on light surfaces.
+              final dotColor = labelColor ??
+                  (isFree ? AppColors.voltLime : AppColors.electricCrimson);
+              final textColor = isDark
+                  ? dotColor
+                  : (isFree
+                      ? AppColors.primaryDim
+                      : (labelColor == AppColors.tableReserved
+                          ? AppColors.statusPurpleText
+                          : AppColors.statusRedText));
+              final statusText =
+                  (isFree ? 'FREE' : (timeLabel ?? 'IN GAME')).replaceFirst('• ', '');
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 6,
+                    height: 6,
+                    decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+                  ),
+                  const SizedBox(width: 4),
+                  Flexible(
+                    child: Text(
+                      statusText,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTypography.ui(
+                        fontSize: 9,
+                        fontWeight: FontWeight.w800,
+                        color: textColor,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }),
           ],
         ),
       ),
@@ -595,13 +628,16 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
   }
 
   static Widget _buildSpotlightPill(String label, String value, Color accentColor, bool isDark) {
+    // Phase 8.2: no tinted fill, no outline — typography on the card,
+    // with deep value colours on light surfaces.
+    var valueColor = accentColor;
+    if (!isDark) {
+      if (accentColor == AppColors.voltLime) valueColor = AppColors.primaryDim;
+      if (accentColor == AppColors.electricCrimson) valueColor = AppColors.statusRedText;
+      if (accentColor == AppColors.tableReserved) valueColor = AppColors.statusPurpleText;
+    }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.darkObsidianElevated : AppColors.lightCardSurface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -624,7 +660,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
               style: AppTypography.ui(
                 fontSize: 11,
                 fontWeight: FontWeight.w900,
-                color: accentColor,
+                color: valueColor,
               ),
             ),
           ),
@@ -665,7 +701,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
         gradient: LinearGradient(
           colors: hasPlayer
               ? [AppColors.paddleBlack, AppColors.slate900]
-              : [AppColors.ittfTableBlue, AppColors.darkObsidianCardLight],
+              : [AppColors.ittfTableSurface, AppColors.ittfTableBlue],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -678,7 +714,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Container(width: 1.2, color: Colors.white.withValues(alpha: 0.6)),
+          Container(width: 1.2, color: Colors.white.withValues(alpha: 0.85)),
           if (hasPlayer)
             Positioned(
               left: 10,

@@ -139,6 +139,10 @@ class AppColors {
   // The one filled CTA per screen wears this deep steel blue (Toby's
   // #2B72B2); emerald is reserved for live/free/success meaning.
   static const actionBlue = Color(0xFF2B72B2);
+  // Deep variants for status TEXT on light surfaces (the bright hues
+  // stay in dots/chips; words get the readable, adult depth).
+  static const statusRedText = Color(0xFFB91C1C);
+  static const statusPurpleText = Color(0xFF6D28D9);
   static const actionBlueDeep = Color(0xFF1F5A8F);               // PRIMARY — Athletic Tournament Emerald
   static Color get hyperCyan => isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB); // legacy name, now ITTF info blue
   static const electricCrimson = Color(0xFFEF4444);        // Tournament Adrenaline Red
