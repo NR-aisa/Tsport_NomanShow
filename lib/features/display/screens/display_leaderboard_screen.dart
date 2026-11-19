@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/session/demo_avatars.dart';
+import '../../../core/session/app_session.dart';
+import '../../../core/navigation/app_navigator.dart';
 
 class DisplayLeaderboardScreen extends StatefulWidget {
   const DisplayLeaderboardScreen({super.key});
@@ -11,6 +14,7 @@ class DisplayLeaderboardScreen extends StatefulWidget {
 
 class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
   int _tvMode = 0; // 0 = TV Leaderboard, 1 = TV Kombat VS Screen
+  int _timeFilter = 0; // 0 = This Week, 1 = All Time
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +32,15 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
               child: Column(
                 children: [
                   // ==========================================
-                  // TOP TV HEADER BAR (Responsive & Back Button)
+                  // TOP TV HEADER BAR (Broadcast & Branding)
                   // ==========================================
                   _buildTopHeaderBar(context, isMobile),
 
                   // TV Mode Content (Responsive)
                   Expanded(
                     child: _tvMode == 0
-                        ? _buildTvLeaderboard(isMobile)
-                        : _buildTvKombatCard(isMobile),
+                        ? _buildTvLeaderboard(context, isMobile)
+                        : _buildTvKombatCard(context, isMobile),
                   ),
                 ],
               ),
@@ -47,6 +51,9 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
     );
   }
 
+  // ============================================================
+  // TOP BROADCAST HEADER BAR
+  // ============================================================
   Widget _buildTopHeaderBar(BuildContext context, bool isMobile) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 28, vertical: 10),
@@ -66,121 +73,99 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
           ),
         ],
       ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            // Back Button
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 16, color: Colors.white),
-              onPressed: () => Navigator.maybePop(context),
-              tooltip: 'Back',
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-            ),
-            const SizedBox(width: 8),
-
-            // Official Company Logo
-            Container(
-              width: 32,
-              height: 32,
+      child: Row(
+        children: [
+          // Back Button
+          GestureDetector(
+            onTap: () => Navigator.maybePop(context),
+            child: Container(
+              width: 34,
+              height: 34,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.35),
-                    blurRadius: 4,
-                    offset: const Offset(0, 1),
-                  ),
-                ],
+                color: AppColors.darkObsidianCard,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
               ),
-              child: ClipOval(
-                child: Image.asset(
-                  'assets/images/company_logo.png',
-                  width: 32,
-                  height: 32,
-                  fit: BoxFit.cover,
+              child: const Icon(Icons.arrow_back_ios_new_rounded, size: 14, color: Colors.white),
+            ),
+          ),
+          const SizedBox(width: 10),
+
+          // Official Venue Logo
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.35),
+                  blurRadius: 4,
+                  offset: const Offset(0, 1),
                 ),
+              ],
+            ),
+            child: ClipOval(
+              child: Image.asset(
+                'assets/images/company_logo.png',
+                width: 32,
+                height: 32,
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(width: 10),
+          ),
+          const SizedBox(width: 10),
 
-            // Venue Title
-            Column(
+          // Venue & Feed Subtitle
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'JOMNITTAKU · 3 DAMANSARA',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: AppTypography.ui(
-                    fontSize: 12,
+                    fontSize: isMobile ? 11 : 13,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
-                    letterSpacing: 0.5,
+                    letterSpacing: 0.4,
                   ),
                 ),
                 Text(
                   '55" STADIUM BROADCAST FEED',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: AppTypography.ui(
                     fontSize: 8,
                     fontWeight: FontWeight.w700,
                     color: AppColors.ittfTableBorder,
+                    letterSpacing: 0.5,
                   ),
                 ),
               ],
             ),
-            const SizedBox(width: 16),
+          ),
+          const SizedBox(width: 8),
 
-            // Mode Switcher Chips
-            Container(
-              padding: const EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                color: AppColors.darkObsidianCard,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-              ),
-              child: Row(
-                children: [
-                  _buildTvModeChip(0, 'LEADERBOARD'),
-                  const SizedBox(width: 3),
-                  _buildTvModeChip(1, '1v1 KOMBAT VS'),
-                ],
-              ),
+          // Mode Switcher Chips (LEADERBOARD vs 1v1 KOMBAT)
+          Container(
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              color: AppColors.darkObsidianCard,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
             ),
-            const SizedBox(width: 12),
-
-            // Live Broadcast Beacon
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: AppColors.darkObsidianElevated,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.voltLime.withValues(alpha: 0.5)),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 6,
-                    height: 6,
-                    decoration: const BoxDecoration(
-                      color: AppColors.voltLime,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    'LIVE',
-                    style: AppTypography.ui(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.voltLime,
-                    ),
-                  ),
-                ],
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildTvModeChip(0, 'LEADERBOARD'),
+                _buildTvModeChip(1, '1v1 VS'),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -190,10 +175,10 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
     return GestureDetector(
       onTap: () => setState(() => _tvMode = mode),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.ittfTableSurface : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
           label,
@@ -209,337 +194,611 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
   }
 
   // ============================================================
-  // TV MODE 1: LEADERBOARD (RESPONSIVE)
+  // TV MODE 1: RICH BROADCAST LEADERBOARD
   // ============================================================
-  Widget _buildTvLeaderboard(bool isMobile) {
+  Widget _buildTvLeaderboard(BuildContext context, bool isMobile) {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 16 : 36,
-        vertical: isMobile ? 14 : 20,
+        vertical: isMobile ? 12 : 20,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title & Metrics Header
-          if (isMobile)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
+          // Header Row: Title & Live Broadcast Status
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
                         'Leaderboard',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                         style: AppTypography.ui(
-                          fontSize: 26,
+                          fontSize: isMobile ? 22 : 30,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
+                          letterSpacing: -0.5,
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'THIS WEEK',
-                      style: AppTypography.ui(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white54,
-                        letterSpacing: 1.0,
+                      const SizedBox(width: 8),
+                      // Live broadcast badge
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
+                        decoration: BoxDecoration(
+                          color: AppColors.voltLime.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(color: AppColors.voltLime.withValues(alpha: 0.4)),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 5,
+                              height: 5,
+                              decoration: const BoxDecoration(
+                                color: AppColors.voltLime,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              'LIVE',
+                              style: AppTypography.ui(
+                                fontSize: 8.5,
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.voltLime,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
+                    ],
+                  ),
+                  Text(
+                    'DAMANSARA ARENA · WEEK 47',
+                    style: AppTypography.ui(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white.withValues(alpha: 0.5),
+                      letterSpacing: 0.8,
                     ),
-                  ],
+                  ),
+                ],
+              ),
+
+              // Filter Switcher: This Week vs All Time
+              Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: AppColors.darkObsidianCard,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                 ),
-                const SizedBox(height: 10),
-                Row(
+                child: Row(
                   children: [
-                    Expanded(
-                      child: _buildTvMetricBadge('Leader\'s Points', '1,620 XP', AppColors.radiantGold),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: _buildTvMetricBadge('Matches Live', '2 Active', AppColors.voltLime),
-                    ),
+                    _buildTimeFilterChip(0, 'This week'),
+                    _buildTimeFilterChip(1, 'All time'),
                   ],
                 ),
-              ],
-            )
-          else
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 14),
+
+          // ========================================================
+          // HERO: TOP 3 CHAMPIONS PODIUM (THE RICH SPORTS EXPERIENCE)
+          // ========================================================
+          _buildTop3Podium(context, isMobile),
+
+          const SizedBox(height: 20),
+
+          // Section Title: League Contenders Roster
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'LEAGUE ROSTER',
+                style: AppTypography.ui(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white.withValues(alpha: 0.7),
+                  letterSpacing: 1.0,
+                ),
+              ),
+              Text(
+                'RANKS 4 - 8 · TAP TO CHALLENGE',
+                style: AppTypography.ui(
+                  fontSize: 9,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white.withValues(alpha: 0.4),
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 10),
+
+          // ========================================================
+          // STREAMLINED BROADCAST ROSTER (NO BOXCEPTION!)
+          // ========================================================
+          // #4 Aiman R. (THE CURRENT USER - PROMINENT HIGHLIGHT)
+          _buildRosterRow(
+            context: context,
+            rank: '4',
+            name: 'Aiman Rahman',
+            xp: '1,240',
+            avatarAsset: AppSession.avatarAsset,
+            form: '▲ +40 this week',
+            formColor: AppColors.voltLime,
+            isUser: true,
+            subName: '155 XP to #3 Podium',
+            isMobile: isMobile,
+          ),
+
+          // #5 Jason T.
+          _buildRosterRow(
+            context: context,
+            rank: '5',
+            name: 'Jason Tan',
+            xp: '1,180',
+            avatarAsset: DemoAvatars.jason,
+            form: '▼ -25 this week',
+            formColor: AppColors.electricCrimson.withValues(alpha: 0.85),
+            isMobile: isMobile,
+          ),
+
+          // #6 Nurul P.
+          _buildRosterRow(
+            context: context,
+            rank: '6',
+            name: 'Nurul Puteri',
+            xp: '1,050',
+            avatarAsset: DemoAvatars.nurul,
+            form: '▲ +15 this week',
+            formColor: AppColors.voltLime,
+            isMobile: isMobile,
+          ),
+
+          // #7 Anonymous
+          _buildRosterRow(
+            context: context,
+            rank: '7',
+            name: 'Anonymous Player',
+            xp: '990',
+            isAnonymous: true,
+            form: 'Steady',
+            formColor: Colors.white54,
+            subName: 'Photo & identity hidden',
+            isMobile: isMobile,
+          ),
+
+          // #8 Rajan K.
+          _buildRosterRow(
+            context: context,
+            rank: '8',
+            name: 'Rajan Kumar',
+            xp: '920',
+            avatarAsset: DemoAvatars.rajan,
+            form: '🔥 3W streak',
+            formColor: AppColors.radiantGold,
+            isMobile: isMobile,
+          ),
+
+          const SizedBox(height: 14),
+
+          // Bottom Quick Broadcast Banner
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(
+              color: AppColors.darkObsidianCard,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    Text(
-                      'Leaderboard',
-                      style: AppTypography.ui(
-                        fontSize: 34,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      'THIS BRANCH · THIS WEEK',
-                      style: AppTypography.ui(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white.withValues(alpha: 0.5),
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    _buildTvMetricBadge('Leader\'s points', '1,620 XP', AppColors.radiantGold),
-                    const SizedBox(width: 12),
-                    _buildTvMetricBadge('Matches live', '2 live', AppColors.voltLime),
-                  ],
+                const Icon(Icons.bolt_rounded, size: 14, color: AppColors.radiantGold),
+                const SizedBox(width: 6),
+                Text(
+                  'Top 3 enter Damascus Arena Tournament · Resets Sunday 23:59',
+                  style: AppTypography.ui(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white70,
+                  ),
                 ),
               ],
             ),
-
-          const SizedBox(height: 16),
-
-          // 7 Leaderboard Rows
-          _buildTvRow('1', 'Daniel L.', '1,620', '#1', 'Steady', '1,620', isMobile, rankColor: AppColors.radiantGold, crown: '👑'),
-          _buildTvRow('2', 'Sara K.', '1,480', '#2', 'Steady', '1,480', isMobile, rankColor: AppColors.slate300),
-          _buildTvRow('3', 'Mei R.', '1,395', '#3', 'Steady', '1,395', isMobile, rankColor: AppColors.rankBronze),
-          _buildTvRow('4', 'Aiman R.', '1,240', '#4', '▲ +40 this week', '1,240', isMobile, subName: '155 XP to #3', isUser: true, rankColor: AppColors.ittfTableBorder),
-          _buildTvRow('5', 'Jason T.', '1,180', '#5', '▼ -25 this week', '1,180', isMobile),
-          _buildTvRow('6', 'Nurul P.', '1,050', '#6', '▲ +15 this week', '1,050', isMobile),
-          _buildTvRow('7', 'Anonymous', '990', '#7', 'Steady', '990', isMobile, isAnonymous: true, subName: 'Photo & name hidden'),
+          ),
+          const SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  Widget _buildTvRow(
-    String rank,
-    String name,
-    String points,
-    String rankLabel,
-    String form,
-    String total,
-    bool isMobile, {
-    String? subName,
-    bool isUser = false,
-    bool isAnonymous = false,
-    Color rankColor = Colors.white,
-    String? crown,
-  }) {
-    if (isMobile) {
-      // Mobile-Optimized Compact Card (Zero Horizontal Overflow)
-      return Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+  Widget _buildTimeFilterChip(int index, String label) {
+    final isSelected = _timeFilter == index;
+    return GestureDetector(
+      onTap: () => setState(() => _timeFilter = index),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: isUser
-                ? [AppColors.darkObsidianCard, AppColors.darkObsidianElevated]
-                : [AppColors.darkObsidianCard, AppColors.darkObsidianElevated],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isUser ? AppColors.ittfTableBorder : Colors.white.withValues(alpha: 0.12),
-            width: isUser ? 1.8 : 1.0,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          color: isSelected ? AppColors.ittfTableSurface : Colors.transparent,
+          borderRadius: BorderRadius.circular(6),
         ),
-        child: Column(
-          children: [
-            // Top Line: Rank, Avatar, Name & subname, and Total XP
-            Row(
-              children: [
-                SizedBox(
-                  width: 26,
-                  child: Row(
-                    children: [
-                      Text(
-                        rank,
-                        style: AppTypography.ui(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w900,
-                          color: rankColor,
-                        ),
-                      ),
-                      if (crown != null)
-                        Text(crown, style: const TextStyle(fontSize: 9)),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: rankColor.withValues(alpha: 0.15),
-                    shape: BoxShape.circle,
-                    border: Border.all(color: rankColor.withValues(alpha: 0.5), width: 1.2),
-                  ),
-                  child: Icon(
-                    isAnonymous ? Icons.person_rounded : Icons.sports_tennis_rounded,
-                    size: 16,
-                    color: rankColor,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTypography.ui(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          if (isUser) ...[
-                            const SizedBox(width: 6),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                              decoration: BoxDecoration(
-                                color: AppColors.ittfTableBorder,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                'YOU',
-                                style: AppTypography.ui(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w900,
-                                  color: AppColors.darkObsidianBase,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                      if (subName != null)
-                        Text(
-                          subName,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTypography.ui(
-                            fontSize: 10,
-                            color: Colors.white.withValues(alpha: 0.5),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '$total XP',
-                  style: AppTypography.ui(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w900,
-                    color: rankColor,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            // Bottom Line: 3 Compact Telemetry Pills (Points, Rank, Form)
-            Row(
-              children: [
-                Expanded(child: _buildCompactPill('Points', points, AppColors.voltLime)),
-                const SizedBox(width: 6),
-                Expanded(child: _buildCompactPill('Rank', rankLabel, AppColors.radiantGold)),
-                const SizedBox(width: 6),
-                Expanded(child: _buildCompactPill('Form', form, isUser ? AppColors.ittfTableBorder : Colors.white70)),
-              ],
-            ),
-          ],
+        child: Text(
+          label,
+          style: AppTypography.ui(
+            fontSize: 10,
+            fontWeight: FontWeight.w800,
+            color: isSelected ? Colors.white : Colors.white60,
+          ),
         ),
-      );
-    }
+      ),
+    );
+  }
 
-    // Widescreen 55" TV Row (>= 650px wide)
+  // ============================================================
+  // TOP 3 PODIUM (BROADCAST HERO COMPONENT)
+  // ============================================================
+  Widget _buildTop3Podium(BuildContext context, bool isMobile) {
+    final avatar1Size = isMobile ? 54.0 : 70.0;
+    final avatar2Size = isMobile ? 44.0 : 58.0;
+    final avatar3Size = isMobile ? 42.0 : 54.0;
+
+    final ped1Height = isMobile ? 80.0 : 108.0;
+    final ped2Height = isMobile ? 56.0 : 78.0;
+    final ped3Height = isMobile ? 44.0 : 62.0;
+
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 12 : 24,
+        vertical: isMobile ? 14 : 20,
+      ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: isUser
-              ? [AppColors.paddleBlack, AppColors.darkObsidianElevated]
-              : [AppColors.darkObsidianCard, AppColors.darkObsidianElevated],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            AppColors.slate900.withValues(alpha: 0.95),
+            AppColors.darkObsidianCard,
+          ],
         ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isUser ? AppColors.ittfTableBorder : Colors.white.withValues(alpha: 0.10),
-          width: isUser ? 1.8 : 1.0,
-        ),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
+            color: Colors.black.withValues(alpha: 0.5),
+            blurRadius: 18,
+            offset: const Offset(0, 6),
           ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // Podium Players Layout (2 - 1 - 3)
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              // ----------------------------------------------------
+              // #2 SILVER: SARA K.
+              // ----------------------------------------------------
+              Expanded(
+                child: _buildPodiumAthlete(
+                  context: context,
+                  rank: '2',
+                  name: 'Sara K.',
+                  xp: '1,480 XP',
+                  tag: '⚡ 4W Streak',
+                  avatarAsset: DemoAvatars.sara,
+                  avatarSize: avatar2Size,
+                  ringColor: AppColors.slate300,
+                  medallionIcon: '🥈',
+                  pedestalHeight: ped2Height,
+                  pedestalGradient: const [Color(0xFF1E293B), Color(0xFF0F172A)],
+                  pedestalTopBorder: AppColors.slate300,
+                  isCenter: false,
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              // ----------------------------------------------------
+              // #1 GOLD CHAMPION: DANIEL L. (TALLER & GLOWING)
+              // ----------------------------------------------------
+              Expanded(
+                child: _buildPodiumAthlete(
+                  context: context,
+                  rank: '1',
+                  name: 'Daniel L.',
+                  xp: '1,620 XP',
+                  tag: '👑 CHAMPION',
+                  avatarAsset: DemoAvatars.daniel,
+                  avatarSize: avatar1Size,
+                  ringColor: const Color(0xFFFFD700),
+                  glowColor: const Color(0xFFFFD700).withValues(alpha: 0.4),
+                  medallionIcon: '👑',
+                  pedestalHeight: ped1Height,
+                  pedestalGradient: const [Color(0xFF2C2210), Color(0xFF151D2A)],
+                  pedestalTopBorder: const Color(0xFFFFD700),
+                  isCenter: true,
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              // ----------------------------------------------------
+              // #3 BRONZE: MEI R.
+              // ----------------------------------------------------
+              Expanded(
+                child: _buildPodiumAthlete(
+                  context: context,
+                  rank: '3',
+                  name: 'Mei R.',
+                  xp: '1,395 XP',
+                  tag: '🔥 3W Streak',
+                  avatarAsset: DemoAvatars.mei,
+                  avatarSize: avatar3Size,
+                  ringColor: AppColors.rankBronze,
+                  medallionIcon: '🥉',
+                  pedestalHeight: ped3Height,
+                  pedestalGradient: const [Color(0xFF261D18), Color(0xFF0F172A)],
+                  pedestalTopBorder: AppColors.rankBronze,
+                  isCenter: false,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPodiumAthlete({
+    required BuildContext context,
+    required String rank,
+    required String name,
+    required String xp,
+    required String tag,
+    required String avatarAsset,
+    required double avatarSize,
+    required Color ringColor,
+    required String medallionIcon,
+    required double pedestalHeight,
+    required List<Color> pedestalGradient,
+    required Color pedestalTopBorder,
+    Color? glowColor,
+    bool isCenter = false,
+  }) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Crown or Medallion floating indicator
+        if (isCenter)
+          Container(
+            margin: const EdgeInsets.only(bottom: 2),
+            child: const Text('👑', style: TextStyle(fontSize: 16)),
+          )
+        else
+          Container(
+            margin: const EdgeInsets.only(bottom: 2),
+            child: Text(medallionIcon, style: const TextStyle(fontSize: 13)),
+          ),
+
+        // Real Avatar with metallic ring and optional champion glow
+        Container(
+          width: avatarSize,
+          height: avatarSize,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: ringColor, width: isCenter ? 2.5 : 2.0),
+            boxShadow: [
+              if (glowColor != null)
+                BoxShadow(
+                  color: glowColor,
+                  blurRadius: 16,
+                  spreadRadius: 2,
+                ),
+            ],
+          ),
+          child: ClipOval(
+            child: Image.asset(
+              avatarAsset,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 6),
+
+        // Athlete Name
+        Text(
+          name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppTypography.ui(
+            fontSize: isCenter ? 13 : 11,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+          ),
+        ),
+
+        const SizedBox(height: 2),
+
+        // Athlete XP Badge
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+          decoration: BoxDecoration(
+            color: isCenter
+                ? const Color(0xFFFFD700).withValues(alpha: 0.18)
+                : Colors.white.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(
+              color: isCenter
+                  ? const Color(0xFFFFD700).withValues(alpha: 0.4)
+                  : Colors.white.withValues(alpha: 0.12),
+              width: 0.8,
+            ),
+          ),
+          child: Text(
+            xp,
+            style: AppTypography.ui(
+              fontSize: isCenter ? 10.5 : 9.5,
+              fontWeight: FontWeight.w900,
+              color: isCenter ? const Color(0xFFFFD700) : Colors.white,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 6),
+
+        // Pedestal block with etched rank numeral
+        Container(
+          width: double.infinity,
+          height: pedestalHeight,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: pedestalGradient,
+            ),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+            border: Border(
+              top: BorderSide(color: pedestalTopBorder, width: isCenter ? 2.5 : 1.5),
+              left: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+              right: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                rank,
+                style: AppTypography.ui(
+                  fontSize: isCenter ? 26 : 20,
+                  fontWeight: FontWeight.w900,
+                  color: pedestalTopBorder.withValues(alpha: 0.85),
+                ),
+              ),
+              if (isCenter)
+                Text(
+                  'GOLD',
+                  style: AppTypography.ui(
+                    fontSize: 7.5,
+                    fontWeight: FontWeight.w900,
+                    color: pedestalTopBorder.withValues(alpha: 0.7),
+                    letterSpacing: 1.0,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ============================================================
+  // STREAMLINED ROSTER ROW (NO BOXCEPTION!)
+  // ============================================================
+  Widget _buildRosterRow({
+    required BuildContext context,
+    required String rank,
+    required String name,
+    required String xp,
+    required String form,
+    required Color formColor,
+    required bool isMobile,
+    String? avatarAsset,
+    bool isUser = false,
+    bool isAnonymous = false,
+    String? subName,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 12 : 18,
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: isUser
+            ? AppColors.darkObsidianCard
+            : AppColors.darkObsidianElevated,
+        borderRadius: BorderRadius.circular(10), // Windows 11 Fluent 10px squircle
+        border: Border.all(
+          color: isUser
+              ? AppColors.ittfTableBorder
+              : Colors.white.withValues(alpha: 0.08),
+          width: isUser ? 1.6 : 1.0,
+        ),
+        boxShadow: [
+          if (isUser)
+            BoxShadow(
+              color: AppColors.ittfTableBorder.withValues(alpha: 0.20),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
         ],
       ),
       child: Row(
         children: [
-          SizedBox(
-            width: 32,
-            child: Row(
-              children: [
-                Text(
-                  rank,
-                  style: AppTypography.ui(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                    color: rankColor,
-                  ),
-                ),
-                if (crown != null)
-                  Text(crown, style: const TextStyle(fontSize: 12)),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
+          // Rank Badge
           Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: rankColor.withValues(alpha: 0.15),
-              shape: BoxShape.circle,
-              border: Border.all(color: rankColor.withValues(alpha: 0.5), width: 1.5),
-            ),
-            child: Icon(
-              isAnonymous ? Icons.person_rounded : Icons.sports_tennis_rounded,
-              size: 20,
-              color: rankColor,
+            width: 26,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              '#$rank',
+              style: AppTypography.ui(
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                color: isUser ? AppColors.ittfTableBorder : Colors.white60,
+              ),
             ),
           ),
-          const SizedBox(width: 16),
-          SizedBox(
-            width: 160,
+
+          // Player Avatar Photo
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isUser
+                    ? AppColors.ittfTableBorder
+                    : Colors.white.withValues(alpha: 0.15),
+                width: 1.2,
+              ),
+            ),
+            child: ClipOval(
+              child: isAnonymous || avatarAsset == null
+                  ? Container(
+                      color: AppColors.darkObsidianCard,
+                      child: const Icon(
+                        Icons.person_rounded,
+                        size: 20,
+                        color: Colors.white38,
+                      ),
+                    )
+                  : Image.asset(
+                      avatarAsset,
+                      fit: BoxFit.cover,
+                    ),
+            ),
+          ),
+          const SizedBox(width: 10),
+
+          // Player Name & Micro Status
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
@@ -549,8 +808,8 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTypography.ui(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w900,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800,
                           color: Colors.white,
                         ),
                       ),
@@ -561,12 +820,12 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                         decoration: BoxDecoration(
                           color: AppColors.ittfTableBorder,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
                           'YOU',
                           style: AppTypography.ui(
-                            fontSize: 8,
+                            fontSize: 7.5,
                             fontWeight: FontWeight.w900,
                             color: AppColors.darkObsidianBase,
                           ),
@@ -575,59 +834,103 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                     ],
                   ],
                 ),
-                if (subName != null)
-                  Text(
-                    subName,
-                    style: AppTypography.ui(
-                      fontSize: 11,
-                      color: Colors.white.withValues(alpha: 0.5),
+                const SizedBox(height: 2),
+                Row(
+                  children: [
+                    Text(
+                      form,
+                      style: AppTypography.ui(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w700,
+                        color: formColor,
+                      ),
                     ),
-                  ),
+                    if (subName != null) ...[
+                      const SizedBox(width: 6),
+                      Text(
+                        '· $subName',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTypography.ui(
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white38,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ],
             ),
           ),
-          const Spacer(),
-          _buildTvPill('Points', points, AppColors.voltLime),
-          const SizedBox(width: 10),
-          _buildTvPill('Rank', rankLabel, AppColors.radiantGold),
-          const SizedBox(width: 10),
-          _buildTvPill('Form', form, isUser ? AppColors.ittfTableBorder : Colors.white70),
-          const Spacer(),
-          Text(
-            '$total XP',
-            style: AppTypography.ui(
-              fontSize: 17,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-              letterSpacing: 0.5,
-            ),
+
+          const SizedBox(width: 8),
+
+          // Total XP
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '$xp XP',
+                style: AppTypography.ui(
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.w900,
+                  color: isUser ? AppColors.ittfTableBorder : Colors.white,
+                  letterSpacing: 0.2,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: AppColors.paddleBlack,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
-            ),
-            child: Text(
-              'Details →',
-              style: AppTypography.ui(
-                fontSize: 11,
-                fontWeight: FontWeight.w800,
-                color: Colors.white,
+
+          const SizedBox(width: 10),
+
+          // Action Button: Challenge or Details
+          if (isUser)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+              decoration: BoxDecoration(
+                color: AppColors.ittfTableBorder.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: AppColors.ittfTableBorder.withValues(alpha: 0.4)),
+              ),
+              child: Text(
+                'Standing',
+                style: AppTypography.ui(
+                  fontSize: 9.5,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.ittfTableBorder,
+                ),
+              ),
+            )
+          else
+            GestureDetector(
+              onTap: () => AppNavigator.toChallengeBoard(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                decoration: BoxDecoration(
+                  color: AppColors.actionBlue,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  'Challenge ⚔️',
+                  style: AppTypography.ui(
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
   }
 
   // ============================================================
-  // TV MODE 2: MORTAL KOMBAT MATCH CARD (RESPONSIVE)
+  // TV MODE 2: MORTAL KOMBAT MATCH CARD (BROADCAST SPOTLIGHT)
   // ============================================================
-  Widget _buildTvKombatCard(bool isMobile) {
+  Widget _buildTvKombatCard(BuildContext context, bool isMobile) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 16 : 36,
@@ -644,7 +947,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
                     color: AppColors.darkObsidianCard,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: AppColors.ittfTableBorder.withValues(alpha: 0.4)),
                   ),
                   child: Row(
@@ -673,7 +976,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: AppColors.slate900,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: AppColors.electricCrimson.withValues(alpha: 0.5)),
                 ),
                 child: Text(
@@ -695,9 +998,10 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
               children: [
                 _buildPlayerBattleCard(
                   title: 'YOU · CONTENDER',
-                  name: 'AIMAN R.',
+                  name: 'Aiman Rahman',
                   xp: '1,240 XP',
                   rank: 'RANK #4 · STREAK 3W',
+                  avatarAsset: AppSession.avatarAsset,
                   color: AppColors.ittfTableBorder,
                   bgGradient: [AppColors.darkObsidianCard, AppColors.darkObsidianBase],
                   isCompact: true,
@@ -707,14 +1011,14 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                       decoration: BoxDecoration(
                         color: AppColors.paddleBlack,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: Colors.white24),
                       ),
                       child: Text(
-                        'VS · 04:59 REMAINING',
+                        '⚔️ VS · 04:59 REMAINING',
                         style: AppTypography.ui(
                           fontSize: 11,
                           fontWeight: FontWeight.w900,
@@ -728,9 +1032,10 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                 const SizedBox(height: 10),
                 _buildPlayerBattleCard(
                   title: 'CHALLENGER',
-                  name: 'JASON T.',
+                  name: 'Jason Tan',
                   xp: '1,180 XP',
                   rank: 'RANK #5 · STREAK 4W',
+                  avatarAsset: DemoAvatars.jason,
                   color: AppColors.electricCrimson,
                   bgGradient: [AppColors.slate900, AppColors.darkObsidianBase],
                   isCompact: true,
@@ -743,9 +1048,10 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                 Expanded(
                   child: _buildPlayerBattleCard(
                     title: 'YOU · CONTENDER',
-                    name: 'AIMAN R.',
+                    name: 'Aiman Rahman',
                     xp: '1,240 XP',
                     rank: 'LEAGUE RANK #4 · WIN STREAK 3W',
+                    avatarAsset: AppSession.avatarAsset,
                     color: AppColors.ittfTableBorder,
                     bgGradient: [AppColors.darkObsidianCard, AppColors.darkObsidianBase],
                   ),
@@ -789,9 +1095,10 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                 Expanded(
                   child: _buildPlayerBattleCard(
                     title: 'CHALLENGER',
-                    name: 'JASON T.',
+                    name: 'Jason Tan',
                     xp: '1,180 XP',
                     rank: 'LEAGUE RANK #5 · WIN STREAK 4W',
+                    avatarAsset: DemoAvatars.jason,
                     color: AppColors.electricCrimson,
                     bgGradient: [AppColors.slate900, AppColors.darkObsidianBase],
                   ),
@@ -809,7 +1116,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
               gradient: const LinearGradient(
                 colors: [AppColors.darkObsidianElevated, AppColors.paddleBlack],
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: AppColors.ittfTableBorder.withValues(alpha: 0.4),
                 width: 1.2,
@@ -821,7 +1128,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTypography.ui(
-                  fontSize: isMobile ? 12 : 15,
+                  fontSize: isMobile ? 11 : 14,
                   fontWeight: FontWeight.w900,
                   color: Colors.white,
                   letterSpacing: 0.8,
@@ -842,19 +1149,20 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
     required String rank,
     required Color color,
     required List<Color> bgGradient,
+    String? avatarAsset,
     bool isCompact = false,
   }) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(isCompact ? 16 : 28),
+      padding: EdgeInsets.all(isCompact ? 14 : 24),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: bgGradient),
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: color, width: 1.8),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color, width: 1.6),
         boxShadow: [
           BoxShadow(
             color: color.withValues(alpha: 0.25),
-            blurRadius: 16,
+            blurRadius: 14,
             offset: const Offset(0, 4),
           ),
         ],
@@ -862,25 +1170,41 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
               title,
               style: AppTypography.ui(
-                fontSize: 9,
+                fontSize: 8.5,
                 fontWeight: FontWeight.w900,
                 color: Colors.black,
               ),
             ),
           ),
-          SizedBox(height: isCompact ? 6 : 12),
+          SizedBox(height: isCompact ? 8 : 14),
+
+          // Real Player Avatar in Battle Card
+          if (avatarAsset != null)
+            Container(
+              width: isCompact ? 50 : 70,
+              height: isCompact ? 50 : 70,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: color, width: 2),
+              ),
+              child: ClipOval(
+                child: Image.asset(avatarAsset, fit: BoxFit.cover),
+              ),
+            ),
+
+          SizedBox(height: isCompact ? 6 : 10),
           Text(
             name,
             style: AppTypography.ui(
-              fontSize: isCompact ? 24 : 34,
+              fontSize: isCompact ? 18 : 28,
               fontWeight: FontWeight.w900,
               color: Colors.white,
               letterSpacing: -0.5,
@@ -889,7 +1213,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
           Text(
             xp,
             style: AppTypography.ui(
-              fontSize: isCompact ? 18 : 24,
+              fontSize: isCompact ? 15 : 20,
               fontWeight: FontWeight.w900,
               color: color,
             ),
@@ -897,100 +1221,9 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
           Text(
             rank,
             style: AppTypography.ui(
-              fontSize: 10,
+              fontSize: 9.5,
               fontWeight: FontWeight.w700,
               color: Colors.white60,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCompactPill(String label, String value, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppColors.darkObsidianElevated,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: AppTypography.ui(fontSize: 8, color: Colors.white54),
-          ),
-          Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: color),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTvPill(String label, String value, Color color) {
-    return Container(
-      width: 105,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.darkObsidianElevated,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: AppTypography.ui(
-              fontSize: 8,
-              color: Colors.white.withValues(alpha: 0.5),
-            ),
-          ),
-          Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTypography.ui(
-              fontSize: 11,
-              fontWeight: FontWeight.w800,
-              color: color,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTvMetricBadge(String label, String value, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.darkObsidianCard,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withValues(alpha: 0.35), width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: AppTypography.ui(
-              fontSize: 8,
-              color: Colors.white.withValues(alpha: 0.5),
-            ),
-          ),
-          Text(
-            value,
-            style: AppTypography.ui(
-              fontSize: 13,
-              fontWeight: FontWeight.w900,
-              color: color,
             ),
           ),
         ],
