@@ -554,7 +554,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
 
             // Bottom Nav
-            const JomnittakuNavBar(activeIndex: 4),
+            const JomnittakuNavBar(activeIndex: -1, isRootTab: false),
           ],
         ),
       ),

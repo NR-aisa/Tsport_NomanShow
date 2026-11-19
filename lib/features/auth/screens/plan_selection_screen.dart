@@ -394,7 +394,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
             ),
 
             // Bottom Nav
-            const JomnittakuNavBar(activeIndex: 0),
+            const JomnittakuNavBar(activeIndex: -1, isRootTab: false),
           ],
         ),
       ),

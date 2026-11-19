@@ -292,7 +292,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
             ),
 
             // Bottom Nav
-            const JomnittakuNavBar(activeIndex: 2),
+            const JomnittakuNavBar(activeIndex: 2, isRootTab: false),
           ],
         ),
       ),

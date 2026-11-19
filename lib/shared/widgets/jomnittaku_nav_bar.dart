@@ -14,11 +14,13 @@ import '../../core/navigation/app_navigator.dart';
 class JomnittakuNavBar extends StatelessWidget {
   final int activeIndex;
   final ValueChanged<int>? onTabSelected;
+  final bool isRootTab;
 
   const JomnittakuNavBar({
     super.key,
     this.activeIndex = 0,
     this.onTabSelected,
+    this.isRootTab = true,
   });
 
   void _handleTabTap(BuildContext context, int index) {
@@ -27,13 +29,13 @@ class JomnittakuNavBar extends StatelessWidget {
       return;
     }
 
-    if (index == activeIndex) {
+    if (isRootTab && index == activeIndex) {
       return;
     }
 
     switch (index) {
       case 0:
-        AppNavigator.toHome(context);
+        AppNavigator.toHomeAndClear(context);
         break;
       case 1:
         AppNavigator.toLeaderboard(context);

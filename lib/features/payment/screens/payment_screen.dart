@@ -276,7 +276,7 @@ class PaymentScreen extends StatelessWidget {
             ),
 
             // Bottom Nav
-            const JomnittakuNavBar(activeIndex: 0),
+            const JomnittakuNavBar(activeIndex: -1, isRootTab: false),
           ],
         ),
       ),

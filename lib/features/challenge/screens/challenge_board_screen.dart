@@ -339,7 +339,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
             ),
 
             // Bottom Nav
-            const JomnittakuNavBar(activeIndex: 2),
+            const JomnittakuNavBar(activeIndex: 2, isRootTab: false),
           ],
         ),
       ),

@@ -367,7 +367,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
             ),
 
             // Bottom Nav
-            const JomnittakuNavBar(activeIndex: 0),
+            const JomnittakuNavBar(activeIndex: -1, isRootTab: false),
           ],
         ),
             ),
