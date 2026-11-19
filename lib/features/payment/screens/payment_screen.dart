@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
+import '../../../core/theme/app_typography.dart';
 
 class PaymentScreen extends StatelessWidget {
   final VoidCallback? onPaymentSuccess;
@@ -28,7 +28,7 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Payment',
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
                           color: AppColors.textPrimary,
@@ -38,7 +38,7 @@ class PaymentScreen extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFA26B9D),
+                          color: AppColors.amethystPurple,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Row(
@@ -48,7 +48,7 @@ class PaymentScreen extends StatelessWidget {
                             const SizedBox(width: 4),
                             Text(
                               'Connected',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w800,
                                 color: Colors.white,
@@ -63,7 +63,7 @@ class PaymentScreen extends StatelessWidget {
                     onTap: () => Navigator.maybePop(context),
                     child: Text(
                       '← Back',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: AppTypography.ui(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -86,13 +86,13 @@ class PaymentScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
-                          colors: [Color(0xFF162544), Color(0xFF0F1A2E)],
+                          colors: [AppColors.darkObsidianCard, AppColors.darkObsidianElevated],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         ),
                         borderRadius: BorderRadius.circular(28),
                         border: Border.all(
-                          color: const Color(0xFF10B981).withValues(alpha: 0.35),
+                          color: AppColors.voltLime.withValues(alpha: 0.35),
                           width: 1.2,
                         ),
                         boxShadow: [
@@ -109,7 +109,7 @@ class PaymentScreen extends StatelessWidget {
                             width: 52,
                             height: 52,
                             decoration: const BoxDecoration(
-                              color: Color(0xFF10B981),
+                              color: AppColors.voltLime,
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(Icons.check, size: 28, color: Colors.white),
@@ -117,7 +117,7 @@ class PaymentScreen extends StatelessWidget {
                           const SizedBox(height: 12),
                           Text(
                             'Paid',
-                            style: GoogleFonts.plusJakartaSans(
+                            style: AppTypography.ui(
                               fontSize: 28,
                               fontWeight: FontWeight.w900,
                               color: Colors.white,
@@ -125,10 +125,10 @@ class PaymentScreen extends StatelessWidget {
                           ),
                           Text(
                             'MEMBER · TODAY',
-                            style: GoogleFonts.plusJakartaSans(
+                            style: AppTypography.ui(
                               fontSize: 11,
                               fontWeight: FontWeight.w800,
-                              color: const Color(0xFF34D399),
+                              color: AppColors.voltLime,
                               letterSpacing: 1.0,
                             ),
                           ),
@@ -140,7 +140,7 @@ class PaymentScreen extends StatelessWidget {
                             children: [
                               Text(
                                 '0.90',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 48,
                                   fontWeight: FontWeight.w900,
                                   color: Colors.white,
@@ -150,17 +150,17 @@ class PaymentScreen extends StatelessWidget {
                               const SizedBox(width: 4),
                               Text(
                                 'RM',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w900,
-                                  color: const Color(0xFF60A5FA),
+                                  color: AppColors.ittfTableBorder,
                                 ),
                               ),
                             ],
                           ),
                           Text(
                             'JOMNITTAKU — 3 Damansara',
-                            style: GoogleFonts.plusJakartaSans(
+                            style: AppTypography.ui(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                               color: Colors.white70,
@@ -176,7 +176,7 @@ class PaymentScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(28),
                         border: Border.all(
                           color: Colors.white.withValues(alpha: 0.10),
                           width: 1,
@@ -194,10 +194,10 @@ class PaymentScreen extends StatelessWidget {
                         children: [
                           Text(
                             'RECEIPT',
-                            style: GoogleFonts.plusJakartaSans(
+                            style: AppTypography.ui(
                               fontSize: 11,
                               fontWeight: FontWeight.w800,
-                              color: const Color(0xFF60A5FA),
+                              color: AppColors.ittfTableBorder,
                               letterSpacing: 1.2,
                             ),
                           ),
@@ -219,7 +219,7 @@ class PaymentScreen extends StatelessWidget {
                           _buildReceiptRow(
                             'Status',
                             '✓ Connected',
-                            valueColor: const Color(0xFF34D399),
+                            valueColor: AppColors.voltLime,
                           ),
                         ],
                       ),
@@ -267,7 +267,7 @@ class PaymentScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       'Walk-in · RM17 · Member · 0.90 RM · Card via Wise or Stripe',
-                      style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textSecondary),
+                      style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary),
                     ),
                     const SizedBox(height: 10),
                   ],
@@ -289,14 +289,14 @@ class PaymentScreen extends StatelessWidget {
       children: [
         Text(
           label,
-          style: GoogleFonts.plusJakartaSans(fontSize: 13, color: AppColors.textSecondary),
+          style: AppTypography.ui(fontSize: 13, color: AppColors.textSecondary),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               value,
-              style: GoogleFonts.plusJakartaSans(
+              style: AppTypography.ui(
                 fontSize: 13,
                 fontWeight: FontWeight.w800,
                 color: valueColor ?? AppColors.textPrimary,
@@ -305,7 +305,7 @@ class PaymentScreen extends StatelessWidget {
             if (subValue != null)
               Text(
                 subValue,
-                style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textMuted),
+                style: AppTypography.ui(fontSize: 10, color: AppColors.textMuted),
               ),
           ],
         ),
@@ -339,12 +339,12 @@ class PaymentScreen extends StatelessWidget {
             child: Icon(icon, size: 12, color: Colors.white),
           ),
           const SizedBox(height: 6),
-          Text(label, style: GoogleFonts.plusJakartaSans(fontSize: 9, color: Colors.white60)),
+          Text(label, style: AppTypography.ui(fontSize: 9, color: Colors.white60)),
           Text(
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white),
+            style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white),
           ),
         ],
       ),

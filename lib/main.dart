@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_theme_controller.dart';
 import 'features/auth/screens/splash_screen.dart';
+import 'features/auth/screens/entry_gate_screen.dart';
 import 'features/display/screens/display_leaderboard_screen.dart';
+import 'core/theme/app_typography.dart';
 
 void main() {
   runApp(const JomnittakuApp());
@@ -49,7 +50,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
           themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
-          home: const SplashScreen(),
+          home: const EntryGateScreen(),
           builder: (context, child) {
             final screenWidth = MediaQuery.of(context).size.width;
             final isDesktop = screenWidth > 600;
@@ -59,7 +60,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
             }
 
             return Scaffold(
-              backgroundColor: isDark ? const Color(0xFF070D18) : const Color(0xFFE2E8F0),
+              backgroundColor: isDark ? AppColors.darkObsidianBase : AppColors.lightBorder,
               body: Stack(
                 children: [
                   // Main Presentation Surface
@@ -86,7 +87,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                           ),
                         ],
                         border: Border.all(
-                          color: isDark ? const Color(0xFF1E2D4A) : const Color(0xFFCBD5E1),
+                          color: isDark ? AppColors.darkObsidianCardLight : AppColors.slate300,
                           width: _isWidescreenTv ? 3 : 8,
                         ),
                       ),
@@ -104,10 +105,10 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                     child: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color: isDark ? const Color(0xFF111D33) : Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        color: isDark ? AppColors.darkObsidianElevated : Colors.white,
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: isDark ? Colors.white.withValues(alpha: 0.12) : const Color(0xFFCBD5E1),
+                          color: isDark ? Colors.white.withValues(alpha: 0.12) : AppColors.slate300,
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -126,10 +127,10 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               decoration: BoxDecoration(
-                                color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                                color: isDark ? AppColors.paddleBlack : AppColors.lightCanvasBg,
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: isDark ? Colors.white.withValues(alpha: 0.08) : const Color(0xFFE2E8F0),
+                                  color: isDark ? Colors.white.withValues(alpha: 0.08) : AppColors.lightBorder,
                                 ),
                               ),
                               child: Row(
@@ -138,15 +139,15 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                                   Icon(
                                     isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                                     size: 13,
-                                    color: isDark ? const Color(0xFFF59E0B) : const Color(0xFFD97706),
+                                    color: isDark ? AppColors.radiantGold : AppColors.pingPongOrange,
                                   ),
                                   const SizedBox(width: 5),
                                   Text(
                                     isDark ? 'Dark' : 'Light',
-                                    style: GoogleFonts.plusJakartaSans(
+                                    style: AppTypography.ui(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w800,
-                                      color: isDark ? Colors.white : const Color(0xFF0F172A),
+                                      color: isDark ? Colors.white : AppColors.slate900,
                                     ),
                                   ),
                                 ],
@@ -161,7 +162,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               decoration: BoxDecoration(
-                                color: !_isWidescreenTv ? const Color(0xFF2563EB) : Colors.transparent,
+                                color: !_isWidescreenTv ? AppColors.ittfTableSurface : Colors.transparent,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Row(
@@ -172,17 +173,17 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                                     size: 13,
                                     color: !_isWidescreenTv
                                         ? Colors.white
-                                        : (isDark ? Colors.white60 : const Color(0xFF64748B)),
+                                        : (isDark ? Colors.white60 : AppColors.slate500),
                                   ),
                                   const SizedBox(width: 4),
                                   Text(
                                     'Mobile',
-                                    style: GoogleFonts.plusJakartaSans(
+                                    style: AppTypography.ui(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w800,
                                       color: !_isWidescreenTv
                                           ? Colors.white
-                                          : (isDark ? Colors.white60 : const Color(0xFF64748B)),
+                                          : (isDark ? Colors.white60 : AppColors.slate500),
                                     ),
                                   ),
                                 ],
@@ -197,7 +198,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               decoration: BoxDecoration(
-                                color: _isWidescreenTv ? const Color(0xFF2563EB) : Colors.transparent,
+                                color: _isWidescreenTv ? AppColors.ittfTableSurface : Colors.transparent,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Row(
@@ -208,17 +209,17 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                                     size: 13,
                                     color: _isWidescreenTv
                                         ? Colors.white
-                                        : (isDark ? Colors.white60 : const Color(0xFF64748B)),
+                                        : (isDark ? Colors.white60 : AppColors.slate500),
                                   ),
                                   const SizedBox(width: 4),
                                   Text(
                                     '55" TV',
-                                    style: GoogleFonts.plusJakartaSans(
+                                    style: AppTypography.ui(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w800,
                                       color: _isWidescreenTv
                                           ? Colors.white
-                                          : (isDark ? Colors.white60 : const Color(0xFF64748B)),
+                                          : (isDark ? Colors.white60 : AppColors.slate500),
                                     ),
                                   ),
                                 ],

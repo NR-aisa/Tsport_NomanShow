@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
 
 /// Centralized Official JOMNITTAKU Company Logo Widget.
 /// Renders the official circular emblem (3 red stars, motion ball, net)
@@ -48,7 +49,7 @@ class AppLogo extends StatelessWidget {
               height: size,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF1E3A8A), Color(0xFF0F172A)],
+                  colors: [AppColors.ittfTableBlue, AppColors.slate900],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -62,9 +63,9 @@ class AppLogo extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.star_rounded, size: size * 0.22, color: const Color(0xFFEF4444)),
-                        Icon(Icons.star_rounded, size: size * 0.26, color: const Color(0xFFEF4444)),
-                        Icon(Icons.star_rounded, size: size * 0.22, color: const Color(0xFFEF4444)),
+                        Icon(Icons.star_rounded, size: size * 0.22, color: AppColors.electricCrimson),
+                        Icon(Icons.star_rounded, size: size * 0.26, color: AppColors.electricCrimson),
+                        Icon(Icons.star_rounded, size: size * 0.22, color: AppColors.electricCrimson),
                       ],
                     ),
                   ),

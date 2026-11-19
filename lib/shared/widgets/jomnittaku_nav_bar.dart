@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_typography.dart';
 import '../../core/navigation/app_navigator.dart';
 
+/// Bottom navigation — Arena DS v1 (Phase 1).
+///
+/// Toby's law applied: one selected style, in the one primary colour, and
+/// every item is labelled. Before this pass each tab lit up in a different
+/// colour (green/amber/blue/purple) and nothing had a label, so two items
+/// could look "active" at once and the centre button's icon actually
+/// opened Match-Accept. The centre action is now honestly labelled "Play".
 class JomnittakuNavBar extends StatelessWidget {
   final int activeIndex;
   final ValueChanged<int>? onTabSelected;
@@ -49,10 +57,10 @@ class JomnittakuNavBar extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(16, 4, 16, 12),
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xE6111724) : Colors.white.withValues(alpha: 0.95), // Frosted glass
-        borderRadius: BorderRadius.circular(32),
+        color: isDark ? Colors.black87 : Colors.white.withValues(alpha: 0.95), // Frosted glass
+        borderRadius: BorderRadius.circular(28),
         border: Border.all(
-          color: isDark ? Colors.white.withValues(alpha: 0.10) : const Color(0xFFE2E8F0),
+          color: isDark ? Colors.white.withValues(alpha: 0.10) : AppColors.lightBorder,
           width: 1.0,
         ),
         boxShadow: [
@@ -75,96 +83,130 @@ class JomnittakuNavBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildNavItem(context, 0, Icons.home_rounded, AppColors.voltLime),
-            _buildNavItem(context, 1, Icons.emoji_events_rounded, AppColors.radiantGold),
-            _buildCenterSparkleItem(context, 2),
-            _buildNavItem(context, 3, Icons.table_restaurant_rounded, AppColors.hyperCyan),
-            _buildNavItem(context, 4, Icons.alt_route_rounded, AppColors.amethystPurple),
+            _buildNavItem(context, 0, Icons.home_rounded, 'Home'),
+            _buildNavItem(context, 1, Icons.emoji_events_rounded, 'Ranks'),
+            _buildCenterPlayItem(context, 2),
+            _buildNavItem(context, 3, Icons.table_restaurant_rounded, 'Tables'),
+            _buildNavItem(context, 4, Icons.alt_route_rounded, 'Path'),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildNavItem(BuildContext context, int index, IconData icon, Color activeColor) {
+  Widget _buildNavItem(BuildContext context, int index, IconData icon, String label) {
     final isSelected = activeIndex == index;
     final isDark = AppColors.isDark;
+    // ONE active colour for every tab: the primary emerald.
+    const activeColor = AppColors.voltLime;
 
     return GestureDetector(
       onTap: () => _handleTabTap(context, index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: isSelected ? 48 : 42,
-        height: isSelected ? 48 : 42,
-        decoration: BoxDecoration(
-          color: isSelected
-              ? activeColor
-              : (isDark ? Colors.white.withValues(alpha: 0.05) : const Color(0xFFF1F5F9)),
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: isSelected
-                ? Colors.white.withValues(alpha: 0.3)
-                : (isDark ? Colors.white.withValues(alpha: 0.06) : const Color(0xFFE2E8F0)),
-            width: 1,
-          ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.25),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : null,
-        ),
-        child: Icon(
-          icon,
-          size: isSelected ? 22 : 19,
-          color: isSelected
-              ? (isDark ? const Color(0xFF070A0F) : Colors.white)
-              : (isDark ? Colors.white.withValues(alpha: 0.65) : const Color(0xFF64748B)),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCenterSparkleItem(BuildContext context, int index) {
-    final isSelected = activeIndex == index;
-    final isDark = AppColors.isDark;
-
-    return GestureDetector(
-      onTap: () => _handleTabTap(context, index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: 52,
-        height: 52,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF3B82F6),
-              Color(0xFF1D4ED8),
-            ],
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF2563EB).withValues(alpha: isDark ? 0.45 : 0.30),
-              blurRadius: 10,
-              offset: const Offset(0, 3),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            width: isSelected ? 46 : 40,
+            height: isSelected ? 46 : 40,
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? activeColor
+                  : (isDark ? Colors.white.withValues(alpha: 0.05) : AppColors.lightCanvasBg),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isSelected
+                    ? Colors.white.withValues(alpha: 0.3)
+                    : (isDark ? Colors.white.withValues(alpha: 0.06) : AppColors.lightBorder),
+                width: 1,
+              ),
+              boxShadow: isSelected
+                  ? [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.25),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : null,
             ),
-          ],
-          border: Border.all(
-            color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.25),
-            width: 2,
+            child: Icon(
+              icon,
+              size: isSelected ? 21 : 18,
+              color: isSelected
+                  ? (isDark ? AppColors.darkObsidianBase : Colors.white)
+                  : (isDark ? Colors.white.withValues(alpha: 0.65) : AppColors.slate500),
+            ),
           ),
-        ),
-        child: const Icon(
-          Icons.sports_mma_rounded,
-          color: Colors.white,
-          size: 24,
-        ),
+          const SizedBox(height: 3),
+          Text(
+            label,
+            style: AppTypography.ui(
+              fontSize: 9,
+              fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
+              color: isSelected
+                  ? activeColor
+                  : (isDark ? Colors.white.withValues(alpha: 0.55) : AppColors.slate500),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCenterPlayItem(BuildContext context, int index) {
+    final isSelected = activeIndex == index;
+    final isDark = AppColors.isDark;
+
+    return GestureDetector(
+      onTap: () => _handleTabTap(context, index),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              // The primary action wears the primary colour — emerald,
+              // not the old always-blue gradient.
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  AppColors.voltLime,
+                  AppColors.btnGreenBorder,
+                ],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.voltLime.withValues(alpha: isDark ? 0.45 : 0.30),
+                  blurRadius: 10,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+              border: Border.all(
+                color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.25),
+                width: 2,
+              ),
+            ),
+            child: const Icon(
+              Icons.sports_mma_rounded,
+              color: Colors.white,
+              size: 24,
+            ),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            'Play',
+            style: AppTypography.ui(
+              fontSize: 9,
+              fontWeight: FontWeight.w900,
+              color: AppColors.voltLime,
+            ),
+          ),
+        ],
       ),
     );
   }

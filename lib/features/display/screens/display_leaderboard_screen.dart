@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_typography.dart';
 
 class DisplayLeaderboardScreen extends StatefulWidget {
   const DisplayLeaderboardScreen({super.key});
@@ -19,10 +19,10 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
         final isMobile = constraints.maxWidth < 650;
 
         return Scaffold(
-          backgroundColor: const Color(0xFF070A0F),
+          backgroundColor: AppColors.darkObsidianBase,
           body: Container(
             decoration: const BoxDecoration(
-              color: Color(0xFF070A0F),
+              color: AppColors.darkObsidianBase,
             ),
             child: SafeArea(
               child: Column(
@@ -51,7 +51,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 28, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D1524),
+        color: AppColors.slate900,
         border: Border(
           bottom: BorderSide(
             color: Colors.white.withValues(alpha: 0.1),
@@ -112,7 +112,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
               children: [
                 Text(
                   'JOMNITTAKU · 3 DAMANSARA',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 12,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
@@ -121,10 +121,10 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                 ),
                 Text(
                   '55" STADIUM BROADCAST FEED',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 8,
                     fontWeight: FontWeight.w700,
-                    color: const Color(0xFF60A5FA),
+                    color: AppColors.ittfTableBorder,
                   ),
                 ),
               ],
@@ -135,8 +135,8 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
             Container(
               padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
-                color: const Color(0xFF16233B),
-                borderRadius: BorderRadius.circular(10),
+                color: AppColors.darkObsidianCard,
+                borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
               ),
               child: Row(
@@ -153,9 +153,9 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(0xFF0F261C),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.5)),
+                color: AppColors.darkObsidianElevated,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.voltLime.withValues(alpha: 0.5)),
               ),
               child: Row(
                 children: [
@@ -163,17 +163,17 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                     width: 6,
                     height: 6,
                     decoration: const BoxDecoration(
-                      color: Color(0xFF10B981),
+                      color: AppColors.voltLime,
                       shape: BoxShape.circle,
                     ),
                   ),
                   const SizedBox(width: 6),
                   Text(
                     'LIVE',
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 9,
                       fontWeight: FontWeight.w900,
-                      color: const Color(0xFF10B981),
+                      color: AppColors.voltLime,
                     ),
                   ),
                 ],
@@ -192,12 +192,12 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF2563EB) : Colors.transparent,
+          color: isSelected ? AppColors.ittfTableSurface : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
           label,
-          style: GoogleFonts.plusJakartaSans(
+          style: AppTypography.ui(
             fontSize: 9,
             fontWeight: FontWeight.w900,
             color: isSelected ? Colors.white : Colors.white60,
@@ -233,7 +233,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                         'Leaderboard',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 26,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
@@ -243,7 +243,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                     const SizedBox(width: 8),
                     Text(
                       'THIS WEEK',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: AppTypography.ui(
                         fontSize: 10,
                         fontWeight: FontWeight.w800,
                         color: Colors.white54,
@@ -260,7 +260,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                     ),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: _buildTvMetricBadge('Matches Live', '2 Active', const Color(0xFF10B981)),
+                      child: _buildTvMetricBadge('Matches Live', '2 Active', AppColors.voltLime),
                     ),
                   ],
                 ),
@@ -276,7 +276,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                   children: [
                     Text(
                       'Leaderboard',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: AppTypography.ui(
                         fontSize: 34,
                         fontWeight: FontWeight.w900,
                         color: Colors.white,
@@ -286,7 +286,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                     const SizedBox(width: 16),
                     Text(
                       'THIS BRANCH · THIS WEEK',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: AppTypography.ui(
                         fontSize: 12,
                         fontWeight: FontWeight.w800,
                         color: Colors.white.withValues(alpha: 0.5),
@@ -299,7 +299,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                   children: [
                     _buildTvMetricBadge('Leader\'s points', '1,620 XP', AppColors.radiantGold),
                     const SizedBox(width: 12),
-                    _buildTvMetricBadge('Matches live', '2 live', const Color(0xFF10B981)),
+                    _buildTvMetricBadge('Matches live', '2 live', AppColors.voltLime),
                   ],
                 ),
               ],
@@ -309,9 +309,9 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
 
           // 7 Leaderboard Rows
           _buildTvRow('1', 'Daniel L.', '1,620', '#1', 'Steady', '1,620', isMobile, rankColor: AppColors.radiantGold, crown: '👑'),
-          _buildTvRow('2', 'Sara K.', '1,480', '#2', 'Steady', '1,480', isMobile, rankColor: const Color(0xFFD4DAE3)),
-          _buildTvRow('3', 'Mei R.', '1,395', '#3', 'Steady', '1,395', isMobile, rankColor: const Color(0xFFD99B6A)),
-          _buildTvRow('4', 'Aiman R.', '1,240', '#4', '▲ +40 this week', '1,240', isMobile, subName: '155 XP to #3', isUser: true, rankColor: const Color(0xFF38BDF8)),
+          _buildTvRow('2', 'Sara K.', '1,480', '#2', 'Steady', '1,480', isMobile, rankColor: AppColors.slate300),
+          _buildTvRow('3', 'Mei R.', '1,395', '#3', 'Steady', '1,395', isMobile, rankColor: AppColors.rankBronze),
+          _buildTvRow('4', 'Aiman R.', '1,240', '#4', '▲ +40 this week', '1,240', isMobile, subName: '155 XP to #3', isUser: true, rankColor: AppColors.ittfTableBorder),
           _buildTvRow('5', 'Jason T.', '1,180', '#5', '▼ -25 this week', '1,180', isMobile),
           _buildTvRow('6', 'Nurul P.', '1,050', '#6', '▲ +15 this week', '1,050', isMobile),
           _buildTvRow('7', 'Anonymous', '990', '#7', 'Steady', '990', isMobile, isAnonymous: true, subName: 'Photo & name hidden'),
@@ -342,14 +342,14 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: isUser
-                ? [const Color(0xFF14293D), const Color(0xFF0F1E2E)]
-                : [const Color(0xFF162544), const Color(0xFF0F1A2E)],
+                ? [AppColors.darkObsidianCard, AppColors.darkObsidianElevated]
+                : [AppColors.darkObsidianCard, AppColors.darkObsidianElevated],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isUser ? const Color(0xFF38BDF8) : Colors.white.withValues(alpha: 0.12),
+            color: isUser ? AppColors.ittfTableBorder : Colors.white.withValues(alpha: 0.12),
             width: isUser ? 1.8 : 1.0,
           ),
           boxShadow: [
@@ -371,7 +371,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                     children: [
                       Text(
                         rank,
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 15,
                           fontWeight: FontWeight.w900,
                           color: rankColor,
@@ -409,7 +409,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                               name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w900,
                                 color: Colors.white,
@@ -421,15 +421,15 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF38BDF8),
-                                borderRadius: BorderRadius.circular(5),
+                                color: AppColors.ittfTableBorder,
+                                borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
                                 'YOU',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 8,
                                   fontWeight: FontWeight.w900,
-                                  color: const Color(0xFF070A0F),
+                                  color: AppColors.darkObsidianBase,
                                 ),
                               ),
                             ),
@@ -441,7 +441,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                           subName,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.plusJakartaSans(
+                          style: AppTypography.ui(
                             fontSize: 10,
                             color: Colors.white.withValues(alpha: 0.5),
                           ),
@@ -452,7 +452,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                 const SizedBox(width: 8),
                 Text(
                   '$total XP',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: rankColor,
@@ -464,11 +464,11 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
             // Bottom Line: 3 Compact Telemetry Pills (Points, Rank, Form)
             Row(
               children: [
-                Expanded(child: _buildCompactPill('Points', points, const Color(0xFF10B981))),
+                Expanded(child: _buildCompactPill('Points', points, AppColors.voltLime)),
                 const SizedBox(width: 6),
                 Expanded(child: _buildCompactPill('Rank', rankLabel, AppColors.radiantGold)),
                 const SizedBox(width: 6),
-                Expanded(child: _buildCompactPill('Form', form, isUser ? const Color(0xFF38BDF8) : Colors.white70)),
+                Expanded(child: _buildCompactPill('Form', form, isUser ? AppColors.ittfTableBorder : Colors.white70)),
               ],
             ),
           ],
@@ -483,14 +483,14 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isUser
-              ? [const Color(0xFF132D42), const Color(0xFF0F1E2E)]
-              : [const Color(0xFF162544), const Color(0xFF0F1A2E)],
+              ? [AppColors.paddleBlack, AppColors.darkObsidianElevated]
+              : [AppColors.darkObsidianCard, AppColors.darkObsidianElevated],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isUser ? const Color(0xFF38BDF8) : Colors.white.withValues(alpha: 0.10),
+          color: isUser ? AppColors.ittfTableBorder : Colors.white.withValues(alpha: 0.10),
           width: isUser ? 1.8 : 1.0,
         ),
         boxShadow: [
@@ -509,7 +509,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
               children: [
                 Text(
                   rank,
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 18,
                     fontWeight: FontWeight.w900,
                     color: rankColor,
@@ -548,7 +548,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                         name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 15,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
@@ -560,15 +560,15 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF38BDF8),
-                          borderRadius: BorderRadius.circular(6),
+                          color: AppColors.ittfTableBorder,
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           'YOU',
-                          style: GoogleFonts.plusJakartaSans(
+                          style: AppTypography.ui(
                             fontSize: 8,
                             fontWeight: FontWeight.w900,
-                            color: const Color(0xFF070A0F),
+                            color: AppColors.darkObsidianBase,
                           ),
                         ),
                       ),
@@ -578,7 +578,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                 if (subName != null)
                   Text(
                     subName,
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 11,
                       color: Colors.white.withValues(alpha: 0.5),
                     ),
@@ -587,15 +587,15 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
             ),
           ),
           const Spacer(),
-          _buildTvPill('Points', points, const Color(0xFF10B981)),
+          _buildTvPill('Points', points, AppColors.voltLime),
           const SizedBox(width: 10),
           _buildTvPill('Rank', rankLabel, AppColors.radiantGold),
           const SizedBox(width: 10),
-          _buildTvPill('Form', form, isUser ? const Color(0xFF38BDF8) : Colors.white70),
+          _buildTvPill('Form', form, isUser ? AppColors.ittfTableBorder : Colors.white70),
           const Spacer(),
           Text(
             '$total XP',
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 17,
               fontWeight: FontWeight.w900,
               color: Colors.white,
@@ -606,13 +606,13 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFF1E283C),
+              color: AppColors.paddleBlack,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
             ),
             child: Text(
               'Details →',
-              style: GoogleFonts.plusJakartaSans(
+              style: AppTypography.ui(
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
@@ -643,20 +643,20 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF16233B),
+                    color: AppColors.darkObsidianCard,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color(0xFF38BDF8).withValues(alpha: 0.4)),
+                    border: Border.all(color: AppColors.ittfTableBorder.withValues(alpha: 0.4)),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.table_restaurant_rounded, size: 14, color: Color(0xFF38BDF8)),
+                      const Icon(Icons.table_restaurant_rounded, size: 14, color: AppColors.ittfTableBorder),
                       const SizedBox(width: 6),
                       Flexible(
                         child: Text(
                           'TABLE NO. 4 · MATCH SPOTLIGHT',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.plusJakartaSans(
+                          style: AppTypography.ui(
                             fontSize: 11,
                             fontWeight: FontWeight.w900,
                             color: Colors.white,
@@ -672,16 +672,16 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2E1018),
+                  color: AppColors.slate900,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFEF4444).withValues(alpha: 0.5)),
+                  border: Border.all(color: AppColors.electricCrimson.withValues(alpha: 0.5)),
                 ),
                 child: Text(
                   'POT 200 XP',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 11,
                     fontWeight: FontWeight.w900,
-                    color: const Color(0xFFEF4444),
+                    color: AppColors.electricCrimson,
                   ),
                 ),
               ),
@@ -698,8 +698,8 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                   name: 'AIMAN R.',
                   xp: '1,240 XP',
                   rank: 'RANK #4 · STREAK 3W',
-                  color: const Color(0xFF38BDF8),
-                  bgGradient: [const Color(0xFF0F2636), const Color(0xFF08141D)],
+                  color: AppColors.ittfTableBorder,
+                  bgGradient: [AppColors.darkObsidianCard, AppColors.darkObsidianBase],
                   isCompact: true,
                 ),
                 const SizedBox(height: 10),
@@ -709,16 +709,16 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1E283C),
+                        color: AppColors.paddleBlack,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: Colors.white24),
                       ),
                       child: Text(
                         'VS · 04:59 REMAINING',
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 11,
                           fontWeight: FontWeight.w900,
-                          color: const Color(0xFF10B981),
+                          color: AppColors.voltLime,
                           letterSpacing: 0.5,
                         ),
                       ),
@@ -731,8 +731,8 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                   name: 'JASON T.',
                   xp: '1,180 XP',
                   rank: 'RANK #5 · STREAK 4W',
-                  color: const Color(0xFFEF4444),
-                  bgGradient: [const Color(0xFF320F1C), const Color(0xFF1A070E)],
+                  color: AppColors.electricCrimson,
+                  bgGradient: [AppColors.slate900, AppColors.darkObsidianBase],
                   isCompact: true,
                 ),
               ],
@@ -746,8 +746,8 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                     name: 'AIMAN R.',
                     xp: '1,240 XP',
                     rank: 'LEAGUE RANK #4 · WIN STREAK 3W',
-                    color: const Color(0xFF38BDF8),
-                    bgGradient: [const Color(0xFF0F2636), const Color(0xFF08141D)],
+                    color: AppColors.ittfTableBorder,
+                    bgGradient: [AppColors.darkObsidianCard, AppColors.darkObsidianBase],
                   ),
                 ),
                 Container(
@@ -759,14 +759,14 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                         height: 64,
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [Color(0xFF38BDF8), Color(0xFFEF4444)],
+                            colors: [AppColors.ittfTableBorder, AppColors.electricCrimson],
                           ),
                           shape: BoxShape.circle,
                         ),
                         child: Center(
                           child: Text(
                             'VS',
-                            style: GoogleFonts.plusJakartaSans(
+                            style: AppTypography.ui(
                               fontSize: 22,
                               fontWeight: FontWeight.w900,
                               color: Colors.white,
@@ -777,10 +777,10 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                       const SizedBox(height: 10),
                       Text(
                         '04:59',
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 20,
                           fontWeight: FontWeight.w900,
-                          color: const Color(0xFF10B981),
+                          color: AppColors.voltLime,
                         ),
                       ),
                     ],
@@ -792,8 +792,8 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                     name: 'JASON T.',
                     xp: '1,180 XP',
                     rank: 'LEAGUE RANK #5 · WIN STREAK 4W',
-                    color: const Color(0xFFEF4444),
-                    bgGradient: [const Color(0xFF320F1C), const Color(0xFF1A070E)],
+                    color: AppColors.electricCrimson,
+                    bgGradient: [AppColors.slate900, AppColors.darkObsidianBase],
                   ),
                 ),
               ],
@@ -807,11 +807,11 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFF0F1B2B), Color(0xFF18283E)],
+                colors: [AppColors.darkObsidianElevated, AppColors.paddleBlack],
               ),
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: const Color(0xFF38BDF8).withValues(alpha: 0.4),
+                color: AppColors.ittfTableBorder.withValues(alpha: 0.4),
                 width: 1.2,
               ),
             ),
@@ -820,7 +820,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
                 '⚡ COME TO TABLE NO. 4 — WINNER TAKES 200 XP ⚡',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.plusJakartaSans(
+                style: AppTypography.ui(
                   fontSize: isMobile ? 12 : 15,
                   fontWeight: FontWeight.w900,
                   color: Colors.white,
@@ -849,7 +849,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
       padding: EdgeInsets.all(isCompact ? 16 : 28),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: bgGradient),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(28),
         border: Border.all(color: color, width: 1.8),
         boxShadow: [
           BoxShadow(
@@ -869,7 +869,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
             ),
             child: Text(
               title,
-              style: GoogleFonts.plusJakartaSans(
+              style: AppTypography.ui(
                 fontSize: 9,
                 fontWeight: FontWeight.w900,
                 color: Colors.black,
@@ -879,7 +879,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
           SizedBox(height: isCompact ? 6 : 12),
           Text(
             name,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: isCompact ? 24 : 34,
               fontWeight: FontWeight.w900,
               color: Colors.white,
@@ -888,7 +888,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
           ),
           Text(
             xp,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: isCompact ? 18 : 24,
               fontWeight: FontWeight.w900,
               color: color,
@@ -896,7 +896,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
           ),
           Text(
             rank,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 10,
               fontWeight: FontWeight.w700,
               color: Colors.white60,
@@ -911,8 +911,8 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F1A2E),
-        borderRadius: BorderRadius.circular(10),
+        color: AppColors.darkObsidianElevated,
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: Column(
@@ -920,13 +920,13 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
         children: [
           Text(
             label,
-            style: GoogleFonts.plusJakartaSans(fontSize: 8, color: Colors.white54),
+            style: AppTypography.ui(fontSize: 8, color: Colors.white54),
           ),
           Text(
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: color),
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: color),
           ),
         ],
       ),
@@ -938,7 +938,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
       width: 105,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF141C2C),
+        color: AppColors.darkObsidianElevated,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
@@ -947,7 +947,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
         children: [
           Text(
             label,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 8,
               color: Colors.white.withValues(alpha: 0.5),
             ),
@@ -956,7 +956,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 11,
               fontWeight: FontWeight.w800,
               color: color,
@@ -971,7 +971,7 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF16233B),
+        color: AppColors.darkObsidianCard,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: color.withValues(alpha: 0.35), width: 1),
       ),
@@ -980,14 +980,14 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
         children: [
           Text(
             label,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 8,
               color: Colors.white.withValues(alpha: 0.5),
             ),
           ),
           Text(
             value,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 13,
               fontWeight: FontWeight.w900,
               color: color,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../data/mock/mock_data.dart';
+import '../../../core/theme/app_typography.dart';
 
 class SeekPlayerScreen extends StatefulWidget {
   final VoidCallback? onInviteSent;
@@ -64,7 +65,7 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
                         ),
                         Text(
                           '01h 37m session active • Looking for players in arena',
-                          style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+                          style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary),
                         ),
                       ],
                     ),
@@ -77,7 +78,7 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
             // Match Type Toggle
             Text(
               'WHAT ARE YOU LOOKING FOR?',
-              style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textMuted, letterSpacing: 1.2),
+              style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textMuted, letterSpacing: 1.2),
             ),
             const SizedBox(height: 10),
             Row(
@@ -108,11 +109,11 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF132B1A), Color(0xFF121212)],
+                  colors: [AppColors.paddleBlack, AppColors.darkObsidianBase],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
               ),
               child: Column(
@@ -124,7 +125,7 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
                       Expanded(
                         child: Text(
                           'Ping All Active Venue Members',
-                          style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
+                          style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white),
                         ),
                       ),
                     ],
@@ -132,7 +133,7 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
                   const SizedBox(height: 8),
                   Text(
                     'Pushes a notification to all free players in the venue asking if anyone wants to join Table 02.',
-                    style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+                    style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary),
                   ),
                   const SizedBox(height: 14),
                   ElevatedButton(
@@ -145,7 +146,7 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
                     ),
                     child: Text(
                       '📢 BROADCAST INVITE TO VENUE NOW',
-                      style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w800),
+                      style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800),
                     ),
                   ),
                 ],
@@ -156,7 +157,7 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
             // Free Players in Venue List
             Text(
               'FREE PLAYERS PRESENT IN ARENA (4)',
-              style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textMuted, letterSpacing: 1.2),
+              style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textMuted, letterSpacing: 1.2),
             ),
             const SizedBox(height: 10),
 
@@ -191,14 +192,14 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
                                   p.name,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+                                  style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
                                 ),
                               ),
                               const SizedBox(width: 6),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                                decoration: BoxDecoration(color: AppColors.surface3, borderRadius: BorderRadius.circular(4)),
-                                child: Text(p.rankLabel, style: GoogleFonts.inter(fontSize: 8, fontWeight: FontWeight.w700, color: AppColors.xpGold)),
+                                decoration: BoxDecoration(color: AppColors.surface3, borderRadius: BorderRadius.circular(8)),
+                                child: Text(p.rankLabel, style: AppTypography.ui(fontSize: 8, fontWeight: FontWeight.w700, color: AppColors.xpGold)),
                               ),
                             ],
                           ),
@@ -206,7 +207,7 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
                             '${p.xp} XP • Casual match',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.inter(fontSize: 11, color: AppColors.textMuted),
+                            style: AppTypography.ui(fontSize: 11, color: AppColors.textMuted),
                           ),
                         ],
                       ),
@@ -216,10 +217,10 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.primary,
                         side: BorderSide(color: AppColors.primary),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                       ),
-                      child: Text('INVITE', style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w800)),
+                      child: Text('INVITE', style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w800)),
                     ),
                   ],
                 ),
@@ -267,7 +268,7 @@ class _SeekPlayerScreenState extends State<SeekPlayerScreen> {
             ),
             Text(
               subtitle,
-              style: GoogleFonts.inter(fontSize: 10, color: AppColors.textMuted),
+              style: AppTypography.ui(fontSize: 10, color: AppColors.textMuted),
             ),
           ],
         ),

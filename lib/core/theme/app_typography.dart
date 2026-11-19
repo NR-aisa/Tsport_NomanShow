@@ -28,48 +28,48 @@ class AppTypography {
   );
 
   // === HEADINGS (Inter) ===
-  static TextStyle h1 = GoogleFonts.inter(
+  static TextStyle h1 = GoogleFonts.plusJakartaSans(
     fontSize: 28,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
     letterSpacing: -0.5,
   );
 
-  static TextStyle h2 = GoogleFonts.inter(
+  static TextStyle h2 = GoogleFonts.plusJakartaSans(
     fontSize: 22,
     fontWeight: FontWeight.w700,
     color: AppColors.textPrimary,
     letterSpacing: -0.3,
   );
 
-  static TextStyle h3 = GoogleFonts.inter(
+  static TextStyle h3 = GoogleFonts.plusJakartaSans(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle h4 = GoogleFonts.inter(
+  static TextStyle h4 = GoogleFonts.plusJakartaSans(
     fontSize: 15,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   );
 
   // === BODY ===
-  static TextStyle bodyLg = GoogleFonts.inter(
+  static TextStyle bodyLg = GoogleFonts.plusJakartaSans(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     color: AppColors.textPrimary,
     height: 1.6,
   );
 
-  static TextStyle bodyMd = GoogleFonts.inter(
+  static TextStyle bodyMd = GoogleFonts.plusJakartaSans(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: AppColors.textPrimary,
     height: 1.5,
   );
 
-  static TextStyle bodySm = GoogleFonts.inter(
+  static TextStyle bodySm = GoogleFonts.plusJakartaSans(
     fontSize: 12,
     fontWeight: FontWeight.w400,
     color: AppColors.textSecondary,
@@ -77,14 +77,14 @@ class AppTypography {
   );
 
   // === LABELS / CAPTIONS ===
-  static TextStyle label = GoogleFonts.inter(
+  static TextStyle label = GoogleFonts.plusJakartaSans(
     fontSize: 11,
     fontWeight: FontWeight.w600,
     color: AppColors.textSecondary,
     letterSpacing: 1.2,
   );
 
-  static TextStyle caption = GoogleFonts.inter(
+  static TextStyle caption = GoogleFonts.plusJakartaSans(
     fontSize: 10,
     fontWeight: FontWeight.w500,
     color: AppColors.textMuted,
@@ -112,16 +112,58 @@ class AppTypography {
   );
 
   // === BUTTON ===
-  static TextStyle button = GoogleFonts.inter(
+  static TextStyle button = GoogleFonts.plusJakartaSans(
     fontSize: 15,
     fontWeight: FontWeight.w600,
     color: AppColors.bg,
     letterSpacing: 0.3,
   );
 
-  static TextStyle buttonSm = GoogleFonts.inter(
+  static TextStyle buttonSm = GoogleFonts.plusJakartaSans(
     fontSize: 13,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.3,
   );
+
+  // === SINGLE FONT ENTRY POINTS (Arena DS) ===
+  /// The one UI font entry point — Plus Jakarta Sans. All feature code must
+  /// call this instead of GoogleFonts directly.
+  static TextStyle ui({
+    double? fontSize,
+    FontWeight? fontWeight,
+    Color? color,
+    double? letterSpacing,
+    double? height,
+    FontStyle? fontStyle,
+    TextDecoration? decoration,
+    double? wordSpacing,
+  }) {
+    return GoogleFonts.plusJakartaSans(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+      letterSpacing: letterSpacing,
+      height: height,
+      fontStyle: fontStyle,
+      decoration: decoration,
+      wordSpacing: wordSpacing,
+    );
+  }
+
+  /// Mono entry point — JetBrains Mono, reserved for live scores/timers.
+  static TextStyle mono({
+    double? fontSize,
+    FontWeight? fontWeight,
+    Color? color,
+    double? letterSpacing,
+    double? height,
+  }) {
+    return GoogleFonts.jetBrainsMono(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+      letterSpacing: letterSpacing,
+      height: height,
+    );
+  }
 }

@@ -18,7 +18,13 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="JOMNITTAKU — No Man Show. Live table tennis arena.">
+  <style>
+    /* Arena DS: arena-dark from first paint — no blank white flash. */
+    html, body { background: #0A1120; margin: 0; padding: 0; }
+    #arena-boot { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      color: #10B981; font-family: sans-serif; font-weight: 800; letter-spacing: 2px; }
+  </style>
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -33,6 +39,7 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <div id="arena-boot">JOMNITTAKU</div>
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader

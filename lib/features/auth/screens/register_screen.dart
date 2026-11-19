@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/navigation/app_navigator.dart';
+import '../../../core/session/app_session.dart';
+import '../../../core/theme/app_typography.dart';
 
 class RegisterScreen extends StatefulWidget {
   final VoidCallback? onRegisterSuccess;
@@ -69,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         Text(
                           'Register now to join the live TV leaderboard and challenge system.',
-                          style: GoogleFonts.inter(
+                          style: AppTypography.ui(
                             fontSize: 12,
                             color: AppColors.textSecondary,
                           ),
@@ -133,7 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Center(
               child: Text(
                 'Photo for TV Leaderboard & VS Match Screen',
-                style: GoogleFonts.inter(fontSize: 12, color: AppColors.textMuted),
+                style: AppTypography.ui(fontSize: 12, color: AppColors.textMuted),
               ),
             ),
             const SizedBox(height: 24),
@@ -178,7 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: AppColors.surface,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: _agreedToPrivacy ? AppColors.primary.withValues(alpha: 0.4) : AppColors.border,
                 ),
@@ -199,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         'I agree to the Privacy Statement (PDPA 2010). My name, avatar, and match statistics can be displayed publicly on the venue TV leaderboard and challenge screen.',
-                        style: GoogleFonts.inter(
+                        style: AppTypography.ui(
                           fontSize: 12,
                           color: AppColors.textSecondary,
                           height: 1.4,
@@ -214,7 +217,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             // Submit Button
             ElevatedButton(
-              onPressed: _agreedToPrivacy ? widget.onRegisterSuccess : null,
+              onPressed: _agreedToPrivacy
+                  ? (widget.onRegisterSuccess ??
+                      () {
+                        AppSession.signInMember();
+                        AppNavigator.toPlan(context);
+                      })
+                  : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.bg,
@@ -230,7 +239,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       'PROCEED TO SELECT PLAN',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(
+                      style: AppTypography.ui(
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.5,
@@ -254,7 +263,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Text(
         text,
-        style: GoogleFonts.inter(
+        style: AppTypography.ui(
           fontSize: 11,
           fontWeight: FontWeight.w700,
           color: AppColors.textSecondary,
@@ -273,23 +282,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
-      style: GoogleFonts.inter(color: AppColors.textPrimary, fontSize: 14),
+      style: AppTypography.ui(color: AppColors.textPrimary, fontSize: 14),
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: AppColors.primary, size: 20),
         hintText: hint,
-        hintStyle: GoogleFonts.inter(color: AppColors.textMuted, fontSize: 14),
+        hintStyle: AppTypography.ui(color: AppColors.textMuted, fontSize: 14),
         filled: true,
         fillColor: AppColors.surface,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: AppColors.primary, width: 1.5),
         ),
       ),

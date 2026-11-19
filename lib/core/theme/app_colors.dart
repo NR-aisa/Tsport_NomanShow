@@ -105,21 +105,33 @@ class AppColors {
   static Color get surfaceMuted => isDark ? const Color(0xFF243656) : const Color(0xFFE2E8F0);
   static Color get surfaceDark => isDark ? const Color(0xFF0D1627) : const Color(0xFF0F172A);
 
-  // === ATHLETIC SPORTS ACCENTS ===
-  static const voltLime = Color(0xFF10B981);               // Athletic Tournament Emerald
-  static Color get hyperCyan => isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7);
+  // === ATHLETIC SPORTS ACCENTS (Arena DS v1 discipline) ===
+  // ONE primary: volt emerald. Blue is info/secondary only. Gold is XP only.
+  // Red is LIVE + errors only. Purple survives ONLY as the Reserved table
+  // status and inside gamification-path artwork. Pink/cyan/teal are retired.
+  static const voltLime = Color(0xFF10B981);               // PRIMARY — Athletic Tournament Emerald
+  static Color get hyperCyan => isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB); // legacy name, now ITTF info blue
   static const electricCrimson = Color(0xFFEF4444);        // Tournament Adrenaline Red
-  static const radiantGold = Color(0xFFF59E0B);            // Championship Trophy Gold
-  static const amethystPurple = Color(0xFFA855F7);         // Quest Amethyst
-  static const neonPink = Color(0xFFF43F5E);
+  static const radiantGold = Color(0xFFF59E0B);            // Championship Trophy Gold — XP/rewards only
+  static const amethystPurple = Color(0xFFA855F7);         // Quest Amethyst — gamification artwork / Reserved status only
+  static const neonPink = Color(0xFFEF4444);               // RETIRED — remapped to crimson (Arena DS: no pink in general UI)
+
+  // === NEUTRAL SLATE SCALE (const, for swept literals) ===
+  static const slate100 = Color(0xFFF1F5F9);
+  static const slate200 = Color(0xFFE2E8F0);
+  static const slate300 = Color(0xFFCBD5E1);
+  static const slate400 = Color(0xFF94A3B8);
+  static const slate500 = Color(0xFF64748B);
+  static const slate600 = Color(0xFF475569);
+  static const slate900 = Color(0xFF0F172A);
 
   // === TACTILE 3D BUTTONS ===
   static Color get btnDark => isDark ? const Color(0xFF16233B) : const Color(0xFF0F172A);
   static Color get btnDarkBorder => isDark ? const Color(0xFF0A1120) : const Color(0xFF020617);
   static const btnGreen = Color(0xFF10B981);               // Crisp Emerald face
   static const btnGreenBorder = Color(0xFF047857);         // 4px Extruded green border
-  static const btnTeal = Color(0xFF00B4D8);
-  static const btnTealBorder = Color(0xFF007799);
+  static const btnTeal = Color(0xFF2563EB);                // RETIRED teal — remapped to ITTF info blue
+  static const btnTealBorder = Color(0xFF1E40AF);
   static const btnGold = Color(0xFFFFB800);
   static const btnGoldBorder = Color(0xFFCC9300);
 
@@ -134,7 +146,7 @@ class AppColors {
   static const xpGold = Color(0xFFFFC800);
   static const xpGoldDark = Color(0xFFE5B400);
   static const streakFlame = Color(0xFFFF7A00);
-  static const mkCyanP1 = Color(0xFF38BDF8);
+  static const mkCyanP1 = Color(0xFF60A5FA);               // Player 1 — info blue (cyan retired)
   static const mkCrimsonP2 = Color(0xFFEF4444);
   static Color get vsEmblem => isDark ? const Color(0xFF161E2E) : const Color(0xFF0F172A);
 
@@ -157,9 +169,9 @@ class AppColors {
 
   // === BACKWARD-COMPATIBLE ALIASES ===
   static Color get bg => canvasBg;
-  static Color get primary => isDark ? const Color(0xFF2563EB) : const Color(0xFF1D4ED8);
-  static Color get primaryDim => isDark ? const Color(0xFF1E40AF) : const Color(0xFF3B82F6);
-  static Color get primaryGlow => isDark ? const Color(0x332563EB) : const Color(0x1F2563EB);
+  static Color get primary => voltLime;                    // Arena DS: primary is emerald everywhere
+  static Color get primaryDim => const Color(0xFF047857);
+  static Color get primaryGlow => isDark ? const Color(0x3310B981) : const Color(0x1F10B981);
   static Color get surface => surfaceCard;
   static Color get surface2 => surfaceSubtle;
   static Color get surface3 => surfaceMuted;

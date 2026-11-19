@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
+import '../../../core/theme/app_typography.dart';
 
 class ChampionBiddingScreen extends StatefulWidget {
   final VoidCallback? onBidPlaced;
@@ -32,7 +32,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: AppColors.obsidianCard,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(28),
                   border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
                 ),
                 child: Row(
@@ -44,12 +44,12 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _tabIndex == 0 ? AppColors.ittfTableBlue : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
                             child: Text(
                               'Bid',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
                                 color: _tabIndex == 0 ? Colors.white : Colors.white60,
@@ -66,12 +66,12 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _tabIndex == 1 ? AppColors.ittfTableBlue : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
                             child: Text(
                               'History',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
                                 color: _tabIndex == 1 ? Colors.white : Colors.white60,
@@ -98,7 +98,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(22),
+                        borderRadius: BorderRadius.circular(28),
                         border: Border.all(color: AppColors.obsidianBorder),
                         boxShadow: [
                           BoxShadow(
@@ -131,9 +131,9 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('PLAY THE', style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: const Color(0xFF60A5FA), letterSpacing: 0.8)),
-                                Text('Champion', style: GoogleFonts.plusJakartaSans(fontSize: 20, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
-                                Text('National champion · This branch · One game', style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textSecondary)),
+                                Text('PLAY THE', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.ittfTableBorder, letterSpacing: 0.8)),
+                                Text('Champion', style: AppTypography.ui(fontSize: 20, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
+                                Text('National champion · This branch · One game', style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary)),
                               ],
                             ),
                           ),
@@ -148,7 +148,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(26),
+                        borderRadius: BorderRadius.circular(28),
                         border: Border.all(
                           color: AppColors.radiantGold.withValues(alpha: 0.35),
                           width: 1.2,
@@ -172,19 +172,19 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                             ),
                             child: Text(
                               'HIGHEST BID',
-                              style: GoogleFonts.plusJakartaSans(fontSize: 9, fontWeight: FontWeight.w800, color: AppColors.radiantGold),
+                              style: AppTypography.ui(fontSize: 9, fontWeight: FontWeight.w800, color: AppColors.radiantGold),
                             ),
                           ),
                           const SizedBox(height: 6),
                           Text(
                             'RM320',
-                            style: GoogleFonts.plusJakartaSans(fontSize: 44, fontWeight: FontWeight.w900, color: AppColors.textPrimary, letterSpacing: -1),
+                            style: AppTypography.ui(fontSize: 44, fontWeight: FontWeight.w900, color: AppColors.textPrimary, letterSpacing: -1),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             'MINIMUM SET BY THE OWNER · PER BRANCH / PLAYER',
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.plusJakartaSans(fontSize: 9, fontWeight: FontWeight.w800, color: AppColors.textSecondary, letterSpacing: 0.5),
+                            style: AppTypography.ui(fontSize: 9, fontWeight: FontWeight.w800, color: AppColors.textSecondary, letterSpacing: 0.5),
                           ),
                         ],
                       ),
@@ -201,7 +201,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.obsidianCard,
-                              border: Border.all(color: const Color(0xFF38BDF8), width: 4),
+                              border: Border.all(color: AppColors.ittfTableBorder, width: 4),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withValues(alpha: 0.25),
@@ -211,17 +211,17 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                               ],
                             ),
                             child: const Center(
-                              child: Icon(Icons.access_time_rounded, size: 36, color: Color(0xFF38BDF8)),
+                              child: Icon(Icons.access_time_rounded, size: 36, color: AppColors.ittfTableBorder),
                             ),
                           ),
                           const SizedBox(height: 8),
                           Text(
                             '02:14:36',
-                            style: GoogleFonts.plusJakartaSans(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.textPrimary, letterSpacing: 1),
+                            style: AppTypography.ui(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.textPrimary, letterSpacing: 1),
                           ),
                           Text(
                             'Closes in',
-                            style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                            style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
                           ),
                         ],
                       ),
@@ -234,12 +234,12 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: AppColors.obsidianBorder),
                       ),
                       child: Row(
                         children: [
-                          Text('BID LADDER', style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: const Color(0xFF60A5FA), letterSpacing: 0.8)),
+                          Text('BID LADDER', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.ittfTableBorder, letterSpacing: 0.8)),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
@@ -247,7 +247,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.right,
-                              style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                              style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
                             ),
                           ),
                         ],
@@ -258,7 +258,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                     // Your Bid Presets
                     Text(
                       'YOUR BID (RM) · RANGE 100–500',
-                      style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: 0.8),
+                      style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: 0.8),
                     ),
                     const SizedBox(height: 8),
 
@@ -282,7 +282,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                     Text(
                       'Minimum set by the owner. You\'ll be notified if you\'re outbid. Winner pays via Payment (06).',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textSecondary),
+                      style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary),
                     ),
                     const SizedBox(height: 10),
                   ],
@@ -307,15 +307,15 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.ittfTableBlue : AppColors.obsidianCard,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? const Color(0xFF60A5FA) : Colors.white.withValues(alpha: 0.10),
+            color: isSelected ? AppColors.ittfTableBorder : Colors.white.withValues(alpha: 0.10),
           ),
         ),
         child: Center(
           child: Text(
             'RM$amount',
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 12,
               fontWeight: FontWeight.w900,
               color: isSelected ? Colors.white : Colors.white70,

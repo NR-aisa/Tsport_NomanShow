@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme_controller.dart';
@@ -7,6 +6,9 @@ import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
 import '../../challenge/screens/seek_player_screen.dart';
+import '../../../core/theme/app_typography.dart';
+import '../../../core/session/app_session.dart';
+import '../../../shared/widgets/arena_widgets.dart';
 
 class SplashScreen extends StatefulWidget {
   final VoidCallback? onRegisterTap;
@@ -23,6 +25,30 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Phase 4: first-run coachmark tour, shown once per session over the
+    // real home UI (Toby pattern — teach inside the product, briefly).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || AppSession.coachmarkDone) return;
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (dialogContext) => Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.symmetric(horizontal: 28),
+          child: CoachmarkTour(
+            onDone: () {
+              AppSession.coachmarkDone = true;
+              Navigator.of(dialogContext).pop();
+            },
+          ),
+        ),
+      );
+    });
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _selectedLanguage = 'ENG';
 
@@ -65,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 BoxShadow(
                                   color: isDark
                                       ? Colors.black.withValues(alpha: 0.35)
-                                      : const Color(0xFF0F172A).withValues(alpha: 0.08),
+                                      : AppColors.slate900.withValues(alpha: 0.08),
                                   blurRadius: 8,
                                   offset: const Offset(0, 2),
                                 ),
@@ -111,18 +137,18 @@ class _SplashScreenState extends State<SplashScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: AppColors.obsidianCard,
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(16),
                                     border: Border.all(
                                       color: isDark
                                           ? AppColors.radiantGold.withValues(alpha: 0.35)
-                                          : const Color(0xFFFCD34D),
+                                          : AppColors.xpGold,
                                       width: 1,
                                     ),
                                     boxShadow: [
                                       BoxShadow(
                                         color: isDark
                                             ? Colors.black.withValues(alpha: 0.25)
-                                            : const Color(0xFF0F172A).withValues(alpha: 0.04),
+                                            : AppColors.slate900.withValues(alpha: 0.04),
                                         blurRadius: 4,
                                         offset: const Offset(0, 1),
                                       ),
@@ -135,7 +161,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                       const SizedBox(width: 4),
                                       Text(
                                         '1,240 XP',
-                                        style: GoogleFonts.plusJakartaSans(
+                                        style: AppTypography.ui(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w800,
                                           color: AppColors.textPrimary,
@@ -163,7 +189,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                     child: Text(
                                       'Tonight · 3 Damansara',
                                       overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.plusJakartaSans(
+                                      style: AppTypography.ui(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700,
                                         color: AppColors.textPrimary,
@@ -198,7 +224,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 BoxShadow(
                                   color: isDark
                                       ? Colors.black.withValues(alpha: 0.35)
-                                      : const Color(0xFF0F172A).withValues(alpha: 0.08),
+                                      : AppColors.slate900.withValues(alpha: 0.08),
                                   blurRadius: 8,
                                   offset: const Offset(0, 2),
                                 ),
@@ -244,9 +270,10 @@ class _SplashScreenState extends State<SplashScreen> {
                           _buildBentoTelemetryGrid(context, isDark),
                           const SizedBox(height: 16),
 
-                          // Venue Map Card
-                          _buildVenueMapCard(context, isDark),
-                          const SizedBox(height: 14),
+                          // Venue Map Card removed from Home (Phase 1):
+                          // it lives on Tables, where it belongs. Home keeps a
+                          // fixed section order that never reshuffles:
+                          // Hero → Promo → Telemetry → Pricing → CTA.
 
                           // Member Pricing & 90 Sen Anchor Card
                           _buildMemberPricingCard(context, isDark),
@@ -268,19 +295,19 @@ class _SplashScreenState extends State<SplashScreen> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
                                 decoration: BoxDecoration(
-                                  color: isDark ? const Color(0x262563EB) : const Color(0xFFEFF6FF),
+                                  color: isDark ? Colors.black12 : AppColors.lightCanvasBg,
                                   borderRadius: BorderRadius.circular(16),
                                   border: Border.all(
                                     color: isDark
-                                        ? const Color(0xFF60A5FA).withValues(alpha: 0.5)
-                                        : const Color(0xFFBFDBFE),
+                                        ? AppColors.ittfTableBorder.withValues(alpha: 0.5)
+                                        : AppColors.slate300,
                                     width: 1.2,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
                                       color: isDark
-                                          ? const Color(0xFF2563EB).withValues(alpha: 0.15)
-                                          : const Color(0xFF2563EB).withValues(alpha: 0.08),
+                                          ? AppColors.ittfTableSurface.withValues(alpha: 0.15)
+                                          : AppColors.ittfTableSurface.withValues(alpha: 0.08),
                                       blurRadius: 10,
                                       offset: const Offset(0, 2),
                                     ),
@@ -292,7 +319,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                     Icon(
                                       Icons.qr_code_scanner_rounded,
                                       size: 16,
-                                      color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
+                                      color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                                     ),
                                     const SizedBox(width: 8),
                                     Flexible(
@@ -300,10 +327,10 @@ class _SplashScreenState extends State<SplashScreen> {
                                         'Door Pass (KX8VQS) →',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.plusJakartaSans(
+                                        style: AppTypography.ui(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w800,
-                                          color: isDark ? const Color(0xFF93C5FD) : const Color(0xFF1D4ED8),
+                                          color: isDark ? AppColors.slate300 : AppColors.ittfTableBlue,
                                           letterSpacing: 0.3,
                                         ),
                                       ),
@@ -317,7 +344,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           Center(
                             child: Text(
                               'At the door: two QRs — Registered or Guest.',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.textMuted,
@@ -369,7 +396,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         width: 8,
                         height: 8,
                         decoration: const BoxDecoration(
-                          color: Color(0xFF10B981),
+                          color: AppColors.voltLime,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -379,10 +406,10 @@ class _SplashScreenState extends State<SplashScreen> {
                           'JOMNITTAKU · 3 DAMANSARA',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.plusJakartaSans(
+                          style: AppTypography.ui(
                             fontSize: 10,
                             fontWeight: FontWeight.w900,
-                            color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
+                            color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                             letterSpacing: 0.8,
                           ),
                         ),
@@ -394,19 +421,19 @@ class _SplashScreenState extends State<SplashScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF10B981).withValues(alpha: 0.15) : const Color(0xFFECFDF5),
-                    borderRadius: BorderRadius.circular(10),
+                    color: isDark ? AppColors.voltLime.withValues(alpha: 0.15) : AppColors.lightCanvasBg,
+                    borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: isDark ? const Color(0xFF10B981).withValues(alpha: 0.35) : const Color(0xFFA7F3D0),
+                      color: isDark ? AppColors.voltLime.withValues(alpha: 0.35) : AppColors.slate300,
                       width: 1,
                     ),
                   ),
                   child: Text(
                     '6 OF 10 FREE',
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 9,
                       fontWeight: FontWeight.w900,
-                      color: isDark ? const Color(0xFF10B981) : const Color(0xFF059669),
+                      color: isDark ? AppColors.voltLime : AppColors.btnGreenBorder,
                       letterSpacing: 0.4,
                     ),
                   ),
@@ -436,7 +463,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 BoxShadow(
                                   color: isDark
                                       ? Colors.black.withValues(alpha: 0.35)
-                                      : const Color(0xFF0F172A).withValues(alpha: 0.08),
+                                      : AppColors.slate900.withValues(alpha: 0.08),
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
                                 ),
@@ -458,7 +485,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               children: [
                                 Text(
                                   'JUST PLAY',
-                                  style: GoogleFonts.plusJakartaSans(
+                                  style: AppTypography.ui(
                                     fontSize: 22,
                                     fontWeight: FontWeight.w900,
                                     color: AppColors.textPrimary,
@@ -468,10 +495,10 @@ class _SplashScreenState extends State<SplashScreen> {
                                 ),
                                 Text(
                                   'TONIGHT',
-                                  style: GoogleFonts.plusJakartaSans(
+                                  style: AppTypography.ui(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w900,
-                                    color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                                    color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                                     letterSpacing: -0.4,
                                   ),
                                 ),
@@ -483,7 +510,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       const SizedBox(height: 8),
                       Text(
                         'Autonomous table tennis arena.\nWalk in & challenge rivals now.',
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                           color: AppColors.textSecondary,
@@ -508,52 +535,58 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                 decoration: BoxDecoration(
-                  color: isDark ? Colors.black.withValues(alpha: 0.25) : const Color(0xFFF1F5F9),
+                  color: isDark ? Colors.black.withValues(alpha: 0.25) : AppColors.lightCanvasBg,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: isDark ? Colors.white.withValues(alpha: 0.08) : const Color(0xFFE2E8F0),
+                    color: isDark ? Colors.white.withValues(alpha: 0.08) : AppColors.lightBorder,
                     width: 1,
                   ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 6,
-                          height: 6,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF10B981),
-                            shape: BoxShape.circle,
+                    Flexible(
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 6,
+                            height: 6,
+                            decoration: const BoxDecoration(
+                              color: AppColors.voltLime,
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'LIVE • 2 matches active now',
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary,
+                          const SizedBox(width: 6),
+                          Flexible(
+                            child: Text(
+                              'LIVE • 2 matches active now',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTypography.ui(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Row(
                       children: [
                         Text(
                           'Radar View',
-                          style: GoogleFonts.plusJakartaSans(
+                          style: AppTypography.ui(
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
-                            color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                            color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                           ),
                         ),
                         const SizedBox(width: 3),
                         Icon(
                           Icons.arrow_forward_rounded,
                           size: 13,
-                          color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                          color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                         ),
                       ],
                     ),
@@ -580,21 +613,21 @@ class _SplashScreenState extends State<SplashScreen> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: isDark
-                ? [const Color(0xFF1E3A8A), const Color(0xFF0F2256)]
-                : [const Color(0xFF1D4ED8), const Color(0xFF1E40AF)],
+                ? [AppColors.ittfTableBlue, AppColors.darkObsidianCard]
+                : [AppColors.ittfTableBlue, AppColors.ittfTableBlue],
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isDark
-                ? const Color(0xFF60A5FA).withValues(alpha: 0.35)
-                : const Color(0xFF93C5FD),
+                ? AppColors.ittfTableBorder.withValues(alpha: 0.35)
+                : AppColors.slate300,
             width: 1.2,
           ),
           boxShadow: [
             BoxShadow(
               color: isDark
                   ? Colors.black.withValues(alpha: 0.35)
-                  : const Color(0xFF1E40AF).withValues(alpha: 0.15),
+                  : AppColors.ittfTableBlue.withValues(alpha: 0.15),
               blurRadius: 6,
               offset: const Offset(0, 3),
             ),
@@ -613,7 +646,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFF2563EB), Color(0xFF1D4ED8)],
+                    colors: [AppColors.ittfTableSurface, AppColors.ittfTableBlue],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -659,7 +692,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1E293B),
+                  color: AppColors.paddleBlack,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.white30, width: 0.8),
                 ),
@@ -670,7 +703,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     const SizedBox(width: 3),
                     Text(
                       'Jason',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: AppTypography.ui(
                         fontSize: 8,
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
@@ -688,7 +721,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFDC2626),
+                  color: AppColors.paddleRed,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.white30, width: 0.8),
                 ),
@@ -699,7 +732,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     const SizedBox(width: 3),
                     Text(
                       'Aiman',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: AppTypography.ui(
                         fontSize: 8,
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
@@ -718,12 +751,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: 10,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF97316),
+                  color: AppColors.pingPongOrange,
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 1),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFF97316).withValues(alpha: 0.6),
+                      color: AppColors.pingPongOrange.withValues(alpha: 0.6),
                       blurRadius: 4,
                       offset: const Offset(0, 1),
                     ),
@@ -739,9 +772,9 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0F172A),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: const Color(0xFFF59E0B), width: 1),
+                  color: AppColors.slate900,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.radiantGold, width: 1),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.4),
@@ -756,17 +789,17 @@ class _SplashScreenState extends State<SplashScreen> {
                       width: 5,
                       height: 5,
                       decoration: const BoxDecoration(
-                        color: Color(0xFFEF4444),
+                        color: AppColors.electricCrimson,
                         shape: BoxShape.circle,
                       ),
                     ),
                     const SizedBox(width: 4),
                     Text(
                       'T4 · 11-9',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: AppTypography.ui(
                         fontSize: 9,
                         fontWeight: FontWeight.w900,
-                        color: const Color(0xFFF59E0B),
+                        color: AppColors.radiantGold,
                       ),
                     ),
                   ],
@@ -818,7 +851,7 @@ class _SplashScreenState extends State<SplashScreen> {
               title: 'XP balance',
               value: '1,240 XP',
               icon: Icons.military_tech_rounded,
-              accentColor: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+              accentColor: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
               isDark: isDark,
             ),
           ),
@@ -838,7 +871,7 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: AppColors.border,
           width: 1,
@@ -852,7 +885,7 @@ class _SplashScreenState extends State<SplashScreen> {
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               color: accentColor.withValues(alpha: isDark ? 0.15 : 0.12),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, size: 16, color: accentColor),
           ),
@@ -861,7 +894,7 @@ class _SplashScreenState extends State<SplashScreen> {
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 10,
               fontWeight: FontWeight.w600,
               color: AppColors.textSecondary,
@@ -872,7 +905,7 @@ class _SplashScreenState extends State<SplashScreen> {
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 13,
               fontWeight: FontWeight.w900,
               color: AppColors.textPrimary,
@@ -893,7 +926,7 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       decoration: BoxDecoration(
         gradient: AppColors.cardGradient,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(28),
         border: AppColors.cardBorder,
         boxShadow: AppColors.cardShadow,
       ),
@@ -908,7 +941,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   'Favorite Sparring Rivals',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textPrimary,
@@ -921,10 +954,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 onTap: () => AppNavigator.toLeaderboard(context),
                 child: Text(
                   'Manage >',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
+                    color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                   ),
                 ),
               ),
@@ -942,7 +975,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   level: 'LVL 14',
                   streak: '🔥 3W',
                   isLiveAtVenue: true,
-                  ringColor: const Color(0xFF38BDF8),
+                  ringColor: AppColors.ittfTableBorder,
                   isDark: isDark,
                 ),
                 const SizedBox(width: 14),
@@ -953,7 +986,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   level: 'LVL 18',
                   streak: '🔥 5W',
                   isLiveAtVenue: true,
-                  ringColor: const Color(0xFF10B981),
+                  ringColor: AppColors.voltLime,
                   isDark: isDark,
                 ),
                 const SizedBox(width: 14),
@@ -964,7 +997,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   level: 'LVL 11',
                   streak: '1W',
                   isLiveAtVenue: false,
-                  ringColor: const Color(0xFF818CF8),
+                  ringColor: AppColors.ittfTableBorder,
                   isDark: isDark,
                 ),
                 const SizedBox(width: 14),
@@ -1012,7 +1045,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   gradient: LinearGradient(
                     colors: [
                       ringColor.withValues(alpha: isDark ? 0.30 : 0.20),
-                      isDark ? const Color(0xFF101B30) : const Color(0xFFF1F5F9),
+                      isDark ? AppColors.darkObsidianElevated : AppColors.lightCanvasBg,
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -1023,7 +1056,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     BoxShadow(
                       color: isDark
                           ? Colors.black.withValues(alpha: 0.25)
-                          : const Color(0xFF0F172A).withValues(alpha: 0.08),
+                          : AppColors.slate900.withValues(alpha: 0.08),
                       blurRadius: 6,
                       offset: const Offset(0, 2),
                     ),
@@ -1032,10 +1065,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Center(
                   child: Text(
                     initial,
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 18,
                       fontWeight: FontWeight.w900,
-                      color: isDark ? Colors.white : const Color(0xFF0F172A),
+                      color: isDark ? Colors.white : AppColors.slate900,
                     ),
                   ),
                 ),
@@ -1048,7 +1081,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     width: 14,
                     height: 14,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF10B981),
+                      color: AppColors.voltLime,
                       shape: BoxShape.circle,
                       border: Border.all(color: AppColors.canvasBg, width: 2),
                     ),
@@ -1061,19 +1094,19 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                   decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF261808) : const Color(0xFFFEF3C7),
-                    borderRadius: BorderRadius.circular(6),
+                    color: isDark ? AppColors.slate900 : AppColors.lightCanvasBg,
+                    borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: isDark ? const Color(0xFFF59E0B) : const Color(0xFFFCD34D),
+                      color: isDark ? AppColors.radiantGold : AppColors.xpGold,
                       width: 0.8,
                     ),
                   ),
                   child: Text(
                     streak,
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 8,
                       fontWeight: FontWeight.w900,
-                      color: isDark ? const Color(0xFFFBBF24) : const Color(0xFFB45309),
+                      color: isDark ? AppColors.btnGold : AppColors.electricCrimson,
                     ),
                   ),
                 ),
@@ -1083,7 +1116,7 @@ class _SplashScreenState extends State<SplashScreen> {
           const SizedBox(height: 6),
           Text(
             name,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 11,
               fontWeight: FontWeight.w800,
               color: AppColors.textPrimary,
@@ -1091,7 +1124,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
           Text(
             level,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 9,
               fontWeight: FontWeight.w700,
               color: AppColors.textSecondary,
@@ -1111,34 +1144,34 @@ class _SplashScreenState extends State<SplashScreen> {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: isDark ? const Color(0x1A38BDF8) : const Color(0xFFEFF6FF),
+              color: isDark ? Colors.white10 : AppColors.lightCanvasBg,
               shape: BoxShape.circle,
               border: Border.all(
                 color: isDark
-                    ? const Color(0xFF38BDF8).withValues(alpha: 0.5)
-                    : const Color(0xFF93C5FD),
+                    ? AppColors.ittfTableBorder.withValues(alpha: 0.5)
+                    : AppColors.slate300,
                 style: BorderStyle.solid,
                 width: 1.5,
               ),
             ),
             child: Icon(
               Icons.add_rounded,
-              color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+              color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
               size: 26,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             'Add Rival',
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 11,
               fontWeight: FontWeight.w800,
-              color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+              color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
             ),
           ),
           Text(
             'Search XP',
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 9,
               fontWeight: FontWeight.w700,
               color: AppColors.textMuted,
@@ -1158,9 +1191,9 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         gradient: AppColors.promoBannerGradient,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark ? const Color(0xFFF59E0B).withValues(alpha: 0.4) : const Color(0xFFFCD34D),
+          color: isDark ? AppColors.radiantGold.withValues(alpha: 0.4) : AppColors.xpGold,
           width: 1.2,
         ),
         boxShadow: AppColors.cardShadow,
@@ -1172,7 +1205,7 @@ class _SplashScreenState extends State<SplashScreen> {
             height: 38,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFFF59E0B), Color(0xFFEA580C)],
+                colors: [AppColors.radiantGold, AppColors.pingPongOrange],
               ),
               shape: BoxShape.circle,
             ),
@@ -1185,17 +1218,17 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 Text(
                   '⚡ Happy Hour · Save 50%',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 13,
                     fontWeight: FontWeight.w900,
-                    color: isDark ? const Color(0xFFFDE68A) : const Color(0xFFB45309),
+                    color: isDark ? AppColors.lightBorder : AppColors.electricCrimson,
                   ),
                 ),
                 Text(
                   'All tables 50 sen/hour for members',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 11,
-                    color: isDark ? Colors.white.withValues(alpha: 0.70) : const Color(0xFF92400E),
+                    color: isDark ? Colors.white.withValues(alpha: 0.70) : AppColors.paddleRed,
                   ),
                 ),
               ],
@@ -1204,18 +1237,18 @@ class _SplashScreenState extends State<SplashScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFFEF4444),
+              color: AppColors.electricCrimson,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFEF4444).withValues(alpha: 0.3),
+                  color: AppColors.electricCrimson.withValues(alpha: 0.3),
                   blurRadius: 6,
                 ),
               ],
             ),
             child: Text(
               '18m : 45s',
-              style: GoogleFonts.plusJakartaSans(
+              style: AppTypography.ui(
                 fontSize: 11,
                 fontWeight: FontWeight.w900,
                 color: Colors.white,
@@ -1243,7 +1276,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 'VENUE TELEMETRY & COMMAND',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.plusJakartaSans(
+                style: AppTypography.ui(
                   fontSize: 11,
                   fontWeight: FontWeight.w900,
                   color: AppColors.textSecondary,
@@ -1255,19 +1288,19 @@ class _SplashScreenState extends State<SplashScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF38BDF8).withValues(alpha: 0.15) : const Color(0xFFEFF6FF),
-                borderRadius: BorderRadius.circular(6),
+                color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.15) : AppColors.lightCanvasBg,
+                borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: isDark ? const Color(0xFF38BDF8).withValues(alpha: 0.3) : const Color(0xFFBAE6FD),
+                  color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.3) : AppColors.slate300,
                   width: 0.8,
                 ),
               ),
               child: Text(
                 'LIVE IOT',
-                style: GoogleFonts.plusJakartaSans(
+                style: AppTypography.ui(
                   fontSize: 9,
                   fontWeight: FontWeight.w800,
-                  color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                  color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                 ),
               ),
             ),
@@ -1283,9 +1316,9 @@ class _SplashScreenState extends State<SplashScreen> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               gradient: AppColors.cardGradient,
-              borderRadius: BorderRadius.circular(22),
+              borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: isDark ? const Color(0xFF38BDF8).withValues(alpha: 0.25) : const Color(0xFFE2E8F0),
+                color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.25) : AppColors.lightBorder,
                 width: 1,
               ),
               boxShadow: AppColors.cardShadow,
@@ -1302,13 +1335,13 @@ class _SplashScreenState extends State<SplashScreen> {
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: isDark ? const Color(0xFF38BDF8).withValues(alpha: 0.15) : const Color(0xFFEFF6FF),
-                              borderRadius: BorderRadius.circular(10),
+                              color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.15) : AppColors.lightCanvasBg,
+                              borderRadius: BorderRadius.circular(12),
                             ),
                             child: Icon(
                               Icons.radar_rounded,
                               size: 18,
-                              color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                              color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -1317,7 +1350,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               'Live Table Radar',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w900,
                                 color: AppColors.textPrimary,
@@ -1330,10 +1363,10 @@ class _SplashScreenState extends State<SplashScreen> {
                     const SizedBox(width: 8),
                     Text(
                       '6 of 10 Free →',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: AppTypography.ui(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
-                        color: isDark ? const Color(0xFF10B981) : const Color(0xFF059669),
+                        color: isDark ? AppColors.voltLime : AppColors.btnGreenBorder,
                       ),
                     ),
                   ],
@@ -1391,9 +1424,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   title: '1v1 Match',
                   subtitle: 'RM200 Pot · Fight',
                   badge: 'BOUNTY',
-                  badgeColor: const Color(0xFFEF4444),
+                  badgeColor: AppColors.electricCrimson,
                   icon: Icons.sports_mma_rounded,
-                  accentColor: const Color(0xFFEF4444),
+                  accentColor: AppColors.electricCrimson,
                   isDark: isDark,
                 ),
               ),
@@ -1429,9 +1462,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   title: 'Live Scoreboard',
                   subtitle: '55" TV Broadcast View',
                   badge: 'ARENA TV',
-                  badgeColor: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                  badgeColor: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                   icon: Icons.live_tv_rounded,
-                  accentColor: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                  accentColor: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                   isDark: isDark,
                 ),
               ),
@@ -1455,7 +1488,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 onTap: () => AppNavigator.toLeaderboard(context),
                 child: _buildQuickPill(
                   '🏆 #4 Rank',
-                  isDark ? const Color(0xFF10B981) : const Color(0xFF059669),
+                  isDark ? AppColors.voltLime : AppColors.btnGreenBorder,
                   isDark,
                 ),
               ),
@@ -1466,7 +1499,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 onTap: () => AppNavigator.pushScreen(context, const SeekPlayerScreen()),
                 child: _buildQuickPill(
                   '📡 Radar Ping',
-                  isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                  isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                   isDark,
                 ),
               ),
@@ -1480,26 +1513,26 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _buildTableBeacon(String tableName,
       {required bool isOccupied, String? player, required bool isDark}) {
     final courtColor = isOccupied
-        ? (isDark ? const Color(0xFF1E293B) : const Color(0xFFFEE2E2))
-        : (isDark ? const Color(0xFF1D4ED8) : const Color(0xFFECFDF5));
-    final borderColor = isOccupied ? const Color(0xFFEF4444) : const Color(0xFF10B981);
+        ? (isDark ? AppColors.paddleBlack : AppColors.lightBorder)
+        : (isDark ? AppColors.ittfTableBlue : AppColors.lightCanvasBg);
+    final borderColor = isOccupied ? AppColors.electricCrimson : AppColors.voltLime;
     final titleColor = isDark
         ? Colors.white
-        : (isOccupied ? const Color(0xFF991B1B) : const Color(0xFF065F46));
+        : (isOccupied ? AppColors.paddleRed : AppColors.btnGreenBorder);
     final statusColor = isOccupied
-        ? (isDark ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626))
-        : (isDark ? const Color(0xFF6EE7B7) : const Color(0xFF059669));
+        ? (isDark ? AppColors.rankBronze : AppColors.paddleRed)
+        : (isDark ? AppColors.slate300 : AppColors.btnGreenBorder);
 
     return Container(
       width: 52,
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         color: courtColor,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: borderColor, width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: isDark ? Colors.black.withValues(alpha: 0.3) : const Color(0xFF0F172A).withValues(alpha: 0.05),
+            color: isDark ? Colors.black.withValues(alpha: 0.3) : AppColors.slate900.withValues(alpha: 0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -1518,7 +1551,7 @@ class _SplashScreenState extends State<SplashScreen> {
           const SizedBox(height: 4),
           Text(
             tableName,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 11,
               fontWeight: FontWeight.w900,
               color: titleColor,
@@ -1528,7 +1561,7 @@ class _SplashScreenState extends State<SplashScreen> {
             isOccupied ? (player ?? 'Live') : 'Free',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 8,
               fontWeight: FontWeight.w800,
               color: statusColor,
@@ -1552,9 +1585,9 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: AppColors.cardGradient,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(28),
         border: Border.all(
-          color: isDark ? accentColor.withValues(alpha: 0.25) : const Color(0xFFE2E8F0),
+          color: isDark ? accentColor.withValues(alpha: 0.25) : AppColors.lightBorder,
           width: 1,
         ),
         boxShadow: AppColors.cardShadow,
@@ -1579,7 +1612,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
                     color: badgeColor.withValues(alpha: isDark ? 0.2 : 0.12),
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: badgeColor.withValues(alpha: isDark ? 0.4 : 0.3),
                       width: 0.8,
@@ -1589,7 +1622,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     badge,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 8,
                       fontWeight: FontWeight.w900,
                       color: badgeColor,
@@ -1604,7 +1637,7 @@ class _SplashScreenState extends State<SplashScreen> {
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 14,
               fontWeight: FontWeight.w900,
               color: AppColors.textPrimary,
@@ -1615,7 +1648,7 @@ class _SplashScreenState extends State<SplashScreen> {
             subtitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 10,
               fontWeight: FontWeight.w600,
               color: AppColors.textSecondary,
@@ -1631,7 +1664,7 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: color.withValues(alpha: isDark ? 0.3 : 0.4),
           width: 1,
@@ -1641,7 +1674,7 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Center(
         child: Text(
           label,
-          style: GoogleFonts.plusJakartaSans(
+          style: AppTypography.ui(
             fontSize: 11,
             fontWeight: FontWeight.w800,
             color: color,
@@ -1659,7 +1692,7 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         gradient: AppColors.cardGradient,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(28),
         border: AppColors.cardBorder,
         boxShadow: AppColors.cardShadow,
       ),
@@ -1671,7 +1704,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Text(
                 'Venue map',
-                style: GoogleFonts.plusJakartaSans(
+                style: AppTypography.ui(
                   fontSize: 14,
                   fontWeight: FontWeight.w900,
                   color: AppColors.textPrimary,
@@ -1710,7 +1743,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Center(
             child: Text(
               '3 Damansara · 6 free of 10 tables',
-              style: GoogleFonts.plusJakartaSans(
+              style: AppTypography.ui(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
                 color: AppColors.textSecondary,
@@ -1730,11 +1763,11 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         gradient: AppColors.cardGradient,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(28),
         border: Border.all(
           color: isDark
-              ? const Color(0xFF10B981).withValues(alpha: 0.25)
-              : const Color(0xFFE2E8F0),
+              ? AppColors.voltLime.withValues(alpha: 0.25)
+              : AppColors.lightBorder,
           width: 1,
         ),
         boxShadow: AppColors.cardShadow,
@@ -1747,7 +1780,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Text(
                 'Walk-in',
-                style: GoogleFonts.plusJakartaSans(
+                style: AppTypography.ui(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: AppColors.textSecondary,
@@ -1755,7 +1788,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               Text(
                 'RM17',
-                style: GoogleFonts.plusJakartaSans(
+                style: AppTypography.ui(
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
                   color: AppColors.textPrimary,
@@ -1770,16 +1803,16 @@ class _SplashScreenState extends State<SplashScreen> {
               Expanded(
                 child: Text(
                   'Member · 90 sen',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 13,
                     fontWeight: FontWeight.w800,
-                    color: isDark ? const Color(0xFF10B981) : const Color(0xFF059669),
+                    color: isDark ? AppColors.voltLime : AppColors.btnGreenBorder,
                   ),
                 ),
               ),
               Text(
                 'a day · RM90/mo',
-                style: GoogleFonts.plusJakartaSans(
+                style: AppTypography.ui(
                   fontSize: 11,
                   color: AppColors.textSecondary,
                 ),
@@ -1792,23 +1825,23 @@ class _SplashScreenState extends State<SplashScreen> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             decoration: BoxDecoration(
               color: isDark
-                  ? const Color(0xFF10B981).withValues(alpha: 0.12)
-                  : const Color(0xFFECFDF5),
+                  ? AppColors.voltLime.withValues(alpha: 0.12)
+                  : AppColors.lightCanvasBg,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: isDark
-                    ? const Color(0xFF10B981).withValues(alpha: 0.25)
-                    : const Color(0xFFA7F3D0),
+                    ? AppColors.voltLime.withValues(alpha: 0.25)
+                    : AppColors.slate300,
                 width: 1,
               ),
             ),
             child: Center(
               child: Text(
                 '🔥 Member saves RM16.10 a visit',
-                style: GoogleFonts.plusJakartaSans(
+                style: AppTypography.ui(
                   fontSize: 12,
                   fontWeight: FontWeight.w900,
-                  color: isDark ? const Color(0xFF10B981) : const Color(0xFF059669),
+                  color: isDark ? AppColors.voltLime : AppColors.btnGreenBorder,
                 ),
               ),
             ),
@@ -1844,7 +1877,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             BoxShadow(
                               color: isDark
                                   ? Colors.black.withValues(alpha: 0.3)
-                                  : const Color(0xFF0F172A).withValues(alpha: 0.08),
+                                  : AppColors.slate900.withValues(alpha: 0.08),
                               blurRadius: 4,
                               offset: const Offset(0, 1),
                             ),
@@ -1864,7 +1897,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         'JOMNITTAKU',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 15,
                           fontWeight: FontWeight.w900,
                           color: AppColors.textPrimary,
@@ -1879,7 +1912,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                       color: AppColors.obsidianCard,
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: AppColors.border),
                     ),
                     child: Row(
@@ -1905,20 +1938,20 @@ class _SplashScreenState extends State<SplashScreen> {
                   decoration: BoxDecoration(
                     gradient: isDark
                         ? const LinearGradient(
-                            colors: [Color(0xFF162544), Color(0xFF0F1A2E)],
+                            colors: [AppColors.darkObsidianCard, AppColors.darkObsidianElevated],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           )
                         : const LinearGradient(
-                            colors: [Colors.white, Color(0xFFF1F5F9)],
+                            colors: [Colors.white, AppColors.lightCanvasBg],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: isDark
-                          ? const Color(0xFF38BDF8).withValues(alpha: 0.4)
-                          : const Color(0xFFBAE6FD),
+                          ? AppColors.ittfTableBorder.withValues(alpha: 0.4)
+                          : AppColors.slate300,
                       width: 1.2,
                     ),
                     boxShadow: AppColors.cardShadow,
@@ -1934,7 +1967,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             BoxShadow(
                               color: isDark
                                   ? Colors.black.withValues(alpha: 0.3)
-                                  : const Color(0xFF0F172A).withValues(alpha: 0.08),
+                                  : AppColors.slate900.withValues(alpha: 0.08),
                               blurRadius: 4,
                               offset: const Offset(0, 1),
                             ),
@@ -1958,7 +1991,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               children: [
                                 Text(
                                   'JOM AI',
-                                  style: GoogleFonts.plusJakartaSans(
+                                  style: AppTypography.ui(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w900,
                                     color: AppColors.textPrimary,
@@ -1969,16 +2002,16 @@ class _SplashScreenState extends State<SplashScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                                   decoration: BoxDecoration(
                                     color: isDark
-                                        ? const Color(0xFF38BDF8).withValues(alpha: 0.25)
-                                        : const Color(0xFFEFF6FF),
-                                    borderRadius: BorderRadius.circular(6),
+                                        ? AppColors.ittfTableBorder.withValues(alpha: 0.25)
+                                        : AppColors.lightCanvasBg,
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Text(
                                     'UMPIRE BETA',
-                                    style: GoogleFonts.plusJakartaSans(
+                                    style: AppTypography.ui(
                                       fontSize: 8,
                                       fontWeight: FontWeight.w900,
-                                      color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                                      color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                                     ),
                                   ),
                                 ),
@@ -1986,7 +2019,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                             Text(
                               'Virtual Venue Concierge & Umpire',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 10,
                                 color: AppColors.textSecondary,
                               ),
@@ -1996,7 +2029,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       ),
                       Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: isDark ? Colors.white38 : const Color(0xFF94A3B8),
+                        color: isDark ? Colors.white38 : AppColors.slate400,
                         size: 12,
                       ),
                     ],
@@ -2061,7 +2094,7 @@ class _SplashScreenState extends State<SplashScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 'Version 2.4.0 · JOMNITTAKU 3 Damansara',
-                style: GoogleFonts.plusJakartaSans(
+                style: AppTypography.ui(
                   fontSize: 10,
                   color: AppColors.textSecondary,
                 ),
@@ -2080,12 +2113,12 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF10B981) : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
+          color: isSelected ? AppColors.voltLime : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           lang,
-          style: GoogleFonts.plusJakartaSans(
+          style: AppTypography.ui(
             fontSize: 9,
             fontWeight: FontWeight.w800,
             color: isSelected ? Colors.white : AppColors.textSecondary,
@@ -2101,15 +2134,15 @@ class _SplashScreenState extends State<SplashScreen> {
       contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       leading: Icon(
         icon,
-        color: isDestructive ? const Color(0xFFEF4444) : const Color(0xFF38BDF8),
+        color: isDestructive ? AppColors.electricCrimson : AppColors.ittfTableBorder,
         size: 20,
       ),
       title: Text(
         title,
-        style: GoogleFonts.plusJakartaSans(
+        style: AppTypography.ui(
           fontSize: 13,
           fontWeight: FontWeight.w700,
-          color: isDestructive ? const Color(0xFFEF4444) : AppColors.textPrimary,
+          color: isDestructive ? AppColors.electricCrimson : AppColors.textPrimary,
         ),
       ),
       trailing: Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppColors.textSecondary),
@@ -2142,7 +2175,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       BoxShadow(
                         color: isDark
                             ? Colors.black.withValues(alpha: 0.3)
-                            : const Color(0xFF0F172A).withValues(alpha: 0.08),
+                            : AppColors.slate900.withValues(alpha: 0.08),
                         blurRadius: 4,
                         offset: const Offset(0, 1),
                       ),
@@ -2166,7 +2199,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         children: [
                           Text(
                             'JOM AI',
-                            style: GoogleFonts.plusJakartaSans(
+                            style: AppTypography.ui(
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
                               color: AppColors.textPrimary,
@@ -2177,16 +2210,16 @@ class _SplashScreenState extends State<SplashScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
                               color: isDark
-                                  ? const Color(0xFF38BDF8).withValues(alpha: 0.2)
-                                  : const Color(0xFFEFF6FF),
-                              borderRadius: BorderRadius.circular(6),
+                                  ? AppColors.ittfTableBorder.withValues(alpha: 0.2)
+                                  : AppColors.lightCanvasBg,
+                              borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               'UMPIRE BETA',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 8,
                                 fontWeight: FontWeight.w800,
-                                color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                                color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
                               ),
                             ),
                           ),
@@ -2194,7 +2227,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       ),
                       Text(
                         'Virtual Venue Umpire & Concierge',
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 12,
                           color: AppColors.textSecondary,
                         ),
@@ -2228,7 +2261,7 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7)),
+          Icon(icon, size: 18, color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -2236,7 +2269,7 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
                     color: AppColors.textPrimary,
@@ -2244,7 +2277,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
                 Text(
                   desc,
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 11,
                     color: AppColors.textSecondary,
                   ),
@@ -2262,18 +2295,18 @@ class _SplashScreenState extends State<SplashScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: isSelected
-            ? const Color(0xFF10B981)
-            : (isDark ? AppColors.obsidianCard : const Color(0xFFF1F5F9)),
+            ? AppColors.voltLime
+            : (isDark ? AppColors.obsidianCard : AppColors.lightCanvasBg),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isSelected
-              ? const Color(0xFF10B981)
-              : (isDark ? Colors.white.withValues(alpha: 0.1) : const Color(0xFFE2E8F0)),
+              ? AppColors.voltLime
+              : (isDark ? Colors.white.withValues(alpha: 0.1) : AppColors.lightBorder),
         ),
       ),
       child: Text(
         label,
-        style: GoogleFonts.plusJakartaSans(
+        style: AppTypography.ui(
           fontSize: 10,
           fontWeight: FontWeight.w700,
           color: isSelected ? Colors.white : AppColors.textSecondary,
@@ -2289,8 +2322,8 @@ class _SplashScreenState extends State<SplashScreen> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isDark
-              ? [const Color(0xFF1D4ED8), const Color(0xFF1E3A8A)]
-              : [const Color(0xFF2563EB), const Color(0xFF1D4ED8)],
+              ? [AppColors.ittfTableBlue, AppColors.ittfTableBlue]
+              : [AppColors.ittfTableSurface, AppColors.ittfTableBlue],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -2303,7 +2336,7 @@ class _SplashScreenState extends State<SplashScreen> {
           BoxShadow(
             color: isDark
                 ? Colors.black.withValues(alpha: 0.25)
-                : const Color(0xFF1E40AF).withValues(alpha: 0.15),
+                : AppColors.ittfTableBlue.withValues(alpha: 0.15),
             blurRadius: 4,
           ),
         ],
@@ -2319,7 +2352,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: 7,
                 height: 7,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFDC2626), // Red paddle
+                  color: AppColors.paddleRed, // Red paddle
                   shape: BoxShape.circle,
                 ),
               ),

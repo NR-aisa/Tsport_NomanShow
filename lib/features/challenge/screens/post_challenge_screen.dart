@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../data/mock/mock_data.dart';
+import '../../../core/theme/app_typography.dart';
 
 class PostChallengeScreen extends StatefulWidget {
   final VoidCallback? onChallengePosted;
@@ -46,8 +47,8 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('YOUR WALLET BALANCE', style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textMuted)),
-                  Text('${user.xp} XP', style: GoogleFonts.jetBrainsMono(fontSize: 14, fontWeight: FontWeight.w800, color: AppColors.xpGold)),
+                  Text('YOUR WALLET BALANCE', style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.textMuted)),
+                  Text('${user.xp} XP', style: AppTypography.mono(fontSize: 14, fontWeight: FontWeight.w800, color: AppColors.xpGold)),
                 ],
               ),
             ),
@@ -56,7 +57,7 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
             // Select Bet Tier
             Text(
               'SELECT XP STAKE TIER',
-              style: GoogleFonts.inter(
+              style: AppTypography.ui(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textMuted,
@@ -90,7 +91,7 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
             // Challenge message
             Text(
               'CHALLENGE SHOUTOUT MESSAGE (OPTIONAL)',
-              style: GoogleFonts.inter(
+              style: AppTypography.ui(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textMuted,
@@ -101,13 +102,13 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
             TextField(
               controller: _messageController,
               maxLines: 2,
-              style: GoogleFonts.inter(color: AppColors.textPrimary, fontSize: 13),
+              style: AppTypography.ui(color: AppColors.textPrimary, fontSize: 13),
               decoration: InputDecoration(
                 hintText: 'e.g. Pro players only!',
                 filled: true,
                 fillColor: AppColors.surface,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(16),
                   borderSide: BorderSide(color: AppColors.border),
                 ),
               ),
@@ -117,7 +118,7 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
             // Your Broadcast Card Preview
             Text(
               'TV & MOBILE BROADCAST PREVIEW',
-              style: GoogleFonts.inter(
+              style: AppTypography.ui(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textMuted,
@@ -129,7 +130,7 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: AppColors.surface,
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: _selectedStake == 500 ? AppColors.challengeRed : AppColors.primary,
                   width: 1.5,
@@ -161,11 +162,11 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
                       children: [
                         Text(
                           '${user.name} (Rank #${user.rank})',
-                          style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                          style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
                         ),
                         Text(
                           'Seeking 1v1 on Table 02 • Bet: $_selectedStake XP',
-                          style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+                          style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary),
                         ),
                       ],
                     ),
@@ -179,7 +180,7 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
                     ),
                     child: Text(
                       '⚡ $_selectedStake XP',
-                      style: GoogleFonts.jetBrainsMono(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.xpGold),
+                      style: AppTypography.mono(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.xpGold),
                     ),
                   ),
                 ],
@@ -206,7 +207,7 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
                       'BROADCAST CHALLENGE ($_selectedStake XP)',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w800),
+                      style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w800),
                     ),
                   ),
                 ],
@@ -216,7 +217,7 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
             Center(
               child: Text(
                 'Uses Broadcasting Design Pattern to notify all venue TV screens instantly',
-                style: GoogleFonts.inter(fontSize: 11, color: AppColors.textMuted),
+                style: AppTypography.ui(fontSize: 11, color: AppColors.textMuted),
               ),
             ),
           ],
@@ -240,7 +241,7 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.surface2 : AppColors.surface,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected ? color : AppColors.border,
             width: isSelected ? 2 : 1,
@@ -259,7 +260,7 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
           children: [
             Text(
               '$stake XP',
-              style: GoogleFonts.jetBrainsMono(
+              style: AppTypography.mono(
                 fontSize: 26,
                 fontWeight: FontWeight.w800,
                 color: isSelected ? color : AppColors.textPrimary,
@@ -276,7 +277,7 @@ class _PostChallengeScreenState extends State<PostChallengeScreen> {
             ),
             Text(
               subtitle,
-              style: GoogleFonts.inter(fontSize: 10, color: AppColors.textMuted),
+              style: AppTypography.ui(fontSize: 10, color: AppColors.textMuted),
             ),
           ],
         ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme_controller.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
+import '../../../core/theme/app_typography.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   final VoidCallback? onChallengeTap;
@@ -56,7 +56,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                             'Leaderboard',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.plusJakartaSans(
+                            style: AppTypography.ui(
                               fontSize: 22,
                               fontWeight: FontWeight.w900,
                               color: AppColors.textPrimary,
@@ -72,16 +72,16 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF10B981).withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.3)),
+                        color: AppColors.voltLime.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppColors.voltLime.withValues(alpha: 0.3)),
                       ),
                       child: Text(
                         '2 MATCHES LIVE',
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
-                          color: const Color(0xFF34D399),
+                          color: AppColors.voltLime,
                         ),
                       ),
                     ),
@@ -97,7 +97,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: AppColors.obsidianCard,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(28),
                   border: Border.all(color: AppColors.obsidianBorder),
                 ),
                 child: Row(
@@ -109,12 +109,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _tabIndex == 0 ? AppColors.ittfTableSurface : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
                             child: Text(
                               'This week',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
                                 color: _tabIndex == 0 ? Colors.white : AppColors.textSecondary,
@@ -131,12 +131,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _tabIndex == 1 ? AppColors.ittfTableSurface : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
                             child: Text(
                               'All time',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
                                 color: _tabIndex == 1 ? Colors.white : AppColors.textSecondary,
@@ -162,7 +162,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(28),
                         border: Border.all(color: AppColors.obsidianBorder),
                         boxShadow: [
                           BoxShadow(
@@ -191,12 +191,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
                               color: AppColors.surfaceDark,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(16),
                             ),
                             child: Center(
                               child: Text(
                                 'Your position: #4',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w800,
                                   color: Colors.white,
@@ -237,6 +237,28 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       form: 'Steady',
                       onChallenge: widget.onChallengeTap ?? () => AppNavigator.toChallengeBoard(context),
                     ),
+                    const SizedBox(height: 12),
+
+                    // Player Card: #4 — the user themselves. Arena DS rule:
+                    // your own row is always in the list, highlighted.
+                    _buildPlayerCard(
+                      name: 'You',
+                      points: '1,240',
+                      rank: '#4',
+                      form: 'Rising',
+                      isYou: true,
+                      onChallenge: null,
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Player Card: #5 Rajan K.
+                    _buildPlayerCard(
+                      name: 'Rajan K.',
+                      points: '1,180',
+                      rank: '#5',
+                      form: 'Steady',
+                      onChallenge: widget.onChallengeTap ?? () => AppNavigator.toChallengeBoard(context),
+                    ),
                     const SizedBox(height: 16),
 
                     // 3D Tactile CTA Button
@@ -266,13 +288,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     required String rank,
     required String form,
     VoidCallback? onChallenge,
+    bool isYou = false,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.obsidianBorder),
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: isYou ? AppColors.voltLime : AppColors.obsidianBorder, width: isYou ? 1.6 : 1.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: AppColors.isDark ? 0.25 : 0.04),
@@ -293,13 +316,13 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   shape: BoxShape.circle,
                   border: Border.all(color: AppColors.obsidianBorder),
                 ),
-                child: const Icon(Icons.sports_tennis, size: 20, color: Color(0xFF60A5FA)),
+                child: const Icon(Icons.sports_tennis, size: 20, color: AppColors.ittfTableBorder),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   name,
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
                     color: AppColors.textPrimary,
@@ -310,11 +333,11 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.obsidianBorder),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
                   'Details →',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 10,
                     fontWeight: FontWeight.w800,
                     color: AppColors.textSecondary,
@@ -339,14 +362,34 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Lock',
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textSecondary,
+              Flexible(
+                child: Text(
+                  'Stake · 200 XP pot',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.ui(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ),
+              const SizedBox(width: 8),
+              if (isYou)
+                Flexible(
+                  child: Text(
+                    'Your row — always visible',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.right,
+                  style: AppTypography.ui(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.voltLime,
+                  ),
+                ),
+              )
+              else
               GestureDetector(
                 onTap: onChallenge,
                 child: Container(
@@ -357,7 +400,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   ),
                   child: Text(
                     'Challenge →',
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
@@ -389,8 +432,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             child: Icon(icon, size: 12, color: AppColors.textPrimary),
           ),
           const SizedBox(height: 6),
-          Text(label, style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textSecondary)),
-          Text(value, style: GoogleFonts.plusJakartaSans(fontSize: 16, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
+          Text(label, style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary)),
+          Text(value, style: AppTypography.ui(fontSize: 16, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
         ],
       ),
     );
@@ -399,12 +442,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   Widget _buildPlayerStatPill(String label, String value, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(14)),
+      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(16)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: GoogleFonts.plusJakartaSans(fontSize: 9, color: AppColors.textSecondary)),
-          Text(value, style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
+          Text(label, style: AppTypography.ui(fontSize: 9, color: AppColors.textSecondary)),
+          Text(value, style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
         ],
       ),
     );

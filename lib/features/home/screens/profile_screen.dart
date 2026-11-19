@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/navigation/app_navigator.dart';
+import '../../../core/session/app_session.dart';
+import '../../../core/theme/app_theme_controller.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
+import '../../../core/theme/app_typography.dart';
 
 class ProfileScreen extends StatefulWidget {
   final VoidCallback? onPurchaseXpTap;
@@ -46,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Text(
                     'Profile',
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 22,
                       fontWeight: FontWeight.w900,
                       color: AppColors.textPrimary,
@@ -100,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   shape: BoxShape.circle,
                                   border: Border.all(color: AppColors.obsidianBorder),
                                 ),
-                                child: const Icon(Icons.sports_tennis, size: 28, color: Color(0xFF60A5FA)),
+                                child: const Icon(Icons.sports_tennis, size: 28, color: AppColors.ittfTableBorder),
                               ),
                               const SizedBox(width: 14),
                               Expanded(
@@ -109,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   children: [
                                     Text(
                                       'Aiman Rahman',
-                                      style: GoogleFonts.plusJakartaSans(
+                                      style: AppTypography.ui(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w900,
                                         color: AppColors.textPrimary,
@@ -117,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                     Text(
                                       'aiman@email.com · +60 12-345 6789',
-                                      style: GoogleFonts.plusJakartaSans(
+                                      style: AppTypography.ui(
                                         fontSize: 11,
                                         color: AppColors.textSecondary,
                                       ),
@@ -133,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 child: Text(
                                   'Details →',
-                                  style: GoogleFonts.plusJakartaSans(
+                                  style: AppTypography.ui(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w800,
                                     color: AppColors.textSecondary,
@@ -149,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text(
                                   'YOUR POINTS',
-                                  style: GoogleFonts.plusJakartaSans(
+                                  style: AppTypography.ui(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w800,
                                     color: AppColors.textMuted,
@@ -164,7 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   children: [
                                     Text(
                                       '1,240',
-                                      style: GoogleFonts.plusJakartaSans(
+                                      style: AppTypography.ui(
                                         fontSize: 44,
                                         fontWeight: FontWeight.w900,
                                         color: AppColors.textPrimary,
@@ -174,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     const SizedBox(width: 6),
                                     Text(
                                       'XP',
-                                      style: GoogleFonts.plusJakartaSans(
+                                      style: AppTypography.ui(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w900,
                                         color: AppColors.radiantGold,
@@ -184,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Text(
                                   '360 XP to LVL 13',
-                                  style: GoogleFonts.plusJakartaSans(
+                                  style: AppTypography.ui(
                                     fontSize: 11,
                                     color: AppColors.textSecondary,
                                   ),
@@ -195,11 +197,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const SizedBox(height: 10),
 
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(8),
                             child: LinearProgressIndicator(
                               value: 1240 / 1600,
                               minHeight: 6,
-                              backgroundColor: AppColors.isDark ? const Color(0xFF1E2D4A) : const Color(0xFFE2E8F0),
+                              backgroundColor: AppColors.isDark ? AppColors.darkObsidianCardLight : AppColors.lightBorder,
                               valueColor: const AlwaysStoppedAnimation(AppColors.ittfTableSurface),
                             ),
                           ),
@@ -231,20 +233,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: AppColors.obsidianBorder),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Today\'s quest', style: GoogleFonts.plusJakartaSans(fontSize: 12, color: AppColors.textSecondary)),
+                          Text('Today\'s quest', style: AppTypography.ui(fontSize: 12, color: AppColors.textSecondary)),
                           const SizedBox(width: 8),
                           Flexible(
                             child: Text(
                               'Win 1 challenge → +200 XP',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.voltLime,
@@ -261,13 +263,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: AppColors.obsidianBorder),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Member card', style: GoogleFonts.plusJakartaSans(fontSize: 12, color: AppColors.textSecondary)),
+                          Text('Member card', style: AppTypography.ui(fontSize: 12, color: AppColors.textSecondary)),
                           const SizedBox(width: 8),
                           Flexible(
                             child: Column(
@@ -275,7 +277,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text(
                                   'RM90 / MO',
-                                  style: GoogleFonts.plusJakartaSans(
+                                  style: AppTypography.ui(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w900,
                                     color: AppColors.textPrimary,
@@ -285,7 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   'Valid to 1 Dec · 90 sen / day',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textMuted),
+                                  style: AppTypography.ui(fontSize: 10, color: AppColors.textMuted),
                                 ),
                               ],
                             ),
@@ -297,7 +299,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                     Text(
                       'Everyone starts at 1,500 XP. Win = up, lose = down.',
-                      style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppColors.textSecondary),
+                      style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary),
                     ),
                     const SizedBox(height: 16),
 
@@ -306,7 +308,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: AppColors.obsidianBorder),
                       ),
                       child: Row(
@@ -322,7 +324,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 'Show me on the leaderboard — photo + name on mobile & TV. Untick = Anonymous.',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.textPrimary,
@@ -341,6 +343,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: 'Top Up XP Balance →',
                       onPressed: widget.onPurchaseXpTap ?? () => AppNavigator.toXpStore(context),
                     ),
+                    const SizedBox(height: 18),
+
+                    // Preferences (Phase 5 — profile is an account surface,
+                    // not a dead end: settings rows + sign-out live here.)
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'PREFERENCES',
+                        style: AppTypography.ui(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.textSecondary,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.obsidianCard,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppColors.obsidianBorder),
+                      ),
+                      child: Column(
+                        children: [
+                          _prefRow(
+                            icon: Icons.dark_mode_rounded,
+                            title: 'Dark theme',
+                            subtitle: 'Midnight Stadium look',
+                            trailing: Switch(
+                              value: AppColors.isDark,
+                              activeThumbColor: AppColors.voltLime,
+                              onChanged: (_) => setState(() => AppThemeController.toggleTheme()),
+                            ),
+                          ),
+                          Divider(height: 1, color: AppColors.obsidianBorder),
+                          _prefRow(
+                            icon: Icons.card_membership_rounded,
+                            title: 'Membership',
+                            subtitle: 'Member pass · Renews 1 Dec · 6 of 10 tables free tonight',
+                            trailing: Text(
+                              'RM90/mo',
+                              style: AppTypography.ui(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ),
+                          Divider(height: 1, color: AppColors.obsidianBorder),
+                          _prefRow(
+                            icon: Icons.badge_rounded,
+                            title: 'Signed in as',
+                            subtitle: AppSession.isGuest
+                                ? 'Guest walk-in · RM17 at the door'
+                                : 'Registered member · ${AppSession.displayName}',
+                            trailing: const SizedBox(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Sign out — returns to the Entry Gate.
+                    GestureDetector(
+                      onTap: () {
+                        AppSession.signOut();
+                        AppNavigator.toEntry(context);
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
+                          color: AppColors.obsidianCard,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: AppColors.electricCrimson.withValues(alpha: 0.5),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Sign Out',
+                            style: AppTypography.ui(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.electricCrimson,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 10),
                   ],
                 ),
@@ -351,6 +444,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const JomnittakuNavBar(activeIndex: 4),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _prefRow({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Widget trailing,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      child: Row(
+        children: [
+          Icon(icon, size: 20, color: AppColors.textSecondary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: AppTypography.ui(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary),
+                ),
+              ],
+            ),
+          ),
+          trailing,
+        ],
       ),
     );
   }
@@ -375,10 +505,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Icon(icon, size: 14, color: AppColors.textPrimary),
           ),
           const SizedBox(height: 8),
-          Text(label, style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textSecondary)),
+          Text(label, style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary)),
           Text(
             value,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 14,
               fontWeight: FontWeight.w900,
               color: AppColors.textPrimary,

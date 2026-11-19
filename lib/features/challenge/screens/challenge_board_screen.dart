@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
 import 'seek_player_screen.dart';
+import '../../../core/theme/app_typography.dart';
 
 class ChallengeBoardScreen extends StatefulWidget {
   final VoidCallback? onPostChallengeTap;
@@ -54,7 +54,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                   ),
                   Text(
                     'Challenge',
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 22,
                       fontWeight: FontWeight.w900,
                       color: AppColors.textPrimary,
@@ -63,20 +63,20 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFA855F7).withValues(alpha: 0.2),
+                      color: AppColors.amethystPurple.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFFA855F7).withValues(alpha: 0.4)),
+                      border: Border.all(color: AppColors.amethystPurple.withValues(alpha: 0.4)),
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.flash_on_rounded, size: 13, color: Color(0xFFC084FC)),
+                        const Icon(Icons.flash_on_rounded, size: 13, color: AppColors.amethystPurple),
                         const SizedBox(width: 4),
                         Text(
                           '1,240 XP',
-                          style: GoogleFonts.plusJakartaSans(
+                          style: AppTypography.ui(
                             fontSize: 10,
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFFC084FC),
+                            color: AppColors.amethystPurple,
                           ),
                         ),
                       ],
@@ -93,7 +93,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: AppColors.obsidianCard,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(28),
                   border: Border.all(color: AppColors.obsidianBorder),
                 ),
                 child: Row(
@@ -105,12 +105,12 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _activeTab == 0 ? AppColors.ittfTableSurface : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
                             child: Text(
                               'Challenge',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
                                 color: _activeTab == 0 ? Colors.white : AppColors.textSecondary,
@@ -127,12 +127,12 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _activeTab == 1 ? AppColors.ittfTableSurface : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
                             child: Text(
                               'Rivals',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
                                 color: _activeTab == 1 ? Colors.white : AppColors.textSecondary,
@@ -162,7 +162,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: AppColors.pastelPurple,
-                              borderRadius: BorderRadius.circular(22),
+                              borderRadius: BorderRadius.circular(28),
                               border: Border.all(color: AppColors.obsidianBorder),
                             ),
                             child: Column(
@@ -178,8 +178,8 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                                   child: Icon(Icons.circle, size: 10, color: AppColors.textPrimary),
                                 ),
                                 const SizedBox(height: 12),
-                                Text('You', style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textSecondary)),
-                                Text('1,240 XP', style: GoogleFonts.plusJakartaSans(fontSize: 15, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
+                                Text('You', style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary)),
+                                Text('1,240 XP', style: AppTypography.ui(fontSize: 15, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
                               ],
                             ),
                           ),
@@ -195,7 +195,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                           child: Center(
                             child: Text(
                               'VS',
-                              style: GoogleFonts.plusJakartaSans(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white),
+                              style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white),
                             ),
                           ),
                         ),
@@ -204,7 +204,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: AppColors.pastelPink,
-                              borderRadius: BorderRadius.circular(22),
+                              borderRadius: BorderRadius.circular(28),
                               border: Border.all(color: AppColors.obsidianBorder),
                             ),
                             child: Column(
@@ -220,12 +220,12 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                                   child: Icon(Icons.crop_square_rounded, size: 10, color: AppColors.textPrimary),
                                 ),
                                 const SizedBox(height: 12),
-                                Text('Your rival', style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textSecondary)),
+                                Text('Your rival', style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary)),
                                 Text(
                                   _selectedRival,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.plusJakartaSans(fontSize: 15, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
+                                  style: AppTypography.ui(fontSize: 15, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
                                 ),
                               ],
                             ),
@@ -246,7 +246,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                     // Bet Tier / Pick Your Risk
                     Text(
                       'YOUR BET — PICK YOUR RISK',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: AppTypography.ui(
                         fontSize: 10,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textSecondary,
@@ -273,16 +273,16 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             decoration: BoxDecoration(
                               color: AppColors.obsidianCard,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(16),
                               border: Border.all(color: AppColors.obsidianBorder),
                             ),
                             child: Column(
                               children: [
-                                Text('WIN', style: GoogleFonts.plusJakartaSans(fontSize: 9, fontWeight: FontWeight.w800, color: AppColors.textSecondary)),
+                                Text('WIN', style: AppTypography.ui(fontSize: 9, fontWeight: FontWeight.w800, color: AppColors.textSecondary)),
                                 const SizedBox(height: 2),
                                 Text(
                                   '+$_selectedRisk XP',
-                                  style: GoogleFonts.plusJakartaSans(
+                                  style: AppTypography.ui(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w900,
                                     color: AppColors.voltLime,
@@ -298,16 +298,16 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             decoration: BoxDecoration(
                               color: AppColors.obsidianCard,
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(16),
                               border: Border.all(color: AppColors.obsidianBorder),
                             ),
                             child: Column(
                               children: [
-                                Text('LOSE', style: GoogleFonts.plusJakartaSans(fontSize: 9, fontWeight: FontWeight.w800, color: AppColors.textSecondary)),
+                                Text('LOSE', style: AppTypography.ui(fontSize: 9, fontWeight: FontWeight.w800, color: AppColors.textSecondary)),
                                 const SizedBox(height: 2),
                                 Text(
                                   '-$_selectedRisk XP',
-                                  style: GoogleFonts.plusJakartaSans(
+                                  style: AppTypography.ui(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w900,
                                     color: AppColors.electricCrimson,
@@ -364,7 +364,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
         child: Center(
           child: Text(
             label,
-            style: GoogleFonts.plusJakartaSans(
+            style: AppTypography.ui(
               fontSize: 11,
               fontWeight: FontWeight.w800,
               color: isSelected ? Colors.white : AppColors.textSecondary,
@@ -383,9 +383,9 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? (AppColors.isDark ? const Color(0xFF1E2E4E) : const Color(0xFFE0E7FF))
+              ? (AppColors.isDark ? AppColors.darkObsidianCardLight : AppColors.lightBorder)
               : AppColors.obsidianCard,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected ? AppColors.ittfTableSurface : AppColors.obsidianBorder,
             width: isSelected ? 1.5 : 1,
@@ -404,7 +404,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
               child: Center(
                 child: Text(
                   '#$rank',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
                     color: AppColors.textPrimary,
@@ -419,7 +419,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                 children: [
                   Text(
                     name,
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
                       color: AppColors.textPrimary,
@@ -427,7 +427,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                   ),
                   Text(
                     subtitle,
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 11,
                       color: AppColors.textSecondary,
                     ),
@@ -437,7 +437,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
             ),
             Text(
               '$points XP',
-              style: GoogleFonts.plusJakartaSans(
+              style: AppTypography.ui(
                 fontSize: 13,
                 fontWeight: FontWeight.w900,
                 color: AppColors.radiantGold,

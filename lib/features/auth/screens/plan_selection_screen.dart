@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
+import '../../../core/theme/app_typography.dart';
 
 class PlanSelectionScreen extends StatefulWidget {
   final VoidCallback? onPlanSelected;
 
-  const PlanSelectionScreen({super.key, this.onPlanSelected});
+  /// Guests arriving from the entry gate land on the Guest tab directly.
+  final bool initialGuest;
+
+  const PlanSelectionScreen({super.key, this.onPlanSelected, this.initialGuest = false});
 
   @override
   State<PlanSelectionScreen> createState() => _PlanSelectionScreenState();
 }
 
 class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
-  int _activeTab = 0; // 0 = Member, 1 = Guest
+  late int _activeTab = widget.initialGuest ? 1 : 0; // 0 = Member, 1 = Guest
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(28),
                         border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
                       ),
                       child: Row(
@@ -61,12 +64,12 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                 padding: const EdgeInsets.symmetric(vertical: 10),
                                 decoration: BoxDecoration(
                                   color: _activeTab == 0 ? AppColors.ittfTableBlue : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: Center(
                                   child: Text(
                                     'Member',
-                                    style: GoogleFonts.plusJakartaSans(
+                                    style: AppTypography.ui(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w800,
                                       color: _activeTab == 0 ? Colors.white : Colors.white60,
@@ -83,12 +86,12 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                 padding: const EdgeInsets.symmetric(vertical: 10),
                                 decoration: BoxDecoration(
                                   color: _activeTab == 1 ? AppColors.ittfTableBlue : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: Center(
                                   child: Text(
                                     'Guest',
-                                    style: GoogleFonts.plusJakartaSans(
+                                    style: AppTypography.ui(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w800,
                                       color: _activeTab == 1 ? Colors.white : Colors.white60,
@@ -122,13 +125,13 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Color(0xFF162544), Color(0xFF0F1A2E)],
+                              colors: [AppColors.darkObsidianCard, AppColors.darkObsidianElevated],
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                             ),
                             borderRadius: BorderRadius.circular(28),
                             border: Border.all(
-                              color: const Color(0xFF60A5FA).withValues(alpha: 0.35),
+                              color: AppColors.ittfTableBorder.withValues(alpha: 0.35),
                               width: 1.2,
                             ),
                             boxShadow: [
@@ -143,17 +146,17 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                             children: [
                               Text(
                                 "TODAY'S SIGN-IN",
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w800,
-                                  color: const Color(0xFF60A5FA),
+                                  color: AppColors.ittfTableBorder,
                                   letterSpacing: 1.2,
                                 ),
                               ),
                               const SizedBox(height: 6),
                               Text(
                                 '90 SEN',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 48,
                                   fontWeight: FontWeight.w900,
                                   color: Colors.white,
@@ -167,15 +170,15 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                               Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF2563EB).withValues(alpha: 0.20),
+                                  color: AppColors.ittfTableSurface.withValues(alpha: 0.20),
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(Icons.toll_rounded, size: 24, color: Color(0xFF60A5FA)),
+                                child: const Icon(Icons.toll_rounded, size: 24, color: AppColors.ittfTableBorder),
                               ),
                               const SizedBox(height: 12),
                               Text(
                                 '0.90 RM for the whole day.',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
@@ -183,9 +186,9 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                               ),
                               Text(
                                 'Walk-ins pay RM17 — you save RM16.10.',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 12,
-                                  color: const Color(0xFF34D399),
+                                  color: AppColors.voltLime,
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -200,8 +203,8 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                             decoration: BoxDecoration(
                               color: AppColors.ittfTableBlue,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: const Color(0xFF60A5FA), width: 1),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: AppColors.ittfTableBorder, width: 1),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withValues(alpha: 0.25),
@@ -212,7 +215,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                             ),
                             child: Text(
                               'RM0.90',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w900,
                                 color: Colors.white,
@@ -262,7 +265,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                       padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(28),
                         border: Border.all(
                           color: Colors.white.withValues(alpha: 0.10),
                           width: 1,
@@ -305,7 +308,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                       children: [
                                         Text(
                                           'Aiman Rahman',
-                                          style: GoogleFonts.plusJakartaSans(
+                                          style: AppTypography.ui(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w800,
                                             color: Colors.white,
@@ -315,12 +318,12 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                         Container(
                                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                           decoration: BoxDecoration(
-                                            color: const Color(0xFFA855F7),
-                                            borderRadius: BorderRadius.circular(10),
+                                            color: AppColors.amethystPurple,
+                                            borderRadius: BorderRadius.circular(12),
                                           ),
                                           child: Text(
                                             'LVL 12',
-                                            style: GoogleFonts.plusJakartaSans(
+                                            style: AppTypography.ui(
                                               fontSize: 9,
                                               fontWeight: FontWeight.w800,
                                               color: Colors.white,
@@ -331,7 +334,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                     ),
                                     Text(
                                       'Member · Renews 1 Dec',
-                                      style: GoogleFonts.plusJakartaSans(
+                                      style: AppTypography.ui(
                                         fontSize: 11,
                                         color: Colors.white60,
                                       ),
@@ -347,18 +350,18 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('1,240 XP', style: GoogleFonts.plusJakartaSans(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white)),
-                              Text('360 XP to LVL 13', style: GoogleFonts.plusJakartaSans(fontSize: 11, color: Colors.white54)),
+                              Text('1,240 XP', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white)),
+                              Text('360 XP to LVL 13', style: AppTypography.ui(fontSize: 11, color: Colors.white54)),
                             ],
                           ),
                           const SizedBox(height: 6),
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(8),
                             child: const LinearProgressIndicator(
                               value: 1240 / 1600,
                               minHeight: 6,
-                              backgroundColor: Color(0xFF1E2E4E),
-                              valueColor: AlwaysStoppedAnimation(Color(0xFF38BDF8)),
+                              backgroundColor: AppColors.darkObsidianCardLight,
+                              valueColor: AlwaysStoppedAnimation(AppColors.ittfTableBorder),
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -367,11 +370,11 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
 
                           Text(
                             'RM90 / month · Paid · 6 of 10 tables free',
-                            style: GoogleFonts.plusJakartaSans(fontSize: 11, color: Colors.white70),
+                            style: AppTypography.ui(fontSize: 11, color: Colors.white70),
                           ),
                           Text(
                             'Today\'s quest: Win 1 challenge → +200 XP',
-                            style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w700, color: const Color(0xFF34D399)),
+                            style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.voltLime),
                           ),
                         ],
                       ),
@@ -423,8 +426,8 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
             child: Icon(icon, size: 12, color: accentColor),
           ),
           const SizedBox(height: 6),
-          Text(label, style: GoogleFonts.plusJakartaSans(fontSize: 9, color: Colors.white60)),
-          Text(value, style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w900, color: Colors.white)),
+          Text(label, style: AppTypography.ui(fontSize: 9, color: Colors.white60)),
+          Text(value, style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w900, color: Colors.white)),
         ],
       ),
     );

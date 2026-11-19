@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_typography.dart';
 
 class TactileButton extends StatefulWidget {
   final String text;
@@ -19,8 +19,8 @@ class TactileButton extends StatefulWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.backgroundColor = const Color(0xFF16233B),
-    this.bottomBorderColor = const Color(0xFF0A1120),
+    this.backgroundColor = AppColors.darkObsidianCard,
+    this.bottomBorderColor = AppColors.darkObsidianBase,
     this.textColor = Colors.white,
     this.height = 54,
     this.width,
@@ -40,8 +40,8 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: const Color(0xFF10B981),
-      bottomBorderColor: const Color(0xFF047857),
+      backgroundColor: AppColors.voltLime,
+      bottomBorderColor: AppColors.btnGreenBorder,
       textColor: Colors.white,
       icon: icon,
       isFullWidth: isFullWidth,
@@ -76,9 +76,9 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: const Color(0xFF00F59B),
-      bottomBorderColor: const Color(0xFF00B36B),
-      textColor: const Color(0xFF080B10),
+      backgroundColor: AppColors.voltLime,
+      bottomBorderColor: AppColors.voltLime,
+      textColor: AppColors.darkObsidianBase,
       icon: icon,
       isFullWidth: isFullWidth,
       height: height,
@@ -95,9 +95,9 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: const Color(0xFF00F2FE),
-      bottomBorderColor: const Color(0xFF00A8B3),
-      textColor: const Color(0xFF080B10),
+      backgroundColor: AppColors.voltLime,
+      bottomBorderColor: AppColors.voltLime,
+      textColor: AppColors.darkObsidianBase,
       icon: icon,
       isFullWidth: isFullWidth,
       height: height,
@@ -114,9 +114,9 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: const Color(0xFF00F2FE),
-      bottomBorderColor: const Color(0xFF00A8B3),
-      textColor: const Color(0xFF080B10),
+      backgroundColor: AppColors.voltLime,
+      bottomBorderColor: AppColors.voltLime,
+      textColor: AppColors.darkObsidianBase,
       icon: icon,
       isFullWidth: isFullWidth,
       height: height,
@@ -133,8 +133,8 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: const Color(0xFFFF2E63),
-      bottomBorderColor: const Color(0xFFC70039),
+      backgroundColor: AppColors.electricCrimson,
+      bottomBorderColor: AppColors.duitNowRed,
       textColor: Colors.white,
       icon: icon,
       isFullWidth: isFullWidth,
@@ -152,8 +152,8 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: const Color(0xFF161E2E),
-      bottomBorderColor: const Color(0xFF0A0F17),
+      backgroundColor: AppColors.darkObsidianElevated,
+      bottomBorderColor: AppColors.darkObsidianBase,
       textColor: Colors.white,
       icon: icon,
       isFullWidth: isFullWidth,
@@ -171,8 +171,8 @@ class TactileButton extends StatefulWidget {
       text: text,
       onPressed: onPressed,
       backgroundColor: Colors.white,
-      bottomBorderColor: const Color(0xFFCBD5E1),
-      textColor: const Color(0xFF0F172A),
+      bottomBorderColor: AppColors.slate300,
+      textColor: AppColors.slate900,
       icon: icon,
       isFullWidth: isFullWidth,
     );
@@ -227,7 +227,7 @@ class _TactileButtonState extends State<TactileButton> {
                 widget.text,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.plusJakartaSans(
+                style: AppTypography.ui(
                   fontSize: widget.fontSize,
                   fontWeight: FontWeight.w900,
                   color: widget.textColor,

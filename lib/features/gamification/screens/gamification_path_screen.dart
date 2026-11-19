@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme_controller.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
+import '../../../core/theme/app_typography.dart';
+import '../../../shared/widgets/arena_widgets.dart';
 
 class GamificationPathScreen extends StatefulWidget {
   const GamificationPathScreen({super.key});
@@ -27,6 +28,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
 
   // Chest open state
   bool _chestOpened = false;
+  bool _questClaimed = false;
 
   @override
   void initState() {
@@ -63,7 +65,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.stars_rounded, color: Color(0xFFFFC800), size: 28),
+            const Icon(Icons.stars_rounded, color: AppColors.xpGold, size: 28),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -72,18 +74,18 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                 children: [
                   Text(
                     '🎉 CHEST UNLOCKED: +200 XP REWARD!',
-                    style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 13),
+                    style: AppTypography.ui(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 13),
                   ),
                   Text(
                     'Daily Quest complete. Balance updated to 1,440 XP.',
-                    style: GoogleFonts.plusJakartaSans(color: Colors.white70, fontSize: 11),
+                    style: AppTypography.ui(color: Colors.white70, fontSize: 11),
                   ),
                 ],
               ),
             ),
           ],
         ),
-        backgroundColor: const Color(0xFF1CB0F6),
+        backgroundColor: AppColors.ittfTableBorder,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         duration: const Duration(seconds: 4),
@@ -96,7 +98,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
     return ThemeScope(
       builder: (context, isDark) {
         return Scaffold(
-          backgroundColor: isDark ? const Color(0xFF131F24) : AppColors.lightCanvasBg,
+          backgroundColor: isDark ? AppColors.darkObsidianElevated : AppColors.lightCanvasBg,
           body: SafeArea(
             bottom: false,
             child: Column(
@@ -126,10 +128,10 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
   }
 
   Widget _buildTopStatusBar(bool isDark) {
-    final barBg = isDark ? const Color(0xFF131F24) : Colors.white;
-    final pillBg = isDark ? const Color(0xFF202F36) : const Color(0xFFF1F5F9);
-    final borderColor = isDark ? const Color(0xFF202F36) : const Color(0xFFE2E8F0);
-    final textColor = isDark ? Colors.white : const Color(0xFF0F172A);
+    final barBg = isDark ? AppColors.darkObsidianElevated : Colors.white;
+    final pillBg = isDark ? AppColors.paddleBlack : AppColors.lightCanvasBg;
+    final borderColor = isDark ? AppColors.paddleBlack : AppColors.lightBorder;
+    final textColor = isDark ? Colors.white : AppColors.slate900;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -151,9 +153,9 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                 decoration: BoxDecoration(
                   color: pillBg,
                   shape: BoxShape.circle,
-                  border: Border.all(color: isDark ? const Color(0xFF37464F) : const Color(0xFFCBD5E1), width: 1.5),
+                  border: Border.all(color: isDark ? AppColors.slate600 : AppColors.slate300, width: 1.5),
                 ),
-                child: const Icon(Icons.person, color: Color(0xFF1CB0F6), size: 20),
+                child: const Icon(Icons.person, color: AppColors.ittfTableBorder, size: 20),
               ),
             ),
             const SizedBox(width: 8),
@@ -171,7 +173,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                   const SizedBox(width: 4),
                   Text(
                     '3 Damansara',
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 11,
                       fontWeight: FontWeight.w800,
                       color: textColor,
@@ -191,14 +193,14 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.local_fire_department_rounded, color: Color(0xFFFF9600), size: 18),
+                  const Icon(Icons.local_fire_department_rounded, color: AppColors.radiantGold, size: 18),
                   const SizedBox(width: 4),
                   Text(
                     '5',
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
-                      color: const Color(0xFFFF9600),
+                      color: AppColors.radiantGold,
                     ),
                   ),
                 ],
@@ -217,14 +219,14 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.star_rounded, color: Color(0xFFFFC800), size: 18),
+                    const Icon(Icons.star_rounded, color: AppColors.xpGold, size: 18),
                     const SizedBox(width: 4),
                     Text(
                       '1,240',
-                      style: GoogleFonts.plusJakartaSans(
+                      style: AppTypography.ui(
                         fontSize: 12,
                         fontWeight: FontWeight.w900,
-                        color: const Color(0xFFFFC800),
+                        color: AppColors.xpGold,
                       ),
                     ),
                   ],
@@ -242,14 +244,14 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.bolt_rounded, color: Color(0xFFFF4B72), size: 18),
+                  const Icon(Icons.bolt_rounded, color: AppColors.electricCrimson, size: 18),
                   const SizedBox(width: 2),
                   Text(
                     '25',
-                    style: GoogleFonts.plusJakartaSans(
+                    style: AppTypography.ui(
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
-                      color: const Color(0xFFFF4B72),
+                      color: AppColors.electricCrimson,
                     ),
                   ),
                 ],
@@ -264,13 +266,13 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
   Widget _buildSubNavSelector(bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      color: isDark ? const Color(0xFF131F24) : AppColors.lightCanvasBg,
+      color: isDark ? AppColors.darkObsidianElevated : AppColors.lightCanvasBg,
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF202F36) : Colors.white,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: isDark ? const Color(0xFF202F36) : const Color(0xFFE2E8F0)),
+          color: isDark ? AppColors.paddleBlack : Colors.white,
+          borderRadius: BorderRadius.circular(28),
+          border: Border.all(color: isDark ? AppColors.paddleBlack : AppColors.lightBorder),
         ),
         child: Row(
           children: [
@@ -285,19 +287,19 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
 
   Widget _buildSubTabItem(int index, String title, IconData icon, bool isDark) {
     final isSelected = _activeNavTab == index;
-    final unselectedColor = isDark ? const Color(0xFF88A2B0) : const Color(0xFF64748B);
+    final unselectedColor = isDark ? AppColors.slate400 : AppColors.slate500;
     return Expanded(
       child: GestureDetector(
         onTap: () => setState(() => _activeNavTab = index),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF58CC02) : Colors.transparent,
-            borderRadius: BorderRadius.circular(20),
+            color: isSelected ? AppColors.voltLime : Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
             boxShadow: isSelected
                 ? [
                     const BoxShadow(
-                      color: Color(0xFF46A302),
+                      color: AppColors.voltLime,
                       offset: Offset(0, 3),
                       blurRadius: 0,
                     ),
@@ -314,7 +316,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.plusJakartaSans(
+                  style: AppTypography.ui(
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
                     color: isSelected ? Colors.white : unselectedColor,
@@ -355,11 +357,11 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             width: double.infinity,
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: const Color(0xFFD97724), // Terracotta orange from Duolingo screenshot
-              borderRadius: BorderRadius.circular(22),
+              color: AppColors.pingPongOrange, // Terracotta orange from Duolingo screenshot
+              borderRadius: BorderRadius.circular(28),
               boxShadow: const [
                 BoxShadow(
-                  color: Color(0xFFA55312),
+                  color: AppColors.electricCrimson,
                   offset: Offset(0, 5),
                   blurRadius: 0,
                 ),
@@ -373,7 +375,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                     children: [
                       Text(
                         'SECTION 3 · DIVISION 1',
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 11,
                           fontWeight: FontWeight.w900,
                           color: Colors.white70,
@@ -383,7 +385,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                       const SizedBox(height: 4),
                       Text(
                         'ROAD TO PLATINUM DIVISION',
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 16,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
@@ -398,7 +400,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                   height: 44,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(Icons.menu_book_rounded, color: Colors.white, size: 22),
                 ),
@@ -421,9 +423,9 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                       width: 80,
                       height: 80,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF202F36),
-                        borderRadius: BorderRadius.circular(26),
-                        border: Border.all(color: const Color(0xFF37464F), width: 2),
+                        color: AppColors.paddleBlack,
+                        borderRadius: BorderRadius.circular(28),
+                        border: Border.all(color: AppColors.slate600, width: 2),
                       ),
                       child: const Center(
                         child: Text('🐻', style: TextStyle(fontSize: 42)),
@@ -432,9 +434,9 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                     const SizedBox(height: 6),
                     const Row(
                       children: [
-                        Icon(Icons.star_rounded, color: Color(0xFFFFC800), size: 14),
-                        Icon(Icons.star_rounded, color: Color(0xFFFFC800), size: 14),
-                        Icon(Icons.star_rounded, color: Color(0xFFFFC800), size: 14),
+                        Icon(Icons.star_rounded, color: AppColors.xpGold, size: 14),
+                        Icon(Icons.star_rounded, color: AppColors.xpGold, size: 14),
+                        Icon(Icons.star_rounded, color: AppColors.xpGold, size: 14),
                       ],
                     ),
                   ],
@@ -466,6 +468,38 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
 
                   // NODE 6: LOCKED (Play The Champion)
                   _buildCrownNode(xOffset: 0),
+                  const SizedBox(height: 24),
+
+                  // Next-goal CTA — the Path never ends in empty space.
+                  Container(
+                    width: 320,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.obsidianCard,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.obsidianBorder),
+                    ),
+                    child: Column(
+                      children: [
+                        Text('NEXT GOAL · DIVISION BOSS GATE',
+                            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w900, color: AppColors.textSecondary, letterSpacing: 0.8)),
+                        const SizedBox(height: 6),
+                        Text('Win 2 more matches to unlock the boss gate.',
+                            textAlign: TextAlign.center,
+                            style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+                        const SizedBox(height: 12),
+                        GestureDetector(
+                          onTap: () => AppNavigator.toTables(context),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                            decoration: BoxDecoration(color: AppColors.voltLime, borderRadius: BorderRadius.circular(12)),
+                            child: Text('Find a match →',
+                                style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 30),
                 ],
               ),
@@ -485,11 +519,11 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             width: 64,
             height: 64,
             decoration: const BoxDecoration(
-              color: Color(0xFF58CC02),
+              color: AppColors.voltLime,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Color(0xFF46A302),
+                  color: AppColors.voltLime,
                   offset: Offset(0, 5),
                   blurRadius: 0,
                 ),
@@ -502,7 +536,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           const SizedBox(height: 6),
           Text(
             title,
-            style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: const Color(0xFF88A2B0)),
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.slate400),
           ),
         ],
       ),
@@ -518,16 +552,16 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFF202F36),
+              color: AppColors.paddleBlack,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFF37464F), width: 1.5),
+              border: Border.all(color: AppColors.slate600, width: 1.5),
             ),
             child: Text(
               'START MATCH · +200 XP',
-              style: GoogleFonts.plusJakartaSans(
+              style: AppTypography.ui(
                 fontSize: 10,
                 fontWeight: FontWeight.w900,
-                color: const Color(0xFFFF9600),
+                color: AppColors.radiantGold,
                 letterSpacing: 0.5,
               ),
             ),
@@ -554,7 +588,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                       height: 82 * _pulseAnimation.value,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: const Color(0xFFFF9600).withValues(alpha: 0.15),
+                        color: AppColors.radiantGold.withValues(alpha: 0.15),
                       ),
                     ),
                   ),
@@ -564,11 +598,11 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                     width: 72,
                     height: 72,
                     decoration: const BoxDecoration(
-                      color: Color(0xFFFF9600), // Duolingo star orange
+                      color: AppColors.radiantGold, // Duolingo star orange
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Color(0xFFCE7000), // 20% darker extruded bottom lip
+                          color: AppColors.pingPongOrange, // 20% darker extruded bottom lip
                           offset: Offset(0, 6),
                           blurRadius: 0,
                         ),
@@ -585,7 +619,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           const SizedBox(height: 8),
           Text(
             title,
-            style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white),
+            style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white),
           ),
         ],
       ),
@@ -603,11 +637,11 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
               width: 58,
               height: 58,
               decoration: BoxDecoration(
-                color: _chestOpened ? const Color(0xFF202F36) : const Color(0xFFFFC800),
-                borderRadius: BorderRadius.circular(18),
+                color: _chestOpened ? AppColors.paddleBlack : AppColors.xpGold,
+                borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: _chestOpened ? const Color(0xFF18252B) : const Color(0xFFE5A500),
+                    color: _chestOpened ? AppColors.darkObsidianCard : AppColors.radiantGold,
                     offset: const Offset(0, 5),
                     blurRadius: 0,
                   ),
@@ -616,7 +650,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
               child: Center(
                 child: Icon(
                   _chestOpened ? Icons.lock_open_rounded : Icons.inventory_2_rounded,
-                  color: _chestOpened ? const Color(0xFF88A2B0) : const Color(0xFF131F24),
+                  color: _chestOpened ? AppColors.slate400 : AppColors.darkObsidianElevated,
                   size: 30,
                 ),
               ),
@@ -624,10 +658,10 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             const SizedBox(height: 4),
             Text(
               _chestOpened ? 'Claimed' : 'Loot Chest',
-              style: GoogleFonts.plusJakartaSans(
+              style: AppTypography.ui(
                 fontSize: 10,
                 fontWeight: FontWeight.w800,
-                color: _chestOpened ? const Color(0xFF58CC02) : const Color(0xFFFFC800),
+                color: _chestOpened ? AppColors.voltLime : AppColors.xpGold,
               ),
             ),
           ],
@@ -645,24 +679,24 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             width: 58,
             height: 58,
             decoration: const BoxDecoration(
-              color: Color(0xFF263842),
+              color: AppColors.darkObsidianCardLight,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Color(0xFF1C2A31),
+                  color: AppColors.paddleBlack,
                   offset: Offset(0, 5),
                   blurRadius: 0,
                 ),
               ],
             ),
             child: const Center(
-              child: Icon(Icons.lock_rounded, color: Color(0xFF5E7987), size: 24),
+              child: Icon(Icons.lock_rounded, color: AppColors.slate500, size: 24),
             ),
           ),
           const SizedBox(height: 6),
           Text(
             title,
-            style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w700, color: const Color(0xFF5E7987)),
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: AppColors.slate500),
           ),
         ],
       ),
@@ -680,11 +714,11 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
               width: 68,
               height: 68,
               decoration: const BoxDecoration(
-                color: Color(0xFF8549BA), // Amethyst purple
+                color: AppColors.amethystPurple, // Amethyst purple
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xFF5F2D8C),
+                    color: AppColors.slate600,
                     offset: Offset(0, 6),
                     blurRadius: 0,
                   ),
@@ -697,7 +731,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             const SizedBox(height: 6),
             Text(
               '👑 Champion Arena (RM 200+)',
-              style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w900, color: const Color(0xFFB97DE8)),
+              style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: AppColors.amethystPurple),
             ),
           ],
         ),
@@ -720,10 +754,10 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFF8549BA),
-              borderRadius: BorderRadius.circular(24),
+              color: AppColors.amethystPurple,
+              borderRadius: BorderRadius.circular(28),
               boxShadow: const [
-                BoxShadow(color: Color(0xFF5F2D8C), offset: Offset(0, 5), blurRadius: 0),
+                BoxShadow(color: AppColors.slate600, offset: Offset(0, 5), blurRadius: 0),
               ],
             ),
             child: Row(
@@ -734,12 +768,12 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                     children: [
                       Text(
                         'VENUE QUESTS & EXPEDITIONS',
-                        style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white70),
+                        style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white70),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Complete Quests to Win Chests & XP!',
-                        style: GoogleFonts.plusJakartaSans(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.white),
+                        style: AppTypography.ui(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.white),
                       ),
                     ],
                   ),
@@ -753,16 +787,16 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           // Friend Quest Card (From Image 2)
           Text(
             'FRIEND QUEST · 4 DAYS LEFT',
-            style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: const Color(0xFF88A2B0), letterSpacing: 0.8),
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.slate400, letterSpacing: 0.8),
           ),
           const SizedBox(height: 8),
 
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: const Color(0xFF202F36),
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: const Color(0xFF37464F), width: 1.5),
+              color: AppColors.paddleBlack,
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(color: AppColors.slate600, width: 1.5),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -773,7 +807,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                     Expanded(
                       child: Text(
                         'Play a match with a Sparring Partner',
-                        style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white),
+                        style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white),
                       ),
                     ),
                     const Text('🎁', style: TextStyle(fontSize: 26)),
@@ -785,12 +819,12 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                   child: const LinearProgressIndicator(
                     value: 0.0,
                     minHeight: 10,
-                    backgroundColor: Color(0xFF131F24),
-                    valueColor: AlwaysStoppedAnimation(Color(0xFF58CC02)),
+                    backgroundColor: AppColors.darkObsidianElevated,
+                    valueColor: AlwaysStoppedAnimation(AppColors.voltLime),
                   ),
                 ),
                 const SizedBox(height: 6),
-                Text('0 / 1 matches completed', style: GoogleFonts.plusJakartaSans(fontSize: 10, color: const Color(0xFF88A2B0))),
+                Text('0 / 1 matches completed', style: AppTypography.ui(fontSize: 10, color: AppColors.slate400)),
                 const SizedBox(height: 14),
 
                 TactileButton.primary(
@@ -806,16 +840,16 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           // Daily Quest Card (From Image 2: 10/10 with Pink Progress Bar)
           Text(
             'DAILY QUEST · 5 HOURS LEFT',
-            style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: const Color(0xFF88A2B0), letterSpacing: 0.8),
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.slate400, letterSpacing: 0.8),
           ),
           const SizedBox(height: 8),
 
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: const Color(0xFF202F36),
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: const Color(0xFF37464F), width: 1.5),
+              color: AppColors.paddleBlack,
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(color: AppColors.slate600, width: 1.5),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -829,10 +863,10 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                         children: [
                           Text(
                             'Earn 10 XP at 3 Damansara',
-                            style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white),
+                            style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white),
                           ),
                           const SizedBox(height: 2),
-                          Text('Reward: Blue Arena Loot Chest', style: GoogleFonts.plusJakartaSans(fontSize: 10, color: const Color(0xFF1CB0F6))),
+                          Text('Reward: Blue Arena Loot Chest', style: AppTypography.ui(fontSize: 10, color: AppColors.ittfTableBorder)),
                         ],
                       ),
                     ),
@@ -850,17 +884,49 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                   child: const LinearProgressIndicator(
                     value: 1.0, // 10/10 complete!
                     minHeight: 12,
-                    backgroundColor: Color(0xFF131F24),
-                    valueColor: AlwaysStoppedAnimation(Color(0xFFFF4B72)),
+                    backgroundColor: AppColors.darkObsidianElevated,
+                    valueColor: AlwaysStoppedAnimation(AppColors.voltLime),
                   ),
                 ),
                 const SizedBox(height: 6),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('10 / 10 XP EARNED', style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w900, color: const Color(0xFFFF4B72))),
-                    Text('COMPLETED ✔', style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w900, color: const Color(0xFF58CC02))),
+                    Text('10 / 10 XP EARNED', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w900, color: AppColors.slate400)),
+                    Text('COMPLETED ✔', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w900, color: AppColors.voltLime)),
                   ],
+                ),
+                const SizedBox(height: 12),
+                GestureDetector(
+                  onTap: _questClaimed
+                      ? null
+                      : () {
+                          setState(() => _questClaimed = true);
+                          ArenaToast.show(
+                            context,
+                            message: 'Reward claimed — Loot Chest added to your profile',
+                            actionLabel: 'Undo',
+                            onAction: () => setState(() => _questClaimed = false),
+                          );
+                        },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      color: _questClaimed ? AppColors.darkObsidianElevated : AppColors.voltLime,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Center(
+                      child: Text(
+                        _questClaimed ? 'Claimed ✓ · Reward added to your chest' : 'Claim Reward →',
+                        style: AppTypography.ui(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w900,
+                          color: _questClaimed ? AppColors.voltLime : Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -886,10 +952,10 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFF1CB0F6),
-              borderRadius: BorderRadius.circular(24),
+              color: AppColors.ittfTableBorder,
+              borderRadius: BorderRadius.circular(28),
               boxShadow: const [
-                BoxShadow(color: Color(0xFF1899D6), offset: Offset(0, 5), blurRadius: 0),
+                BoxShadow(color: AppColors.voltLime, offset: Offset(0, 5), blurRadius: 0),
               ],
             ),
             child: Row(
@@ -900,12 +966,12 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                     children: [
                       Text(
                         'PRACTICE & SKILL DRILLS',
-                        style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white70),
+                        style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white70),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Sharpen Your Table Tennis Skills',
-                        style: GoogleFonts.plusJakartaSans(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.white),
+                        style: AppTypography.ui(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.white),
                       ),
                     ],
                   ),
@@ -920,19 +986,19 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: const Color(0xFF202F36),
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: const Color(0xFF37464F), width: 1.5),
+              color: AppColors.paddleBlack,
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(color: AppColors.slate600, width: 1.5),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Daily Warmup Drill',
-                  style: GoogleFonts.plusJakartaSans(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white),
+                  style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white),
                 ),
                 const SizedBox(height: 4),
-                Text('Rally 50 balls with Robot Trainer at Table T1', style: GoogleFonts.plusJakartaSans(fontSize: 11, color: const Color(0xFF88A2B0))),
+                Text('Rally 50 balls with Robot Trainer at Table T1', style: AppTypography.ui(fontSize: 11, color: AppColors.slate400)),
                 const SizedBox(height: 14),
 
                 TactileButton.blue(
@@ -948,17 +1014,17 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           // Skill Practice List (From Image 4)
           Text(
             'SKILL DRILLS MATRIX',
-            style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: const Color(0xFF88A2B0), letterSpacing: 0.8),
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.slate400, letterSpacing: 0.8),
           ),
           const SizedBox(height: 10),
 
-          _buildSkillDrillTile('Mistake Review & Match Replay', 'Analyze lost points from yesterday', Icons.replay_rounded, const Color(0xFFFF9600)),
+          _buildSkillDrillTile('Mistake Review & Match Replay', 'Analyze lost points from yesterday', Icons.replay_rounded, AppColors.radiantGold),
           const SizedBox(height: 10),
-          _buildSkillDrillTile('Forehand Top-Spin Power Drill', 'Speed target training at Table T3', Icons.flash_on_rounded, const Color(0xFF1CB0F6)),
+          _buildSkillDrillTile('Forehand Top-Spin Power Drill', 'Speed target training at Table T3', Icons.flash_on_rounded, AppColors.ittfTableBorder),
           const SizedBox(height: 10),
-          _buildSkillDrillTile('Backhand Slice & Return Practice', 'Master defensive underspin returns', Icons.shield_rounded, const Color(0xFF58CC02)),
+          _buildSkillDrillTile('Backhand Slice & Return Practice', 'Master defensive underspin returns', Icons.shield_rounded, AppColors.voltLime),
           const SizedBox(height: 10),
-          _buildSkillDrillTile('Solo Robot Ball Machine Session', 'Book 30 mins solo drill', Icons.smart_toy_rounded, const Color(0xFF8549BA)),
+          _buildSkillDrillTile('Solo Robot Ball Machine Session', 'Book 30 mins solo drill', Icons.smart_toy_rounded, AppColors.amethystPurple),
           const SizedBox(height: 24),
         ],
       ),
@@ -969,9 +1035,9 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: const Color(0xFF202F36),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFF37464F), width: 1.2),
+        color: AppColors.paddleBlack,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.slate600, width: 1.2),
       ),
       child: Row(
         children: [
@@ -980,7 +1046,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             height: 44,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
                   color: color.withValues(alpha: 0.3),
@@ -998,17 +1064,17 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white),
+                  style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: GoogleFonts.plusJakartaSans(fontSize: 10, color: const Color(0xFF88A2B0)),
+                  style: AppTypography.ui(fontSize: 10, color: AppColors.slate400),
                 ),
               ],
             ),
           ),
-          const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF88A2B0), size: 14),
+          const Icon(Icons.arrow_forward_ios_rounded, color: AppColors.slate400, size: 14),
         ],
       ),
     );

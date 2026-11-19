@@ -4,6 +4,9 @@ import '../theme/app_colors.dart';
 
 // Import all screens
 import '../../features/auth/screens/splash_screen.dart';
+import '../../features/auth/screens/entry_gate_screen.dart';
+import '../../features/auth/screens/login_screen.dart';
+import '../theme/app_tokens.dart';
 import '../../features/auth/screens/plan_selection_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
 import '../../features/payment/screens/payment_screen.dart';
@@ -193,64 +196,117 @@ class AppNavigator {
       category: 'GAMIFICATION & ANIMATION',
       description: 'Animated S-curve ladder, bouncing star node, daily quests & loot chests',
       icon: Icons.alt_route_rounded,
-      color: const Color(0xFFFF9600),
+      color: AppColors.radiantGold,
       builder: () => const GamificationPathScreen(),
+    ),
+    ScreenMeta(
+      id: 'entry_gate',
+      title: '18. Entry Gate — Member / New / Guest',
+      category: 'MEMBER ONBOARDING',
+      description: 'The front door: member login, new-player registration, or guest walk-in (Phase 1B)',
+      icon: Icons.door_front_door_rounded,
+      color: AppColors.voltLime,
+      builder: () => const EntryGateScreen(),
+    ),
+    ScreenMeta(
+      id: 'login',
+      title: '19. Member Login',
+      category: 'MEMBER ONBOARDING',
+      description: 'Returning member login with phone/email + 6-digit code (front-end flow, Phase 1B)',
+      icon: Icons.login_rounded,
+      color: AppColors.voltLime,
+      builder: () => const LoginScreen(),
     ),
   ];
 
+  /// Arena DS motion token: every route is a 250 ms fade (Toby rule —
+  /// changes fade, nothing slides or pops without meaning).
+  static PageRouteBuilder<T> fadeRoute<T>(Widget screen) {
+    return PageRouteBuilder<T>(
+      pageBuilder: (_, __, ___) => screen,
+      transitionsBuilder: (_, animation, __, child) =>
+          FadeTransition(opacity: animation, child: child),
+      transitionDuration: AppMotion.fade,
+    );
+  }
+
   static void pushScreen(BuildContext context, Widget screen) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => screen));
+    Navigator.of(context).push(fadeRoute(screen));
+  }
+
+  static void toEntry(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+      fadeRoute(const EntryGateScreen()),
+      (route) => false,
+    );
+  }
+
+  static void toLogin(BuildContext context) {
+    Navigator.of(context).push(fadeRoute(const LoginScreen()));
+  }
+
+  static void toRegister(BuildContext context) {
+    Navigator.of(context).push(fadeRoute(const RegisterScreen()));
+  }
+
+  static void toHomeAndClear(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+      fadeRoute(const SplashScreen()),
+      (route) => false,
+    );
   }
 
   static void toHome(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SplashScreen()));
+    Navigator.of(context).push(fadeRoute(const SplashScreen()));
   }
 
-  static void toPlan(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const PlanSelectionScreen()));
+  static void toPlan(BuildContext context, {bool initialGuest = false}) {
+    Navigator.of(context).push(
+      fadeRoute(PlanSelectionScreen(initialGuest: initialGuest)),
+    );
   }
 
   static void toPayment(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const PaymentScreen()));
+    Navigator.of(context).push(fadeRoute(const PaymentScreen()));
   }
 
   static void toPass(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const PaymentSuccessScreen()));
+    Navigator.of(context).push(fadeRoute(const PaymentSuccessScreen()));
   }
 
   static void toTables(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const TableSelectionScreen()));
+    Navigator.of(context).push(fadeRoute(const TableSelectionScreen()));
   }
 
   static void toChallengeBoard(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ChallengeBoardScreen()));
+    Navigator.of(context).push(fadeRoute(const ChallengeBoardScreen()));
   }
 
   static void toChallengeAccepted(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ChallengeAcceptedScreen()));
+    Navigator.of(context).push(fadeRoute(const ChallengeAcceptedScreen()));
   }
 
   static void toLeaderboard(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const LeaderboardScreen()));
+    Navigator.of(context).push(fadeRoute(const LeaderboardScreen()));
   }
 
   static void toProfile(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ProfileScreen()));
+    Navigator.of(context).push(fadeRoute(const ProfileScreen()));
   }
 
   static void toXpStore(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const XpPurchaseScreen()));
+    Navigator.of(context).push(fadeRoute(const XpPurchaseScreen()));
   }
 
   static void toBidding(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ChampionBiddingScreen()));
+    Navigator.of(context).push(fadeRoute(const ChampionBiddingScreen()));
   }
 
   static void toDisplay(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DisplayLeaderboardScreen()));
+    Navigator.of(context).push(fadeRoute(const DisplayLeaderboardScreen()));
   }
 
   static void toGamificationPath(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const GamificationPathScreen()));
+    Navigator.of(context).push(fadeRoute(const GamificationPathScreen()));
   }
 }

@@ -1,15 +1,54 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
+import '../../../core/theme/app_typography.dart';
 
-class ChallengeAcceptedScreen extends StatelessWidget {
+class ChallengeAcceptedScreen extends StatefulWidget {
   final VoidCallback? onAtTableTap;
 
   const ChallengeAcceptedScreen({super.key, this.onAtTableTap});
+
+  @override
+  State<ChallengeAcceptedScreen> createState() => _ChallengeAcceptedScreenState();
+}
+
+class _ChallengeAcceptedScreenState extends State<ChallengeAcceptedScreen> {
+  /// Real ticking countdown (Arena DS: a timer that doesn't move is a bug,
+  /// not a design). Starts at 5:00 and expires honestly.
+  int _secondsLeft = 5 * 60;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (!mounted) return;
+      if (_secondsLeft > 0) {
+        setState(() => _secondsLeft--);
+      } else {
+        _timer?.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  bool get _expired => _secondsLeft <= 0;
+
+  String get _mmss {
+    final m = (_secondsLeft ~/ 60).toString().padLeft(2, '0');
+    final sec = (_secondsLeft % 60).toString().padLeft(2, '0');
+    return '$m:$sec';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +65,9 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF10B981).withValues(alpha: 0.2),
+                    color: AppColors.voltLime.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.4)),
+                    border: Border.all(color: AppColors.voltLime.withValues(alpha: 0.4)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -37,17 +76,17 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                         width: 8,
                         height: 8,
                         decoration: const BoxDecoration(
-                          color: Color(0xFF10B981),
+                          color: AppColors.voltLime,
                           shape: BoxShape.circle,
                         ),
                       ),
                       const SizedBox(width: 6),
                       Text(
                         'Challenge Accepted',
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 12,
                           fontWeight: FontWeight.w800,
-                          color: const Color(0xFF34D399),
+                          color: AppColors.voltLime,
                         ),
                       ),
                     ],
@@ -70,7 +109,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(14),
                             decoration: BoxDecoration(
                               color: AppColors.pastelPurple,
-                              borderRadius: BorderRadius.circular(22),
+                              borderRadius: BorderRadius.circular(28),
                               border: Border.all(color: AppColors.obsidianBorder),
                             ),
                             child: Column(
@@ -86,10 +125,10 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                                   child: Icon(Icons.circle, size: 10, color: AppColors.textPrimary),
                                 ),
                                 const SizedBox(height: 8),
-                                Text('You', style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textSecondary)),
-                                Text('1,240 XP', style: GoogleFonts.plusJakartaSans(fontSize: 15, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
+                                Text('You', style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary)),
+                                Text('1,240 XP', style: AppTypography.ui(fontSize: 15, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
                                 const SizedBox(height: 6),
-                                const Icon(Icons.show_chart_rounded, size: 16, color: Color(0xFFA855F7)),
+                                const Icon(Icons.show_chart_rounded, size: 16, color: AppColors.amethystPurple),
                               ],
                             ),
                           ),
@@ -105,7 +144,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                           child: Center(
                             child: Text(
                               'VS',
-                              style: GoogleFonts.plusJakartaSans(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white),
+                              style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white),
                             ),
                           ),
                         ),
@@ -114,7 +153,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(14),
                             decoration: BoxDecoration(
                               color: AppColors.pastelPink,
-                              borderRadius: BorderRadius.circular(22),
+                              borderRadius: BorderRadius.circular(28),
                               border: Border.all(color: AppColors.obsidianBorder),
                             ),
                             child: Column(
@@ -130,10 +169,10 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                                   child: Icon(Icons.crop_square_rounded, size: 10, color: AppColors.textPrimary),
                                 ),
                                 const SizedBox(height: 8),
-                                Text('Jason T.', style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppColors.textSecondary)),
-                                Text('1,180 XP', style: GoogleFonts.plusJakartaSans(fontSize: 15, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
+                                Text('Jason T.', style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary)),
+                                Text('1,180 XP', style: AppTypography.ui(fontSize: 15, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
                                 const SizedBox(height: 6),
-                                const Icon(Icons.show_chart_rounded, size: 16, color: Color(0xFFEF4444)),
+                                const Icon(Icons.show_chart_rounded, size: 16, color: AppColors.electricCrimson),
                               ],
                             ),
                           ),
@@ -151,7 +190,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                       ),
                       child: Text(
                         'Table No. 4 · Ready for Play',
-                        style: GoogleFonts.plusJakartaSans(
+                        style: AppTypography.ui(
                           fontSize: 11,
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
@@ -183,17 +222,17 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                     const SizedBox(height: 8),
 
                     Text(
-                      '04:59',
-                      style: GoogleFonts.plusJakartaSans(
+                      _mmss,
+                      style: AppTypography.mono(
                         fontSize: 26,
                         fontWeight: FontWeight.w900,
-                        color: AppColors.textPrimary,
+                        color: _expired ? AppColors.electricCrimson : AppColors.textPrimary,
                         letterSpacing: 1.0,
                       ),
                     ),
                     Text(
-                      'Accept within 5 minutes',
-                      style: GoogleFonts.plusJakartaSans(
+                      _expired ? 'Time expired — this challenge was released' : 'Accept within 5 minutes',
+                      style: AppTypography.ui(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: AppColors.textSecondary,
@@ -207,7 +246,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: AppColors.obsidianBorder),
                       ),
                       child: Row(
@@ -218,7 +257,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                               'POT · WINNER TAKES ALL',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.textMuted,
@@ -229,7 +268,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                           const SizedBox(width: 8),
                           Text(
                             '200 XP',
-                            style: GoogleFonts.plusJakartaSans(
+                            style: AppTypography.ui(
                               fontSize: 18,
                               fontWeight: FontWeight.w900,
                               color: AppColors.radiantGold,
@@ -246,7 +285,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: AppColors.obsidianBorder),
                       ),
                       child: Row(
@@ -257,7 +296,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'ROOM CODE',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 9,
                                   fontWeight: FontWeight.w800,
                                   color: AppColors.textMuted,
@@ -267,7 +306,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                               const SizedBox(height: 2),
                               Text(
                                 'KX8VQS',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w900,
                                   color: AppColors.textPrimary,
@@ -276,7 +315,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                               ),
                               Text(
                                 'or scan the QR at Table 4',
-                                style: GoogleFonts.plusJakartaSans(
+                                style: AppTypography.ui(
                                   fontSize: 10,
                                   color: AppColors.textSecondary,
                                 ),
@@ -317,7 +356,7 @@ class ChallengeAcceptedScreen extends StatelessWidget {
                         Expanded(
                           child: TactileButton.volt(
                             text: 'Accept Match →',
-                            onPressed: onAtTableTap ?? () => AppNavigator.toLeaderboard(context),
+                            onPressed: widget.onAtTableTap ?? () => AppNavigator.toLeaderboard(context),
                           ),
                         ),
                       ],

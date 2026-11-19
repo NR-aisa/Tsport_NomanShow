@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../data/mock/mock_data.dart';
 import '../../../data/models/app_models.dart';
+import '../../../core/theme/app_typography.dart';
 
 class PlayerDashboardScreen extends StatelessWidget {
   final VoidCallback? onChallengeBoardTap;
@@ -55,11 +56,11 @@ class PlayerDashboardScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
                               color: AppColors.primaryGlow,
-                              borderRadius: BorderRadius.circular(4),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               'NO-MAN HUB',
-                              style: GoogleFonts.inter(
+                              style: AppTypography.ui(
                                 fontSize: 9,
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.primary,
@@ -70,7 +71,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                       ),
                       Text(
                         'Good evening, ${user.name}',
-                        style: GoogleFonts.inter(
+                        style: AppTypography.ui(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
@@ -105,11 +106,11 @@ class PlayerDashboardScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFF1E281F), Color(0xFF121212)],
+                    colors: [AppColors.paddleBlack, AppColors.darkObsidianBase],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
                 ),
                 child: Column(
@@ -130,7 +131,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                             const SizedBox(width: 8),
                             Text(
                               'ACTIVE TABLE SESSION',
-                              style: GoogleFonts.inter(
+                              style: AppTypography.ui(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.primary,
@@ -147,7 +148,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                           ),
                           child: Text(
                             'Table 02',
-                            style: GoogleFonts.jetBrainsMono(
+                            style: AppTypography.mono(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
                               color: AppColors.textPrimary,
@@ -165,7 +166,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                           children: [
                             Text(
                               '01h 37m Remaining',
-                              style: GoogleFonts.jetBrainsMono(
+                              style: AppTypography.mono(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.textPrimary,
@@ -173,7 +174,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                             ),
                             Text(
                               'Session expires automatically at 16:30',
-                              style: GoogleFonts.inter(fontSize: 11, color: AppColors.textSecondary),
+                              style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary),
                             ),
                           ],
                         ),
@@ -190,7 +191,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: AppColors.border),
                   boxShadow: [
                     BoxShadow(
@@ -211,7 +212,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                             const SizedBox(width: 6),
                             Text(
                               'PLAYER XP WALLET',
-                              style: GoogleFonts.inter(
+                              style: AppTypography.ui(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.xpGold,
@@ -224,12 +225,12 @@ class PlayerDashboardScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                           decoration: BoxDecoration(
                             color: AppColors.xpGold.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: AppColors.xpGold, width: 1),
                           ),
                           child: Text(
                             'TIER: ${user.rankLabel}',
-                            style: GoogleFonts.inter(
+                            style: AppTypography.ui(
                               fontSize: 10,
                               fontWeight: FontWeight.w800,
                               color: AppColors.xpGold,
@@ -245,7 +246,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                       children: [
                         Text(
                           '${user.xp}',
-                          style: GoogleFonts.jetBrainsMono(
+                          style: AppTypography.mono(
                             fontSize: 38,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textPrimary,
@@ -262,7 +263,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                         const Spacer(),
                         Text(
                           'Rank #${user.rank} in Venue',
-                          style: GoogleFonts.inter(
+                          style: AppTypography.ui(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: AppColors.primary,
@@ -272,7 +273,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(8),
                       child: LinearProgressIndicator(
                         value: user.xp / 2000,
                         backgroundColor: AppColors.surface3,
@@ -286,11 +287,11 @@ class PlayerDashboardScreen extends StatelessWidget {
                       children: [
                         Text(
                           '${2000 - user.xp} XP to Elite Tier',
-                          style: GoogleFonts.inter(fontSize: 11, color: AppColors.textMuted),
+                          style: AppTypography.ui(fontSize: 11, color: AppColors.textMuted),
                         ),
                         Text(
                           '23W - 11L (68% Win Rate)',
-                          style: GoogleFonts.jetBrainsMono(fontSize: 11, color: AppColors.textSecondary),
+                          style: AppTypography.mono(fontSize: 11, color: AppColors.textSecondary),
                         ),
                       ],
                     ),
@@ -302,7 +303,7 @@ class PlayerDashboardScreen extends StatelessWidget {
               // Quick Action Grid (4 Buttons)
               Text(
                 'VENUE ARENA ACTIONS',
-                style: GoogleFonts.inter(
+                style: AppTypography.ui(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textMuted,
@@ -365,7 +366,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                 children: [
                   Text(
                     'LIVE CHALLENGES WAITING',
-                    style: GoogleFonts.inter(
+                    style: AppTypography.ui(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textMuted,
@@ -376,7 +377,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                     onTap: onChallengeBoardTap,
                     child: Text(
                       'View All (${challenges.length})',
-                      style: GoogleFonts.inter(
+                      style: AppTypography.ui(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
@@ -420,7 +421,7 @@ class PlayerDashboardScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(icon, color: color, size: 20),
             ),
@@ -435,7 +436,7 @@ class PlayerDashboardScreen extends StatelessWidget {
             ),
             Text(
               subtitle,
-              style: GoogleFonts.inter(fontSize: 10, color: AppColors.textMuted),
+              style: AppTypography.ui(fontSize: 10, color: AppColors.textMuted),
             ),
           ],
         ),
@@ -469,7 +470,7 @@ class PlayerDashboardScreen extends StatelessWidget {
               children: [
                 Text(
                   c.challenger.name,
-                  style: GoogleFonts.inter(
+                  style: AppTypography.ui(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textPrimary,
@@ -477,7 +478,7 @@ class PlayerDashboardScreen extends StatelessWidget {
                 ),
                 Text(
                   '${c.tableId?.toUpperCase() ?? "Any Table"} • ${c.minutesAgo}m ago',
-                  style: GoogleFonts.inter(fontSize: 11, color: AppColors.textMuted),
+                  style: AppTypography.ui(fontSize: 11, color: AppColors.textMuted),
                 ),
               ],
             ),
@@ -491,7 +492,7 @@ class PlayerDashboardScreen extends StatelessWidget {
             ),
             child: Text(
               '⚡ ${c.xpStake} XP',
-              style: GoogleFonts.jetBrainsMono(
+              style: AppTypography.mono(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 color: AppColors.xpGold,

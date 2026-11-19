@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
+import '../../../core/theme/app_typography.dart';
 
 class XpPurchaseScreen extends StatefulWidget {
   final VoidCallback? onPurchased;
@@ -46,17 +46,17 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                   ),
                   Text(
                     'Your XP',
-                    style: GoogleFonts.plusJakartaSans(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.white),
+                    style: AppTypography.ui(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.white),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFA855F7),
+                      color: AppColors.amethystPurple,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
                       'BALANCE',
-                      style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: Colors.white),
+                      style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: Colors.white),
                     ),
                   ),
                 ],
@@ -70,7 +70,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: AppColors.obsidianCard,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(28),
                   border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
                 ),
                 child: Row(
@@ -82,12 +82,12 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _tabIndex == 0 ? AppColors.ittfTableBlue : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
                             child: Text(
                               'Loan',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
                                 color: _tabIndex == 0 ? Colors.white : Colors.white60,
@@ -104,12 +104,12 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             color: _tabIndex == 1 ? AppColors.ittfTableBlue : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
                             child: Text(
                               'Buy',
-                              style: GoogleFonts.plusJakartaSans(
+                              style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
                                 color: _tabIndex == 1 ? Colors.white : Colors.white60,
@@ -137,11 +137,11 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
-                          colors: [Color(0xFF162544), Color(0xFF0F1A2E)],
+                          colors: [AppColors.darkObsidianCard, AppColors.darkObsidianElevated],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         ),
-                        borderRadius: BorderRadius.circular(26),
+                        borderRadius: BorderRadius.circular(28),
                         border: Border.all(
                           color: AppColors.radiantGold.withValues(alpha: 0.35),
                           width: 1.2,
@@ -156,31 +156,31 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                       ),
                       child: Column(
                         children: [
-                          Text('YOUR BALANCE', style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.radiantGold, letterSpacing: 1.0)),
+                          Text('YOUR BALANCE', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.radiantGold, letterSpacing: 1.0)),
                           const SizedBox(height: 4),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             textBaseline: TextBaseline.alphabetic,
                             children: [
-                              Text('140', style: GoogleFonts.plusJakartaSans(fontSize: 48, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: -1)),
+                              Text('140', style: AppTypography.ui(fontSize: 48, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: -1)),
                               const SizedBox(width: 6),
-                              Text('XP', style: GoogleFonts.plusJakartaSans(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.radiantGold)),
+                              Text('XP', style: AppTypography.ui(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.radiantGold)),
                             ],
                           ),
-                          Text('60 XP short of a Standard challenge (200 XP).', style: GoogleFonts.plusJakartaSans(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white70)),
+                          Text('60 XP short of a Standard challenge (200 XP).', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white70)),
                           const SizedBox(height: 12),
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(8),
                             child: const LinearProgressIndicator(
                               value: 140 / 200,
                               minHeight: 6,
-                              backgroundColor: Color(0xFF1E2E4E),
+                              backgroundColor: AppColors.darkObsidianCardLight,
                               valueColor: AlwaysStoppedAnimation(AppColors.radiantGold),
                             ),
                           ),
                           const SizedBox(height: 6),
-                          Text('140 of 200 XP to your next challenge', style: GoogleFonts.plusJakartaSans(fontSize: 10, color: Colors.white54)),
+                          Text('140 of 200 XP to your next challenge', style: AppTypography.ui(fontSize: 10, color: Colors.white54)),
                         ],
                       ),
                     ),
@@ -191,7 +191,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                       padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(28),
                         border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
                         boxShadow: [
                           BoxShadow(
@@ -203,7 +203,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                       ),
                       child: Column(
                         children: [
-                          _buildLoanTermRow('You receive', '+200 XP', isBold: true, valueColor: const Color(0xFF34D399)),
+                          _buildLoanTermRow('You receive', '+200 XP', isBold: true, valueColor: AppColors.voltLime),
                           Divider(color: Colors.white.withValues(alpha: 0.08), height: 16),
                           _buildLoanTermRow('Repay', '200 XP from winnings'),
                           Divider(color: Colors.white.withValues(alpha: 0.08), height: 16),
@@ -221,10 +221,10 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                           SnackBar(
                             content: Text(
                               '🎉 +200 XP Loan Approved! Your balance is now 340 XP (Repayable from match winnings).',
-                              style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700),
+                              style: AppTypography.ui(fontWeight: FontWeight.w700),
                             ),
                             duration: const Duration(seconds: 3),
-                            backgroundColor: const Color(0xFF286E79),
+                            backgroundColor: AppColors.btnGreenBorder,
                           ),
                         );
                       },
@@ -234,7 +234,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                     // Buy XP Section
                     Text(
                       'BUY XP — PACKS · PRICE FROM SETTINGS',
-                      style: GoogleFonts.plusJakartaSans(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: 0.8),
+                      style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textPrimary, letterSpacing: 0.8),
                     ),
                     const SizedBox(height: 8),
 
@@ -252,7 +252,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                     Center(
                       child: Text(
                         'XP is not cash. It can\'t be withdrawn.',
-                        style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppColors.textSecondary),
+                        style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -273,20 +273,20 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: GoogleFonts.plusJakartaSans(fontSize: 13, color: Colors.white60)),
+        Text(label, style: AppTypography.ui(fontSize: 13, color: Colors.white60)),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               value,
-              style: GoogleFonts.plusJakartaSans(
+              style: AppTypography.ui(
                 fontSize: 13,
                 fontWeight: isBold ? FontWeight.w900 : FontWeight.w700,
                 color: valueColor ?? Colors.white,
               ),
             ),
             if (subValue != null)
-              Text(subValue, style: GoogleFonts.plusJakartaSans(fontSize: 10, color: Colors.white54)),
+              Text(subValue, style: AppTypography.ui(fontSize: 10, color: Colors.white54)),
           ],
         ),
       ],
@@ -298,7 +298,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
       ),
       child: Row(
@@ -308,7 +308,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
             height: 38,
             decoration: BoxDecoration(
               color: color.withValues(alpha: 0.18),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Center(
               child: Icon(Icons.toll_rounded, size: 20, color: color),
@@ -319,19 +319,19 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white)),
-                Text('Price from Settings', style: GoogleFonts.plusJakartaSans(fontSize: 10, color: Colors.white54)),
+                Text(title, style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white)),
+                Text('Price from Settings', style: AppTypography.ui(fontSize: 10, color: Colors.white54)),
               ],
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFF0F1A2E),
-              border: Border.all(color: const Color(0xFF60A5FA).withValues(alpha: 0.3)),
+              color: AppColors.darkObsidianElevated,
+              border: Border.all(color: AppColors.ittfTableBorder.withValues(alpha: 0.3)),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Text(xpLabel, style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w800, color: const Color(0xFF60A5FA))),
+            child: Text(xpLabel, style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w800, color: AppColors.ittfTableBorder)),
           ),
         ],
       ),
