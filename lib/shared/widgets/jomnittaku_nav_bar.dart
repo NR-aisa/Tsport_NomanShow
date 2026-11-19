@@ -114,8 +114,11 @@ class JomnittakuNavBar extends StatelessWidget {
   Widget _buildNavItem(BuildContext context, int index, IconData icon, String label) {
     final isSelected = activeIndex == index;
     final isDark = AppColors.isDark;
-    // ONE active colour for every tab: the primary emerald.
-    const activeColor = AppColors.voltLime;
+    // ONE colour family for the whole menu (Phase 8.3, user rule):
+    // action blue — chip, icon and label. Emerald is signal-only
+    // and no longer appears in the navigation.
+    const chipColor = AppColors.actionBlue;
+    final labelColor = isDark ? AppColors.ittfTableBorder : AppColors.actionBlue;
 
     return GestureDetector(
       onTap: () => _handleTabTap(context, index),
@@ -128,7 +131,7 @@ class JomnittakuNavBar extends StatelessWidget {
             height: isSelected ? 46 : 40,
             decoration: BoxDecoration(
               color: isSelected
-                  ? activeColor
+                  ? chipColor
                   : (isDark ? Colors.white.withValues(alpha: 0.05) : AppColors.lightCanvasBg),
               shape: BoxShape.circle,
               border: Border.all(
@@ -151,7 +154,7 @@ class JomnittakuNavBar extends StatelessWidget {
               icon,
               size: isSelected ? 21 : 18,
               color: isSelected
-                  ? (isDark ? AppColors.darkObsidianBase : Colors.white)
+                  ? Colors.white
                   : (isDark ? Colors.white.withValues(alpha: 0.65) : AppColors.slate500),
             ),
           ),
@@ -162,7 +165,7 @@ class JomnittakuNavBar extends StatelessWidget {
               fontSize: 9,
               fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
               color: isSelected
-                  ? activeColor
+                  ? labelColor
                   : (isDark ? Colors.white.withValues(alpha: 0.55) : AppColors.slate500),
             ),
           ),
@@ -219,8 +222,10 @@ class JomnittakuNavBar extends StatelessWidget {
             'Play',
             style: AppTypography.ui(
               fontSize: 9,
-              fontWeight: FontWeight.w900,
-              color: AppColors.voltLime,
+              fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
+              color: isSelected
+                  ? (isDark ? AppColors.ittfTableBorder : AppColors.actionBlue)
+                  : (isDark ? Colors.white.withValues(alpha: 0.55) : AppColors.slate500),
             ),
           ),
         ],
