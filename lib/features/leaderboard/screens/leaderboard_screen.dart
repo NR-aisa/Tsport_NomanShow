@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_theme_controller.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
@@ -19,8 +20,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.canvasBg,
+    return ThemeScope(
+      builder: (context, isDark) {
+        return Scaffold(
+          backgroundColor: AppColors.canvasBg,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -252,6 +255,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
           ],
         ),
       ),
+    );
+      },
     );
   }
 

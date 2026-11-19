@@ -28,269 +28,70 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: AppColors.obsidianBase,
-      endDrawer: _buildBkashStyleSideDrawer(context),
-      body: Container(
-        decoration: BoxDecoration(
-          color: AppColors.obsidianBase,
-        ),
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              // ==========================================
-              // TOP BAR: Profile (Left) | XP & Location | Menu (Right)
-              // ==========================================
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Top-Left: Player Profile Button -> Profile Screen
-                    GestureDetector(
-                      onTap: () => AppNavigator.toProfile(context),
-                      child: Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: AppColors.obsidianCard,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.border,
-                            width: 1.2,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.isDark ? Colors.black.withValues(alpha: 0.35) : Colors.black.withValues(alpha: 0.06),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Icon(
-                              Icons.person_rounded,
-                              size: 22,
-                              color: AppColors.textPrimary,
-                            ),
-                            Positioned(
-                              right: 2,
-                              bottom: 2,
-                              child: Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  color: AppColors.voltLime,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: AppColors.obsidianBase,
-                                    width: 1.5,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    // Center Location & XP Capsule
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          GestureDetector(
-                            onTap: () => AppNavigator.toXpStore(context),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: AppColors.obsidianCard,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: AppColors.radiantGold.withValues(alpha: 0.35),
-                                  width: 1,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.isDark ? Colors.black.withValues(alpha: 0.25) : Colors.black.withValues(alpha: 0.04),
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(Icons.star_rounded, size: 14, color: AppColors.radiantGold),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    '1,240 XP',
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w800,
-                                      color: AppColors.textPrimary,
-                                      letterSpacing: 0.3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 3),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ClipOval(
-                                child: Image.asset(
-                                  'assets/images/company_logo.png',
-                                  width: 15,
-                                  height: 15,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Flexible(
-                                child: Text(
-                                  'Tonight · 3 Damansara',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.textPrimary,
-                                  ),
-                                ),
-                              ),
-                              Icon(
-                                Icons.keyboard_arrow_down_rounded,
-                                size: 16,
-                                color: AppColors.textSecondary,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Right Drawer Menu Icon -> Opens Luxury Obsidian Drawer
-                    GestureDetector(
-                      onTap: () => _scaffoldKey.currentState?.openEndDrawer(),
-                      child: Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: AppColors.obsidianCard,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.border,
-                            width: 1.2,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.isDark ? Colors.black.withValues(alpha: 0.35) : Colors.black.withValues(alpha: 0.06),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Icon(
-                          Icons.menu_rounded,
-                          size: 22,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ),
-              ],
-            ),
-          ),
-
-              // ==========================================
-              // SCROLLABLE BODY
-              // ==========================================
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Dynamic Athletic Hero Card with 3D Table Tennis Court Stage
-                      _buildHeroStadiumCard(context),
-                      const SizedBox(height: 14),
-
-                      // 3 Quick Telemetry Cards
-                      _buildThreeTelemetryCards(context),
-                      const SizedBox(height: 14),
-
-                      // 1. Sparring Rivals Carousel (Athletic Player Cards)
-                      _buildFavoriteRivalsSection(context),
-                      const SizedBox(height: 14),
-
-                      // 2. Flash Promo Countdown Banner (Happy Hour Sunset Pass)
-                      _buildFlashPromoBanner(),
-                      const SizedBox(height: 16),
-
-                      // 3. Asymmetrical Bento Telemetry Grid
-                      _buildBentoTelemetryGrid(context),
-                      const SizedBox(height: 16),
-
-                      // Venue Map Card
-                      _buildVenueMapCard(context),
-                      const SizedBox(height: 14),
-
-                      // Member Pricing & 90 Sen Anchor Card
-                      _buildMemberPricingCard(context),
-                      const SizedBox(height: 18),
-
-                      // Primary Athletic Emerald 3D Tactile CTA Button
-                      TactileButton.volt(
-                        text: 'Walk In & Play →',
-                        onPressed: widget.onWalkInTap ?? widget.onRegisterTap ?? () => AppNavigator.toPlan(context),
-                      ),
-                      const SizedBox(height: 12),
-
-                      // Direct Door Pass Access Chip (Royal Sapphire Glass)
-                      Center(
-                        child: GestureDetector(
-                          onTap: () => AppNavigator.toPass(context),
+    return ThemeScope(
+      builder: (context, isDark) {
+        return Scaffold(
+          key: _scaffoldKey,
+          backgroundColor: AppColors.canvasBg,
+          endDrawer: _buildBkashStyleSideDrawer(context, isDark),
+          body: Container(
+            color: AppColors.canvasBg,
+            child: SafeArea(
+              bottom: false,
+              child: Column(
+                children: [
+                  // ==========================================
+                  // TOP BAR: Profile (Left) | XP & Location | Menu (Right)
+                  // ==========================================
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Top-Left: Player Profile Button -> Profile Screen
+                        GestureDetector(
+                          onTap: () => AppNavigator.toProfile(context),
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+                            width: 44,
+                            height: 44,
                             decoration: BoxDecoration(
-                              color: const Color(0x262563EB),
-                              borderRadius: BorderRadius.circular(16),
+                              color: AppColors.obsidianCard,
+                              shape: BoxShape.circle,
                               border: Border.all(
-                                color: const Color(0xFF60A5FA).withValues(alpha: 0.5),
+                                color: AppColors.border,
                                 width: 1.2,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF2563EB).withValues(alpha: 0.15),
-                                  blurRadius: 10,
+                                  color: isDark
+                                      ? Colors.black.withValues(alpha: 0.35)
+                                      : const Color(0xFF0F172A).withValues(alpha: 0.08),
+                                  blurRadius: 8,
                                   offset: const Offset(0, 2),
                                 ),
                               ],
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
+                            child: Stack(
+                              alignment: Alignment.center,
                               children: [
-                                const Icon(
-                                  Icons.qr_code_scanner_rounded,
-                                  size: 16,
-                                  color: Color(0xFF60A5FA),
+                                Icon(
+                                  Icons.person_rounded,
+                                  size: 22,
+                                  color: AppColors.textPrimary,
                                 ),
-                                const SizedBox(width: 8),
-                                Flexible(
-                                  child: Text(
-                                    'Door Pass (KX8VQS) →',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w800,
-                                      color: const Color(0xFF93C5FD),
-                                      letterSpacing: 0.3,
+                                Positioned(
+                                  right: 2,
+                                  bottom: 2,
+                                  child: Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.voltLime,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: AppColors.canvasBg,
+                                        width: 1.5,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -298,313 +99,502 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Center(
-                        child: Text(
-                          'At the door: two QRs — Registered or Guest.',
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white.withValues(alpha: 0.45),
+
+                        // Center Location & XP Capsule
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GestureDetector(
+                                onTap: () => AppNavigator.toXpStore(context),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.obsidianCard,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: isDark
+                                          ? AppColors.radiantGold.withValues(alpha: 0.35)
+                                          : const Color(0xFFFCD34D),
+                                      width: 1,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: isDark
+                                            ? Colors.black.withValues(alpha: 0.25)
+                                            : const Color(0xFF0F172A).withValues(alpha: 0.04),
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 1),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.star_rounded, size: 14, color: AppColors.radiantGold),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        '1,240 XP',
+                                        style: GoogleFonts.plusJakartaSans(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w800,
+                                          color: AppColors.textPrimary,
+                                          letterSpacing: 0.3,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 3),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ClipOval(
+                                    child: Image.asset(
+                                      'assets/images/company_logo.png',
+                                      width: 15,
+                                      height: 15,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Flexible(
+                                    child: Text(
+                                      'Tonight · 3 Damansara',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.plusJakartaSans(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.textPrimary,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    size: 16,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
-              ),
 
-              // Floating Obsidian Glass Bottom Navigation Dock
-              const JomnittakuNavBar(activeIndex: 0),
-            ],
+                        // Right Drawer Menu Icon -> Opens Luxury Drawer
+                        GestureDetector(
+                          onTap: () => _scaffoldKey.currentState?.openEndDrawer(),
+                          child: Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: AppColors.obsidianCard,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: AppColors.border,
+                                width: 1.2,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: isDark
+                                      ? Colors.black.withValues(alpha: 0.35)
+                                      : const Color(0xFF0F172A).withValues(alpha: 0.08),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.menu_rounded,
+                              size: 22,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // ==========================================
+                  // SCROLLABLE BODY
+                  // ==========================================
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Dynamic Athletic Hero Card with 3D Table Tennis Court Stage
+                          _buildHeroStadiumCard(context, isDark),
+                          const SizedBox(height: 14),
+
+                          // 3 Quick Telemetry Cards
+                          _buildThreeTelemetryCards(context, isDark),
+                          const SizedBox(height: 14),
+
+                          // 1. Sparring Rivals Carousel (Athletic Player Cards)
+                          _buildFavoriteRivalsSection(context, isDark),
+                          const SizedBox(height: 14),
+
+                          // 2. Flash Promo Countdown Banner (Happy Hour Sunset Pass)
+                          _buildFlashPromoBanner(isDark),
+                          const SizedBox(height: 16),
+
+                          // 3. Asymmetrical Bento Telemetry Grid
+                          _buildBentoTelemetryGrid(context, isDark),
+                          const SizedBox(height: 16),
+
+                          // Venue Map Card
+                          _buildVenueMapCard(context, isDark),
+                          const SizedBox(height: 14),
+
+                          // Member Pricing & 90 Sen Anchor Card
+                          _buildMemberPricingCard(context, isDark),
+                          const SizedBox(height: 18),
+
+                          // Primary Athletic Emerald 3D Tactile CTA Button
+                          TactileButton.volt(
+                            text: 'Walk In & Play →',
+                            onPressed: widget.onWalkInTap ??
+                                widget.onRegisterTap ??
+                                () => AppNavigator.toPlan(context),
+                          ),
+                          const SizedBox(height: 12),
+
+                          // Direct Door Pass Access Chip (Sapphire Glass)
+                          Center(
+                            child: GestureDetector(
+                              onTap: () => AppNavigator.toPass(context),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+                                decoration: BoxDecoration(
+                                  color: isDark ? const Color(0x262563EB) : const Color(0xFFEFF6FF),
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: isDark
+                                        ? const Color(0xFF60A5FA).withValues(alpha: 0.5)
+                                        : const Color(0xFFBFDBFE),
+                                    width: 1.2,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: isDark
+                                          ? const Color(0xFF2563EB).withValues(alpha: 0.15)
+                                          : const Color(0xFF2563EB).withValues(alpha: 0.08),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.qr_code_scanner_rounded,
+                                      size: 16,
+                                      color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Flexible(
+                                      child: Text(
+                                        'Door Pass (KX8VQS) →',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.plusJakartaSans(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                          color: isDark ? const Color(0xFF93C5FD) : const Color(0xFF1D4ED8),
+                                          letterSpacing: 0.3,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Center(
+                            child: Text(
+                              'At the door: two QRs — Registered or Guest.',
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.textMuted,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // Floating Glass Bottom Navigation Dock
+                  const JomnittakuNavBar(activeIndex: 0),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   // ============================================================
   // HERO STADIUM CARD (Dynamic Athletic Stage with 3D Court Visual)
   // ============================================================
-  Widget _buildHeroStadiumCard(BuildContext context) {
+  Widget _buildHeroStadiumCard(BuildContext context, bool isDark) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF162544),
-            Color(0xFF0F1A2E),
-          ],
-        ),
+        gradient: AppColors.heroCardGradient,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.12),
-          width: 1.0,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.08),
-            offset: const Offset(0, 1),
-            blurRadius: 0,
-          ),
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.40),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: AppColors.cardBorder,
+        boxShadow: AppColors.cardShadow,
       ),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Top Tag: Venue Arena & Live Status
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Top Tag: Venue Arena & Live Status
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 8,
-                            height: 8,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF10B981),
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Flexible(
-                            child: Text(
-                              'JOMNITTAKU · 3 DAMANSARA',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w900,
-                                color: const Color(0xFF60A5FA),
-                                letterSpacing: 0.8,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF10B981).withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: const Color(0xFF10B981).withValues(alpha: 0.35),
-                          width: 1,
+                Expanded(
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF10B981),
+                          shape: BoxShape.circle,
                         ),
                       ),
-                      child: Text(
-                        '6 OF 10 FREE',
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF10B981),
-                          letterSpacing: 0.4,
+                      const SizedBox(width: 6),
+                      Flexible(
+                        child: Text(
+                          'JOMNITTAKU · 3 DAMANSARA',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w900,
+                            color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
+                            letterSpacing: 0.8,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 14),
-
-                // Main Content Row: Company Logo & Typography (Left) + 3D Table Tennis Court Arena (Right)
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Left Column: Company Logo + Catchphrase & Subtitle
-                    Expanded(
-                      flex: 12,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 44,
-                                height: 44,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.35),
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: ClipOval(
-                                  child: Image.asset(
-                                    'assets/images/company_logo.png',
-                                    width: 44,
-                                    height: 44,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'JUST PLAY',
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.white,
-                                        letterSpacing: -0.6,
-                                        height: 1.0,
-                                      ),
-                                    ),
-                                    Text(
-                                      'TONIGHT',
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w900,
-                                        color: const Color(0xFF38BDF8),
-                                        letterSpacing: -0.4,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Autonomous table tennis arena.\nWalk in & challenge rivals now.',
-                            style: GoogleFonts.plusJakartaSans(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white.withValues(alpha: 0.70),
-                              height: 1.3,
-                            ),
-                          ),
-                        ],
-                      ),
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: isDark ? const Color(0xFF10B981).withValues(alpha: 0.15) : const Color(0xFFECFDF5),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: isDark ? const Color(0xFF10B981).withValues(alpha: 0.35) : const Color(0xFFA7F3D0),
+                      width: 1,
                     ),
-
-                    const SizedBox(width: 8),
-
-                    // Right Column: Interactive 3D Table Tennis Court Stage
-                    Expanded(
-                      flex: 11,
-                      child: _build3dTableTennisStage(context),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 16),
-
-                // Bottom Interactive Ticker & Action Bar
-                GestureDetector(
-                  onTap: () => AppNavigator.toTables(context),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0F1A2E),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.10),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              ClipOval(
-                                child: Image.asset(
-                                  'assets/images/company_logo.png',
-                                  width: 18,
-                                  height: 18,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Flexible(
-                                child: Text(
-                                  '• LIVE • 2 matches active now',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Row(
-                          children: [
-                            Text(
-                              'Radar View',
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w800,
-                                color: const Color(0xFF38BDF8),
-                              ),
-                            ),
-                            const SizedBox(width: 3),
-                            const Icon(
-                              Icons.arrow_forward_rounded,
-                              size: 13,
-                              color: Color(0xFF38BDF8),
-                            ),
-                          ],
-                        ),
-                      ],
+                  ),
+                  child: Text(
+                    '6 OF 10 FREE',
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 9,
+                      fontWeight: FontWeight.w900,
+                      color: isDark ? const Color(0xFF10B981) : const Color(0xFF059669),
+                      letterSpacing: 0.4,
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-        );
+            const SizedBox(height: 14),
+
+            // Main Content Row: Company Logo & Typography (Left) + 3D Table Tennis Court Arena (Right)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Left Column: Company Logo + Catchphrase & Subtitle
+                Expanded(
+                  flex: 12,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: isDark
+                                      ? Colors.black.withValues(alpha: 0.35)
+                                      : const Color(0xFF0F172A).withValues(alpha: 0.08),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: ClipOval(
+                              child: Image.asset(
+                                'assets/images/company_logo.png',
+                                width: 44,
+                                height: 44,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'JUST PLAY',
+                                  style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900,
+                                    color: AppColors.textPrimary,
+                                    letterSpacing: -0.6,
+                                    height: 1.0,
+                                  ),
+                                ),
+                                Text(
+                                  'TONIGHT',
+                                  style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w900,
+                                    color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                                    letterSpacing: -0.4,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Autonomous table tennis arena.\nWalk in & challenge rivals now.',
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textSecondary,
+                          height: 1.3,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 11,
+                  child: _build3dTableTennisStage(context, isDark),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // Bottom Quick Bar: Radar & Telemetry Button
+            GestureDetector(
+              onTap: () => AppNavigator.toTables(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                decoration: BoxDecoration(
+                  color: isDark ? Colors.black.withValues(alpha: 0.25) : const Color(0xFFF1F5F9),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: isDark ? Colors.white.withValues(alpha: 0.08) : const Color(0xFFE2E8F0),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 6,
+                          height: 6,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF10B981),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'LIVE • 2 matches active now',
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Radar View',
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w800,
+                            color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                          ),
+                        ),
+                        const SizedBox(width: 3),
+                        Icon(
+                          Icons.arrow_forward_rounded,
+                          size: 13,
+                          color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // ============================================================
   // 3D TABLE TENNIS COURT STAGE (Fills right side of Hero Card)
   // ============================================================
-  Widget _build3dTableTennisStage(BuildContext context) {
+  Widget _build3dTableTennisStage(BuildContext context, bool isDark) {
     return GestureDetector(
       onTap: () => AppNavigator.toTables(context),
       child: Container(
         height: 118,
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF1E3A8A),
-              Color(0xFF0F2256),
-            ],
+            colors: isDark
+                ? [const Color(0xFF1E3A8A), const Color(0xFF0F2256)]
+                : [const Color(0xFF1D4ED8), const Color(0xFF1E40AF)],
           ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: const Color(0xFF60A5FA).withValues(alpha: 0.35),
+            color: isDark
+                ? const Color(0xFF60A5FA).withValues(alpha: 0.35)
+                : const Color(0xFF93C5FD),
             width: 1.2,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.35),
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.35)
+                  : const Color(0xFF1E40AF).withValues(alpha: 0.15),
               blurRadius: 6,
               offset: const Offset(0, 3),
             ),
@@ -792,7 +782,7 @@ class _SplashScreenState extends State<SplashScreen> {
   // ============================================================
   // 3 QUICK TELEMETRY CARDS (Athletic Glass)
   // ============================================================
-  Widget _buildThreeTelemetryCards(BuildContext context) {
+  Widget _buildThreeTelemetryCards(BuildContext context, bool isDark) {
     return Row(
       children: [
         Expanded(
@@ -803,6 +793,7 @@ class _SplashScreenState extends State<SplashScreen> {
               value: '6 Free',
               icon: Icons.table_restaurant_rounded,
               accentColor: AppColors.voltLime,
+              isDark: isDark,
             ),
           ),
         ),
@@ -815,6 +806,7 @@ class _SplashScreenState extends State<SplashScreen> {
               value: 'Node 2 ⭐',
               icon: Icons.alt_route_rounded,
               accentColor: AppColors.radiantGold,
+              isDark: isDark,
             ),
           ),
         ),
@@ -826,7 +818,8 @@ class _SplashScreenState extends State<SplashScreen> {
               title: 'XP balance',
               value: '1,240 XP',
               icon: Icons.military_tech_rounded,
-              accentColor: const Color(0xFF38BDF8),
+              accentColor: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+              isDark: isDark,
             ),
           ),
         ),
@@ -839,6 +832,7 @@ class _SplashScreenState extends State<SplashScreen> {
     required String value,
     required IconData icon,
     required Color accentColor,
+    required bool isDark,
   }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -849,23 +843,16 @@ class _SplashScreenState extends State<SplashScreen> {
           color: AppColors.border,
           width: 1,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.isDark ? Colors.black.withValues(alpha: 0.25) : Colors.black.withValues(alpha: 0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        boxShadow: AppColors.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 28,
-            height: 28,
+            padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: accentColor.withValues(alpha: 0.15),
-              shape: BoxShape.circle,
+              color: accentColor.withValues(alpha: isDark ? 0.15 : 0.12),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, size: 16, color: accentColor),
           ),
@@ -889,6 +876,7 @@ class _SplashScreenState extends State<SplashScreen> {
               fontSize: 13,
               fontWeight: FontWeight.w900,
               color: AppColors.textPrimary,
+              letterSpacing: -0.3,
             ),
           ),
         ],
@@ -899,31 +887,15 @@ class _SplashScreenState extends State<SplashScreen> {
   // ============================================================
   // FAVORITE SPARRING RIVALS (Athletic Player Cards)
   // ============================================================
-  Widget _buildFavoriteRivalsSection(BuildContext context) {
+  Widget _buildFavoriteRivalsSection(BuildContext context, bool isDark) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF162544),
-            Color(0xFF101B30),
-          ],
-        ),
+        gradient: AppColors.cardGradient,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.10),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 14,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: AppColors.cardBorder,
+        boxShadow: AppColors.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -939,7 +911,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
-                    color: Colors.white,
+                    color: AppColors.textPrimary,
                     letterSpacing: -0.2,
                   ),
                 ),
@@ -952,7 +924,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    color: const Color(0xFF60A5FA),
+                    color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
                   ),
                 ),
               ),
@@ -971,6 +943,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   streak: '🔥 3W',
                   isLiveAtVenue: true,
                   ringColor: const Color(0xFF38BDF8),
+                  isDark: isDark,
                 ),
                 const SizedBox(width: 14),
                 _buildGamerRivalCard(
@@ -981,6 +954,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   streak: '🔥 5W',
                   isLiveAtVenue: true,
                   ringColor: const Color(0xFF10B981),
+                  isDark: isDark,
                 ),
                 const SizedBox(width: 14),
                 _buildGamerRivalCard(
@@ -991,6 +965,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   streak: '1W',
                   isLiveAtVenue: false,
                   ringColor: const Color(0xFF818CF8),
+                  isDark: isDark,
                 ),
                 const SizedBox(width: 14),
                 _buildGamerRivalCard(
@@ -1001,9 +976,10 @@ class _SplashScreenState extends State<SplashScreen> {
                   streak: '🔥 7W',
                   isLiveAtVenue: false,
                   ringColor: AppColors.radiantGold,
+                  isDark: isDark,
                 ),
                 const SizedBox(width: 14),
-                _buildAddRivalButton(context),
+                _buildAddRivalButton(context, isDark),
               ],
             ),
           ),
@@ -1020,6 +996,7 @@ class _SplashScreenState extends State<SplashScreen> {
     required String streak,
     required bool isLiveAtVenue,
     required Color ringColor,
+    required bool isDark,
   }) {
     return GestureDetector(
       onTap: () => AppNavigator.toChallengeAccepted(context),
@@ -1033,7 +1010,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 52,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [ringColor.withValues(alpha: 0.30), const Color(0xFF101B30)],
+                    colors: [
+                      ringColor.withValues(alpha: isDark ? 0.30 : 0.20),
+                      isDark ? const Color(0xFF101B30) : const Color(0xFFF1F5F9),
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -1041,7 +1021,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   border: Border.all(color: ringColor, width: 1.8),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.25),
+                      color: isDark
+                          ? Colors.black.withValues(alpha: 0.25)
+                          : const Color(0xFF0F172A).withValues(alpha: 0.08),
                       blurRadius: 6,
                       offset: const Offset(0, 2),
                     ),
@@ -1053,7 +1035,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 18,
                       fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                      color: isDark ? Colors.white : const Color(0xFF0F172A),
                     ),
                   ),
                 ),
@@ -1068,7 +1050,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF10B981),
                       shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.obsidianBase, width: 2),
+                      border: Border.all(color: AppColors.canvasBg, width: 2),
                     ),
                   ),
                 ),
@@ -1079,16 +1061,19 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF261808),
+                    color: isDark ? const Color(0xFF261808) : const Color(0xFFFEF3C7),
                     borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: const Color(0xFFF59E0B), width: 0.8),
+                    border: Border.all(
+                      color: isDark ? const Color(0xFFF59E0B) : const Color(0xFFFCD34D),
+                      width: 0.8,
+                    ),
                   ),
                   child: Text(
                     streak,
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 8,
                       fontWeight: FontWeight.w900,
-                      color: const Color(0xFFFBBF24),
+                      color: isDark ? const Color(0xFFFBBF24) : const Color(0xFFB45309),
                     ),
                   ),
                 ),
@@ -1101,7 +1086,7 @@ class _SplashScreenState extends State<SplashScreen> {
             style: GoogleFonts.plusJakartaSans(
               fontSize: 11,
               fontWeight: FontWeight.w800,
-              color: Colors.white,
+              color: AppColors.textPrimary,
             ),
           ),
           Text(
@@ -1109,7 +1094,7 @@ class _SplashScreenState extends State<SplashScreen> {
             style: GoogleFonts.plusJakartaSans(
               fontSize: 9,
               fontWeight: FontWeight.w700,
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppColors.textSecondary,
             ),
           ),
         ],
@@ -1117,7 +1102,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Widget _buildAddRivalButton(BuildContext context) {
+  Widget _buildAddRivalButton(BuildContext context, bool isDark) {
     return GestureDetector(
       onTap: () => AppNavigator.toLeaderboard(context),
       child: Column(
@@ -1126,17 +1111,19 @@ class _SplashScreenState extends State<SplashScreen> {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: const Color(0x1A38BDF8),
+              color: isDark ? const Color(0x1A38BDF8) : const Color(0xFFEFF6FF),
               shape: BoxShape.circle,
               border: Border.all(
-                color: const Color(0xFF38BDF8).withValues(alpha: 0.5),
+                color: isDark
+                    ? const Color(0xFF38BDF8).withValues(alpha: 0.5)
+                    : const Color(0xFF93C5FD),
                 style: BorderStyle.solid,
                 width: 1.5,
               ),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.add_rounded,
-              color: Color(0xFF38BDF8),
+              color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
               size: 26,
             ),
           ),
@@ -1146,7 +1133,7 @@ class _SplashScreenState extends State<SplashScreen> {
             style: GoogleFonts.plusJakartaSans(
               fontSize: 11,
               fontWeight: FontWeight.w800,
-              color: const Color(0xFF38BDF8),
+              color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
             ),
           ),
           Text(
@@ -1154,7 +1141,7 @@ class _SplashScreenState extends State<SplashScreen> {
             style: GoogleFonts.plusJakartaSans(
               fontSize: 9,
               fontWeight: FontWeight.w700,
-              color: Colors.white.withValues(alpha: 0.4),
+              color: AppColors.textMuted,
             ),
           ),
         ],
@@ -1165,31 +1152,18 @@ class _SplashScreenState extends State<SplashScreen> {
   // ============================================================
   // FLASH COUNTDOWN BANNER (Sunset Athletic Pass)
   // ============================================================
-  Widget _buildFlashPromoBanner() {
+  Widget _buildFlashPromoBanner(bool isDark) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFF2E1C0C),
-            Color(0xFF1E1308),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: AppColors.promoBannerGradient,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFF59E0B).withValues(alpha: 0.4),
+          color: isDark ? const Color(0xFFF59E0B).withValues(alpha: 0.4) : const Color(0xFFFCD34D),
           width: 1.2,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 3),
-          ),
-        ],
+        boxShadow: AppColors.cardShadow,
       ),
       child: Row(
         children: [
@@ -1214,14 +1188,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w900,
-                    color: const Color(0xFFFDE68A),
+                    color: isDark ? const Color(0xFFFDE68A) : const Color(0xFFB45309),
                   ),
                 ),
                 Text(
                   'All tables 50 sen/hour for members',
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 11,
-                    color: Colors.white.withValues(alpha: 0.70),
+                    color: isDark ? Colors.white.withValues(alpha: 0.70) : const Color(0xFF92400E),
                   ),
                 ),
               ],
@@ -1257,7 +1231,7 @@ class _SplashScreenState extends State<SplashScreen> {
   // ============================================================
   // ASYMMETRICAL BENTO TELEMETRY GRID
   // ============================================================
-  Widget _buildBentoTelemetryGrid(BuildContext context) {
+  Widget _buildBentoTelemetryGrid(BuildContext context, bool isDark) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1281,15 +1255,19 @@ class _SplashScreenState extends State<SplashScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: const Color(0xFF38BDF8).withValues(alpha: 0.15),
+                color: isDark ? const Color(0xFF38BDF8).withValues(alpha: 0.15) : const Color(0xFFEFF6FF),
                 borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: isDark ? const Color(0xFF38BDF8).withValues(alpha: 0.3) : const Color(0xFFBAE6FD),
+                  width: 0.8,
+                ),
               ),
               child: Text(
                 'LIVE IOT',
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 9,
                   fontWeight: FontWeight.w800,
-                  color: const Color(0xFF38BDF8),
+                  color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
                 ),
               ),
             ),
@@ -1304,27 +1282,13 @@ class _SplashScreenState extends State<SplashScreen> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFF162544), Color(0xFF101B30)],
-              ),
+              gradient: AppColors.cardGradient,
               borderRadius: BorderRadius.circular(22),
               border: Border.all(
-                color: const Color(0xFF38BDF8).withValues(alpha: 0.25),
+                color: isDark ? const Color(0xFF38BDF8).withValues(alpha: 0.25) : const Color(0xFFE2E8F0),
                 width: 1,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withValues(alpha: 0.08),
-                  offset: const Offset(0, 1),
-                ),
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.35),
-                  blurRadius: 14,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+              boxShadow: AppColors.cardShadow,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1338,13 +1302,13 @@ class _SplashScreenState extends State<SplashScreen> {
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF38BDF8).withValues(alpha: 0.15),
+                              color: isDark ? const Color(0xFF38BDF8).withValues(alpha: 0.15) : const Color(0xFFEFF6FF),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.radar_rounded,
                               size: 18,
-                              color: Color(0xFF38BDF8),
+                              color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -1356,7 +1320,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               style: GoogleFonts.plusJakartaSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w900,
-                                color: Colors.white,
+                                color: AppColors.textPrimary,
                               ),
                             ),
                           ),
@@ -1369,7 +1333,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
-                        color: const Color(0xFF10B981),
+                        color: isDark ? const Color(0xFF10B981) : const Color(0xFF059669),
                       ),
                     ),
                   ],
@@ -1380,17 +1344,17 @@ class _SplashScreenState extends State<SplashScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      _buildTableBeacon('T1', isOccupied: true, player: 'Aiman'),
+                      _buildTableBeacon('T1', isOccupied: true, player: 'Aiman', isDark: isDark),
                       const SizedBox(width: 8),
-                      _buildTableBeacon('T2', isOccupied: true, player: 'Sara'),
+                      _buildTableBeacon('T2', isOccupied: true, player: 'Sara', isDark: isDark),
                       const SizedBox(width: 8),
-                      _buildTableBeacon('T3', isOccupied: false),
+                      _buildTableBeacon('T3', isOccupied: false, isDark: isDark),
                       const SizedBox(width: 8),
-                      _buildTableBeacon('T4', isOccupied: false),
+                      _buildTableBeacon('T4', isOccupied: false, isDark: isDark),
                       const SizedBox(width: 8),
-                      _buildTableBeacon('T5', isOccupied: false),
+                      _buildTableBeacon('T5', isOccupied: false, isDark: isDark),
                       const SizedBox(width: 8),
-                      _buildTableBeacon('T6', isOccupied: false),
+                      _buildTableBeacon('T6', isOccupied: false, isDark: isDark),
                     ],
                   ),
                 ),
@@ -1414,6 +1378,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   badgeColor: AppColors.amethystPurple,
                   icon: Icons.alt_route_rounded,
                   accentColor: AppColors.amethystPurple,
+                  isDark: isDark,
                 ),
               ),
             ),
@@ -1429,6 +1394,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   badgeColor: const Color(0xFFEF4444),
                   icon: Icons.sports_mma_rounded,
                   accentColor: const Color(0xFFEF4444),
+                  isDark: isDark,
                 ),
               ),
             ),
@@ -1450,6 +1416,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   badgeColor: AppColors.radiantGold,
                   icon: Icons.military_tech_rounded,
                   accentColor: AppColors.radiantGold,
+                  isDark: isDark,
                 ),
               ),
             ),
@@ -1462,9 +1429,10 @@ class _SplashScreenState extends State<SplashScreen> {
                   title: 'Live Scoreboard',
                   subtitle: '55" TV Broadcast View',
                   badge: 'ARENA TV',
-                  badgeColor: const Color(0xFF38BDF8),
+                  badgeColor: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
                   icon: Icons.live_tv_rounded,
-                  accentColor: const Color(0xFF38BDF8),
+                  accentColor: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                  isDark: isDark,
                 ),
               ),
             ),
@@ -1478,21 +1446,29 @@ class _SplashScreenState extends State<SplashScreen> {
             Expanded(
               child: GestureDetector(
                 onTap: () => AppNavigator.toXpStore(context),
-                child: _buildQuickPill('⚡ Borrow XP', AppColors.radiantGold),
+                child: _buildQuickPill('⚡ Borrow XP', AppColors.radiantGold, isDark),
               ),
             ),
             const SizedBox(width: 8),
             Expanded(
               child: GestureDetector(
                 onTap: () => AppNavigator.toLeaderboard(context),
-                child: _buildQuickPill('🏆 #4 Rank', const Color(0xFF10B981)),
+                child: _buildQuickPill(
+                  '🏆 #4 Rank',
+                  isDark ? const Color(0xFF10B981) : const Color(0xFF059669),
+                  isDark,
+                ),
               ),
             ),
             const SizedBox(width: 8),
             Expanded(
               child: GestureDetector(
                 onTap: () => AppNavigator.pushScreen(context, const SeekPlayerScreen()),
-                child: _buildQuickPill('📡 Radar Ping', const Color(0xFF38BDF8)),
+                child: _buildQuickPill(
+                  '📡 Radar Ping',
+                  isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
+                  isDark,
+                ),
               ),
             ),
           ],
@@ -1501,9 +1477,19 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Widget _buildTableBeacon(String tableName, {required bool isOccupied, String? player}) {
-    final courtColor = isOccupied ? const Color(0xFF1E293B) : const Color(0xFF1D4ED8);
+  Widget _buildTableBeacon(String tableName,
+      {required bool isOccupied, String? player, required bool isDark}) {
+    final courtColor = isOccupied
+        ? (isDark ? const Color(0xFF1E293B) : const Color(0xFFFEE2E2))
+        : (isDark ? const Color(0xFF1D4ED8) : const Color(0xFFECFDF5));
     final borderColor = isOccupied ? const Color(0xFFEF4444) : const Color(0xFF10B981);
+    final titleColor = isDark
+        ? Colors.white
+        : (isOccupied ? const Color(0xFF991B1B) : const Color(0xFF065F46));
+    final statusColor = isOccupied
+        ? (isDark ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626))
+        : (isDark ? const Color(0xFF6EE7B7) : const Color(0xFF059669));
+
     return Container(
       width: 52,
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -1513,7 +1499,7 @@ class _SplashScreenState extends State<SplashScreen> {
         border: Border.all(color: borderColor, width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.3),
+            color: isDark ? Colors.black.withValues(alpha: 0.3) : const Color(0xFF0F172A).withValues(alpha: 0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -1535,7 +1521,7 @@ class _SplashScreenState extends State<SplashScreen> {
             style: GoogleFonts.plusJakartaSans(
               fontSize: 11,
               fontWeight: FontWeight.w900,
-              color: Colors.white,
+              color: titleColor,
             ),
           ),
           Text(
@@ -1545,7 +1531,7 @@ class _SplashScreenState extends State<SplashScreen> {
             style: GoogleFonts.plusJakartaSans(
               fontSize: 8,
               fontWeight: FontWeight.w800,
-              color: isOccupied ? const Color(0xFFFCA5A5) : const Color(0xFF6EE7B7),
+              color: statusColor,
             ),
           ),
         ],
@@ -1560,31 +1546,18 @@ class _SplashScreenState extends State<SplashScreen> {
     required Color badgeColor,
     required IconData icon,
     required Color accentColor,
+    required bool isDark,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF162544), Color(0xFF101B30)],
-        ),
+        gradient: AppColors.cardGradient,
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: accentColor.withValues(alpha: 0.25),
+          color: isDark ? accentColor.withValues(alpha: 0.25) : const Color(0xFFE2E8F0),
           width: 1,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.08),
-            offset: const Offset(0, 1),
-          ),
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 14,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: AppColors.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1595,7 +1568,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: 0.15),
+                  color: accentColor.withValues(alpha: isDark ? 0.15 : 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(icon, size: 20, color: accentColor),
@@ -1605,9 +1578,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: badgeColor.withValues(alpha: 0.2),
+                    color: badgeColor.withValues(alpha: isDark ? 0.2 : 0.12),
                     borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: badgeColor.withValues(alpha: 0.4), width: 0.8),
+                    border: Border.all(
+                      color: badgeColor.withValues(alpha: isDark ? 0.4 : 0.3),
+                      width: 0.8,
+                    ),
                   ),
                   child: Text(
                     badge,
@@ -1631,7 +1607,7 @@ class _SplashScreenState extends State<SplashScreen> {
             style: GoogleFonts.plusJakartaSans(
               fontSize: 14,
               fontWeight: FontWeight.w900,
-              color: Colors.white,
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 2),
@@ -1642,7 +1618,7 @@ class _SplashScreenState extends State<SplashScreen> {
             style: GoogleFonts.plusJakartaSans(
               fontSize: 10,
               fontWeight: FontWeight.w600,
-              color: Colors.white.withValues(alpha: 0.55),
+              color: AppColors.textSecondary,
             ),
           ),
         ],
@@ -1650,13 +1626,17 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Widget _buildQuickPill(String label, Color color) {
+  Widget _buildQuickPill(String label, Color color, bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
+        border: Border.all(
+          color: color.withValues(alpha: isDark ? 0.3 : 0.4),
+          width: 1,
+        ),
+        boxShadow: AppColors.cardShadow,
       ),
       child: Center(
         child: Text(
@@ -1674,24 +1654,14 @@ class _SplashScreenState extends State<SplashScreen> {
   // ============================================================
   // VENUE MAP CARD (Athletic Slate)
   // ============================================================
-  Widget _buildVenueMapCard(BuildContext context) {
+  Widget _buildVenueMapCard(BuildContext context, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF162544), Color(0xFF101B30)],
-        ),
+        gradient: AppColors.cardGradient,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: AppColors.cardBorder,
+        boxShadow: AppColors.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1704,7 +1674,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w900,
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                 ),
               ),
               const SizedBox(width: 8),
@@ -1713,11 +1683,11 @@ class _SplashScreenState extends State<SplashScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      _buildFilterPill('Tables', true),
+                      _buildFilterPill('Tables', true, isDark),
                       const SizedBox(width: 6),
-                      _buildFilterPill('Live', false),
+                      _buildFilterPill('Live', false, isDark),
                       const SizedBox(width: 6),
-                      _buildFilterPill('All', false),
+                      _buildFilterPill('All', false, isDark),
                     ],
                   ),
                 ),
@@ -1730,9 +1700,9 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildMiniTable(hasDotLeft: true),
-                _buildMiniTable(hasDotRight: true),
-                _buildMiniTable(hasDotLeft: true),
+                _buildMiniTable(hasDotLeft: true, isDark: isDark),
+                _buildMiniTable(hasDotRight: true, isDark: isDark),
+                _buildMiniTable(hasDotLeft: true, isDark: isDark),
               ],
             ),
           ),
@@ -1743,7 +1713,7 @@ class _SplashScreenState extends State<SplashScreen> {
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
-                color: Colors.white.withValues(alpha: 0.55),
+                color: AppColors.textSecondary,
               ),
             ),
           ),
@@ -1755,27 +1725,19 @@ class _SplashScreenState extends State<SplashScreen> {
   // ============================================================
   // MEMBER PRICING & 90 SEN ANCHOR CARD
   // ============================================================
-  Widget _buildMemberPricingCard(BuildContext context) {
+  Widget _buildMemberPricingCard(BuildContext context, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF162544), Color(0xFF101B30)],
-        ),
+        gradient: AppColors.cardGradient,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: const Color(0xFF10B981).withValues(alpha: 0.25),
+          color: isDark
+              ? const Color(0xFF10B981).withValues(alpha: 0.25)
+              : const Color(0xFFE2E8F0),
           width: 1,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: AppColors.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1788,7 +1750,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white.withValues(alpha: 0.6),
+                  color: AppColors.textSecondary,
                 ),
               ),
               Text(
@@ -1796,7 +1758,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
-                  color: Colors.white,
+                  color: AppColors.textPrimary,
                 ),
               ),
             ],
@@ -1811,7 +1773,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w800,
-                    color: const Color(0xFF10B981),
+                    color: isDark ? const Color(0xFF10B981) : const Color(0xFF059669),
                   ),
                 ),
               ),
@@ -1819,7 +1781,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 'a day · RM90/mo',
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 11,
-                  color: Colors.white.withValues(alpha: 0.5),
+                  color: AppColors.textSecondary,
                 ),
               ),
             ],
@@ -1829,9 +1791,16 @@ class _SplashScreenState extends State<SplashScreen> {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFF10B981).withValues(alpha: 0.12),
+              color: isDark
+                  ? const Color(0xFF10B981).withValues(alpha: 0.12)
+                  : const Color(0xFFECFDF5),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFF10B981).withValues(alpha: 0.25), width: 1),
+              border: Border.all(
+                color: isDark
+                    ? const Color(0xFF10B981).withValues(alpha: 0.25)
+                    : const Color(0xFFA7F3D0),
+                width: 1,
+              ),
             ),
             child: Center(
               child: Text(
@@ -1839,7 +1808,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w900,
-                  color: const Color(0xFF10B981),
+                  color: isDark ? const Color(0xFF10B981) : const Color(0xFF059669),
                 ),
               ),
             ),
@@ -1852,9 +1821,9 @@ class _SplashScreenState extends State<SplashScreen> {
   // ============================================================
   // bKash PATTERN: SLIDE-OUT RIGHT DRAWER (Obsidian Glass)
   // ============================================================
-  Widget _buildBkashStyleSideDrawer(BuildContext context) {
+  Widget _buildBkashStyleSideDrawer(BuildContext context, bool isDark) {
     return Drawer(
-      backgroundColor: AppColors.obsidianBase,
+      backgroundColor: AppColors.canvasBg,
       child: SafeArea(
         child: Column(
           children: [
@@ -1873,7 +1842,9 @@ class _SplashScreenState extends State<SplashScreen> {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.3),
+                              color: isDark
+                                  ? Colors.black.withValues(alpha: 0.3)
+                                  : const Color(0xFF0F172A).withValues(alpha: 0.08),
                               blurRadius: 4,
                               offset: const Offset(0, 1),
                             ),
@@ -1928,27 +1899,29 @@ class _SplashScreenState extends State<SplashScreen> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: GestureDetector(
-                onTap: () => _showJomAiBottomSheet(context),
+                onTap: () => _showJomAiBottomSheet(context, isDark),
                 child: Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF162544), Color(0xFF0F1A2E)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+                    gradient: isDark
+                        ? const LinearGradient(
+                            colors: [Color(0xFF162544), Color(0xFF0F1A2E)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          )
+                        : const LinearGradient(
+                            colors: [Colors.white, Color(0xFFF1F5F9)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(
-                      color: const Color(0xFF38BDF8).withValues(alpha: 0.4),
+                      color: isDark
+                          ? const Color(0xFF38BDF8).withValues(alpha: 0.4)
+                          : const Color(0xFFBAE6FD),
                       width: 1.2,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.3),
-                        blurRadius: 12,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
+                    boxShadow: AppColors.cardShadow,
                   ),
                   child: Row(
                     children: [
@@ -1959,7 +1932,9 @@ class _SplashScreenState extends State<SplashScreen> {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.3),
+                              color: isDark
+                                  ? Colors.black.withValues(alpha: 0.3)
+                                  : const Color(0xFF0F172A).withValues(alpha: 0.08),
                               blurRadius: 4,
                               offset: const Offset(0, 1),
                             ),
@@ -1986,14 +1961,16 @@ class _SplashScreenState extends State<SplashScreen> {
                                   style: GoogleFonts.plusJakartaSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w900,
-                                    color: Colors.white,
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(width: 6),
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF38BDF8).withValues(alpha: 0.25),
+                                    color: isDark
+                                        ? const Color(0xFF38BDF8).withValues(alpha: 0.25)
+                                        : const Color(0xFFEFF6FF),
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: Text(
@@ -2001,7 +1978,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                     style: GoogleFonts.plusJakartaSans(
                                       fontSize: 8,
                                       fontWeight: FontWeight.w900,
-                                      color: const Color(0xFF38BDF8),
+                                      color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
                                     ),
                                   ),
                                 ),
@@ -2011,15 +1988,15 @@ class _SplashScreenState extends State<SplashScreen> {
                               'Virtual Venue Concierge & Umpire',
                               style: GoogleFonts.plusJakartaSans(
                                 fontSize: 10,
-                                color: Colors.white.withValues(alpha: 0.65),
+                                color: AppColors.textSecondary,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: Colors.white38,
+                        color: isDark ? Colors.white38 : const Color(0xFF94A3B8),
                         size: 12,
                       ),
                     ],
@@ -2051,8 +2028,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     AppNavigator.toGamificationPath(context);
                   }),
                   _buildDrawerTile(
-                    AppColors.isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-                    AppColors.isDark ? 'Switch to Light Mode ☀️' : 'Switch to Dark Mode 🌙',
+                    isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                    isDark ? 'Switch to Light Mode ☀️' : 'Switch to Dark Mode 🌙',
                     () {
                       Navigator.pop(context);
                       AppThemeController.toggleTheme();
@@ -2140,7 +2117,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void _showJomAiBottomSheet(BuildContext context) {
+  void _showJomAiBottomSheet(BuildContext context, bool isDark) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -2163,7 +2140,9 @@ class _SplashScreenState extends State<SplashScreen> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.3),
+                        color: isDark
+                            ? Colors.black.withValues(alpha: 0.3)
+                            : const Color(0xFF0F172A).withValues(alpha: 0.08),
                         blurRadius: 4,
                         offset: const Offset(0, 1),
                       ),
@@ -2190,14 +2169,16 @@ class _SplashScreenState extends State<SplashScreen> {
                             style: GoogleFonts.plusJakartaSans(
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
-                              color: Colors.white,
+                              color: AppColors.textPrimary,
                             ),
                           ),
                           const SizedBox(width: 6),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF38BDF8).withValues(alpha: 0.2),
+                              color: isDark
+                                  ? const Color(0xFF38BDF8).withValues(alpha: 0.2)
+                                  : const Color(0xFFEFF6FF),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -2205,7 +2186,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               style: GoogleFonts.plusJakartaSans(
                                 fontSize: 8,
                                 fontWeight: FontWeight.w800,
-                                color: const Color(0xFF38BDF8),
+                                color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7),
                               ),
                             ),
                           ),
@@ -2215,7 +2196,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         'Virtual Venue Umpire & Concierge',
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.6),
+                          color: AppColors.textSecondary,
                         ),
                       ),
                     ],
@@ -2224,9 +2205,12 @@ class _SplashScreenState extends State<SplashScreen> {
               ],
             ),
             const SizedBox(height: 20),
-            _buildAiHelpTile(Icons.rule_folder_rounded, 'Dispute Resolution', 'Automated table sensor reviews and official table tennis rules.'),
-            _buildAiHelpTile(Icons.lightbulb_outline_rounded, 'Table Automation', 'Smart lighting active on T1-T6 during booked matches.'),
-            _buildAiHelpTile(Icons.shield_outlined, 'Gate Security & Penalty', 'Unmanned check-in monitoring. RM200 non-pay walk-in fine.'),
+            _buildAiHelpTile(Icons.rule_folder_rounded, 'Dispute Resolution',
+                'Automated table sensor reviews and official table tennis rules.', isDark),
+            _buildAiHelpTile(Icons.lightbulb_outline_rounded, 'Table Automation',
+                'Smart lighting active on T1-T6 during booked matches.', isDark),
+            _buildAiHelpTile(Icons.shield_outlined, 'Gate Security & Penalty',
+                'Unmanned check-in monitoring. RM200 non-pay walk-in fine.', isDark),
             const SizedBox(height: 16),
             TactileButton.volt(
               text: 'Close Concierge',
@@ -2238,13 +2222,13 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  static Widget _buildAiHelpTile(IconData icon, String title, String desc) {
+  static Widget _buildAiHelpTile(IconData icon, String title, String desc, bool isDark) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: const Color(0xFF38BDF8)),
+          Icon(icon, size: 18, color: isDark ? const Color(0xFF38BDF8) : const Color(0xFF0284C7)),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -2255,14 +2239,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    color: Colors.white,
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 Text(
                   desc,
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 11,
-                    color: Colors.white.withValues(alpha: 0.55),
+                    color: AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -2273,14 +2257,18 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  static Widget _buildFilterPill(String label, bool isSelected) {
+  Widget _buildFilterPill(String label, bool isSelected, bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: isSelected ? const Color(0xFF10B981) : AppColors.obsidianCard,
+        color: isSelected
+            ? const Color(0xFF10B981)
+            : (isDark ? AppColors.obsidianCard : const Color(0xFFF1F5F9)),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isSelected ? const Color(0xFF10B981) : Colors.white.withValues(alpha: 0.1),
+          color: isSelected
+              ? const Color(0xFF10B981)
+              : (isDark ? Colors.white.withValues(alpha: 0.1) : const Color(0xFFE2E8F0)),
         ),
       ),
       child: Text(
@@ -2288,27 +2276,34 @@ class _SplashScreenState extends State<SplashScreen> {
         style: GoogleFonts.plusJakartaSans(
           fontSize: 10,
           fontWeight: FontWeight.w700,
-          color: Colors.white,
+          color: isSelected ? Colors.white : AppColors.textSecondary,
         ),
       ),
     );
   }
 
-  static Widget _buildMiniTable({bool hasDotLeft = false, bool hasDotRight = false}) {
+  Widget _buildMiniTable({bool hasDotLeft = false, bool hasDotRight = false, required bool isDark}) {
     return Container(
       width: 68,
       height: 40,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF1D4ED8), Color(0xFF1E3A8A)],
+        gradient: LinearGradient(
+          colors: isDark
+              ? [const Color(0xFF1D4ED8), const Color(0xFF1E3A8A)]
+              : [const Color(0xFF2563EB), const Color(0xFF1D4ED8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 1.2),
+        border: Border.all(
+          color: isDark ? Colors.white.withValues(alpha: 0.5) : Colors.white,
+          width: 1.2,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
+            color: isDark
+                ? Colors.black.withValues(alpha: 0.25)
+                : const Color(0xFF1E40AF).withValues(alpha: 0.15),
             blurRadius: 4,
           ),
         ],

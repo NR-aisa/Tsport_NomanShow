@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_theme_controller.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
@@ -91,40 +93,49 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF131F24), // Authentic Duolingo midnight slate
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            // TOP STATUS BAR (Duolingo Style: Streak, Points, Battery)
-            _buildTopStatusBar(),
+    return ThemeScope(
+      builder: (context, isDark) {
+        return Scaffold(
+          backgroundColor: isDark ? const Color(0xFF131F24) : AppColors.lightCanvasBg,
+          body: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                // TOP STATUS BAR (Duolingo Style: Streak, Points, Battery)
+                _buildTopStatusBar(isDark),
 
-            // SUB-NAV TABS: Path | Quests | Practice
-            _buildSubNavSelector(),
+                // SUB-NAV TABS: Path | Quests | Practice
+                _buildSubNavSelector(isDark),
 
-            // MAIN CONTENT BODY
-            Expanded(
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
-                child: _buildCurrentTabContent(),
-              ),
+                // MAIN CONTENT BODY
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 250),
+                    child: _buildCurrentTabContent(),
+                  ),
+                ),
+
+                // BOTTOM DOCK (Tab 4: The Winding Path)
+                const JomnittakuNavBar(activeIndex: 4),
+              ],
             ),
-
-            // BOTTOM DOCK (Tab 4: The Winding Path)
-            const JomnittakuNavBar(activeIndex: 4),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildTopStatusBar() {
+  Widget _buildTopStatusBar(bool isDark) {
+    final barBg = isDark ? const Color(0xFF131F24) : Colors.white;
+    final pillBg = isDark ? const Color(0xFF202F36) : const Color(0xFFF1F5F9);
+    final borderColor = isDark ? const Color(0xFF202F36) : const Color(0xFFE2E8F0);
+    final textColor = isDark ? Colors.white : const Color(0xFF0F172A);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      decoration: const BoxDecoration(
-        color: Color(0xFF131F24),
-        border: Border(bottom: BorderSide(color: Color(0xFF202F36), width: 1.5)),
+      decoration: BoxDecoration(
+        color: barBg,
+        border: Border(bottom: BorderSide(color: borderColor, width: 1.5)),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -138,9 +149,9 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF202F36),
+                  color: pillBg,
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFF37464F), width: 2),
+                  border: Border.all(color: isDark ? const Color(0xFF37464F) : const Color(0xFFCBD5E1), width: 1.5),
                 ),
                 child: const Icon(Icons.person, color: Color(0xFF1CB0F6), size: 20),
               ),
@@ -151,7 +162,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(0xFF202F36),
+                color: pillBg,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -163,7 +174,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 11,
                       fontWeight: FontWeight.w800,
-                      color: Colors.white,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -175,7 +186,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(0xFF202F36),
+                color: pillBg,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -201,7 +212,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF202F36),
+                  color: pillBg,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -226,7 +237,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(0xFF202F36),
+                color: pillBg,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -250,29 +261,31 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
     );
   }
 
-  Widget _buildSubNavSelector() {
+  Widget _buildSubNavSelector(bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      color: const Color(0xFF131F24),
+      color: isDark ? const Color(0xFF131F24) : AppColors.lightCanvasBg,
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: const Color(0xFF202F36),
+          color: isDark ? const Color(0xFF202F36) : Colors.white,
           borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: isDark ? const Color(0xFF202F36) : const Color(0xFFE2E8F0)),
         ),
         child: Row(
           children: [
-            _buildSubTabItem(0, 'The Path', Icons.alt_route_rounded),
-            _buildSubTabItem(1, 'Quests & Chests', Icons.inventory_2_rounded),
-            _buildSubTabItem(2, 'Skill Drills', Icons.fitness_center_rounded),
+            _buildSubTabItem(0, 'The Path', Icons.alt_route_rounded, isDark),
+            _buildSubTabItem(1, 'Quests & Chests', Icons.inventory_2_rounded, isDark),
+            _buildSubTabItem(2, 'Skill Drills', Icons.fitness_center_rounded, isDark),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSubTabItem(int index, String title, IconData icon) {
+  Widget _buildSubTabItem(int index, String title, IconData icon, bool isDark) {
     final isSelected = _activeNavTab == index;
+    final unselectedColor = isDark ? const Color(0xFF88A2B0) : const Color(0xFF64748B);
     return Expanded(
       child: GestureDetector(
         onTap: () => setState(() => _activeNavTab = index),
@@ -294,7 +307,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 14, color: isSelected ? Colors.white : const Color(0xFF88A2B0)),
+              Icon(icon, size: 14, color: isSelected ? Colors.white : unselectedColor),
               const SizedBox(width: 4),
               Flexible(
                 child: Text(
@@ -304,7 +317,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
-                    color: isSelected ? Colors.white : const Color(0xFF88A2B0),
+                    color: isSelected ? Colors.white : unselectedColor,
                   ),
                 ),
               ),

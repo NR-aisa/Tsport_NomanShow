@@ -29,6 +29,62 @@ class AppColors {
   static Color get obsidianBorder => isDark ? darkObsidianBorder : lightBorder;
   static Color get obsidianSpecular => isDark ? darkObsidianSpecular : lightSpecular;
 
+  // === CARD GRADIENTS & SHADOWS (DYNAMIC) ===
+  static LinearGradient get heroCardGradient => isDark
+      ? const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF162544), Color(0xFF0F1A2E)],
+        )
+      : const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFFFFFFF), Color(0xFFF8FAFC)],
+        );
+
+  static LinearGradient get cardGradient => isDark
+      ? const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF162544), Color(0xFF101B30)],
+        )
+      : const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFFFFFFF), Color(0xFFF8FAFC)],
+        );
+
+  static LinearGradient get promoBannerGradient => isDark
+      ? const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF2E1C0C), Color(0xFF1E1308)],
+        )
+      : const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFFFFBEB), Color(0xFFFEF3C7)],
+        );
+
+  static List<BoxShadow> get cardShadow => [
+        BoxShadow(
+          color: isDark ? Colors.black.withValues(alpha: 0.35) : const Color(0xFF0F172A).withValues(alpha: 0.06),
+          blurRadius: 14,
+          offset: const Offset(0, 4),
+        ),
+        if (isDark)
+          BoxShadow(
+            color: Colors.white.withValues(alpha: 0.08),
+            offset: const Offset(0, 1),
+            blurRadius: 0,
+          ),
+      ];
+
+  static Border get cardBorder => Border.all(
+        color: isDark ? Colors.white.withValues(alpha: 0.10) : const Color(0xFFE2E8F0),
+        width: 1,
+      );
+
   // === ITTF TABLE TENNIS ATHLETIC TOKENS (UNIVERSAL) ===
   static const ittfTableBlue = Color(0xFF1E40AF);          // Official ITTF Championship Blue
   static const ittfTableSurface = Color(0xFF2563EB);       // Vivid Court Tabletop

@@ -22,13 +22,13 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = AppThemeController.isDark;
-
-    return Scaffold(
-      backgroundColor: AppColors.obsidianBase,
-      body: Container(
-        color: AppColors.obsidianBase,
-        child: SafeArea(
+    return ThemeScope(
+      builder: (context, isDark) {
+        return Scaffold(
+          backgroundColor: AppColors.canvasBg,
+          body: Container(
+            color: AppColors.canvasBg,
+            child: SafeArea(
           bottom: false,
           child: Column(
             children: [
@@ -423,6 +423,8 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
           ),
         ),
       ),
+    );
+      },
     );
   }
 

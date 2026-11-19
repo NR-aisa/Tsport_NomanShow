@@ -18,3 +18,19 @@ class AppThemeController {
     }
   }
 }
+
+/// A reactive widget builder that automatically rebuilds whenever the global
+/// AppThemeController.isDarkMode changes.
+class ThemeScope extends StatelessWidget {
+  final Widget Function(BuildContext context, bool isDark) builder;
+
+  const ThemeScope({super.key, required this.builder});
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: AppThemeController.isDarkMode,
+      builder: (context, isDark, _) => builder(context, isDark),
+    );
+  }
+}
