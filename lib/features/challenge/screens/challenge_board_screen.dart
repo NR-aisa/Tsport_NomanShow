@@ -328,7 +328,7 @@ class _ChallengeBoardScreenState extends State<ChallengeBoardScreen> {
                     ),
                     const SizedBox(height: 10),
 
-                    TactileButton.blue(
+                    TactileButton.tonal(
                       text: 'Post Open Challenge to Venue Board',
                       onPressed: widget.onPostChallengeTap ?? () => AppNavigator.pushScreen(context, const SeekPlayerScreen()),
                     ),

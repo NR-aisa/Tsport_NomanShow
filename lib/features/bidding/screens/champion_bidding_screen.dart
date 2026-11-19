@@ -275,7 +275,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                     const SizedBox(height: 16),
 
                     // 3D Tactile CTA Button
-                    TactileButton.dark(
+                    TactileButton.volt(
                       text: 'Place Bid — $_selectedBid RM',
                       onPressed: widget.onBidPlaced,
                     ),

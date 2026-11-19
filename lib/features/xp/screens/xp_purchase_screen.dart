@@ -214,7 +214,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                     const SizedBox(height: 14),
 
                     // 3D Tactile Take Loan Button
-                    TactileButton.dark(
+                    TactileButton.volt(
                       text: 'Take Loan — +200 XP',
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -244,7 +244,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                     const SizedBox(height: 14),
 
                     // Buy CTA
-                    TactileButton.dark(
+                    TactileButton.volt(
                       text: 'Buy XP → Payment',
                       onPressed: widget.onPurchased ?? () => AppNavigator.toPayment(context),
                     ),

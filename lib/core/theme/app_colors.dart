@@ -134,7 +134,12 @@ class AppColors {
   // ONE primary: volt emerald. Blue is info/secondary only. Gold is XP only.
   // Red is LIVE + errors only. Purple survives ONLY as the Reserved table
   // status and inside gamification-path artwork. Pink/cyan/teal are retired.
-  static const voltLime = Color(0xFF10B981);               // PRIMARY — Athletic Tournament Emerald
+  static const voltLime = Color(0xFF10B981);
+  // Phase 8.1 (Toby rule): BLUE = action, EMERALD = signal only.
+  // The one filled CTA per screen wears this deep steel blue (Toby's
+  // #2B72B2); emerald is reserved for live/free/success meaning.
+  static const actionBlue = Color(0xFF2B72B2);
+  static const actionBlueDeep = Color(0xFF1F5A8F);               // PRIMARY — Athletic Tournament Emerald
   static Color get hyperCyan => isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB); // legacy name, now ITTF info blue
   static const electricCrimson = Color(0xFFEF4444);        // Tournament Adrenaline Red
   static const radiantGold = Color(0xFFF59E0B);            // Championship Trophy Gold — XP/rewards only

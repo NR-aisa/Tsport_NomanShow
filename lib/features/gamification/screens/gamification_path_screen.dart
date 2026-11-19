@@ -529,7 +529,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                           onTap: () => AppNavigator.toTables(context),
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                            decoration: BoxDecoration(color: AppColors.voltLime, borderRadius: BorderRadius.circular(12)),
+                            decoration: BoxDecoration(color: AppColors.actionBlue, borderRadius: BorderRadius.circular(12)),
                             child: Text('Find a match →',
                                 style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white)),
                           ),

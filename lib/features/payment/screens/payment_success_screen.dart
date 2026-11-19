@@ -335,7 +335,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                     const SizedBox(height: 16),
 
                     // 3D Tactile CTA Button
-                    TactileButton.dark(
+                    TactileButton.volt(
                       text: 'Select Arena Table →',
                       onPressed: widget.onSelectTable ?? widget.onGoDashboard ?? () => AppNavigator.toTables(context),
                     ),

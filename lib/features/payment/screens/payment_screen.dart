@@ -260,7 +260,7 @@ class PaymentScreen extends StatelessWidget {
                     const SizedBox(height: 18),
 
                     // 3D Tactile Continue Button
-                    TactileButton.dark(
+                    TactileButton.volt(
                       text: 'Continue →',
                       onPressed: onPaymentSuccess ?? () => AppNavigator.toPass(context),
                     ),

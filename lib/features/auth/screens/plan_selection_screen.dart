@@ -383,7 +383,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                     const SizedBox(height: 18),
 
                     // 3D Tactile CTA Button
-                    TactileButton.dark(
+                    TactileButton.volt(
                       text: _activeTab == 0 ? 'Pay 0.90 RM & Enter →' : 'Pay RM 17 Walk-in →',
                       onPressed: widget.onPlanSelected ?? () => AppNavigator.toPayment(context),
                     ),

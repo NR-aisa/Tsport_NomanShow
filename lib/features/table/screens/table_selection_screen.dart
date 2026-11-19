@@ -338,7 +338,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
                                     decoration: BoxDecoration(
-                                      color: AppColors.voltLime,
+                                      color: AppColors.actionBlue,
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Text(

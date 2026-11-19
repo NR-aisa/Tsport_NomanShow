@@ -15,6 +15,10 @@ class TactileButton extends StatefulWidget {
   final bool isFullWidth;
   final double borderRadius;
 
+  /// Flat = Toby recipe: no extruded 3D lip, no rim light — one soft
+  /// shadow and a 0.98 press scale. Used by action/tonal variants.
+  final bool flat;
+
   const TactileButton({
     super.key,
     required this.text,
@@ -28,6 +32,7 @@ class TactileButton extends StatefulWidget {
     this.fontSize = 15,
     this.isFullWidth = true,
     this.borderRadius = 28,
+    this.flat = false,
   });
 
   factory TactileButton.volt({
@@ -40,12 +45,13 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: AppColors.voltLime,
-      bottomBorderColor: AppColors.btnGreenBorder,
+      backgroundColor: AppColors.actionBlue,
+      bottomBorderColor: AppColors.actionBlueDeep,
       textColor: Colors.white,
       icon: icon,
       isFullWidth: isFullWidth,
       height: height,
+      flat: true,
     );
   }
 
@@ -76,12 +82,13 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: AppColors.voltLime,
-      bottomBorderColor: AppColors.voltLime,
-      textColor: AppColors.darkObsidianBase,
+      backgroundColor: AppColors.actionBlue,
+      bottomBorderColor: AppColors.actionBlueDeep,
+      textColor: Colors.white,
       icon: icon,
       isFullWidth: isFullWidth,
       height: height,
+      flat: true,
     );
   }
 
@@ -95,12 +102,13 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: AppColors.voltLime,
-      bottomBorderColor: AppColors.voltLime,
-      textColor: AppColors.darkObsidianBase,
+      backgroundColor: AppColors.actionBlue,
+      bottomBorderColor: AppColors.actionBlueDeep,
+      textColor: Colors.white,
       icon: icon,
       isFullWidth: isFullWidth,
       height: height,
+      flat: true,
     );
   }
 
@@ -114,12 +122,34 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: AppColors.voltLime,
-      bottomBorderColor: AppColors.voltLime,
-      textColor: AppColors.darkObsidianBase,
+      backgroundColor: AppColors.actionBlue,
+      bottomBorderColor: AppColors.actionBlueDeep,
+      textColor: Colors.white,
       icon: icon,
       isFullWidth: isFullWidth,
       height: height,
+      flat: true,
+    );
+  }
+
+  /// Quiet secondary action (Toby rule: one loud button per screen).
+  factory TactileButton.tonal({
+    required String text,
+    required VoidCallback? onPressed,
+    IconData? icon,
+    bool isFullWidth = true,
+    double height = 54,
+  }) {
+    return TactileButton(
+      text: text,
+      onPressed: onPressed,
+      backgroundColor: AppColors.obsidianCard,
+      bottomBorderColor: AppColors.obsidianCard,
+      textColor: AppColors.textPrimary,
+      icon: icon,
+      isFullWidth: isFullWidth,
+      height: height,
+      flat: true,
     );
   }
 
@@ -188,7 +218,8 @@ class _TactileButtonState extends State<TactileButton> {
   @override
   Widget build(BuildContext context) {
     const double extrusion = 4.0;
-    final double currentPush = _isPressed ? extrusion - 1.0 : 0.0;
+    final double currentPush =
+        widget.flat ? 0.0 : (_isPressed ? extrusion - 1.0 : 0.0);
     final double currentBottom = _isPressed ? 1.0 : extrusion;
 
     Widget buttonContent = Container(
@@ -198,20 +229,29 @@ class _TactileButtonState extends State<TactileButton> {
       decoration: BoxDecoration(
         color: widget.backgroundColor,
         borderRadius: BorderRadius.circular(widget.borderRadius),
-        boxShadow: [
-          BoxShadow(
-            color: widget.bottomBorderColor,
-            offset: Offset(0, currentBottom),
-            blurRadius: 0,
-            spreadRadius: 0,
-          ),
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.18),
-            offset: const Offset(0, 1),
-            blurRadius: 0,
-            spreadRadius: 0,
-          ),
-        ],
+        boxShadow: widget.flat
+            ? [
+                BoxShadow(
+                  color: Colors.black
+                      .withValues(alpha: AppColors.isDark ? 0.35 : 0.16),
+                  blurRadius: 14,
+                  offset: const Offset(0, 6),
+                ),
+              ]
+            : [
+                BoxShadow(
+                  color: widget.bottomBorderColor,
+                  offset: Offset(0, currentBottom),
+                  blurRadius: 0,
+                  spreadRadius: 0,
+                ),
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  offset: const Offset(0, 1),
+                  blurRadius: 0,
+                  spreadRadius: 0,
+                ),
+              ],
       ),
       child: Center(
         child: Row(
@@ -249,7 +289,13 @@ class _TactileButtonState extends State<TactileButton> {
               widget.onPressed?.call();
             },
       onTapCancel: () => setState(() => _isPressed = false),
-      child: buttonContent,
+      child: widget.flat
+          ? AnimatedScale(
+              scale: _isPressed ? 0.98 : 1.0,
+              duration: const Duration(milliseconds: 120),
+              child: buttonContent,
+            )
+          : buttonContent,
     );
   }
 }

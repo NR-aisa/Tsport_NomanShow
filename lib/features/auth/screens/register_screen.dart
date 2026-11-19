@@ -227,8 +227,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       })
                   : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: AppColors.bg,
+                backgroundColor: AppColors.actionBlue,
+                foregroundColor: Colors.white,
                 minimumSize: const Size(double.infinity, 56),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               ),
