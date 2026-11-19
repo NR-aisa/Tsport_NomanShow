@@ -385,15 +385,12 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
             width: double.infinity,
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: AppColors.pingPongOrange, // Terracotta orange from Duolingo screenshot
+              // Phase 7 (user-directed): the Duolingo terracotta orange is
+              // replaced with an always-dark premium slate — adult, sporty,
+              // and the white headline reads on it in both themes.
+              color: AppColors.surfaceDark,
               borderRadius: BorderRadius.circular(28),
-              boxShadow: const [
-                BoxShadow(
-                  color: AppColors.electricCrimson,
-                  offset: Offset(0, 5),
-                  blurRadius: 0,
-                ),
-              ],
+              boxShadow: AppColors.cardShadow,
             ),
             child: Row(
               children: [
@@ -441,7 +438,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           Stack(
             alignment: Alignment.center,
             children: [
-              // Mascot Side Character (Duolingo Bear/Coach)
+              // Trophy Medallion (Phase 7 — replaced the Duolingo bear mascot)
               Positioned(
                 right: 14,
                 top: 140,
@@ -453,19 +450,23 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                       decoration: BoxDecoration(
                         color: AppColors.paddleBlack,
                         borderRadius: BorderRadius.circular(28),
-                        border: Border.all(color: AppColors.slate600, width: 2),
+                        border: Border.all(color: AppColors.radiantGold, width: 1.5),
                       ),
                       child: const Center(
-                        child: Text('🐻', style: TextStyle(fontSize: 42)),
+                        // Phase 7 (user-directed): the cartoon bear mascot is
+                        // replaced with a championship trophy medallion.
+                        child: Icon(Icons.emoji_events_rounded, color: AppColors.radiantGold, size: 40),
                       ),
                     ),
                     const SizedBox(height: 6),
-                    const Row(
-                      children: [
-                        Icon(Icons.star_rounded, color: AppColors.xpGold, size: 14),
-                        Icon(Icons.star_rounded, color: AppColors.xpGold, size: 14),
-                        Icon(Icons.star_rounded, color: AppColors.xpGold, size: 14),
-                      ],
+                    Text(
+                      'BOSS GATE',
+                      style: AppTypography.ui(
+                        fontSize: 8,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.slate400,
+                        letterSpacing: 1.0,
+                      ),
                     ),
                   ],
                 ),
@@ -616,7 +617,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                       height: 82 * _pulseAnimation.value,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.radiantGold.withValues(alpha: 0.15),
+                        color: AppColors.ittfTableSurface.withValues(alpha: 0.15),
                       ),
                     ),
                   ),
@@ -626,18 +627,20 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                     width: 72,
                     height: 72,
                     decoration: const BoxDecoration(
-                      color: AppColors.radiantGold, // Duolingo star orange
+                      // Phase 7 (user-directed): adult championship blue
+                      // instead of the Duolingo gold/orange star node.
+                      color: AppColors.ittfTableSurface,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.pingPongOrange, // 20% darker extruded bottom lip
+                          color: AppColors.ittfTableBlue,
                           offset: Offset(0, 6),
                           blurRadius: 0,
                         ),
                       ],
                     ),
                     child: const Center(
-                      child: Icon(Icons.star_rounded, color: Colors.white, size: 40),
+                      child: Icon(Icons.sports_tennis_rounded, color: Colors.white, size: 36),
                     ),
                   ),
                 ],
