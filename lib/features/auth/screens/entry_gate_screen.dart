@@ -4,8 +4,10 @@ import '../../../core/navigation/app_navigator.dart';
 import '../../../core/session/app_session.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme_controller.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../shared/widgets/app_logo.dart';
+import '../../../shared/widgets/arena_widgets.dart';
 import '../../../shared/widgets/tactile_button.dart';
 
 /// Entry Gate (Phase 1B) — the app's honest front door.
@@ -26,7 +28,15 @@ class EntryGateScreen extends StatelessWidget {
       builder: (context, isDark) {
         return Scaffold(
           backgroundColor: AppColors.canvasBg,
-          body: SafeArea(
+          body: ArenaBackdrop(
+            child: Stack(
+              children: [
+                // Phase 6 ambient layer — Toby's floating cards behind the
+                // auth surface, translated: mini table cards drifting slowly.
+                const _AmbientTableCard(label: 'T3', free: true, top: 64, left: 18),
+                const _AmbientTableCard(label: 'T7', free: true, top: 150, right: 14),
+                const _AmbientTableCard(label: 'T4', free: false, bottom: 120, left: 26),
+                SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
               child: Column(
@@ -101,6 +111,9 @@ class EntryGateScreen extends StatelessWidget {
                 ],
               ),
             ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -129,8 +142,8 @@ class _PathButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: AppColors.obsidianCard,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.obsidianBorder),
+          borderRadius: AppRadius.brCard,
+          boxShadow: AppColors.cardShadow,
         ),
         child: Row(
           children: [
@@ -165,6 +178,104 @@ class _PathButton extends StatelessWidget {
             ),
             Icon(Icons.chevron_right_rounded, size: 20, color: AppColors.textMuted),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A small floating "table card" that drifts slowly behind the entry gate —
+/// ambient motion only (Toby's floating tab-cards, Arena version).
+/// Hand-rolled on an AnimationController so the ticker disposes cleanly.
+class _AmbientTableCard extends StatefulWidget {
+  final String label;
+  final bool free;
+  final double? top;
+  final double? bottom;
+  final double? left;
+  final double? right;
+
+  const _AmbientTableCard({
+    required this.label,
+    required this.free,
+    this.top,
+    this.bottom,
+    this.left,
+    this.right,
+  });
+
+  @override
+  State<_AmbientTableCard> createState() => _AmbientTableCardState();
+}
+
+class _AmbientTableCardState extends State<_AmbientTableCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _drift;
+
+  @override
+  void initState() {
+    super.initState();
+    _drift = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 7),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _drift.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: widget.top,
+      bottom: widget.bottom,
+      left: widget.left,
+      right: widget.right,
+      child: AnimatedBuilder(
+        animation: _drift,
+        builder: (context, child) {
+          final t = Curves.easeInOut.transform(_drift.value);
+          return Transform.translate(
+            offset: Offset(0, -6 + 14 * t),
+            child: Transform.rotate(angle: -0.01 + 0.02 * t, child: child),
+          );
+        },
+        child: Opacity(
+          opacity: 0.55,
+          child: Container(
+            width: 76,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: AppColors.obsidianCard,
+              borderRadius: AppRadius.brLg,
+              boxShadow: AppColors.cardShadow,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: widget.free ? AppColors.primary : AppColors.electricCrimson,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  widget.label,
+                  style: AppTypography.ui(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -14,11 +14,13 @@ class AppColors {
   static const darkObsidianBorder = Color(0x1FFFFFFF);     // 12% translucent border
   static const darkObsidianSpecular = Color(0x33FFFFFF);   // 20% white specular rim
 
-  static const lightCanvasBg = Color(0xFFF1F5F9);          // Clean Olympic Day Slate
+  static const lightCanvasBg = Color(0xFFF7F0E6);          // Toby warm cream canvas (Phase 6: white mode = Toby gradient theme)
+  static const lightPanelSand = Color(0xFFF5E9D9);         // Toby sand panel / tonal selection base
+  static const lightCanvasDeep = Color(0xFFF1E7D7);        // Gradient end / deeper warm tone
   static const lightElevated = Color(0xFFFFFFFF);          // Elevated card base
   static const lightCard = Color(0xFFFFFFFF);              // Primary white card base
-  static const lightCardSurface = Color(0xFFF8FAFC);       // Soft light surface
-  static const lightBorder = Color(0xFFE2E8F0);            // Slate 200 border
+  static const lightCardSurface = Color(0xFFFBF7F2);       // Warm soft surface
+  static const lightBorder = Color(0xFFE9DFCE);            // Warm border (legacy surfaces)
   static const lightSpecular = Color(0x0A000000);          // Subtle light rim
 
   // === DYNAMIC REACTIVE TOKENS (ADAPT INSTANTLY TO THEME) ===
@@ -39,7 +41,21 @@ class AppColors {
       : const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFFFFFFFF), Color(0xFFF8FAFC)],
+          colors: [Color(0xFFFFFFFF), Color(0xFFFDFBF7)],
+        );
+
+  /// Phase 6 canvas texture: Toby's warm gradient wash in light mode,
+  /// a deep arena glow in dark mode. Screens paint this behind content.
+  static LinearGradient get canvasGradient => isDark
+      ? const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF0D1526), Color(0xFF0A1120)],
+        )
+      : const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFF8F3EA), Color(0xFFF3E9D8)],
         );
 
   static LinearGradient get cardGradient => isDark
@@ -51,7 +67,7 @@ class AppColors {
       : const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFFFFFFFF), Color(0xFFF8FAFC)],
+          colors: [Color(0xFFFFFFFF), Color(0xFFFDFBF7)],
         );
 
   static LinearGradient get promoBannerGradient => isDark
@@ -66,22 +82,31 @@ class AppColors {
           colors: [Color(0xFFFFFBEB), Color(0xFFFEF3C7)],
         );
 
+  /// Phase 6 card recipe (Toby): elevation is a warm, diffuse shadow —
+  /// never a hard outline. Light: warm beige shadow on cream. Dark: deep
+  /// soft shadow + a faint specular rim on the top edge.
   static List<BoxShadow> get cardShadow => [
         BoxShadow(
-          color: isDark ? Colors.black.withValues(alpha: 0.35) : const Color(0xFF0F172A).withValues(alpha: 0.06),
-          blurRadius: 14,
-          offset: const Offset(0, 4),
+          color: isDark
+              ? Colors.black.withValues(alpha: 0.40)
+              : const Color(0xFF8A6D3B).withValues(alpha: 0.10),
+          blurRadius: 24,
+          offset: const Offset(0, 8),
         ),
-        if (isDark)
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.08),
-            offset: const Offset(0, 1),
-            blurRadius: 0,
-          ),
+        BoxShadow(
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.06)
+              : const Color(0xFF8A6D3B).withValues(alpha: 0.05),
+          blurRadius: isDark ? 0 : 8,
+          offset: Offset(0, isDark ? 1 : 2),
+        ),
       ];
 
+  /// Borderless by design (Phase 6). Kept as a token so legacy call sites
+  /// compile; the width preserves layout while the colour is invisible in
+  /// light mode and near-invisible in dark mode.
   static Border get cardBorder => Border.all(
-        color: isDark ? Colors.white.withValues(alpha: 0.10) : const Color(0xFFE2E8F0),
+        color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.transparent,
         width: 1,
       );
 
@@ -97,12 +122,12 @@ class AppColors {
   // === CANVAS & SURFACES (DYNAMIC) ===
   static Color get canvasBg => obsidianBase;
   static const canvasNordicLegacy = Color(0xFF9CC3C9);
-  static Color get canvasDarker => isDark ? const Color(0xFF070D18) : const Color(0xFFE2E8F0);
+  static Color get canvasDarker => isDark ? const Color(0xFF070D18) : lightCanvasDeep;
   static Color get canvasLight => isDark ? const Color(0xFF132037) : const Color(0xFFFFFFFF);
 
   static Color get surfaceCard => obsidianCard;
-  static Color get surfaceSubtle => isDark ? const Color(0xFF1A2A46) : const Color(0xFFF8FAFC);
-  static Color get surfaceMuted => isDark ? const Color(0xFF243656) : const Color(0xFFE2E8F0);
+  static Color get surfaceSubtle => isDark ? const Color(0xFF1A2A46) : const Color(0xFFFBF7F2);
+  static Color get surfaceMuted => isDark ? const Color(0xFF243656) : const Color(0xFFEFE6D8);
   static Color get surfaceDark => isDark ? const Color(0xFF0D1627) : const Color(0xFF0F172A);
 
   // === ATHLETIC SPORTS ACCENTS (Arena DS v1 discipline) ===

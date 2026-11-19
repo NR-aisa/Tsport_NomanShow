@@ -1,3 +1,4 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../../../core/theme/app_colors.dart';
@@ -23,12 +24,30 @@ class PaymentSuccessScreen extends StatefulWidget {
 
 class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
   int _tabIndex = 0; // 0 = Registered QR, 1 = Guest QR
+  late final ConfettiController _confettiController;
+
+  @override
+  void initState() {
+    super.initState();
+    _confettiController = ConfettiController(duration: const Duration(seconds: 2));
+    // Phase 6: payment success is a milestone — celebrate once, briefly.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _confettiController.play());
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.canvasBg,
-      body: SafeArea(
+      body: Stack(
+        children: [
+          ArenaBackdrop(
+            child: SafeArea(
         bottom: false,
         child: Column(
           children: [
@@ -351,6 +370,26 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
             const JomnittakuNavBar(activeIndex: 0),
           ],
         ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: _confettiController,
+              blastDirectionality: BlastDirectionality.explosive,
+              emissionFrequency: 0.05,
+              numberOfParticles: 28,
+              gravity: 0.25,
+              shouldLoop: false,
+              colors: const [
+                AppColors.voltLime,
+                AppColors.radiantGold,
+                Colors.white,
+                AppColors.ittfTableSurface,
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

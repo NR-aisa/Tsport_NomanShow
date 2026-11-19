@@ -61,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
           backgroundColor: AppColors.canvasBg,
           endDrawer: _buildBkashStyleSideDrawer(context, isDark),
           body: Container(
-            color: AppColors.canvasBg,
+            decoration: BoxDecoration(gradient: AppColors.canvasGradient),
             child: SafeArea(
               bottom: false,
               child: Column(
@@ -251,23 +251,23 @@ class _SplashScreenState extends State<SplashScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Dynamic Athletic Hero Card with 3D Table Tennis Court Stage
-                          _buildHeroStadiumCard(context, isDark),
+                          _buildHeroStadiumCard(context, isDark).arenaEntrance(0),
                           const SizedBox(height: 14),
 
                           // 3 Quick Telemetry Cards
-                          _buildThreeTelemetryCards(context, isDark),
+                          _buildThreeTelemetryCards(context, isDark).arenaEntrance(1),
                           const SizedBox(height: 14),
 
                           // 1. Sparring Rivals Carousel (Athletic Player Cards)
-                          _buildFavoriteRivalsSection(context, isDark),
+                          _buildFavoriteRivalsSection(context, isDark).arenaEntrance(2),
                           const SizedBox(height: 14),
 
                           // 2. Flash Promo Countdown Banner (Happy Hour Sunset Pass)
-                          _buildFlashPromoBanner(isDark),
+                          _buildFlashPromoBanner(isDark).arenaEntrance(3),
                           const SizedBox(height: 16),
 
                           // 3. Asymmetrical Bento Telemetry Grid
-                          _buildBentoTelemetryGrid(context, isDark),
+                          _buildBentoTelemetryGrid(context, isDark).arenaEntrance(4),
                           const SizedBox(height: 16),
 
                           // Venue Map Card removed from Home (Phase 1):
@@ -276,7 +276,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           // Hero → Promo → Telemetry → Pricing → CTA.
 
                           // Member Pricing & 90 Sen Anchor Card
-                          _buildMemberPricingCard(context, isDark),
+                          _buildMemberPricingCard(context, isDark).arenaEntrance(5),
                           const SizedBox(height: 18),
 
                           // Primary Athletic Emerald 3D Tactile CTA Button

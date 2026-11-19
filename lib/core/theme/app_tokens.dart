@@ -14,17 +14,22 @@ class AppRadius {
   /// Sheets, modals, large cards.
   static const double lg = 16;
 
+  /// Phase 6 ArenaCard recipe radius (Toby cards measure 16–20).
+  static const double card = 20;
+
   /// Nav pill, hero surfaces.
   static const double xl = 28;
 
   static const Radius rSm = Radius.circular(sm);
   static const Radius rMd = Radius.circular(md);
   static const Radius rLg = Radius.circular(lg);
+  static const Radius rCard = Radius.circular(card);
   static const Radius rXl = Radius.circular(xl);
 
   static const BorderRadius brSm = BorderRadius.all(rSm);
   static const BorderRadius brMd = BorderRadius.all(rMd);
   static const BorderRadius brLg = BorderRadius.all(rLg);
+  static const BorderRadius brCard = BorderRadius.all(rCard);
   static const BorderRadius brXl = BorderRadius.all(rXl);
 }
 

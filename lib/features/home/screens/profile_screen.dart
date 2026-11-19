@@ -4,7 +4,9 @@ import '../../../core/navigation/app_navigator.dart';
 import '../../../core/session/app_session.dart';
 import '../../../core/theme/app_theme_controller.dart';
 import '../../../shared/widgets/tactile_button.dart';
+import '../../../shared/widgets/arena_widgets.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../core/theme/app_typography.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -18,12 +20,14 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _showOnLeaderboard = true;
+  bool _notificationsOn = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.canvasBg,
-      body: SafeArea(
+      body: ArenaBackdrop(
+        child: SafeArea(
         bottom: false,
         child: Column(
           children: [
@@ -345,12 +349,139 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 18),
 
-                    // Preferences (Phase 5 — profile is an account surface,
-                    // not a dead end: settings rows + sign-out live here.)
+                    // Settings (Phase 6 — Toby's profile pattern: grouped
+                    // sections, quiet meter, Display+Change for identity,
+                    // calm danger zone. See docs/TOBY_PROFILE_ADDENDUM.md.)
+                    _settingsGroup(
+                      'ACCOUNT',
+                      [
+                        _prefRow(
+                          icon: Icons.badge_rounded,
+                          title: 'Signed in as',
+                          subtitle: AppSession.isGuest
+                              ? 'Guest walk-in · RM17 at the door'
+                              : 'Registered member · ${AppSession.displayName}',
+                          trailing: GestureDetector(
+                            onTap: () => ArenaToast.show(
+                              context,
+                              message: 'Demo build — account changes are simulated',
+                            ),
+                            child: Text(
+                              'Change',
+                              style: AppTypography.ui(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.hyperCyan,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Divider(height: 1, color: AppColors.obsidianBorder),
+                        _prefRow(
+                          icon: Icons.card_membership_rounded,
+                          title: 'Membership',
+                          subtitle: 'Member pass · RM90/month',
+                          trailing: Text(
+                            'RM90/mo',
+                            style: AppTypography.ui(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    _settingsGroup(
+                      'ARENA',
+                      [
+                        _prefRow(
+                          icon: Icons.dark_mode_rounded,
+                          title: 'Dark theme',
+                          subtitle: 'Midnight Stadium look',
+                          trailing: Switch(
+                            value: AppColors.isDark,
+                            activeThumbColor: AppColors.voltLime,
+                            onChanged: (_) => setState(() => AppThemeController.toggleTheme()),
+                          ),
+                        ),
+                        Divider(height: 1, color: AppColors.obsidianBorder),
+                        _prefRow(
+                          icon: Icons.notifications_rounded,
+                          title: 'Notifications',
+                          subtitle: 'Match invites & quest reminders',
+                          trailing: Switch(
+                            value: _notificationsOn,
+                            activeThumbColor: AppColors.voltLime,
+                            onChanged: (v) => setState(() => _notificationsOn = v),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Quiet membership meter (Toby's plan meter, Arena version).
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.obsidianCard,
+                        borderRadius: AppRadius.brCard,
+                        boxShadow: AppColors.cardShadow,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Member pass',
+                                style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
+                              ),
+                              Text(
+                                'Renews 1 Dec',
+                                style: AppTypography.ui(fontSize: 11, color: AppColors.textMuted),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: LinearProgressIndicator(
+                              value: 0.6,
+                              minHeight: 5,
+                              backgroundColor: AppColors.surfaceMuted,
+                              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.voltLime),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '6 of 10 tables free tonight · 18 days left in this cycle',
+                            style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _settingsGroup(
+                      'ABOUT',
+                      [
+                        _linkRow(Icons.help_outline_rounded, 'FAQ'),
+                        Divider(height: 1, color: AppColors.obsidianBorder),
+                        _linkRow(Icons.description_rounded, 'Terms of Service'),
+                        Divider(height: 1, color: AppColors.obsidianBorder),
+                        _linkRow(Icons.privacy_tip_rounded, 'Privacy Policy'),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Danger zone — calm and outlined, like Toby's.
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'PREFERENCES',
+                        'DANGER ZONE',
                         style: AppTypography.ui(
                           fontSize: 10,
                           fontWeight: FontWeight.w900,
@@ -360,78 +491,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.obsidianCard,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.obsidianBorder),
-                      ),
-                      child: Column(
-                        children: [
-                          _prefRow(
-                            icon: Icons.dark_mode_rounded,
-                            title: 'Dark theme',
-                            subtitle: 'Midnight Stadium look',
-                            trailing: Switch(
-                              value: AppColors.isDark,
-                              activeThumbColor: AppColors.voltLime,
-                              onChanged: (_) => setState(() => AppThemeController.toggleTheme()),
-                            ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Delete account — this action is irreversible and your XP will be gone forever.',
+                            style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary),
                           ),
-                          Divider(height: 1, color: AppColors.obsidianBorder),
-                          _prefRow(
-                            icon: Icons.card_membership_rounded,
-                            title: 'Membership',
-                            subtitle: 'Member pass · Renews 1 Dec · 6 of 10 tables free tonight',
-                            trailing: Text(
-                              'RM90/mo',
+                        ),
+                        const SizedBox(width: 12),
+                        GestureDetector(
+                          onTap: () => ArenaToast.show(
+                            context,
+                            message: 'Demo build — accounts are simulated, nothing to delete',
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: AppColors.electricCrimson),
+                            ),
+                            child: Text(
+                              'Delete Account',
                               style: AppTypography.ui(
                                 fontSize: 12,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.textSecondary,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.electricCrimson,
                               ),
                             ),
                           ),
-                          Divider(height: 1, color: AppColors.obsidianBorder),
-                          _prefRow(
-                            icon: Icons.badge_rounded,
-                            title: 'Signed in as',
-                            subtitle: AppSession.isGuest
-                                ? 'Guest walk-in · RM17 at the door'
-                                : 'Registered member · ${AppSession.displayName}',
-                            trailing: const SizedBox(),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 18),
 
-                    // Sign out — returns to the Entry Gate.
+                    // Log out — Toby puts it as quiet red text in the
+                    // settings footer; it returns to the Entry Gate.
                     GestureDetector(
                       onTap: () {
                         AppSession.signOut();
                         AppNavigator.toEntry(context);
                       },
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        decoration: BoxDecoration(
-                          color: AppColors.obsidianCard,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: AppColors.electricCrimson.withValues(alpha: 0.5),
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Sign Out',
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.logout_rounded, size: 16, color: AppColors.electricCrimson),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Log Out',
                             style: AppTypography.ui(
                               fontSize: 13,
-                              fontWeight: FontWeight.w900,
+                              fontWeight: FontWeight.w700,
                               color: AppColors.electricCrimson,
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -444,6 +558,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const JomnittakuNavBar(activeIndex: 4),
           ],
         ),
+      ),
+      ),
+    );
+  }
+
+  /// Toby settings group: quiet grey header + one borderless recipe card.
+  Widget _settingsGroup(String label, List<Widget> rows) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: AppTypography.ui(
+            fontSize: 10,
+            fontWeight: FontWeight.w900,
+            color: AppColors.textSecondary,
+            letterSpacing: 0.8,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.obsidianCard,
+            borderRadius: AppRadius.brCard,
+            boxShadow: AppColors.cardShadow,
+          ),
+          child: Column(children: rows),
+        ),
+      ],
+    );
+  }
+
+  Widget _linkRow(IconData icon, String title) {
+    return GestureDetector(
+      onTap: () => ArenaToast.show(
+        context,
+        message: 'Demo build — this page is not wired yet',
+      ),
+      child: _prefRow(
+        icon: icon,
+        title: title,
+        subtitle: '',
+        trailing: Icon(Icons.chevron_right_rounded, size: 18, color: AppColors.textMuted),
       ),
     );
   }

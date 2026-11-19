@@ -67,7 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
       builder: (context, isDark) {
         return Scaffold(
           backgroundColor: AppColors.canvasBg,
-          body: SafeArea(
+          body: ArenaBackdrop(
+            child: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Column(
@@ -181,6 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
+          ),
           ),
         );
       },

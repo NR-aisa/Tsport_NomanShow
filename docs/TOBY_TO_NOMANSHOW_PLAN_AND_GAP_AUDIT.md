@@ -97,3 +97,65 @@ Do **not** copy Toby's look (pink, light, calm). Copy Toby's *laws* into NoManSh
 - Don't redesign screens before Phase 0 tokens land — that's how the current sprawl happened.
 
 *Next step on approval: Phase 0 token sweep + Arena DS component kit, starting with Tables and Home.*
+
+---
+
+# Phase 6 — The Feel Pass (added 2026-11-19, after live verification of Phases 0–5)
+
+Phases 0–5 fixed structure, state and honesty, and verified live 7/7. But the app
+still does not *feel* like Toby: motion tokens exist yet are unused, cards are
+defined by 1 px borders ("boxy"), and surfaces are cold/dense. Phase 6 is the
+experience layer, specified from the Toby recording (motion analysis) and two
+user-supplied screenshots (board cards + Profile pane, pixel-sampled; see
+`TOBY_PROFILE_ADDENDUM.md`).
+
+## The Toby card recipe (measured from the board screenshot)
+- **Borderless.** A pixel scan across a card edge shows board → shadow gradient
+  → white. No outline anywhere; elevation is shadow only.
+- **Warm lift:** board cream `#F7F0E6` → card near-white `#FEFEFD`.
+- **Warm diffuse shadow:** grey-beige gradient fading ~10 px under the card.
+- **Oversized, mostly empty:** ~110 px tall card for one line of text; resting
+  state = favicon + title; actions appear on hover only.
+- Radius ~16–20, grid gap ~18, **one filled button per screen**.
+
+## 6A — Texture & surfaces
+- **White mode = Toby's gradient theme (user decision, 2026-11-19):** warm
+  cream gradient canvas (`#F7F0E6` → sand `#F5E9D9`), pure-white borderless
+  cards, warm soft shadows, near-black text `#1E1E26`, grey labels `#5E5E5E`,
+  tonal selection (one step deeper). Accent stays Arena emerald.
+- Dark mode: same recipe translated — warm-slate canvas with a faint glow,
+  cards one warm step up, soft deep shadow + faint top rim light.
+- **ArenaCard** component: borderless, radius 20, padding 20, soft shadow,
+  press scale 0.98. Rolled out to Home, Tables, Leaderboard, Quests, Path,
+  Profile.
+- Sheets/modals: blurred backdrop + warm dim (never a black scrim).
+
+## 6B — Motion (the "so smooth" layer)
+- Entrance choreography: fade + slight rise, 40 ms stagger (AppMotion tokens),
+  on Home sections, Tables grid, Leaderboard rows, Path nodes.
+- Cross-fades on state change (table selection, leaderboard tabs).
+- Confetti for milestones only: quest claim, match win, payment success (≤ 3 s).
+- Ambient drifting mini table-cards behind Entry Gate / Login (Toby's floating
+  cards, Arena version), slow 6–8 s drift, low opacity.
+- Skeleton shimmer on list loads; nothing pops in.
+
+## 6C — Quieting
+- Resting cards carry title + one meta line; details on tap.
+- Counts/meta muted grey; one filled CTA per screen; 20 px section rhythm.
+
+## 6D — Profile, Toby-style (completes the original Phase 5 promise)
+- Grouped settings: Account / Arena / About, tonal selection, quiet membership
+  meter in a footer zone ("Member · Renews 1 Dec" + thin bar), Display+Change
+  for phone/email, outlined danger zone, Log Out in the settings area.
+
+## 6E — Leftover nits from live verification
+- Free-table spotlight must not name players (state-aware Players/Score pills).
+- Demo identity aligned to one name everywhere (profile hero = preferences).
+
+## Success measures for Phase 6
+- 0 bordered cards on the five main surfaces; ArenaCard is the only card recipe.
+- Every list screen animates in with the stagger; confetti fires on quest claim
+  and payment success only.
+- White mode visually matches the Toby board screenshot's warmth (sampled
+  canvas/card values above).
+- All 41 showcase tests still pass; analyze 0 errors.

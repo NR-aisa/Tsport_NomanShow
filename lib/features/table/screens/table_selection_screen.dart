@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../core/theme/app_theme_controller.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../challenge/screens/seek_player_screen.dart';
 import '../../../shared/widgets/tactile_button.dart';
+import '../../../shared/widgets/arena_widgets.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
 import '../../../core/theme/app_typography.dart';
 
@@ -47,6 +49,20 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
     }
   }
 
+  /// Phase 6 nit fix: the Players pill must agree with the table state —
+  /// a free table has no players yet.
+  String _playersLabel() {
+    switch (_selectedStatus) {
+      case 'live':
+      case 'ingame':
+        return 'Aiman + Jason';
+      case 'reserved':
+        return 'Booked · members';
+      default:
+        return 'Waiting for players';
+    }
+  }
+
   String _statusDetail() {
     switch (_selectedStatus) {
       case 'live': return '11 - 9 Game Pt';
@@ -74,7 +90,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
         return Scaffold(
           backgroundColor: AppColors.canvasBg,
           body: Container(
-            color: AppColors.canvasBg,
+            decoration: BoxDecoration(gradient: AppColors.canvasGradient),
             child: SafeArea(
           bottom: false,
           child: Column(
@@ -161,17 +177,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                         decoration: BoxDecoration(
                           color: AppColors.obsidianCard,
                           borderRadius: BorderRadius.circular(28),
-                          border: Border.all(
-                            color: AppColors.border,
-                            width: 1,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: isDark ? Colors.black.withValues(alpha: 0.35) : Colors.black.withValues(alpha: 0.06),
-                              blurRadius: 14,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,17 +235,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                         decoration: BoxDecoration(
                           color: AppColors.obsidianCard,
                           borderRadius: BorderRadius.circular(28),
-                          border: Border.all(
-                            color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.35) : AppColors.ittfTableSurface.withValues(alpha: 0.3),
-                            width: 1.2,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.ittfTableSurface.withValues(alpha: isDark ? 0.20 : 0.08),
-                              blurRadius: 18,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: Column(
                           children: [
@@ -294,8 +290,11 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                               ],
                             ),
                             const SizedBox(height: 14),
-                            Row(
-                              children: [
+                            AnimatedSwitcher(
+                              duration: AppMotion.fade,
+                              child: Row(
+                                key: ValueKey(_selectedTable),
+                                children: [
                                 Expanded(
                                   child: _buildSpotlightPill('Table', '$_selectedTable Court', AppColors.ittfTableSurface, isDark),
                                 ),
@@ -305,9 +304,10 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                                 ),
                                 const SizedBox(width: 8),
                                 Expanded(
-                                  child: _buildSpotlightPill('Players', 'Aiman + Jason', isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface, isDark),
+                                  child: _buildSpotlightPill('Players', _playersLabel(), isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface, isDark),
                                 ),
-                              ],
+                                ],
+                              ),
                             ),
                             const SizedBox(height: 14),
                             Row(
@@ -391,37 +391,37 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                       // Table Cards Grid (T1 to T6)
                       Row(
                         children: [
-                          Expanded(child: _buildGridTableCard('T1', isFree: true, isDark: isDark)),
+                          Expanded(child: _buildGridTableCard('T1', isFree: true, isDark: isDark).arenaEntrance(0)),
                           const SizedBox(width: 8),
-                          Expanded(child: _buildGridTableCard('T2', isFree: false, timeLabel: 'IN GAME · 18m', isDark: isDark)),
+                          Expanded(child: _buildGridTableCard('T2', isFree: false, timeLabel: 'IN GAME · 18m', isDark: isDark).arenaEntrance(1)),
                           const SizedBox(width: 8),
-                          Expanded(child: _buildGridTableCard('T3', isFree: true, isDark: isDark)),
+                          Expanded(child: _buildGridTableCard('T3', isFree: true, isDark: isDark).arenaEntrance(2)),
                         ],
                       ),
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          Expanded(child: _buildGridTableCard('T4', isFree: false, timeLabel: 'MATCH · LIVE', isDark: isDark)),
+                          Expanded(child: _buildGridTableCard('T4', isFree: false, timeLabel: 'MATCH · LIVE', isDark: isDark).arenaEntrance(3)),
                           const SizedBox(width: 8),
-                          Expanded(child: _buildGridTableCard('T5', isFree: true, isDark: isDark)),
+                          Expanded(child: _buildGridTableCard('T5', isFree: true, isDark: isDark).arenaEntrance(4)),
                           const SizedBox(width: 8),
-                          Expanded(child: _buildGridTableCard('T6', isFree: true, isDark: isDark)),
+                          Expanded(child: _buildGridTableCard('T6', isFree: true, isDark: isDark).arenaEntrance(5)),
                         ],
                       ),
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          Expanded(child: _buildGridTableCard('T7', isFree: true, isDark: isDark)),
+                          Expanded(child: _buildGridTableCard('T7', isFree: true, isDark: isDark).arenaEntrance(6)),
                           const SizedBox(width: 8),
-                          Expanded(child: _buildGridTableCard('T8', isFree: false, timeLabel: 'IN GAME · 07m', isDark: isDark)),
+                          Expanded(child: _buildGridTableCard('T8', isFree: false, timeLabel: 'IN GAME · 07m', isDark: isDark).arenaEntrance(7)),
                           const SizedBox(width: 8),
-                          Expanded(child: _buildGridTableCard('T9', isFree: true, isDark: isDark)),
+                          Expanded(child: _buildGridTableCard('T9', isFree: true, isDark: isDark).arenaEntrance(8)),
                         ],
                       ),
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          Expanded(child: _buildGridTableCard('T10', isFree: false, timeLabel: '• RESERVED', labelColor: AppColors.tableReserved, isDark: isDark)),
+                          Expanded(child: _buildGridTableCard('T10', isFree: false, timeLabel: '• RESERVED', labelColor: AppColors.tableReserved, isDark: isDark).arenaEntrance(9)),
                           const SizedBox(width: 8),
                           const Expanded(child: SizedBox()),
                           const SizedBox(width: 8),
@@ -444,10 +444,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                           decoration: BoxDecoration(
                             color: AppColors.obsidianCard,
                             borderRadius: BorderRadius.circular(28),
-                            border: Border.all(
-                              color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.4) : AppColors.ittfTableSurface.withValues(alpha: 0.3),
-                              width: 1.2,
-                            ),
+                            boxShadow: AppColors.cardShadow,
                           ),
                           child: Center(
                             child: Row(
@@ -523,11 +520,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                 offset: const Offset(0, 3),
               )
             else
-              BoxShadow(
-                color: isDark ? Colors.black.withValues(alpha: 0.25) : Colors.black.withValues(alpha: 0.04),
-                blurRadius: 6,
-                offset: const Offset(0, 2),
-              ),
+              ...AppColors.cardShadow,
           ],
         ),
         child: Column(

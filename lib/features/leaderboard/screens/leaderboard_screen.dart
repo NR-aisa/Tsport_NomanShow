@@ -3,6 +3,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme_controller.dart';
 import '../../../core/navigation/app_navigator.dart';
 import '../../../shared/widgets/tactile_button.dart';
+import '../../../shared/widgets/arena_widgets.dart';
 import '../../../shared/widgets/jomnittaku_nav_bar.dart';
 import '../../../core/theme/app_typography.dart';
 
@@ -24,7 +25,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
       builder: (context, isDark) {
         return Scaffold(
           backgroundColor: AppColors.canvasBg,
-      body: SafeArea(
+      body: ArenaBackdrop(
+        child: SafeArea(
         bottom: false,
         child: Column(
           children: [
@@ -163,14 +165,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
                         borderRadius: BorderRadius.circular(28),
-                        border: Border.all(color: AppColors.obsidianBorder),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: AppColors.isDark ? 0.3 : 0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Column(
                         children: [
@@ -216,7 +211,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       rank: '#1',
                       form: 'Steady',
                       onChallenge: widget.onChallengeTap ?? () => AppNavigator.toChallengeBoard(context),
-                    ),
+                    ).arenaEntrance(1),
                     const SizedBox(height: 12),
 
                     // Player Card: #2 Sara K.
@@ -226,7 +221,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       rank: '#2',
                       form: 'Steady',
                       onChallenge: widget.onChallengeTap ?? () => AppNavigator.toChallengeBoard(context),
-                    ),
+                    ).arenaEntrance(2),
                     const SizedBox(height: 12),
 
                     // Player Card: #3 Mei R.
@@ -236,7 +231,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       rank: '#3',
                       form: 'Steady',
                       onChallenge: widget.onChallengeTap ?? () => AppNavigator.toChallengeBoard(context),
-                    ),
+                    ).arenaEntrance(3),
                     const SizedBox(height: 12),
 
                     // Player Card: #4 — the user themselves. Arena DS rule:
@@ -248,7 +243,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       form: 'Rising',
                       isYou: true,
                       onChallenge: null,
-                    ),
+                    ).arenaEntrance(4),
                     const SizedBox(height: 12),
 
                     // Player Card: #5 Rajan K.
@@ -258,7 +253,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       rank: '#5',
                       form: 'Steady',
                       onChallenge: widget.onChallengeTap ?? () => AppNavigator.toChallengeBoard(context),
-                    ),
+                    ).arenaEntrance(5),
                     const SizedBox(height: 16),
 
                     // 3D Tactile CTA Button
@@ -276,6 +271,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             const JomnittakuNavBar(activeIndex: 1),
           ],
         ),
+      ),
       ),
     );
       },
@@ -295,14 +291,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: isYou ? AppColors.voltLime : AppColors.obsidianBorder, width: isYou ? 1.6 : 1.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: AppColors.isDark ? 0.25 : 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
+        border: isYou ? Border.all(color: AppColors.voltLime, width: 1.6) : null,
+        boxShadow: AppColors.cardShadow,
       ),
       child: Column(
         children: [

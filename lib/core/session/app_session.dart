@@ -22,7 +22,7 @@ class AppSession {
   static bool get isSignedIn => kind.value != SessionKind.none;
   static bool get isGuest => kind.value == SessionKind.guest;
 
-  static void signInMember({String name = 'Noman Rashid'}) {
+  static void signInMember({String name = 'Alman Rahman'}) {
     displayName = name;
     kind.value = SessionKind.member;
   }

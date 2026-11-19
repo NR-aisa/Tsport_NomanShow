@@ -1,3 +1,4 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -29,9 +30,11 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
   // Chest open state
   bool _chestOpened = false;
   bool _questClaimed = false;
+  late final ConfettiController _confettiController;
 
   @override
   void initState() {
+    _confettiController = ConfettiController(duration: const Duration(seconds: 2));
     super.initState();
     _bounceController = AnimationController(
       vsync: this,
@@ -54,6 +57,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
 
   @override
   void dispose() {
+    _confettiController.dispose();
     _bounceController.dispose();
     _pulseController.dispose();
     super.dispose();
@@ -99,7 +103,10 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
       builder: (context, isDark) {
         return Scaffold(
           backgroundColor: isDark ? AppColors.darkObsidianElevated : AppColors.lightCanvasBg,
-          body: SafeArea(
+          body: Stack(
+            children: [
+              ArenaBackdrop(
+                child: SafeArea(
             bottom: false,
             child: Column(
               children: [
@@ -121,6 +128,27 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                 const JomnittakuNavBar(activeIndex: 4),
               ],
             ),
+                ),
+              ),
+              // Phase 6 celebration layer — milestones only (quest claim).
+              Align(
+                alignment: Alignment.topCenter,
+                child: ConfettiWidget(
+                  confettiController: _confettiController,
+                  blastDirectionality: BlastDirectionality.explosive,
+                  emissionFrequency: 0.05,
+                  numberOfParticles: 28,
+                  gravity: 0.25,
+                  shouldLoop: false,
+                  colors: const [
+                    AppColors.voltLime,
+                    AppColors.radiantGold,
+                    Colors.white,
+                    AppColors.ittfTableSurface,
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -902,6 +930,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                       ? null
                       : () {
                           setState(() => _questClaimed = true);
+                          _confettiController.play();
                           ArenaToast.show(
                             context,
                             message: 'Reward claimed — Loot Chest added to your profile',

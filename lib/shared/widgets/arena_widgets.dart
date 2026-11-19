@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_tokens.dart';
@@ -326,5 +327,93 @@ class _CoachmarkTourState extends State<CoachmarkTour> {
         ],
       ),
     );
+  }
+}
+
+/// Phase 6 — the canvas texture behind a screen: Toby's warm gradient wash
+/// in light mode, a deep arena glow in dark mode.
+class ArenaBackdrop extends StatelessWidget {
+  final Widget child;
+  const ArenaBackdrop({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(gradient: AppColors.canvasGradient),
+      child: child,
+    );
+  }
+}
+
+/// Phase 6 — the ArenaCard recipe, translated from Toby's board cards:
+/// borderless, radius 20, one warm step above the canvas, soft diffuse
+/// shadow, generous padding, and a gentle press scale when tappable.
+/// Resting content should be a title + one meta line; details belong
+/// one tap deeper (Toby's resting-state rule).
+class ArenaCard extends StatefulWidget {
+  final Widget child;
+  final EdgeInsetsGeometry padding;
+  final VoidCallback? onTap;
+  final Color? color;
+
+  const ArenaCard({
+    super.key,
+    required this.child,
+    this.padding = const EdgeInsets.all(20),
+    this.onTap,
+    this.color,
+  });
+
+  @override
+  State<ArenaCard> createState() => _ArenaCardState();
+}
+
+class _ArenaCardState extends State<ArenaCard> {
+  bool _pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final card = AnimatedScale(
+      scale: _pressed ? 0.98 : 1.0,
+      duration: const Duration(milliseconds: 120),
+      child: Container(
+        padding: widget.padding,
+        decoration: BoxDecoration(
+          color: widget.color ?? AppColors.obsidianCard,
+          borderRadius: AppRadius.brCard,
+          boxShadow: AppColors.cardShadow,
+        ),
+        child: widget.child,
+      ),
+    );
+    if (widget.onTap == null) return card;
+    return GestureDetector(
+      onTap: widget.onTap,
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) => setState(() => _pressed = false),
+      onTapCancel: () => setState(() => _pressed = false),
+      child: card,
+    );
+  }
+}
+
+/// Entrance choreography (Phase 6): fade + slight rise with a 40 ms
+/// stagger — Toby's "everything arrives softly" rule. Apply to list and
+/// section children with their index.
+extension ArenaEntrance on Widget {
+  Widget arenaEntrance(int index) {
+    return animate()
+        .fadeIn(
+          duration: AppMotion.fade,
+          delay: AppMotion.staggerStep * index,
+          curve: AppMotion.fadeCurve,
+        )
+        .slideY(
+          begin: 0.04,
+          end: 0,
+          duration: AppMotion.fade,
+          delay: AppMotion.staggerStep * index,
+          curve: AppMotion.fadeCurve,
+        );
   }
 }
