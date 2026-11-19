@@ -42,9 +42,9 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                        border: Border.all(color: AppColors.obsidianBorder),
                       ),
-                      child: const Icon(Icons.arrow_back_ios_new_rounded, size: 14, color: Colors.white),
+                      child: Icon(Icons.arrow_back_ios_new_rounded, size: 14, color: AppColors.textPrimary),
                     ),
                   ),
                   Expanded(
@@ -53,7 +53,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
                         borderRadius: BorderRadius.circular(28),
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                        border: Border.all(color: AppColors.obsidianBorder),
                       ),
                       child: Row(
                         children: [
@@ -72,7 +72,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                     style: AppTypography.ui(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w800,
-                                      color: _activeTab == 0 ? Colors.white : Colors.white60,
+                                      color: _activeTab == 0 ? Colors.white : AppColors.textSecondary,
                                     ),
                                   ),
                                 ),
@@ -94,7 +94,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                     style: AppTypography.ui(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w800,
-                                      color: _activeTab == 1 ? Colors.white : Colors.white60,
+                                      color: _activeTab == 1 ? Colors.white : AppColors.textSecondary,
                                     ),
                                   ),
                                 ),
@@ -267,7 +267,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                         color: AppColors.obsidianCard,
                         borderRadius: BorderRadius.circular(28),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.10),
+                          color: AppColors.obsidianBorder,
                           width: 1,
                         ),
                         boxShadow: [
@@ -288,7 +288,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                 height: 44,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                                  border: Border.all(color: AppColors.obsidianBorder),
                                 ),
                                 child: ClipOval(
                                   child: Image.asset(
@@ -311,7 +311,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                           style: AppTypography.ui(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w800,
-                                            color: Colors.white,
+                                            color: AppColors.textPrimary,
                                           ),
                                         ),
                                         const SizedBox(width: 8),
@@ -336,7 +336,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                                       'Member · Renews 1 Dec',
                                       style: AppTypography.ui(
                                         fontSize: 11,
-                                        color: Colors.white60,
+                                        color: AppColors.textSecondary,
                                       ),
                                     ),
                                   ],
@@ -350,8 +350,8 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('1,240 XP', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white)),
-                              Text('360 XP to LVL 13', style: AppTypography.ui(fontSize: 11, color: Colors.white54)),
+                              Text('1,240 XP', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
+                              Text('360 XP to LVL 13', style: AppTypography.ui(fontSize: 11, color: AppColors.textMuted)),
                             ],
                           ),
                           const SizedBox(height: 6),
@@ -365,12 +365,12 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
+                          Divider(color: AppColors.obsidianBorder, height: 1),
                           const SizedBox(height: 10),
 
                           Text(
                             'RM90 / month · Paid · 6 of 10 tables free',
-                            style: AppTypography.ui(fontSize: 11, color: Colors.white70),
+                            style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary),
                           ),
                           Text(
                             'Today\'s quest: Win 1 challenge → +200 XP',
@@ -411,7 +411,7 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        border: Border.all(color: AppColors.obsidianBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -426,8 +426,8 @@ class _PlanSelectionScreenState extends State<PlanSelectionScreen> {
             child: Icon(icon, size: 12, color: accentColor),
           ),
           const SizedBox(height: 6),
-          Text(label, style: AppTypography.ui(fontSize: 9, color: Colors.white60)),
-          Text(value, style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w900, color: Colors.white)),
+          Text(label, style: AppTypography.ui(fontSize: 9, color: AppColors.textSecondary)),
+          Text(value, style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
         ],
       ),
     );

@@ -33,7 +33,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.obsidianCard,
                   borderRadius: BorderRadius.circular(28),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                  border: Border.all(color: AppColors.obsidianBorder),
                 ),
                 child: Row(
                   children: [
@@ -52,7 +52,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                               style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
-                                color: _tabIndex == 0 ? Colors.white : Colors.white60,
+                                color: _tabIndex == 0 ? Colors.white : AppColors.textSecondary,
                               ),
                             ),
                           ),
@@ -74,7 +74,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
                               style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
-                                color: _tabIndex == 1 ? Colors.white : Colors.white60,
+                                color: _tabIndex == 1 ? Colors.white : AppColors.textSecondary,
                               ),
                             ),
                           ),
@@ -309,7 +309,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
           color: isSelected ? AppColors.ittfTableBlue : AppColors.obsidianCard,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? AppColors.ittfTableBorder : Colors.white.withValues(alpha: 0.10),
+            color: isSelected ? AppColors.ittfTableBorder : AppColors.obsidianBorder,
           ),
         ),
         child: Center(
@@ -318,7 +318,7 @@ class _ChampionBiddingScreenState extends State<ChampionBiddingScreen> {
             style: AppTypography.ui(
               fontSize: 12,
               fontWeight: FontWeight.w900,
-              color: isSelected ? Colors.white : Colors.white70,
+              color: isSelected ? Colors.white : AppColors.textSecondary,
             ),
           ),
         ),

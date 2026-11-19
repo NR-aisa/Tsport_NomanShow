@@ -39,14 +39,14 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                        border: Border.all(color: AppColors.obsidianBorder),
                       ),
-                      child: const Icon(Icons.arrow_back_ios_new_rounded, size: 14, color: Colors.white),
+                      child: Icon(Icons.arrow_back_ios_new_rounded, size: 14, color: AppColors.textPrimary),
                     ),
                   ),
                   Text(
                     'Your XP',
-                    style: AppTypography.ui(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.white),
+                    style: AppTypography.ui(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -71,7 +71,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.obsidianCard,
                   borderRadius: BorderRadius.circular(28),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                  border: Border.all(color: AppColors.obsidianBorder),
                 ),
                 child: Row(
                   children: [
@@ -90,7 +90,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                               style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
-                                color: _tabIndex == 0 ? Colors.white : Colors.white60,
+                                color: _tabIndex == 0 ? Colors.white : AppColors.textSecondary,
                               ),
                             ),
                           ),
@@ -112,7 +112,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                               style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
-                                color: _tabIndex == 1 ? Colors.white : Colors.white60,
+                                color: _tabIndex == 1 ? Colors.white : AppColors.textSecondary,
                               ),
                             ),
                           ),
@@ -192,7 +192,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
                         borderRadius: BorderRadius.circular(28),
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                        border: Border.all(color: AppColors.obsidianBorder),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.25),
@@ -204,9 +204,9 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
                       child: Column(
                         children: [
                           _buildLoanTermRow('You receive', '+200 XP', isBold: true, valueColor: AppColors.voltLime),
-                          Divider(color: Colors.white.withValues(alpha: 0.08), height: 16),
+                          Divider(color: AppColors.obsidianBorder, height: 16),
                           _buildLoanTermRow('Repay', '200 XP from winnings'),
-                          Divider(color: Colors.white.withValues(alpha: 0.08), height: 16),
+                          Divider(color: AppColors.obsidianBorder, height: 16),
                           _buildLoanTermRow('Terms', 'One loan at a time', subValue: 'From Settings'),
                         ],
                       ),
@@ -273,7 +273,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: AppTypography.ui(fontSize: 13, color: Colors.white60)),
+        Text(label, style: AppTypography.ui(fontSize: 13, color: AppColors.textSecondary)),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -282,11 +282,11 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
               style: AppTypography.ui(
                 fontSize: 13,
                 fontWeight: isBold ? FontWeight.w900 : FontWeight.w700,
-                color: valueColor ?? Colors.white,
+                color: valueColor ?? AppColors.textPrimary,
               ),
             ),
             if (subValue != null)
-              Text(subValue, style: AppTypography.ui(fontSize: 10, color: Colors.white54)),
+              Text(subValue, style: AppTypography.ui(fontSize: 10, color: AppColors.textMuted)),
           ],
         ),
       ],
@@ -299,7 +299,7 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        border: Border.all(color: AppColors.obsidianBorder),
       ),
       child: Row(
         children: [
@@ -319,8 +319,8 @@ class _XpPurchaseScreenState extends State<XpPurchaseScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white)),
-                Text('Price from Settings', style: AppTypography.ui(fontSize: 10, color: Colors.white54)),
+                Text(title, style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
+                Text('Price from Settings', style: AppTypography.ui(fontSize: 10, color: AppColors.textMuted)),
               ],
             ),
           ),

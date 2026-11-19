@@ -65,9 +65,9 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                        border: Border.all(color: AppColors.obsidianBorder),
                       ),
-                      child: const Icon(Icons.arrow_back_ios_new_rounded, size: 16, color: Colors.white),
+                      child: Icon(Icons.arrow_back_ios_new_rounded, size: 16, color: AppColors.textPrimary),
                     ),
                   ),
                   Text(
@@ -75,7 +75,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                     style: AppTypography.ui(
                       fontSize: 22,
                       fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   Container(
@@ -84,7 +84,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                     decoration: BoxDecoration(
                       color: AppColors.obsidianCard,
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                      border: Border.all(color: AppColors.obsidianBorder),
                     ),
                     child: const Icon(Icons.notifications_rounded, size: 20, color: AppColors.radiantGold),
                   ),
@@ -100,7 +100,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.obsidianCard,
                   borderRadius: BorderRadius.circular(28),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                  border: Border.all(color: AppColors.obsidianBorder),
                 ),
                 child: Row(
                   children: [
@@ -119,7 +119,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                               style: AppTypography.ui(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w900,
-                                color: _tabIndex == 0 ? Colors.white : Colors.white60,
+                                color: _tabIndex == 0 ? Colors.white : AppColors.textSecondary,
                                 letterSpacing: 0.5,
                               ),
                             ),
@@ -142,7 +142,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                               style: AppTypography.ui(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w900,
-                                color: _tabIndex == 1 ? Colors.white : Colors.white60,
+                                color: _tabIndex == 1 ? Colors.white : AppColors.textSecondary,
                                 letterSpacing: 0.5,
                               ),
                             ),
@@ -247,11 +247,11 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
 
                           Text(
                             'Show',
-                            style: AppTypography.ui(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.white),
+                            style: AppTypography.ui(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
                           ),
                           Text(
                             'at the venue turnstile scanner',
-                            style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white60),
+                            style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
                           ),
                           const SizedBox(height: 8),
                           Container(
@@ -300,7 +300,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.obsidianCard,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                        border: Border.all(color: AppColors.obsidianBorder),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,7 +308,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Venue map', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white)),
+                              Text('Venue map', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
                               const SizedBox(width: 8),
                               Flexible(
                                 child: Text(
@@ -400,7 +400,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        border: Border.all(color: AppColors.obsidianBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -415,8 +415,8 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
             child: Icon(icon, size: 12, color: accentColor),
           ),
           const SizedBox(height: 6),
-          Text(label, style: AppTypography.ui(fontSize: 9, color: Colors.white60)),
-          Text(value, style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white)),
+          Text(label, style: AppTypography.ui(fontSize: 9, color: AppColors.textSecondary)),
+          Text(value, style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
         ],
       ),
     );

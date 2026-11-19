@@ -464,7 +464,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                       style: AppTypography.ui(
                         fontSize: 8,
                         fontWeight: FontWeight.w900,
-                        color: AppColors.slate400,
+                        color: AppColors.textSecondary,
                         letterSpacing: 1.0,
                       ),
                     ),
@@ -565,7 +565,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           const SizedBox(height: 6),
           Text(
             title,
-            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.slate400),
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textSecondary),
           ),
         ],
       ),
@@ -650,7 +650,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           const SizedBox(height: 8),
           Text(
             title,
-            style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white),
+            style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
           ),
         ],
       ),
@@ -818,7 +818,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           // Friend Quest Card (From Image 2)
           Text(
             'FRIEND QUEST · 4 DAYS LEFT',
-            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.slate400, letterSpacing: 0.8),
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textSecondary, letterSpacing: 0.8),
           ),
           const SizedBox(height: 8),
 
@@ -855,7 +855,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                   ),
                 ),
                 const SizedBox(height: 6),
-                Text('0 / 1 matches completed', style: AppTypography.ui(fontSize: 10, color: AppColors.slate400)),
+                Text('0 / 1 matches completed', style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary)),
                 const SizedBox(height: 14),
 
                 TactileButton.primary(
@@ -871,7 +871,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           // Daily Quest Card (From Image 2: 10/10 with Pink Progress Bar)
           Text(
             'DAILY QUEST · 5 HOURS LEFT',
-            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.slate400, letterSpacing: 0.8),
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textSecondary, letterSpacing: 0.8),
           ),
           const SizedBox(height: 8),
 
@@ -923,7 +923,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('10 / 10 XP EARNED', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w900, color: AppColors.slate400)),
+                    Text('10 / 10 XP EARNED', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w900, color: AppColors.textSecondary)),
                     Text('COMPLETED ✔', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w900, color: AppColors.voltLime)),
                   ],
                 ),
@@ -1030,7 +1030,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                   style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white),
                 ),
                 const SizedBox(height: 4),
-                Text('Rally 50 balls with Robot Trainer at Table T1', style: AppTypography.ui(fontSize: 11, color: AppColors.slate400)),
+                Text('Rally 50 balls with Robot Trainer at Table T1', style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary)),
                 const SizedBox(height: 14),
 
                 TactileButton.blue(
@@ -1046,7 +1046,7 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
           // Skill Practice List (From Image 4)
           Text(
             'SKILL DRILLS MATRIX',
-            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.slate400, letterSpacing: 0.8),
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textSecondary, letterSpacing: 0.8),
           ),
           const SizedBox(height: 10),
 
@@ -1101,12 +1101,12 @@ class _GamificationPathScreenState extends State<GamificationPathScreen> with Ti
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: AppTypography.ui(fontSize: 10, color: AppColors.slate400),
+                  style: AppTypography.ui(fontSize: 10, color: AppColors.textSecondary),
                 ),
               ],
             ),
           ),
-          const Icon(Icons.arrow_forward_ios_rounded, color: AppColors.slate400, size: 14),
+          Icon(Icons.arrow_forward_ios_rounded, color: AppColors.textSecondary, size: 14),
         ],
       ),
     );

@@ -178,7 +178,7 @@ class PaymentScreen extends StatelessWidget {
                         color: AppColors.obsidianCard,
                         borderRadius: BorderRadius.circular(28),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.10),
+                          color: AppColors.obsidianBorder,
                           width: 1,
                         ),
                         boxShadow: [
@@ -207,15 +207,15 @@ class PaymentScreen extends StatelessWidget {
                             'JOMMENANG',
                             subValue: 'Malaysia National QR',
                           ),
-                          Divider(color: Colors.white.withValues(alpha: 0.08), height: 16),
+                          Divider(color: AppColors.obsidianBorder, height: 16),
                           _buildReceiptRow('Method', 'DuitNow QR'),
-                          Divider(color: Colors.white.withValues(alpha: 0.08), height: 16),
+                          Divider(color: AppColors.obsidianBorder, height: 16),
                           _buildReceiptRow(
                             'Card',
                             'via Wise or Stripe',
                             subValue: 'one gateway',
                           ),
-                          Divider(color: Colors.white.withValues(alpha: 0.08), height: 16),
+                          Divider(color: AppColors.obsidianBorder, height: 16),
                           _buildReceiptRow(
                             'Status',
                             '✓ Connected',
@@ -324,7 +324,7 @@ class PaymentScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.obsidianCard,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        border: Border.all(color: AppColors.obsidianBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,12 +339,12 @@ class PaymentScreen extends StatelessWidget {
             child: Icon(icon, size: 12, color: Colors.white),
           ),
           const SizedBox(height: 6),
-          Text(label, style: AppTypography.ui(fontSize: 9, color: Colors.white60)),
+          Text(label, style: AppTypography.ui(fontSize: 9, color: AppColors.textSecondary)),
           Text(
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white),
+            style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
           ),
         ],
       ),

@@ -79,7 +79,7 @@ class AdminDashboardScreen extends StatelessWidget {
                         children: [
                           Text(
                             'ARENA OVERVIEW & REVENUE ANALYTICS',
-                            style: GoogleFonts.bebasNeue(fontSize: 32, letterSpacing: 1.5, color: Colors.white),
+                            style: GoogleFonts.bebasNeue(fontSize: 32, letterSpacing: 1.5, color: AppColors.textPrimary),
                           ),
                           Text(
                             'Real-time automated venue telemetry • No human intervention required',
@@ -98,7 +98,7 @@ class AdminDashboardScreen extends StatelessWidget {
                           children: [
                             Icon(Icons.calendar_today, size: 14, color: AppColors.primary),
                             const SizedBox(width: 8),
-                            Text('Today, 18 Nov 2026', style: AppTypography.ui(fontSize: 12, color: Colors.white)),
+                            Text('Today, 18 Nov 2026', style: AppTypography.ui(fontSize: 12, color: AppColors.textPrimary)),
                           ],
                         ),
                       ),
@@ -160,7 +160,7 @@ class AdminDashboardScreen extends StatelessWidget {
                 // Live Table Sensors & Automation Status
                 Text(
                   'ARENA HARDWARE & AUTOMATION HEALTH',
-                  style: GoogleFonts.bebasNeue(fontSize: 20, letterSpacing: 1.2, color: Colors.white),
+                  style: GoogleFonts.bebasNeue(fontSize: 20, letterSpacing: 1.2, color: AppColors.textPrimary),
                 ),
                 const SizedBox(height: 10),
 
@@ -268,7 +268,7 @@ class AdminDashboardScreen extends StatelessWidget {
                 // Recent Real-time Transactions Table
                 Text(
                   'REAL-TIME AUDIT & TRANSACTION LOG',
-                  style: GoogleFonts.bebasNeue(fontSize: 20, letterSpacing: 1.2, color: Colors.white),
+                  style: GoogleFonts.bebasNeue(fontSize: 20, letterSpacing: 1.2, color: AppColors.textPrimary),
                 ),
                 const SizedBox(height: 10),
 
@@ -384,7 +384,7 @@ class AdminDashboardScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('KL Central Arena', style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white)),
+                        Text('KL Central Arena', style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
                         Icon(Icons.arrow_drop_down, color: AppColors.primary, size: 20),
                       ],
                     ),
@@ -418,7 +418,7 @@ class AdminDashboardScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('System Admin', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white)),
+                      Text('System Admin', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
                       Text('admin@tsports.my', style: AppTypography.ui(fontSize: 10, color: AppColors.textMuted)),
                     ],
                   ),
@@ -547,14 +547,14 @@ class AdminDashboardScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name, style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.white)),
+                Text(name, style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
                 Text(time, style: AppTypography.ui(fontSize: 10, color: AppColors.textMuted)),
               ],
             ),
           ),
-          Expanded(flex: 3, child: Text(item, style: AppTypography.ui(fontSize: 11, color: Colors.white70))),
+          Expanded(flex: 3, child: Text(item, style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary))),
           Expanded(flex: 2, child: Text(amount, style: AppTypography.mono(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.xpGold))),
-          Expanded(flex: 2, child: Text(method, style: AppTypography.ui(fontSize: 11, color: Colors.white60))),
+          Expanded(flex: 2, child: Text(method, style: AppTypography.ui(fontSize: 11, color: AppColors.textMuted))),
           Expanded(
             flex: 2,
             child: Container(
