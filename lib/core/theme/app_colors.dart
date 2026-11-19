@@ -8,10 +8,10 @@ class AppColors {
 
   // === STATIC TOKENS (DARK & LIGHT SPECIFIC CONSTANTS) ===
   static const darkObsidianBase = Color(0xFF0A1120);       // Deep Midnight Stadium Slate
-  static const darkObsidianElevated = Color(0xFF101B30);   // Elevated stadium card base
-  static const darkObsidianCard = Color(0xFF16233B);       // Primary card base
-  static const darkObsidianCardLight = Color(0xFF1E2E4E);  // Active card surface
-  static const darkObsidianBorder = Color(0x1FFFFFFF);     // 12% translucent border
+  static const darkObsidianElevated = Color(0xFF0E1626);   // Elevated stadium card base (Phase 8: compressed ladder)
+  static const darkObsidianCard = Color(0xFF121C2E);       // Primary card base (Phase 8: softer step from canvas)
+  static const darkObsidianCardLight = Color(0xFF1A2947);  // Active card surface (Phase 8)
+  static const darkObsidianBorder = Color(0x12FFFFFF);     // 7% translucent border (Phase 8 Fluent pass: outlines fade)
   static const darkObsidianSpecular = Color(0x33FFFFFF);   // 20% white specular rim
 
   static const lightCanvasBg = Color(0xFFF7F0E6);          // Toby warm cream canvas (Phase 6: white mode = Toby gradient theme)

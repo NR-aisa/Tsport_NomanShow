@@ -253,23 +253,23 @@ class _SplashScreenState extends State<SplashScreen> {
                         children: [
                           // Dynamic Athletic Hero Card with 3D Table Tennis Court Stage
                           _buildHeroStadiumCard(context, isDark).arenaEntrance(0),
-                          const SizedBox(height: 14),
+                          const SizedBox(height: 20),
 
                           // 3 Quick Telemetry Cards
                           _buildThreeTelemetryCards(context, isDark).arenaEntrance(1),
-                          const SizedBox(height: 14),
+                          const SizedBox(height: 22),
 
                           // 1. Sparring Rivals Carousel (Athletic Player Cards)
                           _buildFavoriteRivalsSection(context, isDark).arenaEntrance(2),
-                          const SizedBox(height: 14),
+                          const SizedBox(height: 22),
 
                           // 2. Flash Promo Countdown Banner (Happy Hour Sunset Pass)
                           _buildFlashPromoBanner(isDark).arenaEntrance(3),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 24),
 
                           // 3. Asymmetrical Bento Telemetry Grid
                           _buildBentoTelemetryGrid(context, isDark).arenaEntrance(4),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 24),
 
                           // Venue Map Card removed from Home (Phase 1):
                           // it lives on Tables, where it belongs. Home keeps a
@@ -375,14 +375,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _buildHeroStadiumCard(BuildContext context, bool isDark) {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: AppColors.heroCardGradient,
-        borderRadius: BorderRadius.circular(28),
-        border: AppColors.cardBorder,
-        boxShadow: AppColors.cardShadow,
-      ),
+      // Phase 8 (Fluent pass): the hero has no box — headline and stage
+      // sit directly on the canvas, Windows 11 page-header style.
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -869,16 +865,9 @@ class _SplashScreenState extends State<SplashScreen> {
     required bool isDark,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      decoration: BoxDecoration(
-        color: AppColors.obsidianCard,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppColors.border,
-          width: 1,
-        ),
-        boxShadow: AppColors.cardShadow,
-      ),
+      // Phase 8: stat tiles are no longer boxes — a tinted icon chip,
+      // a muted label and a bold value on the bare canvas.
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -924,13 +913,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _buildFavoriteRivalsSection(BuildContext context, bool isDark) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-      decoration: BoxDecoration(
-        gradient: AppColors.cardGradient,
-        borderRadius: BorderRadius.circular(28),
-        border: AppColors.cardBorder,
-        boxShadow: AppColors.cardShadow,
-      ),
+      // Phase 8: rivals live on the canvas — the section title and the
+      // avatar row do the grouping, no surrounding card.
+      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1333,7 +1318,7 @@ class _SplashScreenState extends State<SplashScreen> {
               gradient: AppColors.cardGradient,
               borderRadius: BorderRadius.circular(28),
               border: Border.all(
-                color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.25) : AppColors.lightBorder,
+                color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.12) : AppColors.lightBorder,
                 width: 1,
               ),
               boxShadow: AppColors.cardShadow,

@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
@@ -53,16 +54,13 @@ class JomnittakuNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = AppColors.isDark;
 
+    // Phase 8 (Fluent pass): true acrylic — a blurred, translucent dock.
+    // The shadow lives on the outer shell; the clip + backdrop filter
+    // soften whatever scrolls behind the bar.
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 4, 16, 12),
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       decoration: BoxDecoration(
-        color: isDark ? Colors.black87 : Colors.white.withValues(alpha: 0.95), // Frosted glass
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(
-          color: isDark ? Colors.white.withValues(alpha: 0.10) : AppColors.lightBorder,
-          width: 1.0,
-        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: isDark ? 0.55 : 0.08),
@@ -77,7 +75,23 @@ class JomnittakuNavBar extends StatelessWidget {
             ),
         ],
       ),
-      child: SafeArea(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(28),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+            decoration: BoxDecoration(
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.62)
+                  : Colors.white.withValues(alpha: 0.78), // Acrylic tint
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(
+                color: isDark ? Colors.white.withValues(alpha: 0.10) : AppColors.lightBorder,
+                width: 1.0,
+              ),
+            ),
+            child: SafeArea(
         top: false,
         bottom: false,
         child: Row(
@@ -89,7 +103,10 @@ class JomnittakuNavBar extends StatelessWidget {
             _buildNavItem(context, 3, Icons.table_restaurant_rounded, 'Tables'),
             _buildNavItem(context, 4, Icons.alt_route_rounded, 'Path'),
           ],
+            ),
+          ),
         ),
+      ),
       ),
     );
   }
