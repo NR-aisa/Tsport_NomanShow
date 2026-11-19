@@ -101,10 +101,15 @@ class _SplashScreenState extends State<SplashScreen> {
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                Icon(
-                                  Icons.person_rounded,
-                                  size: 22,
-                                  color: AppColors.textPrimary,
+                                // The signed-in user's demo DP (Phase 8.4 —
+                                // was a generic person icon).
+                                ClipOval(
+                                  child: Image.asset(
+                                    AppSession.avatarAsset,
+                                    width: 44,
+                                    height: 44,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 Positioned(
                                   right: 2,
@@ -532,12 +537,11 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                 decoration: BoxDecoration(
-                  color: isDark ? Colors.black.withValues(alpha: 0.25) : AppColors.lightCanvasBg,
+                  color: isDark ? Colors.black.withValues(alpha: 0.25) : AppColors.lightCanvasDeep,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: isDark ? Colors.white.withValues(alpha: 0.08) : AppColors.lightBorder,
-                    width: 1,
-                  ),
+                  border: isDark
+                      ? Border.all(color: Colors.white.withValues(alpha: 0.08), width: 1)
+                      : null,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -871,14 +875,25 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: accentColor.withValues(alpha: isDark ? 0.15 : 0.12),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, size: 16, color: accentColor),
-          ),
+          Builder(builder: (_) {
+            // Tonal chip done properly: a fuller tint with a DEEP icon —
+            // pale-on-pale was the washed-out look.
+            final iconColor = isDark
+                ? accentColor
+                : (accentColor == AppColors.voltLime
+                    ? AppColors.primaryDim
+                    : accentColor == AppColors.radiantGold
+                        ? AppColors.goldDeep
+                        : accentColor);
+            return Container(
+              padding: const EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                color: accentColor.withValues(alpha: isDark ? 0.15 : 0.18),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, size: 16, color: iconColor),
+            );
+          }),
           const SizedBox(height: 10),
           Text(
             title,

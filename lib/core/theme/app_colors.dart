@@ -55,7 +55,9 @@ class AppColors {
       : const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFFF8F3EA), Color(0xFFF3E9D8)],
+          // Phase 8.4: deeper base stop — white cards need a canvas with
+          // enough tonal distance to actually lift off (flatness fix).
+          colors: [Color(0xFFF9F4EC), Color(0xFFEEE0C4)],
         );
 
   static LinearGradient get cardGradient => isDark
@@ -89,7 +91,7 @@ class AppColors {
         BoxShadow(
           color: isDark
               ? Colors.black.withValues(alpha: 0.40)
-              : const Color(0xFF8A6D3B).withValues(alpha: 0.10),
+              : const Color(0xFF8A6D3B).withValues(alpha: 0.13),
           blurRadius: 24,
           offset: const Offset(0, 8),
         ),
@@ -147,6 +149,7 @@ class AppColors {
   static Color get hyperCyan => isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB); // legacy name, now ITTF info blue
   static const electricCrimson = Color(0xFFEF4444);        // Tournament Adrenaline Red
   static const radiantGold = Color(0xFFF59E0B);            // Championship Trophy Gold — XP/rewards only
+  static const goldDeep = Color(0xFFB45309);               // deep amber for gold TEXT/icons on light surfaces
   static const amethystPurple = Color(0xFFA855F7);         // Quest Amethyst — gamification artwork / Reserved status only
   static const neonPink = Color(0xFFEF4444);               // RETIRED — remapped to crimson (Arena DS: no pink in general UI)
 
