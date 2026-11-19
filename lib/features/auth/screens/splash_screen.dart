@@ -2099,6 +2099,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   Divider(color: AppColors.border),
                   _buildDrawerTile(Icons.logout_rounded, 'Log Out / Switch Account', () {
                     Navigator.pop(context);
+                    AppSession.signOut();
+                    AppNavigator.toLoginAndClear(context);
                   }, isDestructive: true),
                 ],
               ),

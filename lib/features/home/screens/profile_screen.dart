@@ -525,12 +525,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const SizedBox(height: 18),
 
-                    // Log out — Toby puts it as quiet red text in the
-                    // settings footer; it returns to the Entry Gate.
+                    // Log out — signs out and returns to the Login screen.
                     GestureDetector(
                       onTap: () {
                         AppSession.signOut();
-                        AppNavigator.toEntry(context);
+                        AppNavigator.toLoginAndClear(context);
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.min,

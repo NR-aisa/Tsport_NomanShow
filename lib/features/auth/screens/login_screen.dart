@@ -77,7 +77,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
-                      onTap: () => Navigator.maybePop(context),
+                      onTap: () {
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        } else {
+                          AppNavigator.toEntry(context);
+                        }
+                      },
                       child: Container(
                         width: 40,
                         height: 40,

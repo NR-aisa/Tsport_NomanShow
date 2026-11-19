@@ -189,25 +189,17 @@ class JomnittakuNavBar extends StatelessWidget {
             height: 50,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              // Phase 8.1: the primary action wears the ACTION colour
-              // (Toby steel blue); emerald is signal-only now.
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  AppColors.actionBlue,
-                  AppColors.actionBlueDeep,
-                ],
-              ),
+              // Phase 8.5: the primary action wears the charming Toby reddish gradient & glow
+              gradient: AppColors.tobyCtaGradient,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.actionBlue.withValues(alpha: isDark ? 0.45 : 0.30),
-                  blurRadius: 10,
-                  offset: const Offset(0, 3),
+                  color: AppColors.tobyCtaGlow.withValues(alpha: isDark ? 0.48 : 0.32),
+                  blurRadius: 14,
+                  offset: const Offset(0, 4),
                 ),
               ],
               border: Border.all(
-                color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.25),
+                color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.35),
                 width: 2,
               ),
             ),

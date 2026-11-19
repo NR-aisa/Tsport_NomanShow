@@ -137,7 +137,19 @@ class AppColors {
   // Red is LIVE + errors only. Purple survives ONLY as the Reserved table
   // status and inside gamification-path artwork. Pink/cyan/teal are retired.
   static const voltLime = Color(0xFF10B981);
-  // Phase 8.1 (Toby rule): BLUE = action, EMERALD = signal only.
+  // Toby charming reddish CTA effect tokens (Phase 8.5)
+  // Toby signature magenta/rose-crimson gradient & diffuse charming glow.
+  static const tobyCtaStart = Color(0xFFE63970); // Vibrant rose-coral
+  static const tobyCtaEnd = Color(0xFFBE123C);   // Deep ruby-crimson
+  static const tobyCtaGlow = Color(0xFFE11D48);  // Charming rose diffuse glow
+
+  static const tobyCtaGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [tobyCtaStart, tobyCtaEnd],
+  );
+
+  // Phase 8.1: BLUE = action, EMERALD = signal only.
   // The one filled CTA per screen wears this deep steel blue (Toby's
   // #2B72B2); emerald is reserved for live/free/success meaning.
   static const actionBlue = Color(0xFF2B72B2);

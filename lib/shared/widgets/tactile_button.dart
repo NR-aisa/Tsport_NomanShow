@@ -18,6 +18,8 @@ class TactileButton extends StatefulWidget {
   /// Flat = Toby recipe: no extruded 3D lip, no rim light — one soft
   /// shadow and a 0.98 press scale. Used by action/tonal variants.
   final bool flat;
+  final Gradient? gradient;
+  final Color? glowColor;
 
   const TactileButton({
     super.key,
@@ -33,6 +35,8 @@ class TactileButton extends StatefulWidget {
     this.isFullWidth = true,
     this.borderRadius = 28,
     this.flat = false,
+    this.gradient,
+    this.glowColor,
   });
 
   factory TactileButton.volt({
@@ -45,13 +49,15 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: AppColors.actionBlue,
-      bottomBorderColor: AppColors.actionBlueDeep,
+      backgroundColor: AppColors.tobyCtaStart,
+      bottomBorderColor: AppColors.tobyCtaEnd,
       textColor: Colors.white,
       icon: icon,
       isFullWidth: isFullWidth,
       height: height,
       flat: true,
+      gradient: AppColors.tobyCtaGradient,
+      glowColor: AppColors.tobyCtaGlow,
     );
   }
 
@@ -82,13 +88,15 @@ class TactileButton extends StatefulWidget {
     return TactileButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: AppColors.actionBlue,
-      bottomBorderColor: AppColors.actionBlueDeep,
+      backgroundColor: AppColors.tobyCtaStart,
+      bottomBorderColor: AppColors.tobyCtaEnd,
       textColor: Colors.white,
       icon: icon,
       isFullWidth: isFullWidth,
       height: height,
       flat: true,
+      gradient: AppColors.tobyCtaGradient,
+      glowColor: AppColors.tobyCtaGlow,
     );
   }
 
@@ -222,36 +230,63 @@ class _TactileButtonState extends State<TactileButton> {
         widget.flat ? 0.0 : (_isPressed ? extrusion - 1.0 : 0.0);
     final double currentBottom = _isPressed ? 1.0 : extrusion;
 
+    final hasGradient = widget.gradient != null;
+    final hasGlow = widget.glowColor != null;
+
     Widget buttonContent = Container(
       height: widget.height,
       width: widget.isFullWidth ? double.infinity : widget.width,
       margin: EdgeInsets.only(top: currentPush, bottom: extrusion - currentPush),
       decoration: BoxDecoration(
-        color: widget.backgroundColor,
+        color: hasGradient ? null : widget.backgroundColor,
+        gradient: widget.gradient,
         borderRadius: BorderRadius.circular(widget.borderRadius),
-        boxShadow: widget.flat
+        border: hasGradient
+            ? Border.all(
+                color: Colors.white.withValues(alpha: 0.22),
+                width: 1.0,
+              )
+            : null,
+        boxShadow: hasGlow
             ? [
                 BoxShadow(
-                  color: Colors.black
-                      .withValues(alpha: AppColors.isDark ? 0.35 : 0.16),
-                  blurRadius: 14,
+                  color: widget.glowColor!.withValues(
+                    alpha: AppColors.isDark ? 0.40 : 0.28,
+                  ),
+                  blurRadius: 18,
                   offset: const Offset(0, 6),
                 ),
+                BoxShadow(
+                  color: Colors.black.withValues(
+                    alpha: AppColors.isDark ? 0.25 : 0.08,
+                  ),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
               ]
-            : [
-                BoxShadow(
-                  color: widget.bottomBorderColor,
-                  offset: Offset(0, currentBottom),
-                  blurRadius: 0,
-                  spreadRadius: 0,
-                ),
-                BoxShadow(
-                  color: Colors.white.withValues(alpha: 0.18),
-                  offset: const Offset(0, 1),
-                  blurRadius: 0,
-                  spreadRadius: 0,
-                ),
-              ],
+            : (widget.flat
+                ? [
+                    BoxShadow(
+                      color: Colors.black
+                          .withValues(alpha: AppColors.isDark ? 0.35 : 0.16),
+                      blurRadius: 14,
+                      offset: const Offset(0, 6),
+                    ),
+                  ]
+                : [
+                    BoxShadow(
+                      color: widget.bottomBorderColor,
+                      offset: Offset(0, currentBottom),
+                      blurRadius: 0,
+                      spreadRadius: 0,
+                    ),
+                    BoxShadow(
+                      color: Colors.white.withValues(alpha: 0.18),
+                      offset: const Offset(0, 1),
+                      blurRadius: 0,
+                      spreadRadius: 0,
+                    ),
+                  ]),
       ),
       child: Center(
         child: Row(

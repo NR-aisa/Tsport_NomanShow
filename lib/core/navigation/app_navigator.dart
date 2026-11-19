@@ -245,6 +245,13 @@ class AppNavigator {
     Navigator.of(context).push(fadeRoute(const LoginScreen()));
   }
 
+  static void toLoginAndClear(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+      fadeRoute(const LoginScreen()),
+      (route) => false,
+    );
+  }
+
   static void toRegister(BuildContext context) {
     Navigator.of(context).push(fadeRoute(const RegisterScreen()));
   }
