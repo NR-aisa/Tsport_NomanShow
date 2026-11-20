@@ -37,11 +37,14 @@ class EntryGateScreen extends StatelessWidget {
                 const _AmbientTableCard(label: 'T7', free: true, top: 150, right: 14),
                 const _AmbientTableCard(label: 'T4', free: false, bottom: 120, left: 26),
                 SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 460),
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
                   const SizedBox(height: 24),
                   const Center(child: AppLogo(size: 84)),
                   const SizedBox(height: 16),
@@ -111,7 +114,9 @@ class EntryGateScreen extends StatelessWidget {
                 ],
               ),
             ),
-                ),
+          ),
+        ),
+      ),
               ],
             ),
           ),

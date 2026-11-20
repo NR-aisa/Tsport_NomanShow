@@ -56,38 +56,42 @@ class JomnittakuNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = AppColors.isDark;
 
-    // Windows 11 Fluent Taskbar style: clean 12px squircle dock, flat, de-boxed.
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 4, 16, 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.45 : 0.08),
-            blurRadius: 20,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? const Color(0xFF0D1526).withValues(alpha: 0.88)
-                  : Colors.white.withValues(alpha: 0.90), // Fluent acrylic tint
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: isDark
-                    ? Colors.white.withValues(alpha: 0.08)
-                    : AppColors.slate300.withValues(alpha: 0.6),
-                width: 1.0,
+    // Windows 11 Fluent Taskbar style: centered 12px squircle dock (max width 600px).
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 600),
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isDark ? 0.45 : 0.08),
+                blurRadius: 20,
+                offset: const Offset(0, 6),
               ),
-            ),
-            child: SafeArea(
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? const Color(0xFF0D1526).withValues(alpha: 0.88)
+                      : Colors.white.withValues(alpha: 0.90), // Fluent acrylic tint
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.08)
+                        : AppColors.slate300.withValues(alpha: 0.6),
+                    width: 1.0,
+                  ),
+                ),
+                child: SafeArea(
               top: false,
               bottom: false,
               child: Row(
@@ -104,7 +108,9 @@ class JomnittakuNavBar extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ),
+  ),
+);
   }
 
   Widget _buildNavItem(BuildContext context, int index, IconData icon, String label) {

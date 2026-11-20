@@ -248,118 +248,231 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
 
                   // ==========================================
-                  // SCROLLABLE BODY
+                  // SCROLLABLE BODY (Responsive: 1-Col Mobile, 2-Col Tablet/Desktop)
                   // ==========================================
                   Expanded(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Dynamic Athletic Hero Card with 3D Table Tennis Court Stage
-                          _buildHeroStadiumCard(context, isDark).arenaEntrance(0),
-                          const SizedBox(height: 20),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final isTabletOrDesktop = constraints.maxWidth >= 650;
 
-                          // 3 Quick Telemetry Cards
-                          _buildThreeTelemetryCards(context, isDark).arenaEntrance(1),
-                          const SizedBox(height: 22),
-
-                          // 1. Sparring Rivals Carousel (Athletic Player Cards)
-                          _buildFavoriteRivalsSection(context, isDark).arenaEntrance(2),
-                          const SizedBox(height: 22),
-
-                          // 2. Flash Promo Countdown Banner (Happy Hour Sunset Pass)
-                          _buildFlashPromoBanner(isDark).arenaEntrance(3),
-                          const SizedBox(height: 24),
-
-                          // 3. Asymmetrical Bento Telemetry Grid
-                          _buildBentoTelemetryGrid(context, isDark).arenaEntrance(4),
-                          const SizedBox(height: 24),
-
-                          // Venue Map Card removed from Home (Phase 1):
-                          // it lives on Tables, where it belongs. Home keeps a
-                          // fixed section order that never reshuffles:
-                          // Hero → Promo → Telemetry → Pricing → CTA.
-
-                          // Member Pricing & 90 Sen Anchor Card
-                          _buildMemberPricingCard(context, isDark).arenaEntrance(5),
-                          const SizedBox(height: 18),
-
-                          // Primary Athletic Emerald 3D Tactile CTA Button
-                          TactileButton.volt(
-                            text: 'Walk In & Play →',
-                            onPressed: widget.onWalkInTap ??
-                                widget.onRegisterTap ??
-                                () => AppNavigator.toPlan(context),
-                          ),
-                          const SizedBox(height: 12),
-
-                          // Direct Door Pass Access Chip (Sapphire Glass)
-                          Center(
-                            child: GestureDetector(
-                              onTap: () => AppNavigator.toPass(context),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-                                decoration: BoxDecoration(
-                                  color: isDark ? Colors.black12 : AppColors.lightCanvasBg,
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(
-                                    color: isDark
-                                        ? AppColors.ittfTableBorder.withValues(alpha: 0.5)
-                                        : AppColors.slate300,
-                                    width: 1.2,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: isDark
-                                          ? AppColors.ittfTableSurface.withValues(alpha: 0.15)
-                                          : AppColors.ittfTableSurface.withValues(alpha: 0.08),
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.qr_code_scanner_rounded,
-                                      size: 16,
-                                      color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Flexible(
-                                      child: Text(
-                                        'Door Pass (KX8VQS) →',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: AppTypography.ui(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w800,
-                                          color: isDark ? AppColors.slate300 : AppColors.ittfTableBlue,
-                                          letterSpacing: 0.3,
+                        if (isTabletOrDesktop) {
+                          return SingleChildScrollView(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Left Column: Player Standing, Passes & Actions
+                                Expanded(
+                                  flex: 5,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      _buildHeroStadiumCard(context, isDark).arenaEntrance(0),
+                                      const SizedBox(height: 16),
+                                      _buildThreeTelemetryCards(context, isDark).arenaEntrance(1),
+                                      const SizedBox(height: 16),
+                                      _buildFlashPromoBanner(isDark).arenaEntrance(2),
+                                      const SizedBox(height: 16),
+                                      _buildMemberPricingCard(context, isDark).arenaEntrance(3),
+                                      const SizedBox(height: 16),
+                                      TactileButton.volt(
+                                        text: 'Walk In & Play →',
+                                        onPressed: widget.onWalkInTap ??
+                                            widget.onRegisterTap ??
+                                            () => AppNavigator.toPlan(context),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Center(
+                                        child: GestureDetector(
+                                          onTap: () => AppNavigator.toPass(context),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+                                            decoration: BoxDecoration(
+                                              color: isDark ? Colors.black12 : AppColors.lightCanvasBg,
+                                              borderRadius: BorderRadius.circular(16),
+                                              border: Border.all(
+                                                color: isDark
+                                                    ? AppColors.ittfTableBorder.withValues(alpha: 0.5)
+                                                    : AppColors.slate300,
+                                                width: 1.2,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: isDark
+                                                      ? AppColors.ittfTableSurface.withValues(alpha: 0.15)
+                                                      : AppColors.ittfTableSurface.withValues(alpha: 0.08),
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  Icons.qr_code_scanner_rounded,
+                                                  size: 16,
+                                                  color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
+                                                ),
+                                                const SizedBox(width: 8),
+                                                Flexible(
+                                                  child: Text(
+                                                    'Door Pass (KX8VQS) →',
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: AppTypography.ui(
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w800,
+                                                      color: isDark ? AppColors.slate300 : AppColors.ittfTableBlue,
+                                                      letterSpacing: 0.3,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ),
+                                      const SizedBox(height: 8),
+                                      Center(
+                                        child: Text(
+                                          'At the door: two QRs — Registered or Guest.',
+                                          style: AppTypography.ui(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.textMuted,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+
+                                // Right Column: Live Table Radar & Bento Game Nodes
+                                Expanded(
+                                  flex: 6,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      _buildBentoTelemetryGrid(context, isDark).arenaEntrance(4),
+                                      const SizedBox(height: 20),
+                                      _buildFavoriteRivalsSection(context, isDark).arenaEntrance(5),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+
+                        // Mobile View (< 650px): Single Column Stack
+                        return SingleChildScrollView(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Dynamic Athletic Hero Card with 3D Table Tennis Court Stage
+                              _buildHeroStadiumCard(context, isDark).arenaEntrance(0),
+                              const SizedBox(height: 20),
+
+                              // 3 Quick Telemetry Cards
+                              _buildThreeTelemetryCards(context, isDark).arenaEntrance(1),
+                              const SizedBox(height: 22),
+
+                              // 1. Sparring Rivals Carousel (Athletic Player Cards)
+                              _buildFavoriteRivalsSection(context, isDark).arenaEntrance(2),
+                              const SizedBox(height: 22),
+
+                              // 2. Flash Promo Countdown Banner (Happy Hour Sunset Pass)
+                              _buildFlashPromoBanner(isDark).arenaEntrance(3),
+                              const SizedBox(height: 24),
+
+                              // 3. Asymmetrical Bento Telemetry Grid
+                              _buildBentoTelemetryGrid(context, isDark).arenaEntrance(4),
+                              const SizedBox(height: 24),
+
+                              // Member Pricing & 90 Sen Anchor Card
+                              _buildMemberPricingCard(context, isDark).arenaEntrance(5),
+                              const SizedBox(height: 18),
+
+                              // Primary Athletic Emerald 3D Tactile CTA Button
+                              TactileButton.volt(
+                                text: 'Walk In & Play →',
+                                onPressed: widget.onWalkInTap ??
+                                    widget.onRegisterTap ??
+                                    () => AppNavigator.toPlan(context),
+                              ),
+                              const SizedBox(height: 12),
+
+                              // Direct Door Pass Access Chip (Sapphire Glass)
+                              Center(
+                                child: GestureDetector(
+                                  onTap: () => AppNavigator.toPass(context),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+                                    decoration: BoxDecoration(
+                                      color: isDark ? Colors.black12 : AppColors.lightCanvasBg,
+                                      borderRadius: BorderRadius.circular(16),
+                                      border: Border.all(
+                                        color: isDark
+                                            ? AppColors.ittfTableBorder.withValues(alpha: 0.5)
+                                            : AppColors.slate300,
+                                        width: 1.2,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: isDark
+                                              ? AppColors.ittfTableSurface.withValues(alpha: 0.15)
+                                              : AppColors.ittfTableSurface.withValues(alpha: 0.08),
+                                          blurRadius: 10,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.qr_code_scanner_rounded,
+                                          size: 16,
+                                          color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Flexible(
+                                          child: Text(
+                                            'Door Pass (KX8VQS) →',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: AppTypography.ui(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w800,
+                                              color: isDark ? AppColors.slate300 : AppColors.ittfTableBlue,
+                                              letterSpacing: 0.3,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Center(
-                            child: Text(
-                              'At the door: two QRs — Registered or Guest.',
-                              style: AppTypography.ui(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textMuted,
+                              const SizedBox(height: 8),
+                              Center(
+                                child: Text(
+                                  'At the door: two QRs — Registered or Guest.',
+                                  style: AppTypography.ui(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textMuted,
+                                  ),
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 24),
+                            ],
                           ),
-                          const SizedBox(height: 24),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
 
