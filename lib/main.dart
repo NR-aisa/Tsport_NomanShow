@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_theme_controller.dart';
-import 'features/auth/screens/splash_screen.dart';
 import 'features/auth/screens/entry_gate_screen.dart';
 import 'features/display/screens/display_leaderboard_screen.dart';
 import 'core/theme/app_typography.dart';
@@ -21,21 +20,27 @@ class JomnittakuApp extends StatefulWidget {
 
 class _JomnittakuAppState extends State<JomnittakuApp> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
-  bool _isWidescreenTv = false;
+  int _viewportMode = 0; // 0 = Mobile (440px), 1 = Tab (820px), 2 = 55" TV (1440px)
 
   void openTvDisplay() {
-    setState(() => _isWidescreenTv = true);
+    setState(() => _viewportMode = 2);
     _navigatorKey.currentState?.push(
       MaterialPageRoute(builder: (_) => const DisplayLeaderboardScreen()),
     );
   }
 
+  void openTabDisplay() {
+    setState(() => _viewportMode = 1);
+    if (_navigatorKey.currentState?.canPop() == true) {
+      _navigatorKey.currentState?.pop();
+    }
+  }
+
   void openMobileFlow() {
-    setState(() => _isWidescreenTv = false);
-    _navigatorKey.currentState?.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const SplashScreen()),
-      (route) => false,
-    );
+    setState(() => _viewportMode = 0);
+    if (_navigatorKey.currentState?.canPop() == true) {
+      _navigatorKey.currentState?.pop();
+    }
   }
 
   @override
@@ -69,16 +74,16 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                       constraints: BoxConstraints(
-                        maxWidth: _isWidescreenTv ? 1440 : 440,
-                        maxHeight: _isWidescreenTv ? double.infinity : 900,
+                        maxWidth: _viewportMode == 2 ? 1440 : (_viewportMode == 1 ? 820 : 440),
+                        maxHeight: _viewportMode == 2 ? double.infinity : (_viewportMode == 1 ? 1040 : 900),
                       ),
                       margin: EdgeInsets.symmetric(
-                        vertical: _isWidescreenTv ? 0 : 20,
-                        horizontal: _isWidescreenTv ? 24 : 0,
+                        vertical: _viewportMode == 2 ? 0 : 16,
+                        horizontal: _viewportMode == 2 ? 24 : 10,
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.canvasBg,
-                        borderRadius: BorderRadius.circular(_isWidescreenTv ? 20 : 44),
+                        borderRadius: BorderRadius.circular(_viewportMode == 2 ? 20 : (_viewportMode == 1 ? 28 : 44)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: isDark ? 0.55 : 0.15),
@@ -88,11 +93,11 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                         ],
                         border: Border.all(
                           color: isDark ? AppColors.darkObsidianCardLight : AppColors.slate300,
-                          width: _isWidescreenTv ? 3 : 8,
+                          width: _viewportMode == 2 ? 3 : (_viewportMode == 1 ? 6 : 8),
                         ),
                       ),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(_isWidescreenTv ? 16 : 36),
+                        borderRadius: BorderRadius.circular(_viewportMode == 2 ? 16 : (_viewportMode == 1 ? 22 : 36)),
                         child: child,
                       ),
                     ),
@@ -162,7 +167,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               decoration: BoxDecoration(
-                                color: !_isWidescreenTv ? AppColors.ittfTableSurface : Colors.transparent,
+                                color: _viewportMode == 0 ? AppColors.ittfTableSurface : Colors.transparent,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Row(
@@ -171,7 +176,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                                   Icon(
                                     Icons.phone_iphone_rounded,
                                     size: 13,
-                                    color: !_isWidescreenTv
+                                    color: _viewportMode == 0
                                         ? Colors.white
                                         : (isDark ? Colors.white60 : AppColors.slate500),
                                   ),
@@ -181,7 +186,43 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                                     style: AppTypography.ui(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w800,
-                                      color: !_isWidescreenTv
+                                      color: _viewportMode == 0
+                                          ? Colors.white
+                                          : (isDark ? Colors.white60 : AppColors.slate500),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 3),
+
+                          // Tablet / Tab View (iPad 820px)
+                          GestureDetector(
+                            onTap: openTabDisplay,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                color: _viewportMode == 1 ? AppColors.ittfTableSurface : Colors.transparent,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.tablet_mac_rounded,
+                                    size: 13,
+                                    color: _viewportMode == 1
+                                        ? Colors.white
+                                        : (isDark ? Colors.white60 : AppColors.slate500),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    'Tab',
+                                    style: AppTypography.ui(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w800,
+                                      color: _viewportMode == 1
                                           ? Colors.white
                                           : (isDark ? Colors.white60 : AppColors.slate500),
                                     ),
@@ -198,7 +239,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               decoration: BoxDecoration(
-                                color: _isWidescreenTv ? AppColors.ittfTableSurface : Colors.transparent,
+                                color: _viewportMode == 2 ? AppColors.ittfTableSurface : Colors.transparent,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Row(
@@ -207,7 +248,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                                   Icon(
                                     Icons.tv_rounded,
                                     size: 13,
-                                    color: _isWidescreenTv
+                                    color: _viewportMode == 2
                                         ? Colors.white
                                         : (isDark ? Colors.white60 : AppColors.slate500),
                                   ),
@@ -217,7 +258,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                                     style: AppTypography.ui(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w800,
-                                      color: _isWidescreenTv
+                                      color: _viewportMode == 2
                                           ? Colors.white
                                           : (isDark ? Colors.white60 : AppColors.slate500),
                                     ),
