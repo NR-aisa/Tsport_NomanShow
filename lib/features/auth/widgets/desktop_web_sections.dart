@@ -30,15 +30,15 @@ class DesktopWebSections {
   }) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // ----------------------------------------------------
-          // LEFT: BRAND HERO & ATHLETIC CTAS (Flex 6.5)
+          // LEFT: BRAND HERO & ATHLETIC CTAS (Flex 60)
           // ----------------------------------------------------
           Expanded(
-            flex: 65,
+            flex: 60,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -94,18 +94,18 @@ class DesktopWebSections {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      width: 54,
-                      height: 54,
+                      width: 58,
+                      height: 58,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: AppColors.ittfTableBorder.withValues(alpha: 0.6),
-                          width: 1.5,
+                          color: Colors.white.withValues(alpha: 0.25),
+                          width: 2,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.ittfTableSurface.withValues(alpha: 0.3),
-                            blurRadius: 12,
+                            color: AppColors.ittfTableSurface.withValues(alpha: 0.35),
+                            blurRadius: 16,
                             offset: const Offset(0, 4),
                           ),
                         ],
@@ -117,51 +117,63 @@ class DesktopWebSections {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 14),
+                    const SizedBox(width: 16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'JUST PLAY',
+                          'JUST PLAY TONIGHT.',
                           style: AppTypography.ui(
-                            fontSize: 32,
+                            fontSize: 38,
                             fontWeight: FontWeight.w900,
-                            color: AppColors.textPrimary,
-                            letterSpacing: -0.8,
-                            height: 1.0,
+                            color: isDark ? Colors.white : AppColors.slate900,
+                            letterSpacing: -1.0,
+                            height: 1.1,
                           ),
                         ),
-                        Text(
-                          'TONIGHT',
-                          style: AppTypography.ui(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w900,
-                            color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
-                            letterSpacing: -0.5,
-                            height: 1.05,
-                          ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 7,
+                              height: 7,
+                              decoration: const BoxDecoration(
+                                color: AppColors.voltLime,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              '24/7 AUTONOMOUS ARENA · 3 DAMANSARA',
+                              style: AppTypography.ui(
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.voltLime,
+                                letterSpacing: 1.0,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 14),
 
                 // Subtitle
                 Text(
-                  'Autonomous table tennis arena at 3 Damansara. Walk in, tap in, and challenge live rivals anytime.',
+                  'Malaysia\'s premier autonomous, 24/7 AI-tracked table tennis arena. Walk in anytime, scan your digital pass at the turnstile, and challenge live rivals on 10 ITTF tournament courts.',
                   style: AppTypography.ui(
                     fontSize: 13.5,
                     fontWeight: FontWeight.w500,
                     color: AppColors.textSecondary,
-                    height: 1.4,
+                    height: 1.45,
                   ),
                 ),
 
                 const SizedBox(height: 18),
 
-                // Action Button Row
+                // Action Button Row (Compact, side-by-side, NOT stretched!)
                 Wrap(
                   spacing: 12,
                   runSpacing: 10,
@@ -169,7 +181,9 @@ class DesktopWebSections {
                   children: [
                     // Primary CTA
                     TactileButton.volt(
-                      text: 'Walk In & Play →',
+                      text: 'Walk In & Play Tonight (RM17) →',
+                      isFullWidth: false,
+                      height: 48,
                       onPressed: onWalkInTap,
                     ),
 
@@ -179,26 +193,28 @@ class DesktopWebSections {
                       child: GestureDetector(
                         onTap: onPassTap,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+                          height: 48,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           decoration: BoxDecoration(
-                            color: isDark ? Colors.black26 : AppColors.lightCanvasBg,
-                            borderRadius: BorderRadius.circular(10),
+                            color: isDark ? const Color(0xFF162032) : AppColors.lightCanvasBg,
+                            borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: AppColors.ittfTableBorder.withValues(alpha: 0.45),
+                              color: AppColors.ittfTableBorder.withValues(alpha: 0.6),
                               width: 1.2,
                             ),
                           ),
+                          alignment: Alignment.center,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const Icon(Icons.qr_code_scanner_rounded, size: 16, color: AppColors.ittfTableBorder),
                               const SizedBox(width: 8),
                               Text(
-                                'Door Pass (KX8VQS) →',
+                                'Door Pass (KX8VQS)',
                                 style: AppTypography.ui(
                                   fontSize: 12.5,
                                   fontWeight: FontWeight.w800,
-                                  color: isDark ? AppColors.slate300 : AppColors.ittfTableBlue,
+                                  color: isDark ? Colors.white : AppColors.ittfTableBlue,
                                 ),
                               ),
                             ],
@@ -213,26 +229,28 @@ class DesktopWebSections {
                       child: GestureDetector(
                         onTap: onTvTap,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+                          height: 48,
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
                           decoration: BoxDecoration(
-                            color: AppColors.ittfTableSurface.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(10),
+                            color: isDark ? const Color(0xFF1E3A8A).withValues(alpha: 0.3) : const Color(0xFFEFF6FF),
+                            borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: AppColors.ittfTableBorder.withValues(alpha: 0.4),
+                              color: AppColors.ittfTableBorder.withValues(alpha: 0.5),
                               width: 1,
                             ),
                           ),
+                          alignment: Alignment.center,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.tv_rounded, size: 15, color: AppColors.ittfTableBorder),
+                              const Icon(Icons.tv_rounded, size: 16, color: AppColors.ittfTableBorder),
                               const SizedBox(width: 6),
                               Text(
                                 '55" Stadium TV',
                                 style: AppTypography.ui(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.ittfTableBorder,
+                                  color: isDark ? Colors.white : AppColors.ittfTableBorder,
                                 ),
                               ),
                             ],
@@ -247,7 +265,7 @@ class DesktopWebSections {
 
                 // Live Status Capsule
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
                     color: isDark ? Colors.black.withValues(alpha: 0.3) : AppColors.lightCanvasDeep,
                     borderRadius: BorderRadius.circular(10),
@@ -266,9 +284,9 @@ class DesktopWebSections {
                           shape: BoxShape.circle,
                         ),
                       ),
-                      const SizedBox(width: 7),
+                      const SizedBox(width: 8),
                       Text(
-                        'LIVE • 2 matches active now · 6 tables free · AI Scoring Online',
+                        'LIVE • 2 matches active · 6 tables free · AI Scoring Online',
                         style: AppTypography.ui(
                           fontSize: 11.5,
                           fontWeight: FontWeight.w700,
@@ -285,10 +303,10 @@ class DesktopWebSections {
           const SizedBox(width: 24),
 
           // ----------------------------------------------------
-          // RIGHT: PROPORTIONAL 3D TABLE TENNIS COURT STAGE (Flex 5.5)
+          // RIGHT: PROPORTIONAL 3D TABLE TENNIS COURT STAGE (Flex 40)
           // ----------------------------------------------------
           Expanded(
-            flex: 55,
+            flex: 40,
             child: _buildProportional3dCourtStage(context, isDark),
           ),
         ],
@@ -547,10 +565,10 @@ class DesktopWebSections {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ----------------------------------------------------
-          // COLUMN 1 (LEFT): VENUE RADAR & ACCESS PASS (Flex 4)
+          // COLUMN 1 (LEFT): VENUE RADAR & ACCESS PASS (Flex 34)
           // ----------------------------------------------------
           Expanded(
-            flex: 4,
+            flex: 34,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -563,13 +581,13 @@ class DesktopWebSections {
             ),
           ),
 
-          const SizedBox(width: 16),
+          const SizedBox(width: 18),
 
           // ----------------------------------------------------
-          // COLUMN 2 (CENTER): GAMIFICATION BENTO & MATCHES (Flex 4.2)
+          // COLUMN 2 (CENTER): GAMIFICATION BENTO & MATCHES (Flex 35)
           // ----------------------------------------------------
           Expanded(
-            flex: 42,
+            flex: 35,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -580,13 +598,13 @@ class DesktopWebSections {
             ),
           ),
 
-          const SizedBox(width: 16),
+          const SizedBox(width: 18),
 
           // ----------------------------------------------------
-          // COLUMN 3 (RIGHT): SPARRING RIVALS & LEAGUE SPOTLIGHT (Flex 3.8)
+          // COLUMN 3 (RIGHT): SPARRING RIVALS & LEAGUE SPOTLIGHT (Flex 31)
           // ----------------------------------------------------
           Expanded(
-            flex: 38,
+            flex: 31,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -601,7 +619,7 @@ class DesktopWebSections {
     );
   }
 
-  // 1. Live Table Radar Widget
+  // 1. Live Table Radar Widget (Spacious 2x3 Grid)
   static Widget _buildLiveTableRadarWidget(BuildContext context, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -633,7 +651,7 @@ class DesktopWebSections {
                   Text(
                     'Live Table Radar',
                     style: AppTypography.ui(
-                      fontSize: 14,
+                      fontSize: 13.5,
                       fontWeight: FontWeight.w800,
                       color: AppColors.textPrimary,
                     ),
@@ -657,19 +675,24 @@ class DesktopWebSections {
             ],
           ),
           const SizedBox(height: 12),
-          // 6 Radar Table Pills (T1 to T6)
+          // Row 1: T1, T2, T3
           Row(
             children: [
               _buildMiniRadarTable('T1', 'Alman', false, isDark),
-              const SizedBox(width: 6),
+              const SizedBox(width: 8),
               _buildMiniRadarTable('T2', 'Sara', false, isDark),
-              const SizedBox(width: 6),
+              const SizedBox(width: 8),
               _buildMiniRadarTable('T3', 'Free', true, isDark),
-              const SizedBox(width: 6),
+            ],
+          ),
+          const SizedBox(height: 8),
+          // Row 2: T4, T5, T6
+          Row(
+            children: [
               _buildMiniRadarTable('T4', 'Free', true, isDark),
-              const SizedBox(width: 6),
+              const SizedBox(width: 8),
               _buildMiniRadarTable('T5', 'Free', true, isDark),
-              const SizedBox(width: 6),
+              const SizedBox(width: 8),
               _buildMiniRadarTable('T6', 'Free', true, isDark),
             ],
           ),
@@ -681,7 +704,7 @@ class DesktopWebSections {
   static Widget _buildMiniRadarTable(String id, String label, bool isFree, bool isDark) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
         decoration: BoxDecoration(
           color: isFree
               ? (isDark ? AppColors.ittfTableSurface.withValues(alpha: 0.25) : AppColors.lightCanvasDeep)
@@ -696,27 +719,35 @@ class DesktopWebSections {
         ),
         child: Column(
           children: [
-            Container(
-              width: 5,
-              height: 5,
-              decoration: BoxDecoration(
-                color: isFree ? AppColors.voltLime : AppColors.paddleRed,
-                shape: BoxShape.circle,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 5,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: isFree ? AppColors.voltLime : AppColors.paddleRed,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  id,
+                  style: AppTypography.ui(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 3),
-            Text(
-              id,
-              style: AppTypography.ui(
-                fontSize: 10.5,
-                fontWeight: FontWeight.w900,
-                color: AppColors.textPrimary,
-              ),
-            ),
+            const SizedBox(height: 2),
             Text(
               label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: AppTypography.ui(
-                fontSize: 8.5,
+                fontSize: 9.5,
                 fontWeight: FontWeight.w600,
                 color: isFree ? AppColors.voltLime : AppColors.textSecondary,
               ),
@@ -742,36 +773,43 @@ class DesktopWebSections {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: const BoxDecoration(
-                  color: AppColors.pingPongOrange,
-                  shape: BoxShape.circle,
+          Expanded(
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: const BoxDecoration(
+                    color: AppColors.pingPongOrange,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.flash_on_rounded, size: 14, color: Colors.white),
                 ),
-                child: const Icon(Icons.flash_on_rounded, size: 14, color: Colors.white),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '⚡ Happy Hour · Save 50%',
-                    style: AppTypography.ui(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w800,
-                      color: isDark ? AppColors.radiantGold : const Color(0xFF92400E),
-                    ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '⚡ Happy Hour · Save 50%',
+                        style: AppTypography.ui(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          color: isDark ? AppColors.radiantGold : const Color(0xFF92400E),
+                        ),
+                      ),
+                      Text(
+                        'All tables 50 sen/hr for members',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTypography.ui(fontSize: 10.5, color: AppColors.textSecondary),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'All tables 50 sen/hour for members',
-                    style: AppTypography.ui(fontSize: 10.5, color: AppColors.textSecondary),
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
+          const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
@@ -816,7 +854,7 @@ class DesktopWebSections {
               ),
               Text(
                 'RM17',
-                style: AppTypography.ui(fontSize: 20, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
+                style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: AppColors.textPrimary),
               ),
             ],
           ),
@@ -837,14 +875,14 @@ class DesktopWebSections {
           const SizedBox(height: 10),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 6),
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
             decoration: BoxDecoration(
               color: AppColors.voltLime.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(6),
             ),
             alignment: Alignment.center,
             child: Text(
-              '🔥 Member saves RM16.10 every single visit',
+              '🔥 Member saves RM16.10 every visit',
               style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.voltLime),
             ),
           ),
