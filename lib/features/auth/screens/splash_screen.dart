@@ -138,15 +138,15 @@ class _SplashScreenState extends State<SplashScreen> {
                   controller: _desktopScrollController,
                   child: Column(
                     children: [
-                      // SECTION 1: WIDESCREEN HERO BROADCAST COMMAND STAGE
+                      // SECTION 1: ATHLETIC WIDESCREEN "JUST PLAY TONIGHT" HERO STAGE
                       Center(
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1240),
+                          constraints: const BoxConstraints(maxWidth: 1380),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                             child: Container(
                               key: _arenaKey,
-                              child: DesktopWebSections.buildHeroBroadcastSection(
+                              child: DesktopWebSections.buildHeroJustPlaySection(
                                 context,
                                 isDark,
                                 onWalkInTap: widget.onWalkInTap ??
@@ -166,27 +166,16 @@ class _SplashScreenState extends State<SplashScreen> {
                         ),
                       ),
 
-                      // SECTION 1B: ARCHITECTURAL 10-TABLE ARENA FLOORPLAN RADAR
+                      // SECTION 1B: BALANCED 3-COLUMN DESKTOP COMMAND CENTER
                       Center(
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1240),
+                          constraints: const BoxConstraints(maxWidth: 1380),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                             child: Container(
                               key: _radarKey,
-                              child: DesktopWebSections.buildTenTableFloorplan(context, isDark),
+                              child: DesktopWebSections.buildThreeColumnCommandDashboard(context, isDark),
                             ),
-                          ),
-                        ),
-                      ),
-
-                      // SECTION 1C: COMMAND BENTO MODULES
-                      Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1240),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                            child: DesktopWebSections.buildBentoCommandGrid(context, isDark),
                           ),
                         ),
                       ),
@@ -194,7 +183,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       // SECTION 2: LIVE LEADERBOARD SHOWCASE & PODIUM
                       Center(
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1240),
+                          constraints: const BoxConstraints(maxWidth: 1380),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
                             child: Container(
@@ -208,7 +197,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       // SECTION 3: MEMBERSHIP TIERS & PASS COMPARISON MATRIX
                       Center(
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1240),
+                          constraints: const BoxConstraints(maxWidth: 1380),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
                             child: Container(
@@ -222,7 +211,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       // SECTION 4: AUTONOMOUS VENUE 24/7 IOT FACILITY TELEMETRY
                       Center(
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1240),
+                          constraints: const BoxConstraints(maxWidth: 1380),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
                             child: Container(

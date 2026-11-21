@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'core/session/app_session.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_theme_controller.dart';
 import 'core/theme/viewport_controller.dart';
-import 'features/auth/screens/entry_gate_screen.dart';
+import 'features/auth/screens/splash_screen.dart';
 import 'features/display/screens/display_leaderboard_screen.dart';
 import 'core/theme/app_typography.dart';
 
 void main() {
+  AppSession.signInMember();
   runApp(const JomnittakuApp());
 }
 
@@ -86,7 +88,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
           themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
-          home: const EntryGateScreen(),
+          home: const SplashScreen(),
           builder: (context, child) {
             final screenWidth = MediaQuery.of(context).size.width;
             final isDesktop = screenWidth > 600;
