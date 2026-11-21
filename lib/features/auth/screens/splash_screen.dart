@@ -13,6 +13,7 @@ import '../../../shared/widgets/arena_widgets.dart';
 import '../../../core/theme/viewport_controller.dart';
 import '../../../shared/widgets/desktop_web_header.dart';
 import '../widgets/desktop_web_sections.dart';
+import '../../display/screens/display_leaderboard_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   final VoidCallback? onRegisterTap;
@@ -137,122 +138,55 @@ class _SplashScreenState extends State<SplashScreen> {
                   controller: _desktopScrollController,
                   child: Column(
                     children: [
-                      // SECTION 1: HERO COMMAND & TELEMETRY
+                      // SECTION 1: WIDESCREEN HERO BROADCAST COMMAND STAGE
                       Center(
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 1240),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                            child: Row(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                            child: Container(
                               key: _arenaKey,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Left Column (5 Flex): Stadium Stage, Passes & Quick Actions
-                                Expanded(
-                                  flex: 5,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      _buildHeroStadiumCard(context, isDark).arenaEntrance(0),
-                                      const SizedBox(height: 16),
-                                      _buildThreeTelemetryCards(context, isDark).arenaEntrance(1),
-                                      const SizedBox(height: 16),
-                                      _buildFlashPromoBanner(isDark).arenaEntrance(2),
-                                      const SizedBox(height: 16),
-                                      _buildMemberPricingCard(context, isDark).arenaEntrance(3),
-                                      const SizedBox(height: 16),
-                                      TactileButton.volt(
-                                        text: 'Walk In & Play →',
-                                        onPressed: widget.onWalkInTap ??
-                                            widget.onRegisterTap ??
-                                            () => AppNavigator.toPlan(context),
-                                      ),
-                                      const SizedBox(height: 12),
-                                      Center(
-                                        child: GestureDetector(
-                                          onTap: () => AppNavigator.toPass(context),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-                                            decoration: BoxDecoration(
-                                              color: isDark ? Colors.black12 : AppColors.lightCanvasBg,
-                                              borderRadius: BorderRadius.circular(16),
-                                              border: Border.all(
-                                                color: isDark
-                                                    ? AppColors.ittfTableBorder.withValues(alpha: 0.5)
-                                                    : AppColors.slate300,
-                                                width: 1.2,
-                                              ),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: isDark
-                                                      ? AppColors.ittfTableSurface.withValues(alpha: 0.15)
-                                                      : AppColors.ittfTableSurface.withValues(alpha: 0.08),
-                                                  blurRadius: 10,
-                                                  offset: const Offset(0, 2),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  Icons.qr_code_scanner_rounded,
-                                                  size: 16,
-                                                  color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
-                                                ),
-                                                const SizedBox(width: 8),
-                                                Flexible(
-                                                  child: Text(
-                                                    'Door Pass (KX8VQS) →',
-                                                    maxLines: 1,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: AppTypography.ui(
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w800,
-                                                      color: isDark ? AppColors.slate300 : AppColors.ittfTableBlue,
-                                                      letterSpacing: 0.3,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Center(
-                                        child: Text(
-                                          'At the door: two QRs — Registered or Guest.',
-                                          style: AppTypography.ui(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w500,
-                                            color: AppColors.textMuted,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                const SizedBox(width: 24),
-
-                                // Right Column (6 Flex): Live Table Radar & Bento Game Nodes
-                                Expanded(
-                                  flex: 6,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        key: _radarKey,
-                                        child: _buildBentoTelemetryGrid(context, isDark).arenaEntrance(4),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      _buildFavoriteRivalsSection(context, isDark).arenaEntrance(5),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                              child: DesktopWebSections.buildHeroBroadcastSection(
+                                context,
+                                isDark,
+                                onWalkInTap: widget.onWalkInTap ??
+                                    widget.onRegisterTap ??
+                                    () => AppNavigator.toPlan(context),
+                                onPassTap: () => AppNavigator.toPass(context),
+                                onTvTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const DisplayLeaderboardScreen(),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
+                          ),
+                        ),
+                      ),
+
+                      // SECTION 1B: ARCHITECTURAL 10-TABLE ARENA FLOORPLAN RADAR
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1240),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            child: Container(
+                              key: _radarKey,
+                              child: DesktopWebSections.buildTenTableFloorplan(context, isDark),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // SECTION 1C: COMMAND BENTO MODULES
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1240),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            child: DesktopWebSections.buildBentoCommandGrid(context, isDark),
                           ),
                         ),
                       ),

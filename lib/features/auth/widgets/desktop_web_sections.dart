@@ -9,12 +9,1042 @@ import '../../../shared/widgets/tactile_button.dart';
 import '../../display/screens/display_leaderboard_screen.dart';
 
 /// Desktop Web Sections for JOMNITTAKU:
+///  - Section 1: Widescreen Hero Broadcast Command Stage
+///  - Section 1B: Architectural 10-Table Arena Floorplan Radar (2x5 Grid)
+///  - Section 1C: Command Bento Modules (1v1, Path, Happy Hour, Rivals)
 ///  - Section 2: Live Leaderboard Showcase & Top-3 Podium
 ///  - Section 3: Membership Tiers & Pass Comparison Matrix
 ///  - Section 4: Autonomous Venue 24/7 IoT Facility Telemetry
 ///  - Section 5: Professional Desktop Website Footer
 class DesktopWebSections {
   DesktopWebSections._();
+
+  // ============================================================
+  // SECTION 1: WIDESCREEN HERO BROADCAST COMMAND STAGE
+  // ============================================================
+  static Widget buildHeroBroadcastSection(
+    BuildContext context,
+    bool isDark, {
+    required VoidCallback onWalkInTap,
+    required VoidCallback onPassTap,
+    required VoidCallback onTvTap,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // ----------------------------------------------------
+          // LEFT: CINEMATIC ARENA HEADLINE & ACTION BAR (Flex 6)
+          // ----------------------------------------------------
+          Expanded(
+            flex: 6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Venue location & autonomous status pill
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: AppColors.voltLime.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: AppColors.voltLime.withValues(alpha: 0.35),
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 7,
+                        height: 7,
+                        decoration: const BoxDecoration(
+                          color: AppColors.voltLime,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        '3 DAMANSARA LEVEL 2 · 10 TABLES · 24/7 AUTONOMOUS',
+                        style: AppTypography.ui(
+                          fontSize: 10.5,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.voltLime,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // Main Headline
+                Text(
+                  'AUTONOMOUS 24/7\nTABLE TENNIS ARENA',
+                  style: AppTypography.ui(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textPrimary,
+                    letterSpacing: -1.2,
+                    height: 1.05,
+                  ),
+                ),
+
+                const SizedBox(height: 14),
+
+                // Subtitle
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 540),
+                  child: Text(
+                    'Malaysia\'s first unmanned, AI-tracked table tennis venue. Walk in anytime, scan your digital pass at the turnstile, and challenge live rivals on 10 ITTF tournament courts.',
+                    style: AppTypography.ui(
+                      fontSize: 14.5,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textSecondary,
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+
+                // Dual Action CTA Button Group
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 10,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    // Primary: Walk In & Play
+                    TactileButton.volt(
+                      text: 'Walk In & Play Tonight (RM17) →',
+                      onPressed: onWalkInTap,
+                    ),
+
+                    // Secondary: Door Pass
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: onPassTap,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                          decoration: BoxDecoration(
+                            color: isDark ? AppColors.darkObsidianCard : AppColors.lightCanvasBg,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: AppColors.ittfTableBorder.withValues(alpha: 0.5),
+                              width: 1.2,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.qr_code_scanner_rounded, size: 16, color: AppColors.ittfTableBorder),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Door Pass: KX8VQS',
+                                style: AppTypography.ui(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w800,
+                                  color: isDark ? AppColors.slate200 : AppColors.ittfTableBlue,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Tertiary: 55" Stadium TV Feed
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: onTvTap,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                          decoration: BoxDecoration(
+                            color: AppColors.ittfTableSurface.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: AppColors.ittfTableBorder.withValues(alpha: 0.4),
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.tv_rounded, size: 16, color: AppColors.ittfTableBorder),
+                              const SizedBox(width: 6),
+                              Text(
+                                '55" Stadium TV',
+                                style: AppTypography.ui(
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.ittfTableBorder,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 24),
+
+                // Live Telemetry Badges Strip
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 8,
+                  children: [
+                    _buildStatBadge(
+                      icon: Icons.circle,
+                      iconColor: AppColors.voltLime,
+                      iconSize: 8,
+                      label: '6 of 10 Tables Free',
+                      isDark: isDark,
+                    ),
+                    _buildStatBadge(
+                      icon: Icons.emoji_events_rounded,
+                      iconColor: AppColors.radiantGold,
+                      iconSize: 14,
+                      label: '⭐ 1,240 XP · Rank #4',
+                      isDark: isDark,
+                    ),
+                    _buildStatBadge(
+                      icon: Icons.flash_on_rounded,
+                      iconColor: AppColors.pingPongOrange,
+                      iconSize: 14,
+                      label: 'Happy Hour: 50 sen/hr (18m left)',
+                      isDark: isDark,
+                    ),
+                    _buildStatBadge(
+                      icon: Icons.sports_mma_rounded,
+                      iconColor: AppColors.paddleRed,
+                      iconSize: 14,
+                      label: '1v1 Match Pot: RM200',
+                      isDark: isDark,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(width: 32),
+
+          // ----------------------------------------------------
+          // RIGHT: WIDESCREEN 3D LIVE MATCH ARENA VISUALIZER (Flex 5)
+          // ----------------------------------------------------
+          Expanded(
+            flex: 5,
+            child: _buildWidescreenMatchVisualizer(context, isDark),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _buildStatBadge({
+    required IconData icon,
+    required Color iconColor,
+    required double iconSize,
+    required String label,
+    required bool isDark,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.obsidianCard : AppColors.lightCanvasBg,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: isDark ? AppColors.darkObsidianCardLight : AppColors.slate300,
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: iconSize, color: iconColor),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: AppTypography.ui(
+              fontSize: 11.5,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textPrimary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _buildWidescreenMatchVisualizer(BuildContext context, bool isDark) {
+    return Container(
+      height: 310,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: isDark
+              ? [const Color(0xFF131D2E), const Color(0xFF0B111C)]
+              : [const Color(0xFFE2E8F0), const Color(0xFFF8FAFC)],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.4) : AppColors.slate300,
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.4 : 0.08),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // Top Match HUD
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: BoxDecoration(
+              color: isDark ? Colors.black.withValues(alpha: 0.25) : Colors.white.withValues(alpha: 0.8),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+              border: Border(
+                bottom: BorderSide(
+                  color: isDark ? Colors.white.withValues(alpha: 0.08) : AppColors.slate200,
+                  width: 1,
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: AppColors.paddleRed,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'LIVE ARENA MATCH · TABLE 04 (COURT ALPHA)',
+                      style: AppTypography.ui(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                        letterSpacing: 0.6,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: AppColors.voltLime.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    'Score: 14 - 11 · Game 3',
+                    style: AppTypography.ui(
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.voltLime,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Center 3D Table Tennis Court
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Full Table Canvas
+                  Container(
+                    width: double.infinity,
+                    height: 170,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF1E3A8A), Color(0xFF172554)],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.white, width: 2),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.45),
+                          blurRadius: 16,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Center White Division Line
+                        Container(width: 2, color: Colors.white.withValues(alpha: 0.75)),
+
+                        // Center Mesh Net
+                        Container(
+                          height: 6,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.35),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Ball in play (Animated glowing ping pong ball)
+                        Positioned(
+                          left: 110,
+                          top: 45,
+                          child: Container(
+                            width: 12,
+                            height: 12,
+                            decoration: BoxDecoration(
+                              color: AppColors.pingPongOrange,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.pingPongOrange.withValues(alpha: 0.6),
+                                  blurRadius: 8,
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Player 1 Card (Left - Jason T.)
+                  Positioned(
+                    left: 12,
+                    top: 10,
+                    child: _buildPlayerRallyPill(
+                      avatar: DemoAvatars.jason,
+                      name: 'Jason T.',
+                      score: '14',
+                      paddle: 'DHS Hurricane (Black)',
+                      isServer: true,
+                    ),
+                  ),
+
+                  // Player 2 Card (Right - Alman R. / YOU)
+                  Positioned(
+                    right: 12,
+                    bottom: 10,
+                    child: _buildPlayerRallyPill(
+                      avatar: AppSession.avatarAsset,
+                      name: 'Alman R. (YOU)',
+                      score: '11',
+                      paddle: 'Butterfly Tenergy (Red)',
+                      isServer: false,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Bottom Telemetry Footer
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: isDark ? Colors.black.withValues(alpha: 0.25) : Colors.white.withValues(alpha: 0.6),
+              borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '● DHS D40+ 3-Star Ball · Rally: 9 hits',
+                  style: AppTypography.ui(fontSize: 10.5, color: AppColors.textSecondary),
+                ),
+                Text(
+                  'Lighting: 480 Lux ITTF · AI Scoring Camera: Online 🟢',
+                  style: AppTypography.ui(fontSize: 10.5, color: AppColors.voltLime),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _buildPlayerRallyPill({
+    required String avatar,
+    required String name,
+    required String score,
+    required String paddle,
+    required bool isServer,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0F172A).withValues(alpha: 0.9),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: isServer ? AppColors.voltLime : Colors.white30,
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ClipOval(
+            child: Image.asset(avatar, width: 24, height: 24, fit: BoxFit.cover),
+          ),
+          const SizedBox(width: 8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    name,
+                    style: AppTypography.ui(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                  if (isServer) ...[
+                    const SizedBox(width: 4),
+                    const Icon(Icons.sports_tennis_rounded, size: 11, color: AppColors.voltLime),
+                  ],
+                ],
+              ),
+              Text(
+                paddle,
+                style: AppTypography.ui(fontSize: 8.5, color: Colors.white60),
+              ),
+            ],
+          ),
+          const SizedBox(width: 10),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+            decoration: BoxDecoration(
+              color: isServer ? AppColors.voltLime : const Color(0xFF334155),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Text(
+              score,
+              style: AppTypography.ui(
+                fontSize: 12,
+                fontWeight: FontWeight.w900,
+                color: isServer ? const Color(0xFF0F172A) : Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================
+  // SECTION 1B: ARCHITECTURAL 10-TABLE ARENA FLOORPLAN RADAR (2x5 Grid)
+  // ============================================================
+  static Widget buildTenTableFloorplan(BuildContext context, bool isDark) {
+    // 10 Tables dataset representing 3 Damansara Level 2
+    final tables = [
+      {'id': '01', 'status': 'IN MATCH', 'player': 'Alman R. vs Jason', 'time': '18m', 'free': false, 'lux': '480 Lux'},
+      {'id': '02', 'status': 'IN MATCH', 'player': 'Sara K. vs Nurul', 'time': '24m', 'free': false, 'lux': '500 Lux'},
+      {'id': '03', 'status': 'AVAILABLE', 'player': 'Ready to Play', 'time': '', 'free': true, 'lux': '500 Lux'},
+      {'id': '04', 'status': 'IN MATCH', 'player': 'Tournament T4', 'time': '12m', 'free': false, 'lux': '480 Lux'},
+      {'id': '05', 'status': 'AVAILABLE', 'player': 'Ready to Play', 'time': '', 'free': true, 'lux': '500 Lux'},
+      {'id': '06', 'status': 'AVAILABLE', 'player': 'Ready to Play', 'time': '', 'free': true, 'lux': '500 Lux'},
+      {'id': '07', 'status': 'IN MATCH', 'player': 'Daniel L. vs Mel', 'time': '32m', 'free': false, 'lux': '500 Lux'},
+      {'id': '08', 'status': 'AVAILABLE', 'player': 'Ready to Play', 'time': '', 'free': true, 'lux': '500 Lux'},
+      {'id': '09', 'status': 'AVAILABLE', 'player': 'Ready to Play', 'time': '', 'free': true, 'lux': '500 Lux'},
+      {'id': '10', 'status': 'AVAILABLE', 'player': 'Ready to Play', 'time': '', 'free': true, 'lux': '500 Lux'},
+    ];
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: AppColors.ittfTableBorder.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(
+                        color: AppColors.ittfTableBorder.withValues(alpha: 0.4),
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.radar_rounded, size: 13, color: AppColors.ittfTableBorder),
+                        const SizedBox(width: 5),
+                        Text(
+                          'VENUE TELEMETRY · 10 ITTF REGULATION COURTS',
+                          style: AppTypography.ui(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.ittfTableBorder,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Live Venue Radar & Architectural Floorplan',
+                    style: AppTypography.ui(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Real-time table occupancy, active rally durations, and lighting lux across 3 Damansara Level 2.',
+                    style: AppTypography.ui(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: AppColors.voltLime.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppColors.voltLime.withValues(alpha: 0.4)),
+                ),
+                child: Text(
+                  '6 OF 10 TABLES FREE',
+                  style: AppTypography.ui(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.voltLime,
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+
+          // 10 Tables Grid (2 rows of 5 tables)
+          Column(
+            children: [
+              // Row 1: Tables 01 to 05
+              Row(
+                children: tables.sublist(0, 5).map((t) => Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: _buildTableRadarCard(context, t, isDark),
+                  ),
+                )).toList(),
+              ),
+              const SizedBox(height: 10),
+              // Row 2: Tables 06 to 10
+              Row(
+                children: tables.sublist(5, 10).map((t) => Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: _buildTableRadarCard(context, t, isDark),
+                  ),
+                )).toList(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _buildTableRadarCard(BuildContext context, Map<String, dynamic> t, bool isDark) {
+    final isFree = t['free'] as bool;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () => AppNavigator.toTables(context),
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: isDark ? AppColors.obsidianCard : Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isFree
+                  ? (isDark ? AppColors.ittfTableBorder.withValues(alpha: 0.45) : AppColors.ittfTableBlue)
+                  : (isDark ? AppColors.paddleRed.withValues(alpha: 0.4) : AppColors.slate300),
+              width: 1.2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.05),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Table ${t['id']}',
+                    style: AppTypography.ui(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: isFree ? AppColors.voltLime : AppColors.paddleRed,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                t['player'] as String,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTypography.ui(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: isFree ? AppColors.voltLime : AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    t['lux'] as String,
+                    style: AppTypography.ui(
+                      fontSize: 9.5,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  Text(
+                    isFree ? 'AVAILABLE' : (t['time'] as String),
+                    style: AppTypography.ui(
+                      fontSize: 9.5,
+                      fontWeight: FontWeight.w800,
+                      color: isFree ? AppColors.voltLime : AppColors.paddleRed,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // SECTION 1C: COMMAND BENTO MODULES (4 Columns)
+  // ============================================================
+  static Widget buildBentoCommandGrid(BuildContext context, bool isDark) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 1. 1v1 Arena Match Bounty
+          Expanded(
+            child: _buildBentoCard(
+              context: context,
+              isDark: isDark,
+              icon: Icons.sports_mma_rounded,
+              iconColor: AppColors.paddleRed,
+              badge: 'BOUNTY: RM200',
+              badgeColor: AppColors.paddleRed,
+              title: '1v1 Match Bounty',
+              description: 'Challenge active players in the venue to a live cash bounty match.',
+              actionText: 'Enter Arena →',
+              onTap: () => AppNavigator.toChallengeBoard(context),
+            ),
+          ),
+          const SizedBox(width: 14),
+
+          // 2. The Path Quests
+          Expanded(
+            child: _buildBentoCard(
+              context: context,
+              isDark: isDark,
+              icon: Icons.alt_route_rounded,
+              iconColor: AppColors.radiantGold,
+              badge: 'QUEST ACTIVE',
+              badgeColor: AppColors.radiantGold,
+              title: 'The Path: Node 2',
+              description: 'Win 5 rallies tonight to claim 150 bonus XP and upgrade your player card.',
+              actionText: 'Claim Quest XP →',
+              onTap: () => AppNavigator.toGamificationPath(context),
+            ),
+          ),
+          const SizedBox(width: 14),
+
+          // 3. Sunset Pass Happy Hour
+          Expanded(
+            child: _buildBentoCard(
+              context: context,
+              isDark: isDark,
+              icon: Icons.flash_on_rounded,
+              iconColor: AppColors.pingPongOrange,
+              badge: '50% DISCOUNT',
+              badgeColor: AppColors.pingPongOrange,
+              title: 'Happy Hour Pass',
+              description: 'All 10 tables are 50 sen/hour for members right now. 18m : 45s remaining.',
+              actionText: 'View Rates →',
+              onTap: () => AppNavigator.toPlan(context),
+            ),
+          ),
+          const SizedBox(width: 14),
+
+          // 4. Sparring Rivals Roster
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: isDark ? AppColors.obsidianCard : Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: isDark ? AppColors.darkObsidianCardLight : AppColors.slate200,
+                  width: 1.2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Sparring Rivals',
+                        style: AppTypography.ui(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      Text(
+                        '4 Active',
+                        style: AppTypography.ui(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.voltLime,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildRivalMiniAvatar(DemoAvatars.jason, '3W'),
+                      _buildRivalMiniAvatar(DemoAvatars.sara, '5W'),
+                      _buildRivalMiniAvatar(DemoAvatars.nurul, '1W'),
+                      _buildRivalMiniAvatar(DemoAvatars.daniel, '7W'),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  GestureDetector(
+                    onTap: () => AppNavigator.toChallengeAccepted(context),
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Text(
+                        'Manage Rivals & Bounties →',
+                        style: AppTypography.ui(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.ittfTableBorder,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _buildRivalMiniAvatar(String asset, String streak) {
+    return Stack(
+      alignment: Alignment.bottomRight,
+      children: [
+        Container(
+          width: 38,
+          height: 38,
+          decoration: const BoxDecoration(shape: BoxShape.circle),
+          child: ClipOval(child: Image.asset(asset, fit: BoxFit.cover)),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+          decoration: BoxDecoration(
+            color: AppColors.radiantGold,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            streak,
+            style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: Colors.black),
+          ),
+        ),
+      ],
+    );
+  }
+
+  static Widget _buildBentoCard({
+    required BuildContext context,
+    required bool isDark,
+    required IconData icon,
+    required Color iconColor,
+    required String badge,
+    required Color badgeColor,
+    required String title,
+    required String description,
+    required String actionText,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.obsidianCard : Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: isDark ? AppColors.darkObsidianCardLight : AppColors.slate200,
+          width: 1.2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                  color: iconColor.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, size: 16, color: iconColor),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                decoration: BoxDecoration(
+                  color: badgeColor.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  badge,
+                  style: AppTypography.ui(
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.w800,
+                    color: badgeColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: AppTypography.ui(
+              fontSize: 14,
+              fontWeight: FontWeight.w800,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            description,
+            style: AppTypography.ui(
+              fontSize: 11.5,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textSecondary,
+              height: 1.35,
+            ),
+          ),
+          const SizedBox(height: 12),
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: onTap,
+              child: Text(
+                actionText,
+                style: AppTypography.ui(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.voltLime,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   // ============================================================
   // SECTION 2: LIVE ARENA LEADERBOARD SHOWCASE & PODIUM
@@ -188,9 +1218,7 @@ class DesktopWebSections {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    // ==========================================
                     // #2 SILVER: SARA K.
-                    // ==========================================
                     Expanded(
                       child: _buildPodiumAthleteCard(
                         context: context,
@@ -215,9 +1243,7 @@ class DesktopWebSections {
 
                     const SizedBox(width: 16),
 
-                    // ==========================================
-                    // #1 GOLD CHAMPION: DANIEL L. (TALLER)
-                    // ==========================================
+                    // #1 GOLD CHAMPION: DANIEL L.
                     Expanded(
                       child: _buildPodiumAthleteCard(
                         context: context,
@@ -242,9 +1268,7 @@ class DesktopWebSections {
 
                     const SizedBox(width: 16),
 
-                    // ==========================================
                     // #3 BRONZE: MEL R.
-                    // ==========================================
                     Expanded(
                       child: _buildPodiumAthleteCard(
                         context: context,
@@ -557,9 +1581,7 @@ class DesktopWebSections {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ----------------------------------------------------
               // PLAN 1: WALK-IN GUEST PASS
-              // ----------------------------------------------------
               Expanded(
                 child: _buildPricingCard(
                   context: context,
@@ -589,9 +1611,7 @@ class DesktopWebSections {
 
               const SizedBox(width: 18),
 
-              // ----------------------------------------------------
               // PLAN 2: MONTHLY UNLIMITED (FEATURED - 90 SEN / DAY)
-              // ----------------------------------------------------
               Expanded(
                 child: _buildPricingCard(
                   context: context,
@@ -619,9 +1639,7 @@ class DesktopWebSections {
 
               const SizedBox(width: 18),
 
-              // ----------------------------------------------------
               // PLAN 3: ELITE ANNUAL & LEAGUE PASS
-              // ----------------------------------------------------
               Expanded(
                 child: _buildPricingCard(
                   context: context,
