@@ -70,8 +70,11 @@ class _SplashScreenState extends State<SplashScreen> {
                   // ==========================================
                   // TOP BAR: Profile (Left) | XP & Location | Menu (Right)
                   // ==========================================
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1140),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -246,6 +249,8 @@ class _SplashScreenState extends State<SplashScreen> {
                       ],
                     ),
                   ),
+                ),
+              ),
 
                   // ==========================================
                   // SCROLLABLE BODY (Responsive: 1-Col Mobile, 2-Col Tablet/Desktop)
@@ -256,11 +261,14 @@ class _SplashScreenState extends State<SplashScreen> {
                         final isTabletOrDesktop = constraints.maxWidth >= 650;
 
                         if (isTabletOrDesktop) {
-                          return SingleChildScrollView(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                          return Center(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 1140),
+                              child: SingleChildScrollView(
+                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
                                 // Left Column: Player Standing, Passes & Actions
                                 Expanded(
                                   flex: 5,
@@ -363,7 +371,9 @@ class _SplashScreenState extends State<SplashScreen> {
                                 ),
                               ],
                             ),
-                          );
+                          ),
+                        ),
+                      );
                         }
 
                         // Mobile View (< 650px): Single Column Stack
@@ -982,31 +992,41 @@ class _SplashScreenState extends State<SplashScreen> {
     required bool isDark,
   }) {
     return Container(
-      // Phase 8: stat tiles are no longer boxes — a tinted icon chip,
-      // a muted label and a bold value on the bare canvas.
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.obsidianCard,
+        borderRadius: BorderRadius.circular(10), // Windows 11 Fluent 10px squircle
+        border: Border.all(
+          color: isDark ? Colors.white.withValues(alpha: 0.08) : AppColors.obsidianBorder,
+        ),
+        boxShadow: AppColors.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Builder(builder: (_) {
-            // Tonal chip done properly: a fuller tint with a DEEP icon —
-            // pale-on-pale was the washed-out look.
-            final iconColor = isDark
-                ? accentColor
-                : (accentColor == AppColors.voltLime
-                    ? AppColors.primaryDim
-                    : accentColor == AppColors.radiantGold
-                        ? AppColors.goldDeep
-                        : accentColor);
-            return Container(
-              padding: const EdgeInsets.all(7),
-              decoration: BoxDecoration(
-                color: accentColor.withValues(alpha: isDark ? 0.15 : 0.18),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon, size: 16, color: iconColor),
-            );
-          }),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Builder(builder: (_) {
+                final iconColor = isDark
+                    ? accentColor
+                    : (accentColor == AppColors.voltLime
+                        ? AppColors.primaryDim
+                        : accentColor == AppColors.radiantGold
+                            ? AppColors.goldDeep
+                            : accentColor);
+                return Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: accentColor.withValues(alpha: isDark ? 0.18 : 0.20),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(icon, size: 15, color: iconColor),
+                );
+              }),
+              Icon(Icons.arrow_forward_ios_rounded, size: 9, color: isDark ? Colors.white24 : AppColors.textMuted),
+            ],
+          ),
           const SizedBox(height: 10),
           Text(
             title,
@@ -1041,9 +1061,16 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _buildFavoriteRivalsSection(BuildContext context, bool isDark) {
     return Container(
       width: double.infinity,
-      // Phase 8: rivals live on the canvas — the section title and the
-      // avatar row do the grouping, no surrounding card.
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.obsidianCard,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isDark ? Colors.white.withValues(alpha: 0.06) : AppColors.lightBorder,
+          width: 1,
+        ),
+        boxShadow: AppColors.cardShadow,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

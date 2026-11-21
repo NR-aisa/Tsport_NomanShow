@@ -84,7 +84,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                         maxWidth: _viewportMode == 3
                             ? 1440
                             : (_viewportMode == 2
-                                ? double.infinity
+                                ? 1160
                                 : (_viewportMode == 1 ? 820 : 440)),
                         maxHeight: (_viewportMode == 3 || _viewportMode == 2)
                             ? double.infinity
