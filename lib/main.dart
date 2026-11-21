@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_theme_controller.dart';
+import 'core/theme/viewport_controller.dart';
 import 'features/auth/screens/entry_gate_screen.dart';
 import 'features/display/screens/display_leaderboard_screen.dart';
 import 'core/theme/app_typography.dart';
@@ -22,7 +23,27 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   int _viewportMode = 2; // 0 = Mobile (440px), 1 = Tab (820px), 2 = Desktop Web (Full bleed), 3 = 55" TV (1440px)
 
+  @override
+  void initState() {
+    super.initState();
+    _viewportMode = ViewportController.mode.value;
+    ViewportController.mode.addListener(_onModeChanged);
+  }
+
+  @override
+  void dispose() {
+    ViewportController.mode.removeListener(_onModeChanged);
+    super.dispose();
+  }
+
+  void _onModeChanged() {
+    if (mounted && _viewportMode != ViewportController.mode.value) {
+      setState(() => _viewportMode = ViewportController.mode.value);
+    }
+  }
+
   void openTvDisplay() {
+    ViewportController.setMode(3);
     setState(() => _viewportMode = 3);
     _navigatorKey.currentState?.push(
       MaterialPageRoute(builder: (_) => const DisplayLeaderboardScreen()),
@@ -30,6 +51,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
   }
 
   void openWebDisplay() {
+    ViewportController.setMode(2);
     setState(() => _viewportMode = 2);
     if (_navigatorKey.currentState?.canPop() == true) {
       _navigatorKey.currentState?.pop();
@@ -37,6 +59,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
   }
 
   void openTabDisplay() {
+    ViewportController.setMode(1);
     setState(() => _viewportMode = 1);
     if (_navigatorKey.currentState?.canPop() == true) {
       _navigatorKey.currentState?.pop();
@@ -44,6 +67,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
   }
 
   void openMobileFlow() {
+    ViewportController.setMode(0);
     setState(() => _viewportMode = 0);
     if (_navigatorKey.currentState?.canPop() == true) {
       _navigatorKey.currentState?.pop();
@@ -84,7 +108,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                         maxWidth: _viewportMode == 3
                             ? 1440
                             : (_viewportMode == 2
-                                ? 1160
+                                ? double.infinity
                                 : (_viewportMode == 1 ? 820 : 440)),
                         maxHeight: (_viewportMode == 3 || _viewportMode == 2)
                             ? double.infinity

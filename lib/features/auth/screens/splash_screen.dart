@@ -10,6 +10,9 @@ import '../../challenge/screens/seek_player_screen.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/session/app_session.dart';
 import '../../../shared/widgets/arena_widgets.dart';
+import '../../../core/theme/viewport_controller.dart';
+import '../../../shared/widgets/desktop_web_header.dart';
+import '../widgets/desktop_web_sections.dart';
 
 class SplashScreen extends StatefulWidget {
   final VoidCallback? onRegisterTap;
@@ -51,22 +54,277 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final ScrollController _desktopScrollController = ScrollController();
+  final GlobalKey _arenaKey = GlobalKey();
+  final GlobalKey _radarKey = GlobalKey();
+  final GlobalKey _leaderboardKey = GlobalKey();
+  final GlobalKey _pricingKey = GlobalKey();
+  final GlobalKey _iotKey = GlobalKey();
+  String _activeWebSection = 'arena';
   String _selectedLanguage = 'ENG';
+
+  @override
+  void dispose() {
+    _desktopScrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToKey(GlobalKey key, String sectionName) {
+    setState(() => _activeWebSection = sectionName);
+    final ctx = key.currentContext;
+    if (ctx != null) {
+      Scrollable.ensureVisible(
+        ctx,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOutCubic,
+      );
+    }
+  }
+
+  void _scrollToTop() {
+    setState(() => _activeWebSection = 'arena');
+    if (_desktopScrollController.hasClients) {
+      _desktopScrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOutCubic,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ThemeScope(
       builder: (context, isDark) {
-        return Scaffold(
-          key: _scaffoldKey,
-          backgroundColor: AppColors.canvasBg,
-          endDrawer: _buildBkashStyleSideDrawer(context, isDark),
-          body: Container(
-            decoration: BoxDecoration(gradient: AppColors.canvasGradient),
-            child: SafeArea(
-              bottom: false,
-              child: Column(
-                children: [
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final isDesktopWeb = constraints.maxWidth >= 900 ||
+                (ViewportController.isWeb && constraints.maxWidth >= 650);
+
+            if (isDesktopWeb) {
+              return _buildDesktopWebsiteScaffold(context, isDark);
+            }
+
+            return _buildMobileScaffold(context, isDark, constraints);
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildDesktopWebsiteScaffold(BuildContext context, bool isDark) {
+    return Scaffold(
+      backgroundColor: AppColors.canvasBg,
+      body: Container(
+        decoration: BoxDecoration(gradient: AppColors.canvasGradient),
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              // Sticky / Top Desktop Web Header
+              DesktopWebHeader(
+                activeSection: _activeWebSection,
+                onArenaTap: _scrollToTop,
+                onRadarTap: () => _scrollToKey(_radarKey, 'radar'),
+                onLeaderboardTap: () => _scrollToKey(_leaderboardKey, 'leaderboard'),
+                onPricingTap: () => _scrollToKey(_pricingKey, 'pricing'),
+                onIotTap: () => _scrollToKey(_iotKey, 'iot'),
+              ),
+
+              // Continuous Full Website Scroll
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: _desktopScrollController,
+                  child: Column(
+                    children: [
+                      // SECTION 1: HERO COMMAND & TELEMETRY
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1240),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                            child: Row(
+                              key: _arenaKey,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Left Column (5 Flex): Stadium Stage, Passes & Quick Actions
+                                Expanded(
+                                  flex: 5,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      _buildHeroStadiumCard(context, isDark).arenaEntrance(0),
+                                      const SizedBox(height: 16),
+                                      _buildThreeTelemetryCards(context, isDark).arenaEntrance(1),
+                                      const SizedBox(height: 16),
+                                      _buildFlashPromoBanner(isDark).arenaEntrance(2),
+                                      const SizedBox(height: 16),
+                                      _buildMemberPricingCard(context, isDark).arenaEntrance(3),
+                                      const SizedBox(height: 16),
+                                      TactileButton.volt(
+                                        text: 'Walk In & Play →',
+                                        onPressed: widget.onWalkInTap ??
+                                            widget.onRegisterTap ??
+                                            () => AppNavigator.toPlan(context),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Center(
+                                        child: GestureDetector(
+                                          onTap: () => AppNavigator.toPass(context),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+                                            decoration: BoxDecoration(
+                                              color: isDark ? Colors.black12 : AppColors.lightCanvasBg,
+                                              borderRadius: BorderRadius.circular(16),
+                                              border: Border.all(
+                                                color: isDark
+                                                    ? AppColors.ittfTableBorder.withValues(alpha: 0.5)
+                                                    : AppColors.slate300,
+                                                width: 1.2,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: isDark
+                                                      ? AppColors.ittfTableSurface.withValues(alpha: 0.15)
+                                                      : AppColors.ittfTableSurface.withValues(alpha: 0.08),
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  Icons.qr_code_scanner_rounded,
+                                                  size: 16,
+                                                  color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
+                                                ),
+                                                const SizedBox(width: 8),
+                                                Flexible(
+                                                  child: Text(
+                                                    'Door Pass (KX8VQS) →',
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: AppTypography.ui(
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w800,
+                                                      color: isDark ? AppColors.slate300 : AppColors.ittfTableBlue,
+                                                      letterSpacing: 0.3,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Center(
+                                        child: Text(
+                                          'At the door: two QRs — Registered or Guest.',
+                                          style: AppTypography.ui(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.textMuted,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                const SizedBox(width: 24),
+
+                                // Right Column (6 Flex): Live Table Radar & Bento Game Nodes
+                                Expanded(
+                                  flex: 6,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        key: _radarKey,
+                                        child: _buildBentoTelemetryGrid(context, isDark).arenaEntrance(4),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      _buildFavoriteRivalsSection(context, isDark).arenaEntrance(5),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // SECTION 2: LIVE LEADERBOARD SHOWCASE & PODIUM
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1240),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Container(
+                              key: _leaderboardKey,
+                              child: DesktopWebSections.buildLeaderboardShowcase(context, isDark),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // SECTION 3: MEMBERSHIP TIERS & PASS COMPARISON MATRIX
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1240),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Container(
+                              key: _pricingKey,
+                              child: DesktopWebSections.buildPricingSection(context, isDark),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // SECTION 4: AUTONOMOUS VENUE 24/7 IOT FACILITY TELEMETRY
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1240),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Container(
+                              key: _iotKey,
+                              child: DesktopWebSections.buildIotSection(context, isDark),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 32),
+
+                      // SECTION 5: PROFESSIONAL DESKTOP WEBSITE FOOTER
+                      DesktopWebSections.buildWebsiteFooter(context, isDark),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMobileScaffold(BuildContext context, bool isDark, BoxConstraints constraints) {
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: AppColors.canvasBg,
+      endDrawer: _buildBkashStyleSideDrawer(context, isDark),
+      body: Container(
+        decoration: BoxDecoration(gradient: AppColors.canvasGradient),
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
                   // ==========================================
                   // TOP BAR: Profile (Left) | XP & Location | Menu (Right)
                   // ==========================================
@@ -493,15 +751,13 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
         );
-      },
-    );
   }
 
   // ============================================================
   // HERO STADIUM CARD (Dynamic Athletic Stage with 3D Court Visual)
   // ============================================================
   Widget _buildHeroStadiumCard(BuildContext context, bool isDark) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       // Phase 8 (Fluent pass): the hero has no box — headline and stage
       // sit directly on the canvas, Windows 11 page-header style.
@@ -1840,77 +2096,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   // ============================================================
-  // VENUE MAP CARD (Athletic Slate)
-  // ============================================================
-  Widget _buildVenueMapCard(BuildContext context, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        gradient: AppColors.cardGradient,
-        borderRadius: BorderRadius.circular(12),
-        border: AppColors.cardBorder,
-        boxShadow: AppColors.cardShadow,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Venue map',
-                style: AppTypography.ui(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      _buildFilterPill('Tables', true, isDark),
-                      const SizedBox(width: 6),
-                      _buildFilterPill('Live', false, isDark),
-                      const SizedBox(width: 6),
-                      _buildFilterPill('All', false, isDark),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          GestureDetector(
-            onTap: () => AppNavigator.toTables(context),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildMiniTable(hasDotLeft: true, isDark: isDark),
-                _buildMiniTable(hasDotRight: true, isDark: isDark),
-                _buildMiniTable(hasDotLeft: true, isDark: isDark),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
-          Center(
-            child: Text(
-              '3 Damansara · 6 free of 10 tables',
-              style: AppTypography.ui(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
   // MEMBER PRICING & 90 SEN ANCHOR CARD
   // ============================================================
   Widget _buildMemberPricingCard(BuildContext context, bool isDark) {
@@ -2447,87 +2632,4 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Widget _buildFilterPill(String label, bool isSelected, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: isSelected
-            ? AppColors.voltLime
-            : (isDark ? AppColors.obsidianCard : AppColors.lightCanvasBg),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isSelected
-              ? AppColors.voltLime
-              : (isDark ? Colors.white.withValues(alpha: 0.1) : AppColors.lightBorder),
-        ),
-      ),
-      child: Text(
-        label,
-        style: AppTypography.ui(
-          fontSize: 10,
-          fontWeight: FontWeight.w700,
-          color: isSelected ? Colors.white : AppColors.textSecondary,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMiniTable({bool hasDotLeft = false, bool hasDotRight = false, required bool isDark}) {
-    return Container(
-      width: 68,
-      height: 40,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: isDark
-              ? [AppColors.ittfTableBlue, AppColors.ittfTableBlue]
-              : [AppColors.ittfTableSurface, AppColors.ittfTableBlue],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: isDark ? Colors.white.withValues(alpha: 0.5) : Colors.white,
-          width: 1.2,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: isDark
-                ? Colors.black.withValues(alpha: 0.25)
-                : AppColors.ittfTableBlue.withValues(alpha: 0.15),
-            blurRadius: 4,
-          ),
-        ],
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(width: 1.2, color: Colors.white.withValues(alpha: 0.7)),
-          if (hasDotLeft)
-            Positioned(
-              left: 14,
-              child: Container(
-                width: 7,
-                height: 7,
-                decoration: const BoxDecoration(
-                  color: AppColors.paddleRed, // Red paddle
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-          if (hasDotRight)
-            Positioned(
-              right: 14,
-              child: Container(
-                width: 7,
-                height: 7,
-                decoration: const BoxDecoration(
-                  color: Colors.white, // White ping pong ball
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
 }
