@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../../core/session/demo_avatars.dart';
 
@@ -10,7 +11,6 @@ import '../../challenge/screens/seek_player_screen.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/session/app_session.dart';
 import '../../../shared/widgets/arena_widgets.dart';
-import '../../../core/theme/viewport_controller.dart';
 import '../../../shared/widgets/desktop_web_header.dart';
 import '../widgets/desktop_web_sections.dart';
 import '../../display/screens/display_leaderboard_screen.dart';
@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // Phase 4: first-run coachmark tour, shown once per session over the
     // real home UI (Toby pattern — teach inside the product, briefly).
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || AppSession.coachmarkDone) return;
+      if (!mounted || kIsWeb || AppSession.coachmarkDone) return;
       showDialog<void>(
         context: context,
         barrierDismissible: false,
@@ -56,12 +56,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final ScrollController _desktopScrollController = ScrollController();
-  final GlobalKey _arenaKey = GlobalKey();
-  final GlobalKey _radarKey = GlobalKey();
-  final GlobalKey _leaderboardKey = GlobalKey();
+  final GlobalKey _homeKey = GlobalKey();
+  final GlobalKey _howItWorksKey = GlobalKey();
+  final GlobalKey _floorplanKey = GlobalKey();
   final GlobalKey _pricingKey = GlobalKey();
-  final GlobalKey _iotKey = GlobalKey();
-  String _activeWebSection = 'arena';
+  final GlobalKey _leaderboardKey = GlobalKey();
+  final GlobalKey _locationKey = GlobalKey();
+  String _activeWebSection = 'home';
   String _selectedLanguage = 'ENG';
 
   @override
@@ -83,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _scrollToTop() {
-    setState(() => _activeWebSection = 'arena');
+    setState(() => _activeWebSection = 'home');
     if (_desktopScrollController.hasClients) {
       _desktopScrollController.animateTo(
         0,
@@ -99,8 +100,7 @@ class _SplashScreenState extends State<SplashScreen> {
       builder: (context, isDark) {
         return LayoutBuilder(
           builder: (context, constraints) {
-            final isDesktopWeb = constraints.maxWidth >= 900 ||
-                (ViewportController.isWeb && constraints.maxWidth >= 650);
+            final isDesktopWeb = constraints.maxWidth >= 800;
 
             if (isDesktopWeb) {
               return _buildDesktopWebsiteScaffold(context, isDark);
@@ -122,14 +122,19 @@ class _SplashScreenState extends State<SplashScreen> {
           bottom: false,
           child: Column(
             children: [
-              // Sticky / Top Desktop Web Header
+              // Sticky Corporate Desktop Web Header
               DesktopWebHeader(
                 activeSection: _activeWebSection,
-                onArenaTap: _scrollToTop,
-                onRadarTap: () => _scrollToKey(_radarKey, 'radar'),
-                onLeaderboardTap: () => _scrollToKey(_leaderboardKey, 'leaderboard'),
+                onHomeTap: _scrollToTop,
+                onHowItWorksTap: () => _scrollToKey(_howItWorksKey, 'how-it-works'),
+                onFloorplanTap: () => _scrollToKey(_floorplanKey, 'floorplan'),
                 onPricingTap: () => _scrollToKey(_pricingKey, 'pricing'),
-                onIotTap: () => _scrollToKey(_iotKey, 'iot'),
+                onLeaderboardTap: () => _scrollToKey(_leaderboardKey, 'leaderboard'),
+                onLocationTap: () => _scrollToKey(_locationKey, 'location'),
+                onWalkInTap: widget.onWalkInTap ??
+                    widget.onRegisterTap ??
+                    () => AppNavigator.toPlan(context),
+                onPassTap: () => AppNavigator.toPass(context),
               ),
 
               // Continuous Full Website Scroll
@@ -138,14 +143,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   controller: _desktopScrollController,
                   child: Column(
                     children: [
-                      // SECTION 1: ATHLETIC WIDESCREEN "JUST PLAY TONIGHT" HERO STAGE
+                      // SECTION 1: ATHLETIC WIDESCREEN HERO STAGE & 3D COURT
                       Center(
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 1380),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
                             child: Container(
-                              key: _arenaKey,
+                              key: _homeKey,
                               child: DesktopWebSections.buildHeroJustPlaySection(
                                 context,
                                 isDark,
@@ -166,40 +171,40 @@ class _SplashScreenState extends State<SplashScreen> {
                         ),
                       ),
 
-                      // SECTION 1B: BALANCED 3-COLUMN DESKTOP COMMAND CENTER
+                      // SECTION 2: HOW NO MAN SHOW WORKS (4-STEP UNMANNED FLOW)
                       Center(
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 1380),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                             child: Container(
-                              key: _radarKey,
-                              child: DesktopWebSections.buildThreeColumnCommandDashboard(context, isDark),
+                              key: _howItWorksKey,
+                              child: DesktopWebSections.buildHowItWorksSection(context, isDark),
                             ),
                           ),
                         ),
                       ),
 
-                      // SECTION 2: LIVE LEADERBOARD SHOWCASE & PODIUM
+                      // SECTION 3: LIVE 10-COURT ARCHITECTURAL FLOORPLAN
                       Center(
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 1380),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                             child: Container(
-                              key: _leaderboardKey,
-                              child: DesktopWebSections.buildLeaderboardShowcase(context, isDark),
+                              key: _floorplanKey,
+                              child: DesktopWebSections.buildTenTableFloorplan(context, isDark),
                             ),
                           ),
                         ),
                       ),
 
-                      // SECTION 3: MEMBERSHIP TIERS & PASS COMPARISON MATRIX
+                      // SECTION 4: MEMBERSHIP TIERS & PASS COMPARISON MATRIX
                       Center(
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 1380),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                             child: Container(
                               key: _pricingKey,
                               child: DesktopWebSections.buildPricingSection(context, isDark),
@@ -208,23 +213,37 @@ class _SplashScreenState extends State<SplashScreen> {
                         ),
                       ),
 
-                      // SECTION 4: AUTONOMOUS VENUE 24/7 IOT FACILITY TELEMETRY
+                      // SECTION 5: LIVE ARENA LEADERBOARD SHOWCASE & PODIUM
                       Center(
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 1380),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                             child: Container(
-                              key: _iotKey,
-                              child: DesktopWebSections.buildIotSection(context, isDark),
+                              key: _leaderboardKey,
+                              child: DesktopWebSections.buildLeaderboardShowcase(context, isDark),
                             ),
                           ),
                         ),
                       ),
 
-                      const SizedBox(height: 32),
+                      // SECTION 6: VENUE LOCATION, AMENITIES & IOT TELEMETRY
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1380),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            child: Container(
+                              key: _locationKey,
+                              child: DesktopWebSections.buildLocationAmenitiesSection(context, isDark),
+                            ),
+                          ),
+                        ),
+                      ),
 
-                      // SECTION 5: PROFESSIONAL DESKTOP WEBSITE FOOTER
+                      const SizedBox(height: 36),
+
+                      // SECTION 7: PROFESSIONAL CORPORATE WEBSITE FOOTER
                       DesktopWebSections.buildWebsiteFooter(context, isDark),
                     ],
                   ),

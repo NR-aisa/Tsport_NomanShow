@@ -2,38 +2,47 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../../core/navigation/app_navigator.dart';
-import '../../core/session/app_session.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme_controller.dart';
 import '../../core/theme/app_typography.dart';
 import '../../features/display/screens/display_leaderboard_screen.dart';
 
-/// Elite Broadcast-Grade Desktop Web Header Navbar.
+/// Elite Commercial Desktop Web Header Navbar.
 ///
-/// Designed for desktop viewports (>= 900px).
-/// Replaces the mobile hamburger bar with a full-fledged SaaS/Sports venue header:
-///  - Brand & live venue status indicator
-///  - Direct in-page section jump links (Arena, Radar, Podium, Pricing, IoT)
-///  - 55" Stadium TV launch button
-///  - Player XP & Rank status badge
-///  - Door Pass quick launcher (KX8VQS)
+/// Designed for true commercial desktop website browsing (>= 800px):
+///  - Brand crest & live venue status indicator (3 Damansara · 6/10 Free)
+///  - Direct in-page anchor scroll navigation:
+///    * Overview
+///    * How It Works
+///    * 10 Courts Floorplan
+///    * Rates & Passes
+///    * Arena League
+///    * Location & Specs
+///  - Direct 55" Stadium TV launcher button
 ///  - Dark / Light mode toggle
-///  - User profile avatar & status
+///  - High-converting primary CTA: Walk In Tonight (RM17) →
 class DesktopWebHeader extends StatelessWidget {
-  final VoidCallback? onArenaTap;
-  final VoidCallback? onRadarTap;
-  final VoidCallback? onLeaderboardTap;
+  final VoidCallback? onHomeTap;
+  final VoidCallback? onHowItWorksTap;
+  final VoidCallback? onFloorplanTap;
   final VoidCallback? onPricingTap;
-  final VoidCallback? onIotTap;
+  final VoidCallback? onLeaderboardTap;
+  final VoidCallback? onLocationTap;
+  final VoidCallback? onWalkInTap;
+  final VoidCallback? onPassTap;
   final String activeSection;
 
   const DesktopWebHeader({
     super.key,
-    this.onArenaTap,
-    this.onRadarTap,
-    this.onLeaderboardTap,
+    this.onHomeTap,
+    this.onHowItWorksTap,
+    this.onFloorplanTap,
     this.onPricingTap,
-    this.onIotTap,
-    this.activeSection = 'arena',
+    this.onLeaderboardTap,
+    this.onLocationTap,
+    this.onWalkInTap,
+    this.onPassTap,
+    this.activeSection = 'home',
   });
 
   @override
@@ -44,12 +53,12 @@ class DesktopWebHeader extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
         child: Container(
-          height: 64,
+          height: 66,
           padding: const EdgeInsets.symmetric(horizontal: 24),
           decoration: BoxDecoration(
             color: isDark
-                ? AppColors.darkObsidianCard.withValues(alpha: 0.88)
-                : Colors.white.withValues(alpha: 0.92),
+                ? AppColors.darkObsidianCard.withValues(alpha: 0.92)
+                : Colors.white.withValues(alpha: 0.95),
             border: Border(
               bottom: BorderSide(
                 color: isDark ? AppColors.darkObsidianCardLight : AppColors.slate200,
@@ -70,7 +79,7 @@ class DesktopWebHeader extends StatelessWidget {
               // BRAND & ARENA VENUE STATUS (LEFT)
               // ==========================================
               GestureDetector(
-                onTap: onArenaTap ?? () => AppNavigator.toHomeAndClear(context),
+                onTap: onHomeTap,
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Row(
@@ -78,8 +87,8 @@ class DesktopWebHeader extends StatelessWidget {
                     children: [
                       // Circular JOMNITTAKU Crest
                       Container(
-                        width: 38,
-                        height: 38,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
@@ -140,7 +149,7 @@ class DesktopWebHeader extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
-                                      'LIVE ARENA',
+                                      '6/10 FREE',
                                       style: AppTypography.ui(
                                         fontSize: 9,
                                         fontWeight: FontWeight.w800,
@@ -155,7 +164,7 @@ class DesktopWebHeader extends StatelessWidget {
                           ),
                           const SizedBox(height: 1),
                           Text(
-                            '3 Damansara · 10 Tables · 24/7 Autonomous Venue',
+                            '3 Damansara · 24/7 Autonomous Arena',
                             style: AppTypography.ui(
                               fontSize: 10,
                               fontWeight: FontWeight.w500,
@@ -169,151 +178,140 @@ class DesktopWebHeader extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 32),
+              const SizedBox(width: 28),
 
               // ==========================================
-              // DESKTOP NAVIGATION LINKS (CENTER)
+              // COMMERCIAL NAVIGATION ANCHOR LINKS (CENTER)
               // ==========================================
               Expanded(
-                child: Row(
-                  children: [
-                    _buildNavLink(
-                      title: 'Arena Command',
-                      icon: Icons.dashboard_rounded,
-                      isActive: activeSection == 'arena',
-                      onTap: onArenaTap,
-                    ),
-                    const SizedBox(width: 6),
-                    _buildNavLink(
-                      title: 'Live Radar',
-                      icon: Icons.radar_rounded,
-                      isActive: activeSection == 'radar',
-                      onTap: onRadarTap,
-                    ),
-                    const SizedBox(width: 6),
-                    _buildNavLink(
-                      title: 'Leaderboard Podium',
-                      icon: Icons.emoji_events_rounded,
-                      isActive: activeSection == 'leaderboard',
-                      onTap: onLeaderboardTap,
-                    ),
-                    const SizedBox(width: 6),
-                    _buildNavLink(
-                      title: 'Membership & Rates',
-                      icon: Icons.local_activity_rounded,
-                      isActive: activeSection == 'pricing',
-                      onTap: onPricingTap,
-                    ),
-                    const SizedBox(width: 6),
-                    _buildNavLink(
-                      title: 'Venue IoT',
-                      icon: Icons.sensors_rounded,
-                      isActive: activeSection == 'iot',
-                      onTap: onIotTap,
-                    ),
-                    const SizedBox(width: 6),
-                    // Direct 55" Stadium TV Link
-                    MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => const DisplayLeaderboardScreen(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
-                          decoration: BoxDecoration(
-                            color: AppColors.ittfTableSurface.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: AppColors.ittfTableBorder.withValues(alpha: 0.45),
-                              width: 1,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                Icons.tv_rounded,
-                                size: 14,
-                                color: AppColors.ittfTableBorder,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      _buildNavLink(
+                        title: 'Overview',
+                        icon: Icons.sports_tennis_rounded,
+                        isActive: activeSection == 'home',
+                        onTap: onHomeTap,
+                      ),
+                      const SizedBox(width: 4),
+                      _buildNavLink(
+                        title: 'How It Works',
+                        icon: Icons.auto_awesome_rounded,
+                        isActive: activeSection == 'how-it-works',
+                        onTap: onHowItWorksTap,
+                      ),
+                      const SizedBox(width: 4),
+                      _buildNavLink(
+                        title: '10 Courts Floorplan',
+                        icon: Icons.grid_view_rounded,
+                        isActive: activeSection == 'floorplan',
+                        onTap: onFloorplanTap,
+                      ),
+                      const SizedBox(width: 4),
+                      _buildNavLink(
+                        title: 'Rates & Passes',
+                        icon: Icons.local_activity_rounded,
+                        isActive: activeSection == 'pricing',
+                        onTap: onPricingTap,
+                      ),
+                      const SizedBox(width: 4),
+                      _buildNavLink(
+                        title: 'Arena League',
+                        icon: Icons.emoji_events_rounded,
+                        isActive: activeSection == 'leaderboard',
+                        onTap: onLeaderboardTap,
+                      ),
+                      const SizedBox(width: 4),
+                      _buildNavLink(
+                        title: 'Location & Amenities',
+                        icon: Icons.place_rounded,
+                        isActive: activeSection == 'location',
+                        onTap: onLocationTap,
+                      ),
+                      const SizedBox(width: 8),
+                      // Direct 55" Stadium TV Link
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const DisplayLeaderboardScreen(),
                               ),
-                              const SizedBox(width: 5),
-                              Text(
-                                '55" TV Feed',
-                                style: AppTypography.ui(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: AppColors.ittfTableSurface.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: AppColors.ittfTableBorder.withValues(alpha: 0.45),
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.tv_rounded,
+                                  size: 14,
                                   color: AppColors.ittfTableBorder,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 5),
+                                Text(
+                                  '55" TV Feed',
+                                  style: AppTypography.ui(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.ittfTableBorder,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
 
+              const SizedBox(width: 16),
+
               // ==========================================
-              // PLAYER TELEMETRY & ACTIONS (RIGHT)
+              // ACTIONS & THEME TOGGLE (RIGHT)
               // ==========================================
-              // Live Player XP Capsule
+              // Theme Switcher: Dark / Light
               GestureDetector(
-                onTap: () => AppNavigator.toXpStore(context),
+                onTap: () => AppThemeController.toggleTheme(),
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: isDark ? AppColors.paddleBlack : AppColors.lightCanvasBg,
-                      borderRadius: BorderRadius.circular(20),
+                      color: isDark ? const Color(0xFF162032) : AppColors.lightCanvasBg,
+                      borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: AppColors.radiantGold.withValues(alpha: 0.4),
-                        width: 1,
+                        color: isDark ? Colors.white.withValues(alpha: 0.12) : AppColors.slate300,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.radiantGold.withValues(alpha: 0.15),
-                          blurRadius: 8,
-                        ),
-                      ],
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
-                          Icons.stars_rounded,
-                          size: 15,
-                          color: AppColors.radiantGold,
+                        Icon(
+                          isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+                          size: 13,
+                          color: isDark ? AppColors.radiantGold : AppColors.pingPongOrange,
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 5),
                         Text(
-                          '1,240 XP',
+                          isDark ? 'Dark' : 'Light',
                           style: AppTypography.ui(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                          decoration: BoxDecoration(
-                            color: AppColors.radiantGold.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            '#4',
-                            style: AppTypography.ui(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.radiantGold,
-                            ),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: isDark ? Colors.white : AppColors.slate900,
                           ),
                         ),
                       ],
@@ -322,127 +320,75 @@ class DesktopWebHeader extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 12),
+              const SizedBox(width: 10),
 
-              // Instant Door Pass Button (KX8VQS)
+              // Quick Door Pass
               GestureDetector(
-                onTap: () => AppNavigator.toPass(context),
+                onTap: onPassTap ?? () => AppNavigator.toPass(context),
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                    padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.voltLime.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(10),
+                      color: isDark ? Colors.white.withValues(alpha: 0.05) : AppColors.slate100,
+                      borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: AppColors.voltLime.withValues(alpha: 0.45),
-                        width: 1.2,
+                        color: isDark ? Colors.white.withValues(alpha: 0.12) : AppColors.slate300,
                       ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.qr_code_rounded,
+                          size: 14,
+                          color: isDark ? Colors.white70 : AppColors.slate600,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          'Pass: KX8VQS',
+                          style: AppTypography.ui(
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w700,
+                            color: isDark ? Colors.white70 : AppColors.slate600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 10),
+
+              // High-Converting Primary CTA: Walk In Tonight (RM17) →
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: onWalkInTap,
+                  child: Container(
+                    height: 38,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: AppColors.voltLime,
+                      borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.voltLime.withValues(alpha: 0.1),
-                          blurRadius: 8,
+                          color: AppColors.voltLime.withValues(alpha: 0.3),
+                          blurRadius: 10,
                           offset: const Offset(0, 2),
                         ),
                       ],
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.qr_code_scanner_rounded,
-                          size: 15,
-                          color: AppColors.voltLime,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Door Pass: KX8VQS',
-                          style: AppTypography.ui(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w800,
-                            color: isDark ? AppColors.voltLime : AppColors.textPrimary,
-                            letterSpacing: 0.3,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(width: 12),
-
-              // User Profile Avatar Chip
-              GestureDetector(
-                onTap: () => AppNavigator.toProfile(context),
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(4, 4, 12, 4),
-                    decoration: BoxDecoration(
-                      color: isDark ? AppColors.obsidianCard : AppColors.lightCanvasBg,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(
-                        color: isDark ? AppColors.darkObsidianCardLight : AppColors.slate300,
-                        width: 1.2,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Walk In Tonight (RM17) →',
+                      style: AppTypography.ui(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
+                        letterSpacing: 0.2,
                       ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            ClipOval(
-                              child: Image.asset(
-                                AppSession.avatarAsset,
-                                width: 32,
-                                height: 32,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              bottom: 0,
-                              child: Container(
-                                width: 9,
-                                height: 9,
-                                decoration: BoxDecoration(
-                                  color: AppColors.voltLime,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: AppColors.canvasBg,
-                                    width: 1.5,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 8),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppSession.displayName.isEmpty ? 'Alman R.' : AppSession.displayName,
-                              style: AppTypography.ui(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            Text(
-                              'Member · Lvl 12',
-                              style: AppTypography.ui(
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
                     ),
                   ),
                 ),
@@ -468,7 +414,7 @@ class DesktopWebHeader extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
           decoration: BoxDecoration(
             color: isActive
                 ? (isDark
@@ -488,16 +434,16 @@ class DesktopWebHeader extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                size: 15,
+                size: 14,
                 color: isActive
                     ? AppColors.textPrimary
                     : (isDark ? AppColors.slate400 : AppColors.slate600),
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: 5),
               Text(
                 title,
                 style: AppTypography.ui(
-                  fontSize: 12.5,
+                  fontSize: 12,
                   fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
                   color: isActive
                       ? AppColors.textPrimary
