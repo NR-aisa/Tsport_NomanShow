@@ -13,6 +13,7 @@ import '../../../core/session/app_session.dart';
 import '../../../shared/widgets/arena_widgets.dart';
 import '../../../shared/widgets/desktop_dock_rail.dart';
 import '../../../shared/widgets/desktop_web_header.dart';
+import '../../../core/theme/viewport_controller.dart';
 import '../widgets/desktop_web_sections.dart';
 import '../../display/screens/display_leaderboard_screen.dart';
 
@@ -82,15 +83,23 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return ThemeScope(
       builder: (context, isDark) {
-        return LayoutBuilder(
-          builder: (context, constraints) {
-            final isDesktopWeb = constraints.maxWidth >= 800;
+        return ValueListenableBuilder<int>(
+          valueListenable: ViewportController.mode,
+          builder: (context, mode, _) {
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                final isDesktopWeb = ViewportController.isWeb ||
+                    (constraints.maxWidth >= 900 &&
+                        !ViewportController.isMobile &&
+                        !ViewportController.isTab);
 
-            if (isDesktopWeb) {
-              return _buildDesktopWebsiteScaffold(context, isDark);
-            }
+                if (isDesktopWeb) {
+                  return _buildDesktopWebsiteScaffold(context, isDark);
+                }
 
-            return _buildMobileScaffold(context, isDark, constraints);
+                return _buildMobileScaffold(context, isDark, constraints);
+              },
+            );
           },
         );
       },
