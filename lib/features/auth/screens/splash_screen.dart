@@ -99,73 +99,61 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _buildDesktopWebsiteScaffold(BuildContext context, bool isDark) {
     return Scaffold(
-      backgroundColor: AppColors.canvasBg,
-      body: Container(
-        decoration: BoxDecoration(gradient: AppColors.canvasGradient),
-        child: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              // 56px Fixed Corporate Desktop Web Header
-              DesktopWebHeader(
-                activeTab: _activeTab,
-                onTabChanged: _onNavChange,
-                onTvTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const DisplayLeaderboardScreen(),
-                    ),
-                  );
-                },
-                onXpTap: () => AppNavigator.toXpStore(context),
-                onProfileTap: () => AppNavigator.toProfile(context),
-              ),
+      backgroundColor: const Color(0xFF161720),
+      body: SafeArea(
+        child: Row(
+          children: [
+            // Full-Height Luxury Left Sidebar (200px)
+            DesktopDockRail(
+              activeItem: _activeTab,
+              onItemTap: _onNavChange,
+              onWalkInTap: widget.onWalkInTap ??
+                  widget.onRegisterTap ??
+                  () => AppNavigator.toPlan(context),
+            ),
 
-              // 100vh Shell Body: 56px Left Icon Dock Rail + Centered Bento Canvas
-              Expanded(
-                child: Row(
-                  children: [
-                    // Left Icon Dock Rail (56px fixed)
-                    DesktopDockRail(
-                      activeItem: _activeTab,
-                      onItemTap: _onNavChange,
-                    ),
-
-                    // Main Bento Command Center Canvas
-                    Expanded(
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth: 1680,
-                            minHeight: 680,
-                          ),
-                          child: DesktopWebSections.buildFullScreenCommandCenter(
-                            context,
-                            isDark,
-                            activeTab: _activeTab,
-                            onTabChanged: _onNavChange,
-                            onWalkInTap: widget.onWalkInTap ??
-                                widget.onRegisterTap ??
-                                () => AppNavigator.toPlan(context),
-                            onPassTap: () => AppNavigator.toPass(context),
-                            onTvTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => const DisplayLeaderboardScreen(),
-                                ),
-                              );
-                            },
-                            onChallengeTap: () => _onNavChange('challenge'),
-                            onXpTap: () => AppNavigator.toXpStore(context),
-                          ),
+            // Right Canvas: Top Search & Header Bar + Luxury Command Center
+            Expanded(
+              child: Column(
+                children: [
+                  DesktopWebHeader(
+                    activeTab: _activeTab,
+                    onTabChanged: _onNavChange,
+                    onTvTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const DisplayLeaderboardScreen(),
                         ),
-                      ),
+                      );
+                    },
+                    onXpTap: () => AppNavigator.toXpStore(context),
+                    onProfileTap: () => AppNavigator.toProfile(context),
+                  ),
+                  Expanded(
+                    child: DesktopWebSections.buildFullScreenCommandCenter(
+                      context,
+                      isDark,
+                      activeTab: _activeTab,
+                      onTabChanged: _onNavChange,
+                      onWalkInTap: widget.onWalkInTap ??
+                          widget.onRegisterTap ??
+                          () => AppNavigator.toPlan(context),
+                      onPassTap: () => AppNavigator.toPass(context),
+                      onTvTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const DisplayLeaderboardScreen(),
+                          ),
+                        );
+                      },
+                      onChallengeTap: () => _onNavChange('challenge'),
+                      onXpTap: () => AppNavigator.toXpStore(context),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

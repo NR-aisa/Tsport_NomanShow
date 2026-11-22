@@ -1,22 +1,32 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../../core/session/demo_avatars.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 
-/// Elite Desktop Web Command Center Sections for JOMNITTAKU.
+/// Elite Luxury Desktop Web Command Center Sections for JOMNITTAKU.
 ///
-/// Fixes applied:
-/// 1. Proportional Table Tennis Table (authentic 1.8:1 ratio, not an empty stretched slab).
-/// 2. Clean, legible typography and menus (13-15px labels).
-/// 3. In-Shell Tab Switching (Overview, 10 Courts Floorplan, League, Passes, IoT).
-/// 4. Zero cognitive overload: each view shows only relevant, focused information.
+/// Faithfully modeled after the reference fintech/gaming dashboard:
+/// - 3 Top Micro-Metric Cards (Availability, Centre Court HUD, League XP) with subtle waves
+/// - 10-Court Live Architectural Activity Table with horizontal rows and filter tabs
+/// - Stacked Arena Passes Card Widget (Tangerine Orange Apple-Card style) + Quick Functions
+/// - Quick Challenge Sparring Rivals Avatar Strip
 class DesktopWebSections {
   DesktopWebSections._();
 
+  // Color tokens matching the reference luxury palette
+  static const Color luxuryCanvasBg = Color(0xFF161720);
+  static const Color luxuryCardBg = Color(0xFF20222F);
+  static const Color luxuryCardBgElevated = Color(0xFF262938);
+  static const Color luxuryCoralRose = Color(0xFFFF4B72);
+  static const Color luxuryTangerineGold = Color(0xFFFFA533);
+  static const Color luxuryVoltEmerald = Color(0xFF10B981);
+  static const Color luxuryElectricBlue = Color(0xFF3B82F6);
+  static const Color luxuryAmethystPurple = Color(0xFF8B5CF6);
+  static const Color luxuryMutedText = Color(0xFF8A8E9E);
+  static const Color luxuryBorderSubtle = Color(0x0AFFFFFF);
+
   // ============================================================
-  // MASTER COMMAND CENTER ORCHESTRATOR WITH VIEW SWITCHING
+  // MASTER COMMAND CENTER ORCHESTRATOR
   // ============================================================
   static Widget buildFullScreenCommandCenter(
     BuildContext context,
@@ -29,1198 +39,450 @@ class DesktopWebSections {
     required VoidCallback onChallengeTap,
     required VoidCallback onXpTap,
   }) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Container(
-          width: double.infinity,
-          height: constraints.maxHeight,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 220),
-            child: _buildCurrentView(
-              context,
-              isDark,
-              activeTab: activeTab,
-              onWalkInTap: onWalkInTap,
-              onPassTap: onPassTap,
-              onTvTap: onTvTap,
-              onTabChanged: onTabChanged,
-              onChallengeTap: onChallengeTap,
-              onXpTap: onXpTap,
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  static Widget _buildCurrentView(
-    BuildContext context,
-    bool isDark, {
-    required String activeTab,
-    required VoidCallback onWalkInTap,
-    required VoidCallback onPassTap,
-    required VoidCallback onTvTap,
-    required ValueChanged<String> onTabChanged,
-    required VoidCallback onChallengeTap,
-    required VoidCallback onXpTap,
-  }) {
-    switch (activeTab) {
-      case 'radar':
-        return buildDedicatedRadarView(context, isDark, onPassTap: onPassTap);
-      case 'league':
-        return buildDedicatedLeagueView(context, isDark, onChallengeTap: onChallengeTap);
-      case 'passes':
-        return buildDedicatedPassesView(context, isDark, onWalkInTap: onWalkInTap, onPassTap: onPassTap);
-      case 'iot':
-        return buildDedicatedIotView(context, isDark);
-      case 'command':
-      default:
-        return buildOverviewView(
-          context,
-          isDark,
-          onWalkInTap: onWalkInTap,
-          onPassTap: onPassTap,
-          onTvTap: onTvTap,
-          onTabChanged: onTabChanged,
-        );
-    }
-  }
-
-  // ============================================================
-  // VIEW 1: ARENA OVERVIEW (CLEAN, FOCUSED, NO OVERLOAD)
-  // ============================================================
-  static Widget buildOverviewView(
-    BuildContext context,
-    bool isDark, {
-    required VoidCallback onWalkInTap,
-    required VoidCallback onPassTap,
-    required VoidCallback onTvTap,
-    required ValueChanged<String> onTabChanged,
-  }) {
-    return Column(
-      key: const ValueKey('overview_view'),
-      children: [
-        // ROW 1: Hero Stage & Telemetry (Flex 55)
-        Expanded(
-          flex: 55,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // LEFT: Hero Stage + Proportional 3D Table HUD (Flex 60)
-              Expanded(
-                flex: 60,
-                child: _buildHeroOverviewCard(
-                  context,
-                  isDark,
-                  onWalkInTap: onWalkInTap,
-                  onPassTap: onPassTap,
-                ),
-              ),
-              const SizedBox(width: 16),
-              // RIGHT: Arena Capacity Donut + Peak Traffic Sparkline (Flex 40)
-              Expanded(
-                flex: 40,
-                child: _buildCapacityTelemetryCard(context, isDark),
-              ),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 16),
-
-        // ROW 2: Fast Access Cards (Flex 45)
-        Expanded(
-          flex: 45,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // LEFT: 10 Courts Summary & Floorplan Launcher (Flex 60)
-              Expanded(
-                flex: 60,
-                child: _buildCourtsQuickSummaryCard(
-                  context,
-                  isDark,
-                  onFloorplanTap: () => onTabChanged('radar'),
-                ),
-              ),
-              const SizedBox(width: 16),
-              // RIGHT: Olympic Podium & Passes Shortcut (Flex 40)
-              Expanded(
-                flex: 40,
-                child: _buildPodiumQuickCard(
-                  context,
-                  isDark,
-                  onLeagueTap: () => onTabChanged('league'),
-                  onPassTap: onPassTap,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  // ============================================================
-  // HERO OVERVIEW CARD WITH PROPORTIONATE TABLE TENNIS TABLE
-  // ============================================================
-  static Widget _buildHeroOverviewCard(
-    BuildContext context,
-    bool isDark, {
-    required VoidCallback onWalkInTap,
-    required VoidCallback onPassTap,
-  }) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: isDark
-            ? const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFF162544), Color(0xFF0F1A2E)],
-              )
-            : const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFFFFFFFF), Color(0xFFF9F5EE)],
-              ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-          width: 1,
-        ),
-        boxShadow: AppColors.cardShadow,
-      ),
-      padding: const EdgeInsets.all(20),
+      color: luxuryCanvasBg,
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Tagline Row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      color: AppColors.voltLime,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '3 DAMANSARA LEVEL 2 · 10 ITTF REGULATION COURTS',
-                    style: AppTypography.ui(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w900,
-                      color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: AppColors.electricCrimson.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  '● 2 MATCHES LIVE',
-                  style: AppTypography.ui(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.electricCrimson,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
-
-          // Main Headline & Action Buttons Row
-          Expanded(
+          // ====================================================
+          // 1. TOP ROW: 3 MICRO-METRIC CARDS (BALANCES ROW)
+          // ====================================================
+          SizedBox(
+            height: 110,
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Left text & CTAs
+                // CARD 1: VENUE AVAILABILITY
                 Expanded(
-                  flex: 55,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'JUST PLAY TONIGHT.',
-                        style: AppTypography.ui(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.textPrimary,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        "Malaysia's premier 24/7 autonomous, unmanned table tennis arena. Walk in anytime, scan your pass at the turnstile, and challenge live rivals.",
-                        style: AppTypography.ui(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textSecondary,
-                          height: 1.4,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: onWalkInTap,
-                              child: Container(
-                                height: 42,
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                decoration: BoxDecoration(
-                                  gradient: AppColors.tobyCtaGradient,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: AppColors.tobyCtaGlow.withValues(alpha: 0.35),
-                                      blurRadius: 12,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                alignment: Alignment.center,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      'Walk In Tonight (RM17) →',
-                                      style: AppTypography.ui(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: onPassTap,
-                              child: Container(
-                                height: 42,
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                decoration: BoxDecoration(
-                                  color: isDark ? Colors.white.withValues(alpha: 0.08) : AppColors.slate100,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: isDark ? AppColors.darkObsidianBorder : AppColors.slate300,
-                                  ),
-                                ),
-                                alignment: Alignment.center,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(
-                                      Icons.qr_code_rounded,
-                                      size: 16,
-                                      color: AppColors.voltLime,
-                                    ),
-                                    const SizedBox(width: 6),
-                                    Text(
-                                      'Pass: KX8VQS',
-                                      style: AppTypography.ui(
-                                        fontSize: 12.5,
-                                        fontWeight: FontWeight.w800,
-                                        color: AppColors.textPrimary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                  child: _buildMetricCard(
+                    title: 'VENUE AVAILABILITY',
+                    value: '6 of 10 Free',
+                    badge: '↑ 2 freed up this hour',
+                    badgeColor: luxuryVoltEmerald,
+                    waveColor: luxuryVoltEmerald,
                   ),
                 ),
-
-                const SizedBox(width: 20),
-
-                // Right: PROPORTIONAL 3D TABLE TENNIS COURT (Compact & Balanced)
-                Container(
-                  width: 260,
-                  height: 145,
-                  decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF090F1C) : const Color(0xFFF1F5F9),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      // Court Header
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 6,
-                                height: 6,
-                                decoration: const BoxDecoration(
-                                  color: AppColors.electricCrimson,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                'TABLE 04 LIVE HUD',
-                                style: AppTypography.ui(
-                                  fontSize: 9.5,
-                                  fontWeight: FontWeight.w800,
-                                  color: isDark ? Colors.white70 : AppColors.slate900,
-                                  letterSpacing: 0.6,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                            decoration: BoxDecoration(
-                              color: AppColors.voltLime.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              '14 - 11',
-                              style: AppTypography.ui(
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.w900,
-                                color: AppColors.voltLime,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 6),
-
-                      // True 2:1 Proportional Court Surface
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.ittfTableBlue,
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(
-                              color: AppColors.ittfTableBorder,
-                              width: 1.5,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.ittfTableSurface.withValues(alpha: 0.25),
-                                blurRadius: 8,
-                              ),
-                            ],
-                          ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              // Center Net
-                              Container(
-                                height: 2,
-                                color: AppColors.ittfCourtNet,
-                              ),
-                              // Player 1
-                              const Positioned(
-                                top: 6,
-                                left: 8,
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 8,
-                                      backgroundImage: AssetImage(DemoAvatars.jason),
-                                    ),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      'Jason (14)',
-                                      style: TextStyle(
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // Match Ball
-                              const Positioned(
-                                top: 22,
-                                right: 35,
-                                child: CircleAvatar(
-                                  radius: 3.5,
-                                  backgroundColor: AppColors.pingPongOrange,
-                                ),
-                              ),
-                              // Player 2
-                              const Positioned(
-                                bottom: 6,
-                                right: 8,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Alman (11)',
-                                      style: TextStyle(
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.w900,
-                                        color: AppColors.voltLime,
-                                      ),
-                                    ),
-                                    SizedBox(width: 4),
-                                    CircleAvatar(
-                                      radius: 8,
-                                      backgroundImage: AssetImage(DemoAvatars.user),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'DHS 3-Star Match Ball · Active Rally: 9 hits',
-                        style: AppTypography.ui(
-                          fontSize: 8.5,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textMuted,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
-  // CARD 2: CAPACITY & TELEMETRY (DONUT + SPARKLINE + IOT)
-  // ============================================================
-  static Widget _buildCapacityTelemetryCard(BuildContext context, bool isDark) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: isDark
-            ? const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFF162544), Color(0xFF101B30)],
-              )
-            : const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFFFFFFFF), Color(0xFFF9F5EE)],
-              ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-          width: 1,
-        ),
-        boxShadow: AppColors.cardShadow,
-      ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Arena Capacity & Telemetry',
-                style: AppTypography.ui(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.voltLime.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  '6/10 FREE NOW',
-                  style: AppTypography.ui(
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.voltLime,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
-
-          // Visual meters row
-          Expanded(
-            child: Row(
-              children: [
-                // Donut Meter
-                Container(
-                  width: 110,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF0E1626) : const Color(0xFFF8FAFC),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 60,
-                        height: 60,
-                        child: CustomPaint(
-                          painter: OccupancyDonutPainter(
-                            freeCount: 6,
-                            totalCount: 10,
-                            isDark: isDark,
-                          ),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '6/10',
-                                  style: AppTypography.ui(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w900,
-                                    color: AppColors.voltLime,
-                                  ),
-                                ),
-                                Text(
-                                  'FREE',
-                                  style: AppTypography.ui(
-                                    fontSize: 7.5,
-                                    fontWeight: FontWeight.w800,
-                                    color: AppColors.textSecondary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        '60% Available',
-                        style: AppTypography.ui(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(width: 12),
-
-                // 24h Traffic Curve Sparkline
+                const SizedBox(width: 14),
+                // CARD 2: CENTRE COURT HUD (T04)
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF0E1626) : const Color(0xFFF8FAFC),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '24h Traffic Pattern',
-                              style: AppTypography.ui(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            Text(
-                              'Peak: 8 - 11 PM',
-                              style: AppTypography.ui(
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.ittfTableBorder,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 6),
-                        Expanded(
-                          child: CustomPaint(
-                            size: Size.infinite,
-                            painter: HourlyTrafficSparklinePainter(isDark: isDark),
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Quiet', style: AppTypography.ui(fontSize: 8.5, color: AppColors.textMuted)),
-                            Text('NOW: Moderate', style: AppTypography.ui(fontSize: 8.5, fontWeight: FontWeight.w800, color: AppColors.voltLime)),
-                            Text('High', style: AppTypography.ui(fontSize: 8.5, color: AppColors.textMuted)),
-                          ],
-                        ),
-                      ],
-                    ),
+                  child: _buildMetricCard(
+                    title: 'CENTRE COURT HUD (T04)',
+                    value: 'Jason 14 - 11 Alman',
+                    badge: '● Active Rally: 9 hits · Game 3',
+                    badgeColor: luxuryElectricBlue,
+                    waveColor: luxuryElectricBlue,
                   ),
                 ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // Environment Strip
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('💡 480 Lux ITTF Lighting', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: AppColors.textSecondary)),
-              Text('🌡 23°C Climate Controlled', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: AppColors.textSecondary)),
-              Text('📷 Edge AI Camera Online 🟢', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: AppColors.voltLime)),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
-  // CARD 3: 10 COURTS QUICK SUMMARY (WITH DIRECT FLOORPLAN LAUNCHER)
-  // ============================================================
-  static Widget _buildCourtsQuickSummaryCard(
-    BuildContext context,
-    bool isDark, {
-    required VoidCallback onFloorplanTap,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: isDark
-            ? const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFF162544), Color(0xFF0F1A2E)],
-              )
-            : const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFFFFFFFF), Color(0xFFF9F5EE)],
-              ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-          width: 1,
-        ),
-        boxShadow: AppColors.cardShadow,
-      ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.table_restaurant_rounded,
-                    size: 18,
-                    color: AppColors.voltLime,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '10 Courts Radar & Floorplan',
-                    style: AppTypography.ui(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ],
-              ),
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: onFloorplanTap,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppColors.voltLime.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(
-                        color: AppColors.voltLime.withValues(alpha: 0.4),
-                      ),
-                    ),
-                    child: Text(
-                      'View 10 Courts Floorplan →',
-                      style: AppTypography.ui(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.voltLime,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
-
-          // 5 Court Highlights row
-          Expanded(
-            child: Row(
-              children: [
-                _buildCourtMiniTile('T01', 'Jason T.', 'In Play', false, isDark),
-                const SizedBox(width: 8),
-                _buildCourtMiniTile('T02', 'Sara K.', 'In Play', false, isDark),
-                const SizedBox(width: 8),
-                _buildCourtMiniTile('T03', 'Available', 'Free Now', true, isDark),
-                const SizedBox(width: 8),
-                _buildCourtMiniTile('T04', 'Jason v Alman', '14-11 Live', false, isDark, isMatch: true),
-                const SizedBox(width: 8),
-                _buildCourtMiniTile('T05', 'Available', 'Free Now', true, isDark),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // Happy Hour Banner
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              gradient: isDark
-                  ? const LinearGradient(
-                      colors: [Color(0xFF2E1C0C), Color(0xFF1E1308)],
-                    )
-                  : const LinearGradient(
-                      colors: [Color(0xFFFFFBEB), Color(0xFFFEF3C7)],
-                    ),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: AppColors.radiantGold.withValues(alpha: 0.35),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.flash_on_rounded,
-                      size: 15,
-                      color: AppColors.radiantGold,
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      'HAPPY HOUR: 50% OFF · All tables 50 sen/hr for members',
-                      style: AppTypography.ui(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w800,
-                        color: isDark ? AppColors.radiantGold : AppColors.goldDeep,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  '18m : 45s Left',
-                  style: AppTypography.ui(
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.w900,
-                    color: isDark ? AppColors.radiantGold : AppColors.goldDeep,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
-  // CARD 4: PODIUM & PASSES QUICK CARD
-  // ============================================================
-  static Widget _buildPodiumQuickCard(
-    BuildContext context,
-    bool isDark, {
-    required VoidCallback onLeagueTap,
-    required VoidCallback onPassTap,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: isDark
-            ? const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFF162544), Color(0xFF101B30)],
-              )
-            : const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFFFFFFFF), Color(0xFFF9F5EE)],
-              ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-          width: 1,
-        ),
-        boxShadow: AppColors.cardShadow,
-      ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.emoji_events_rounded,
-                    size: 17,
-                    color: AppColors.radiantGold,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Arena League Podium',
-                    style: AppTypography.ui(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ],
-              ),
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: onLeagueTap,
-                  child: Text(
-                    'View League →',
-                    style: AppTypography.ui(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.ittfTableBorder,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          // Top 3 Leaders
-          Expanded(
-            child: Row(
-              children: [
+                const SizedBox(width: 14),
+                // CARD 3: LEAGUE PROGRESSION
                 Expanded(
-                  child: _buildPodiumPill(
-                    rank: 2,
-                    name: 'Sara K.',
-                    xp: '1,480 XP',
-                    avatar: DemoAvatars.sara,
-                    color: AppColors.rankSilver,
-                    isDark: isDark,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _buildPodiumPill(
-                    rank: 1,
-                    name: 'Daniel L.',
-                    xp: '1,620 XP',
-                    avatar: DemoAvatars.daniel,
-                    color: AppColors.rankGold,
-                    isDark: isDark,
-                    isChampion: true,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _buildPodiumPill(
-                    rank: 3,
-                    name: 'Mei R.',
-                    xp: '1,395 XP',
-                    avatar: DemoAvatars.mei,
-                    color: AppColors.rankBronze,
-                    isDark: isDark,
+                  child: _buildMetricCard(
+                    title: 'LEAGUE PROGRESSION',
+                    value: '1,240 XP (#4 Rank)',
+                    badge: '↑ 155 XP to reach Top 3',
+                    badgeColor: luxuryTangerineGold,
+                    waveColor: luxuryTangerineGold,
                   ),
                 ),
               ],
             ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // Rates & Passes Footer Strip
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF090F1C) : const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text('Walk-In: ', style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary)),
-                    Text('RM17', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
-                    const SizedBox(width: 8),
-                    Text('· Member: ', style: AppTypography.ui(fontSize: 11, color: AppColors.textSecondary)),
-                    Text('90 sen/day', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: AppColors.voltLime)),
-                  ],
-                ),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: onPassTap,
-                    child: Text(
-                      'Door Pass: KX8VQS 🔑',
-                      style: AppTypography.ui(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.voltLime,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
-  // VIEW 2: DEDICATED 10-COURT FLOORPLAN (FULL-SCREEN, SPACIOUS)
-  // ============================================================
-  static Widget buildDedicatedRadarView(
-    BuildContext context,
-    bool isDark, {
-    required VoidCallback onPassTap,
-  }) {
-    final courts = [
-      {'id': 'T01', 'status': 'busy', 'player': 'Jason T.', 'time': '18m left', 'type': 'DHS Rainbow ITTF'},
-      {'id': 'T02', 'status': 'busy', 'player': 'Sara K.', 'time': '12m left', 'type': 'DHS Rainbow ITTF'},
-      {'id': 'T03', 'status': 'free', 'player': 'Available', 'time': 'Free Now', 'type': 'Stiga Showdown'},
-      {'id': 'T04', 'status': 'match', 'player': 'Jason v Alman', 'time': '14-11 Live', 'type': 'Stadium Centre Court'},
-      {'id': 'T05', 'status': 'free', 'player': 'Available', 'time': 'Free Now', 'type': 'Stiga Showdown'},
-      {'id': 'T06', 'status': 'free', 'player': 'Available', 'time': 'Free Now', 'type': 'Butterfly Centrefold'},
-      {'id': 'T07', 'status': 'free', 'player': 'Available', 'time': 'Free Now', 'type': 'Butterfly Centrefold'},
-      {'id': 'T08', 'status': 'free', 'player': 'Available', 'time': 'Free Now', 'type': 'Nittaku Premium 25'},
-      {'id': 'T09', 'status': 'reserved', 'player': 'League Cup Res', 'time': '9:00 PM', 'type': 'Nittaku Premium 25'},
-      {'id': 'T10', 'status': 'free', 'player': 'Available', 'time': 'Free Now', 'type': 'Practice Court'},
-    ];
-
-    return Container(
-      key: const ValueKey('radar_view'),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.darkObsidianCard : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-        ),
-      ),
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '10 Courts Arena Floorplan & Live Telemetry',
-                    style: AppTypography.ui(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '3 Damansara Level 2 · 10 ITTF Tournament Courts · Tap any table to unlock or view camera feed',
-                    style: AppTypography.ui(
-                      fontSize: 12,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AppColors.voltLime.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.voltLime.withValues(alpha: 0.4)),
-                ),
-                child: Text(
-                  '6 OF 10 COURTS FREE NOW',
-                  style: AppTypography.ui(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.voltLime,
-                  ),
-                ),
-              ),
-            ],
           ),
 
           const SizedBox(height: 16),
 
-          // 2x5 Grid of full court cards
+          // ====================================================
+          // 2. MIDDLE AREA: 10 COURTS TABLE + STACKED CARDS
+          // ====================================================
           Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                crossAxisSpacing: 14,
-                mainAxisSpacing: 14,
-                childAspectRatio: 1.45,
-              ),
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                final court = courts[index];
-                final isFree = court['status'] == 'free';
-                final isMatch = court['status'] == 'match';
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // LEFT: 10 COURTS LIVE ACTIVITY TABLE (Flex 65)
+                Expanded(
+                  flex: 65,
+                  child: _buildTenCourtActivityTable(
+                    context,
+                    onPassTap: onPassTap,
+                    onChallengeTap: onChallengeTap,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                // RIGHT: STACKED ARENA PASSES & QUICK FUNCTIONS (Flex 35)
+                Expanded(
+                  flex: 35,
+                  child: _buildStackedPassesAndFunctions(
+                    context,
+                    onPassTap: onPassTap,
+                    onWalkInTap: onWalkInTap,
+                    onXpTap: onXpTap,
+                    onChallengeTap: onChallengeTap,
+                  ),
+                ),
+              ],
+            ),
+          ),
 
-                return Container(
-                  decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF0E1626) : const Color(0xFFF8FAFC),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: isMatch
-                          ? AppColors.electricCrimson
-                          : (isDark ? AppColors.darkObsidianBorder : AppColors.slate200),
-                      width: isMatch ? 1.5 : 1,
+          const SizedBox(height: 14),
+
+          // ====================================================
+          // 3. BOTTOM ROW: QUICK CHALLENGE SPARRING RIVALS
+          // ====================================================
+          _buildQuickSparringRivalsRow(
+            context,
+            onChallengeTap: onChallengeTap,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================
+  // TOP MICRO-METRIC CARD BUILDER
+  // ============================================================
+  static Widget _buildMetricCard({
+    required String title,
+    required String value,
+    required String badge,
+    required Color badgeColor,
+    required Color waveColor,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: luxuryCardBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: luxuryBorderSubtle),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 16,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Stack(
+        children: [
+          // Bottom subtle wave painter
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 32,
+            child: CustomPaint(
+              painter: _MetricWavePainter(waveColor: waveColor),
+            ),
+          ),
+          // Text content
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: AppTypography.ui(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      color: luxuryMutedText,
+                      letterSpacing: 0.8,
                     ),
                   ),
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: badgeColor.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      badge,
+                      style: AppTypography.ui(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w800,
+                        color: badgeColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                value,
+                style: AppTypography.ui(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                  letterSpacing: -0.3,
+                ),
+              ),
+              const SizedBox(height: 2),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================
+  // 10 COURTS LIVE ACTIVITY TABLE (HORIZONTAL ROWS)
+  // ============================================================
+  static Widget _buildTenCourtActivityTable(
+    BuildContext context, {
+    required VoidCallback onPassTap,
+    required VoidCallback onChallengeTap,
+  }) {
+    final courts = [
+      {'id': 'T01', 'type': 'DHS Rainbow ITTF', 'player': 'Jason T. (Lvl 14)', 'avatar': DemoAvatars.jason, 'time': '18m in match', 'status': 'busy'},
+      {'id': 'T02', 'type': 'DHS Rainbow ITTF', 'player': 'Sara K. (Lvl 18)', 'avatar': DemoAvatars.sara, 'time': '12m in match', 'status': 'busy'},
+      {'id': 'T03', 'type': 'Stiga Showdown 25', 'player': 'Court Free & Ready', 'avatar': null, 'time': 'Free Now', 'status': 'free'},
+      {'id': 'T04', 'type': 'Stadium Centre Court', 'player': 'Jason v Alman (14-11)', 'avatar': DemoAvatars.user, 'time': 'Live Match HUD', 'status': 'match'},
+      {'id': 'T05', 'type': 'Stiga Showdown 25', 'player': 'Court Free & Ready', 'avatar': null, 'time': 'Free Now', 'status': 'free'},
+      {'id': 'T06', 'type': 'Butterfly Centrefold', 'player': 'Court Free & Ready', 'avatar': null, 'time': 'Free Now', 'status': 'free'},
+      {'id': 'T07', 'type': 'Butterfly Centrefold', 'player': 'Court Free & Ready', 'avatar': null, 'time': 'Free Now', 'status': 'free'},
+      {'id': 'T08', 'type': 'Nittaku Premium 25', 'player': 'Court Free & Ready', 'avatar': null, 'time': 'Free Now', 'status': 'free'},
+      {'id': 'T09', 'type': 'Nittaku Premium 25', 'player': 'League Cup Tournament', 'avatar': DemoAvatars.champion, 'time': 'Res 9:00 PM', 'status': 'reserved'},
+      {'id': 'T10', 'type': 'Practice Court DHS', 'player': 'Court Free & Ready', 'avatar': null, 'time': 'Free Now', 'status': 'free'},
+    ];
+
+    return Container(
+      decoration: BoxDecoration(
+        color: luxuryCardBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: luxuryBorderSubtle),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 18,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Table Header Row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    '10 Courts Live Architectural Activity',
+                    style: AppTypography.ui(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: luxuryVoltEmerald.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      '6 FREE',
+                      style: AppTypography.ui(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w900,
+                        color: luxuryVoltEmerald,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              // Filter pills
+              Row(
+                children: [
+                  _buildFilterPill('All (10)', true),
+                  const SizedBox(width: 6),
+                  _buildFilterPill('Free (6)', false),
+                  const SizedBox(width: 6),
+                  _buildFilterPill('In Play (3)', false),
+                ],
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 12),
+
+          // Table Column Titles
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: luxuryCardBgElevated.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 65,
+                  child: Text('COURT', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: luxuryMutedText)),
+                ),
+                SizedBox(
+                  width: 140,
+                  child: Text('SPECIFICATION', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: luxuryMutedText)),
+                ),
+                Expanded(
+                  flex: 40,
+                  child: Text('OCCUPANT / MATCH', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: luxuryMutedText)),
+                ),
+                SizedBox(
+                  width: 110,
+                  child: Text('STATUS', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: luxuryMutedText)),
+                ),
+                SizedBox(
+                  width: 80,
+                  child: Text('ACTION', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: luxuryMutedText)),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 6),
+
+          // Horizontal Court Rows (Scrollable list inside table container)
+          Expanded(
+            child: ListView.separated(
+              itemCount: courts.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 4),
+              itemBuilder: (context, index) {
+                final court = courts[index];
+                final status = court['status'];
+                final isFree = status == 'free';
+                final isMatch = status == 'match';
+                final isReserved = status == 'reserved';
+
+                Color statusColor = luxuryVoltEmerald;
+                String statusLabel = 'FREE NOW';
+                if (status == 'busy') {
+                  statusColor = luxuryTangerineGold;
+                  statusLabel = 'IN PLAY';
+                } else if (isMatch) {
+                  statusColor = luxuryCoralRose;
+                  statusLabel = 'LIVE MATCH';
+                } else if (isReserved) {
+                  statusColor = luxuryAmethystPurple;
+                  statusLabel = 'RESERVED';
+                }
+
+                return Container(
+                  height: 44,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: index.isEven ? luxuryCardBgElevated : const Color(0xFF222433),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            court['id']!,
-                            style: AppTypography.ui(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: isFree
-                                  ? AppColors.voltLime.withValues(alpha: 0.15)
-                                  : AppColors.electricCrimson.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              isFree ? 'FREE' : 'IN PLAY',
-                              style: AppTypography.ui(
-                                fontSize: 9,
-                                fontWeight: FontWeight.w800,
-                                color: isFree ? AppColors.voltLime : AppColors.electricCrimson,
+                      // Court ID
+                      SizedBox(
+                        width: 65,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 6,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                color: statusColor,
+                                shape: BoxShape.circle,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        court['player']!,
-                        style: AppTypography.ui(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.textPrimary,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        court['type']!,
-                        style: AppTypography.ui(
-                          fontSize: 10,
-                          color: AppColors.textMuted,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            court['time']!,
-                            style: AppTypography.ui(
-                              fontSize: 10.5,
-                              fontWeight: FontWeight.w700,
-                              color: isFree ? AppColors.voltLime : AppColors.ittfTableBorder,
+                            const SizedBox(width: 6),
+                            Text(
+                              court['id'] as String,
+                              style: AppTypography.ui(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                              ),
                             ),
+                          ],
+                        ),
+                      ),
+                      // Specification
+                      SizedBox(
+                        width: 140,
+                        child: Text(
+                          court['type'] as String,
+                          style: AppTypography.ui(
+                            fontSize: 11,
+                            color: luxuryMutedText,
                           ),
-                          MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: onPassTap,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      // Occupant
+                      Expanded(
+                        flex: 40,
+                        child: Row(
+                          children: [
+                            if (court['avatar'] != null)
+                              Padding(
+                                padding: const EdgeInsets.only(right: 6),
+                                child: CircleAvatar(
+                                  radius: 10,
+                                  backgroundImage: AssetImage(court['avatar'] as String),
+                                ),
+                              ),
+                            Expanded(
                               child: Text(
-                                isFree ? 'Play →' : 'Watch',
+                                court['player'] as String,
                                 style: AppTypography.ui(
-                                  fontSize: 11,
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w700,
+                                  color: isFree ? luxuryVoltEmerald : Colors.white,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Status Pill
+                      SizedBox(
+                        width: 110,
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
+                              decoration: BoxDecoration(
+                                color: statusColor.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Text(
+                                statusLabel,
+                                style: AppTypography.ui(
+                                  fontSize: 9.5,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.voltLime,
+                                  color: statusColor,
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                      // Action
+                      SizedBox(
+                        width: 80,
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: GestureDetector(
+                            onTap: isFree ? onPassTap : onChallengeTap,
+                            child: Text(
+                              isFree ? 'Play →' : 'Watch',
+                              style: AppTypography.ui(
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w800,
+                                color: isFree ? luxuryVoltEmerald : const Color(0xFF60A5FA),
+                              ),
+                            ),
                           ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
@@ -1234,143 +496,211 @@ class DesktopWebSections {
   }
 
   // ============================================================
-  // VIEW 3: DEDICATED OLYMPIC LEAGUE VIEW
+  // STACKED ARENA PASSES & QUICK FUNCTIONS
   // ============================================================
-  static Widget buildDedicatedLeagueView(
-    BuildContext context,
-    bool isDark, {
+  static Widget _buildStackedPassesAndFunctions(
+    BuildContext context, {
+    required VoidCallback onPassTap,
+    required VoidCallback onWalkInTap,
+    required VoidCallback onXpTap,
     required VoidCallback onChallengeTap,
   }) {
     return Container(
-      key: const ValueKey('league_view'),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.darkObsidianCard : Colors.white,
+        color: luxuryCardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-        ),
+        border: Border.all(color: luxuryBorderSubtle),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 18,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Arena League Standings & Olympic Podium',
-                style: AppTypography.ui(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: onChallengeTap,
-                  child: Container(
-                    height: 38,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      gradient: AppColors.tobyCtaGradient,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Post 1v1 Challenge Match →',
-                      style: AppTypography.ui(
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
+          Text(
+            'Arena Passes & Membership',
+            style: AppTypography.ui(
+              fontSize: 14,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // STACKED CREDIT-CARD WIDGET (TANGERINE GOLD FRONT)
+          Center(
+            child: SizedBox(
+              width: 270,
+              height: 135,
+              child: Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  // Back Card 2 (Purple)
+                  Positioned(
+                    top: 0,
+                    child: Container(
+                      width: 230,
+                      height: 110,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF7C3AED),
+                        borderRadius: BorderRadius.circular(14),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 20),
-
-          // Top 3 Podium
-          Row(
-            children: [
-              Expanded(
-                child: _buildPodiumAthleteBig(
-                  rank: 2,
-                  name: 'Sara K.',
-                  xp: '1,480 XP',
-                  avatarAsset: DemoAvatars.sara,
-                  color: AppColors.rankSilver,
-                  isDark: isDark,
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: _buildPodiumAthleteBig(
-                  rank: 1,
-                  name: 'Daniel L. (Champion)',
-                  xp: '1,620 XP',
-                  avatarAsset: DemoAvatars.daniel,
-                  color: AppColors.rankGold,
-                  isDark: isDark,
-                  isChampion: true,
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: _buildPodiumAthleteBig(
-                  rank: 3,
-                  name: 'Mei R.',
-                  xp: '1,395 XP',
-                  avatarAsset: DemoAvatars.mei,
-                  color: AppColors.rankBronze,
-                  isDark: isDark,
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 16),
-
-          // User Standing Callout
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF0E1626) : const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
+                  // Back Card 1 (Electric Blue)
+                  Positioned(
+                    top: 8,
+                    child: Container(
+                      width: 250,
+                      height: 115,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF2563EB),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                  ),
+                  // Front Card (Tangerine Orange Apple-Card Style)
+                  Positioned(
+                    top: 16,
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: onPassTap,
+                        child: Container(
+                          width: 270,
+                          height: 125,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [Color(0xFFFFA533), Color(0xFFFF7A00)],
+                            ),
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFFFF7A00).withValues(alpha: 0.35),
+                                blurRadius: 16,
+                                offset: const Offset(0, 6),
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.sports_tennis_rounded,
+                                        size: 16,
+                                        color: Colors.black87,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        'JOMNITTAKU PASS',
+                                        style: AppTypography.ui(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.black87,
+                                          letterSpacing: 0.8,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Icon(
+                                    Icons.contactless_rounded,
+                                    size: 16,
+                                    color: Colors.black87,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '90 sen / day',
+                                    style: AppTypography.ui(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black26,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      'KX8VQS',
+                                      style: AppTypography.ui(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                'Alman Rahman · 24/7 Unlimited',
+                                style: AppTypography.ui(
+                                  fontSize: 10.5,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+
+          const SizedBox(height: 18),
+
+          // QUICK ARENA FUNCTIONS LIST
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 14,
-                      backgroundImage: AssetImage(DemoAvatars.user),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Alman R. (YOU) · Current Rank: #4 · 1,240 XP',
-                      style: AppTypography.ui(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                  ],
+                _buildQuickActionRow(
+                  icon: Icons.flash_on_rounded,
+                  label: 'Borrow XP (+200 Loan)',
+                  color: luxuryTangerineGold,
+                  onTap: onXpTap,
                 ),
-                Text(
-                  '155 XP to reach #3 Podium',
-                  style: AppTypography.ui(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.voltLime,
-                  ),
+                _buildQuickActionRow(
+                  icon: Icons.search_rounded,
+                  label: 'Radar Ping Nearby Players',
+                  color: luxuryVoltEmerald,
+                  onTap: onChallengeTap,
+                ),
+                _buildQuickActionRow(
+                  icon: Icons.sports_mma_rounded,
+                  label: '1v1 Match Pot (RM200 Pot)',
+                  color: luxuryCoralRose,
+                  onTap: onChallengeTap,
+                ),
+                _buildQuickActionRow(
+                  icon: Icons.door_front_door_rounded,
+                  label: 'Instant Turnstile QR Code',
+                  color: const Color(0xFF60A5FA),
+                  onTap: onPassTap,
                 ),
               ],
             ),
@@ -1381,107 +711,115 @@ class DesktopWebSections {
   }
 
   // ============================================================
-  // VIEW 4: DEDICATED PASSES & RATES VIEW
+  // QUICK CHALLENGE SPARRING RIVALS ROW (CIRCULAR AVATARS)
   // ============================================================
-  static Widget buildDedicatedPassesView(
-    BuildContext context,
-    bool isDark, {
-    required VoidCallback onWalkInTap,
-    required VoidCallback onPassTap,
+  static Widget _buildQuickSparringRivalsRow(
+    BuildContext context, {
+    required VoidCallback onChallengeTap,
   }) {
+    final rivals = [
+      {'name': 'Jason T.', 'level': 'Lvl 14', 'avatar': DemoAvatars.jason},
+      {'name': 'Sara K.', 'level': 'Lvl 18', 'avatar': DemoAvatars.sara},
+      {'name': 'Nurul P.', 'level': 'Lvl 11', 'avatar': DemoAvatars.nurul},
+      {'name': 'Daniel L.', 'level': 'Lvl 22', 'avatar': DemoAvatars.daniel},
+      {'name': 'Mei R.', 'level': 'Lvl 19', 'avatar': DemoAvatars.mei},
+      {'name': 'Rajan M.', 'level': 'Lvl 16', 'avatar': DemoAvatars.rajan},
+    ];
+
     return Container(
-      key: const ValueKey('passes_view'),
+      height: 62,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.darkObsidianCard : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
-        ),
+        color: luxuryCardBg,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: luxuryBorderSubtle),
       ),
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
           Text(
-            'Arena Passes & Membership Rates',
-            style: AppTypography.ui(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              color: AppColors.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Transparent 24/7 access at Level 2, 3 Damansara Mall. Scan DuitNow QR for instant optical turnstile unlock.',
+            'Quick Challenge Rivals',
             style: AppTypography.ui(
               fontSize: 12,
-              color: AppColors.textSecondary,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(width: 16),
+          // Pink Add Button
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: onChallengeTap,
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: const BoxDecoration(
+                  color: luxuryCoralRose,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.add_rounded,
+                  size: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Horizontal avatar row
           Expanded(
-            child: Row(
-              children: [
-                // Walk-in Pass
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF0E1626) : const Color(0xFFF8FAFC),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                        color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: rivals.length,
+              separatorBuilder: (context, index) => const SizedBox(width: 10),
+              itemBuilder: (context, index) {
+                final rival = rivals[index];
+                return MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: onChallengeTap,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: luxuryCardBgElevated,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircleAvatar(
+                            radius: 13,
+                            backgroundImage: AssetImage(rival['avatar']!),
+                          ),
+                          const SizedBox(width: 6),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                rival['name']!,
+                                style: AppTypography.ui(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                rival['level']!,
+                                style: AppTypography.ui(
+                                  fontSize: 9,
+                                  color: luxuryVoltEmerald,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 4),
+                        ],
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Walk-In Guest Pass', style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w800, color: AppColors.textSecondary)),
-                        Text('RM17', style: AppTypography.ui(fontSize: 32, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
-                        Text('• Single session access\n• Free tournament DHS balls\n• AI match tracking', style: AppTypography.ui(fontSize: 12, color: AppColors.textSecondary, height: 1.6)),
-                        ElevatedButton(
-                          onPressed: onWalkInTap,
-                          style: ElevatedButton.styleFrom(backgroundColor: AppColors.voltLime),
-                          child: Text('Get Walk-In Pass →', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.black)),
-                        ),
-                      ],
-                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                // Monthly Unlimited
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF14243D) : const Color(0xFFEFF6FF),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: AppColors.voltLime, width: 1.5),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Unlimited Member Pass', style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w800, color: AppColors.voltLime)),
-                            Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: AppColors.voltLime, borderRadius: BorderRadius.circular(4)), child: const Text('BEST VALUE', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: Colors.black))),
-                          ],
-                        ),
-                        Text('90 sen / day', style: AppTypography.ui(fontSize: 32, fontWeight: FontWeight.w900, color: AppColors.voltLime)),
-                        Text('• RM90 / month billing\n• Save RM16.10 every visit\n• 50% Happy Hour off\n• 24/7 unrestricted turnstile access', style: AppTypography.ui(fontSize: 12, color: AppColors.textPrimary, height: 1.6)),
-                        ElevatedButton(
-                          onPressed: onPassTap,
-                          style: ElevatedButton.styleFrom(backgroundColor: AppColors.voltLime),
-                          child: Text('Join Member Pass (RM90) →', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.black)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
           ),
         ],
@@ -1490,261 +828,135 @@ class DesktopWebSections {
   }
 
   // ============================================================
-  // VIEW 5: DEDICATED VENUE IOT TELEMETRY VIEW
+  // HELPER WIDGETS
   // ============================================================
-  static Widget buildDedicatedIotView(BuildContext context, bool isDark) {
+  static Widget _buildFilterPill(String label, bool isActive) {
     return Container(
-      key: const ValueKey('iot_view'),
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.darkObsidianCard : Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        color: isActive ? luxuryCoralRose.withValues(alpha: 0.2) : luxuryCardBgElevated,
+        borderRadius: BorderRadius.circular(6),
         border: Border.all(
-          color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200,
+          color: isActive ? luxuryCoralRose : Colors.transparent,
+          width: 1,
         ),
       ),
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Hardware Telemetry & Venue IoT Sensors',
-            style: AppTypography.ui(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              color: AppColors.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Live telemetry from 3 Damansara Mall Level 2 arena facility controllers.',
-            style: AppTypography.ui(fontSize: 12, color: AppColors.textSecondary),
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 3,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              children: [
-                _buildIotCard('Lighting Controller', '480 Lux ITTF', 'Philips Hue Pro', true, isDark),
-                _buildIotCard('Climate Control', '23.0°C AC', 'Daikin VRV System', true, isDark),
-                _buildIotCard('Edge AI Cameras', '10 of 10 Online', 'Overhead Tracking', true, isDark),
-                _buildIotCard('Optical Turnstiles', 'Ready to Scan', 'DuitNow Fast Gate', true, isDark),
-                _buildIotCard('Match Ball Status', 'DHS 3-Star 40+', 'Dispenser Full', true, isDark),
-                _buildIotCard('WiFi Mesh Network', '5GHz Ultra-Low Latency', 'Arena Hotspot', true, isDark),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================
-  // MINI HELPERS
-  // ============================================================
-  static Widget _buildCourtMiniTile(String id, String player, String time, bool isFree, bool isDark, {bool isMatch = false}) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF0E1626) : const Color(0xFFF8FAFC),
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: isMatch ? AppColors.electricCrimson : (isDark ? AppColors.darkObsidianBorder : AppColors.slate200),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(id, style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
-                Container(
-                  width: 6,
-                  height: 6,
-                  decoration: BoxDecoration(
-                    color: isFree ? AppColors.voltLime : AppColors.electricCrimson,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ],
-            ),
-            Text(player, style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: isFree ? AppColors.voltLime : AppColors.textPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
-            Text(time, style: AppTypography.ui(fontSize: 8.5, color: AppColors.textMuted)),
-          ],
+      child: Text(
+        label,
+        style: AppTypography.ui(
+          fontSize: 10.5,
+          fontWeight: isActive ? FontWeight.w900 : FontWeight.w600,
+          color: isActive ? luxuryCoralRose : luxuryMutedText,
         ),
       ),
     );
   }
 
-  static Widget _buildPodiumPill({required int rank, required String name, required String xp, required String avatar, required Color color, required bool isDark, bool isChampion = false}) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0E1626) : const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: isChampion ? AppColors.radiantGold.withValues(alpha: 0.5) : (isDark ? AppColors.darkObsidianBorder : AppColors.slate200),
-        ),
-      ),
-      child: Column(
-        children: [
-          CircleAvatar(radius: 12, backgroundImage: AssetImage(avatar)),
-          const SizedBox(height: 4),
-          Text(name, style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
-          Text(xp, style: AppTypography.ui(fontSize: 8.5, fontWeight: FontWeight.w700, color: color)),
-        ],
-      ),
-    );
-  }
-
-  static Widget _buildPodiumAthleteBig({required int rank, required String name, required String xp, required String avatarAsset, required Color color, required bool isDark, bool isChampion = false}) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0E1626) : const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: color.withValues(alpha: 0.4), width: isChampion ? 2 : 1),
-      ),
-      child: Column(
-        children: [
-          CircleAvatar(radius: 24, backgroundImage: AssetImage(avatarAsset)),
-          const SizedBox(height: 10),
-          Text(name, style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w900, color: AppColors.textPrimary)),
-          const SizedBox(height: 4),
-          Text(xp, style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: color)),
-        ],
-      ),
-    );
-  }
-
-  static Widget _buildIotCard(String title, String val, String sub, bool isOnline, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0E1626) : const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: isDark ? AppColors.darkObsidianBorder : AppColors.slate200),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  static Widget _buildQuickActionRow({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 32,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: luxuryCardBgElevated,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
             children: [
-              Text(title, style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
-              Container(width: 8, height: 8, decoration: BoxDecoration(color: isOnline ? AppColors.voltLime : AppColors.electricCrimson, shape: BoxShape.circle)),
+              Icon(icon, size: 14, color: color),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  label,
+                  style: AppTypography.ui(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const Icon(Icons.arrow_forward_ios_rounded, size: 10, color: luxuryMutedText),
             ],
           ),
-          Text(val, style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: AppColors.voltLime)),
-          Text(sub, style: AppTypography.ui(fontSize: 11, color: AppColors.textMuted)),
-        ],
+        ),
       ),
     );
   }
 }
 
 // ============================================================
-// CUSTOM PAINTER: OCCUPANCY DONUT METER
+// METRIC WAVE PAINTER (SUBTLE SMOOTH BASE WAVE)
 // ============================================================
-class OccupancyDonutPainter extends CustomPainter {
-  final int freeCount;
-  final int totalCount;
-  final bool isDark;
+class _MetricWavePainter extends CustomPainter {
+  final Color waveColor;
 
-  OccupancyDonutPainter({required this.freeCount, required this.totalCount, required this.isDark});
+  _MetricWavePainter({required this.waveColor});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2 - 5;
-    const strokeWidth = 6.5;
-
-    final trackPaint = Paint()
-      ..color = isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth;
-
-    canvas.drawCircle(center, radius, trackPaint);
-
-    final sweepAngle = 2 * math.pi * (freeCount / totalCount);
-    final valuePaint = Paint()
-      ..color = AppColors.voltLime
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = strokeWidth;
-
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), -math.pi / 2, sweepAngle, false, valuePaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant OccupancyDonutPainter oldDelegate) => oldDelegate.freeCount != freeCount || oldDelegate.isDark != isDark;
-}
-
-// ============================================================
-// CUSTOM PAINTER: 24H HOURLY TRAFFIC SPARKLINE
-// ============================================================
-class HourlyTrafficSparklinePainter extends CustomPainter {
-  final bool isDark;
-
-  HourlyTrafficSparklinePainter({required this.isDark});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final points = [0.15, 0.05, 0.20, 0.45, 0.60, 0.90, 0.95, 0.70];
     final path = Path();
-    final fillPath = Path();
-    final stepX = size.width / (points.length - 1);
-
-    for (int i = 0; i < points.length; i++) {
-      final x = i * stepX;
-      final y = size.height - (points[i] * size.height * 0.85);
-
-      if (i == 0) {
-        path.moveTo(x, y);
-        fillPath.moveTo(x, size.height);
-        fillPath.lineTo(x, y);
-      } else {
-        final prevX = (i - 1) * stepX;
-        final prevY = size.height - (points[i - 1] * size.height * 0.85);
-        final cX = (prevX + x) / 2;
-        path.cubicTo(cX, prevY, cX, y, x, y);
-        fillPath.cubicTo(cX, prevY, cX, y, x, y);
-      }
-    }
-
-    fillPath.lineTo(size.width, size.height);
-    fillPath.close();
+    path.moveTo(0, size.height * 0.7);
+    path.quadraticBezierTo(
+      size.width * 0.25,
+      size.height * 0.2,
+      size.width * 0.5,
+      size.height * 0.5,
+    );
+    path.quadraticBezierTo(
+      size.width * 0.75,
+      size.height * 0.8,
+      size.width,
+      size.height * 0.3,
+    );
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
 
     final fillPaint = Paint()
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          AppColors.ittfTableSurface.withValues(alpha: isDark ? 0.35 : 0.20),
-          AppColors.ittfTableSurface.withValues(alpha: 0.0),
+          waveColor.withValues(alpha: 0.25),
+          waveColor.withValues(alpha: 0.0),
         ],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
-    canvas.drawPath(fillPath, fillPaint);
+    canvas.drawPath(path, fillPaint);
 
-    final strokePaint = Paint()
-      ..color = AppColors.ittfTableBorder
+    final linePaint = Paint()
+      ..color = waveColor.withValues(alpha: 0.6)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0
-      ..strokeCap = StrokeCap.round;
+      ..strokeWidth = 1.5;
 
-    canvas.drawPath(path, strokePaint);
+    final strokePath = Path();
+    strokePath.moveTo(0, size.height * 0.7);
+    strokePath.quadraticBezierTo(
+      size.width * 0.25,
+      size.height * 0.2,
+      size.width * 0.5,
+      size.height * 0.5,
+    );
+    strokePath.quadraticBezierTo(
+      size.width * 0.75,
+      size.height * 0.8,
+      size.width,
+      size.height * 0.3,
+    );
 
-    final peakX = 6 * stepX;
-    final peakY = size.height - (points[6] * size.height * 0.85);
-    canvas.drawCircle(Offset(peakX, peakY), 3.5, Paint()..color = AppColors.voltLime);
+    canvas.drawPath(strokePath, linePaint);
   }
 
   @override
-  bool shouldRepaint(covariant HourlyTrafficSparklinePainter oldDelegate) => oldDelegate.isDark != isDark;
+  bool shouldRepaint(covariant _MetricWavePainter oldDelegate) => oldDelegate.waveColor != waveColor;
 }
