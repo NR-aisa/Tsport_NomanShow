@@ -62,20 +62,22 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _onNavChange(String id) {
     setState(() => _activeTab = id);
-    if (id == 'tv') {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => const DisplayLeaderboardScreen(),
-        ),
-      );
-    } else if (id == 'passes') {
-      AppNavigator.toPass(context);
-    } else if (id == 'league') {
-      AppNavigator.toLeaderboard(context);
-    } else if (id == 'challenge') {
-      AppNavigator.toChallengeBoard(context);
-    } else if (id == 'radar') {
-      AppNavigator.toTables(context);
+    if (!ViewportController.isWeb && MediaQuery.of(context).size.width < 900) {
+      if (id == 'tv') {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => const DisplayLeaderboardScreen(),
+          ),
+        );
+      } else if (id == 'passes') {
+        AppNavigator.toPass(context);
+      } else if (id == 'league') {
+        AppNavigator.toLeaderboard(context);
+      } else if (id == 'challenge') {
+        AppNavigator.toChallengeBoard(context);
+      } else if (id == 'radar') {
+        AppNavigator.toTables(context);
+      }
     }
   }
 
@@ -112,52 +114,26 @@ class _SplashScreenState extends State<SplashScreen> {
       body: SafeArea(
         child: Row(
           children: [
-            // Full-Height Luxury Left Sidebar (200px)
+            // Full-Height Luxury Left Sidebar (200px) - PERMANENT ON WEB!
             DesktopDockRail(
               activeItem: _activeTab,
               onItemTap: _onNavChange,
-              onWalkInTap: widget.onWalkInTap ??
-                  widget.onRegisterTap ??
-                  () => AppNavigator.toPlan(context),
+              onWalkInTap: () => _onNavChange('passes'),
             ),
 
-            // Right Canvas: Top Search & Header Bar + Luxury Command Center
+            // Right Canvas: Top Search & Header Bar + Dynamic Desktop Content
             Expanded(
               child: Column(
                 children: [
                   DesktopWebHeader(
                     activeTab: _activeTab,
                     onTabChanged: _onNavChange,
-                    onTvTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const DisplayLeaderboardScreen(),
-                        ),
-                      );
-                    },
-                    onXpTap: () => AppNavigator.toXpStore(context),
+                    onTvTap: () => _onNavChange('tv'),
+                    onXpTap: () => _onNavChange('league'),
                     onProfileTap: () => AppNavigator.toProfile(context),
                   ),
                   Expanded(
-                    child: DesktopWebSections.buildFullScreenCommandCenter(
-                      context,
-                      isDark,
-                      activeTab: _activeTab,
-                      onTabChanged: _onNavChange,
-                      onWalkInTap: widget.onWalkInTap ??
-                          widget.onRegisterTap ??
-                          () => AppNavigator.toPlan(context),
-                      onPassTap: () => AppNavigator.toPass(context),
-                      onTvTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const DisplayLeaderboardScreen(),
-                          ),
-                        );
-                      },
-                      onChallengeTap: () => _onNavChange('challenge'),
-                      onXpTap: () => AppNavigator.toXpStore(context),
-                    ),
+                    child: _buildDesktopContent(context, isDark),
                   ),
                 ],
               ),
@@ -166,6 +142,56 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildDesktopContent(BuildContext context, bool isDark) {
+    switch (_activeTab) {
+      case 'radar':
+        return DesktopWebSections.buildRadarFloorplanSection(
+          context,
+          isDark,
+          onBackToCommand: () => _onNavChange('command'),
+          onPassTap: () => _onNavChange('passes'),
+          onChallengeTap: () => _onNavChange('challenge'),
+        );
+      case 'league':
+        return DesktopWebSections.buildLeagueSection(
+          context,
+          isDark,
+          onBackToCommand: () => _onNavChange('command'),
+          onChallengeTap: () => _onNavChange('challenge'),
+        );
+      case 'passes':
+        return DesktopWebSections.buildPassesSection(
+          context,
+          isDark,
+          onBackToCommand: () => _onNavChange('command'),
+        );
+      case 'iot':
+        return DesktopWebSections.buildTelemetrySection(
+          context,
+          isDark,
+          onBackToCommand: () => _onNavChange('command'),
+        );
+      case 'tv':
+        return DesktopWebSections.buildTvSection(
+          context,
+          onBackToCommand: () => _onNavChange('command'),
+        );
+      case 'command':
+      default:
+        return DesktopWebSections.buildFullScreenCommandCenter(
+          context,
+          isDark,
+          activeTab: _activeTab,
+          onTabChanged: _onNavChange,
+          onWalkInTap: () => _onNavChange('passes'),
+          onPassTap: () => _onNavChange('passes'),
+          onTvTap: () => _onNavChange('tv'),
+          onChallengeTap: () => _onNavChange('challenge'),
+          onXpTap: () => _onNavChange('league'),
+        );
+    }
   }
 
   Widget _buildMobileScaffold(BuildContext context, bool isDark, BoxConstraints constraints) {

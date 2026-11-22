@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
+import '../../core/theme/viewport_controller.dart';
 import '../../core/navigation/app_navigator.dart';
 
 /// Bottom navigation — Arena DS v1 (Phase 1).
@@ -54,6 +55,10 @@ class JomnittakuNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (ViewportController.isWeb) {
+      return const SizedBox.shrink();
+    }
+
     final isDark = AppColors.isDark;
 
     // Windows 11 Fluent Taskbar style: centered 12px squircle dock (max width 600px).
