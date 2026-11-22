@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 
-/// Elite 56px-wide Icon Navigation Dock Rail for JOMNITTAKU Desktop Web.
+/// Elite 68px-wide Icon + Label Navigation Dock Rail for JOMNITTAKU Desktop.
 ///
-/// Anchored on the left edge of the 100vh Command Center:
-/// - Icon-only navigation with active voltLime indicator
-/// - Tooltip hover labels
-/// - Bottom-pinned settings/venue info
+/// Designed with clear legibility (no tiny micro-icons):
+/// - 22px crisp icons with compact 10px sub-labels
+/// - Generous hover and active pill states
+/// - Left voltLime accent border for active state
 class DesktopDockRail extends StatelessWidget {
   final String activeItem;
   final ValueChanged<String> onItemTap;
@@ -24,7 +24,7 @@ class DesktopDockRail extends StatelessWidget {
     final isDark = AppColors.isDark;
 
     return Container(
-      width: 56,
+      width: 68,
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkObsidianElevated : Colors.white,
         border: Border(
@@ -36,61 +36,60 @@ class DesktopDockRail extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 12),
-          // Nav items
+          const SizedBox(height: 14),
+          // Nav items with clear icons & labels
           _buildDockItem(
             id: 'command',
             icon: Icons.dashboard_rounded,
-            label: 'Arena Command',
+            label: 'Arena',
             isDark: isDark,
           ),
+          const SizedBox(height: 6),
           _buildDockItem(
             id: 'radar',
             icon: Icons.table_restaurant_rounded,
-            label: '10 Courts Radar',
+            label: '10 Courts',
             isDark: isDark,
           ),
+          const SizedBox(height: 6),
           _buildDockItem(
             id: 'league',
             icon: Icons.emoji_events_rounded,
-            label: 'Olympic Podium & League',
+            label: 'League',
             isDark: isDark,
           ),
-          _buildDockItem(
-            id: 'challenge',
-            icon: Icons.sports_mma_rounded,
-            label: '1v1 Matchmaking',
-            isDark: isDark,
-          ),
+          const SizedBox(height: 6),
           _buildDockItem(
             id: 'passes',
             icon: Icons.confirmation_number_rounded,
-            label: 'Passes & Membership',
+            label: 'Passes',
             isDark: isDark,
           ),
+          const SizedBox(height: 6),
           _buildDockItem(
             id: 'iot',
             icon: Icons.sensors_rounded,
-            label: 'Venue IoT Sensors',
+            label: 'Venue IoT',
             isDark: isDark,
           ),
+          const SizedBox(height: 6),
           _buildDockItem(
             id: 'tv',
             icon: Icons.tv_rounded,
-            label: '55" Arena TV Broadcast',
+            label: '55" TV',
             isDark: isDark,
           ),
 
           const Spacer(),
 
-          // Bottom pinned: Settings / Venue Info
+          // Bottom pinned: Settings
           _buildDockItem(
             id: 'settings',
             icon: Icons.settings_rounded,
-            label: 'Venue Settings & PDPA',
+            label: 'Settings',
             isDark: isDark,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 14),
         ],
       ),
     );
@@ -108,8 +107,8 @@ class DesktopDockRail extends StatelessWidget {
       message: label,
       preferBelow: false,
       textStyle: AppTypography.ui(
-        fontSize: 11,
-        fontWeight: FontWeight.w600,
+        fontSize: 11.5,
+        fontWeight: FontWeight.w700,
         color: Colors.white,
       ),
       decoration: BoxDecoration(
@@ -125,61 +124,47 @@ class DesktopDockRail extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () => onItemTap(id),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
         child: Container(
-          width: 56,
-          height: 48,
+          width: 58,
+          padding: const EdgeInsets.symmetric(vertical: 8),
           margin: const EdgeInsets.symmetric(vertical: 2),
-          child: Stack(
-            alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: isActive
+                ? (isDark
+                    ? AppColors.voltLime.withValues(alpha: 0.14)
+                    : AppColors.voltLime.withValues(alpha: 0.16))
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+            border: isActive
+                ? Border.all(
+                    color: AppColors.voltLime.withValues(alpha: 0.4),
+                    width: 1,
+                  )
+                : null,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Active left indicator bar
-              if (isActive)
-                Positioned(
-                  left: 0,
-                  top: 8,
-                  bottom: 8,
-                  width: 3,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.voltLime,
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(3),
-                        bottomRight: Radius.circular(3),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.voltLime.withValues(alpha: 0.5),
-                          blurRadius: 6,
-                          spreadRadius: 1,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-              // Icon container with active background highlight
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 180),
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
+              Icon(
+                icon,
+                size: 22,
+                color: isActive
+                    ? AppColors.voltLime
+                    : (isDark ? AppColors.slate400 : AppColors.slate600),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: AppTypography.ui(
+                  fontSize: 10,
+                  fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
                   color: isActive
-                      ? (isDark
-                          ? AppColors.voltLime.withValues(alpha: 0.12)
-                          : AppColors.voltLime.withValues(alpha: 0.15))
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
+                      ? AppColors.textPrimary
+                      : (isDark ? AppColors.slate400 : AppColors.slate600),
                 ),
-                child: Center(
-                  child: Icon(
-                    icon,
-                    size: 20,
-                    color: isActive
-                        ? AppColors.voltLime
-                        : (isDark ? AppColors.slate400 : AppColors.slate500),
-                  ),
-                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

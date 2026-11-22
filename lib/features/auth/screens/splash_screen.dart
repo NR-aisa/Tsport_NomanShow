@@ -142,6 +142,8 @@ class _SplashScreenState extends State<SplashScreen> {
                           child: DesktopWebSections.buildFullScreenCommandCenter(
                             context,
                             isDark,
+                            activeTab: _activeTab,
+                            onTabChanged: _onNavChange,
                             onWalkInTap: widget.onWalkInTap ??
                                 widget.onRegisterTap ??
                                 () => AppNavigator.toPlan(context),
@@ -153,8 +155,6 @@ class _SplashScreenState extends State<SplashScreen> {
                                 ),
                               );
                             },
-                            onRadarTap: () => _onNavChange('radar'),
-                            onLeaderboardTap: () => _onNavChange('league'),
                             onChallengeTap: () => _onNavChange('challenge'),
                             onXpTap: () => AppNavigator.toXpStore(context),
                           ),
