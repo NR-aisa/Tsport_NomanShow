@@ -11,6 +11,7 @@ import '../../challenge/screens/seek_player_screen.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/session/app_session.dart';
 import '../../../shared/widgets/arena_widgets.dart';
+import '../../../shared/widgets/desktop_dock_rail.dart';
 import '../../../shared/widgets/desktop_web_header.dart';
 import '../widgets/desktop_web_sections.dart';
 import '../../display/screens/display_leaderboard_screen.dart';
@@ -55,42 +56,25 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final ScrollController _desktopScrollController = ScrollController();
-  final GlobalKey _homeKey = GlobalKey();
-  final GlobalKey _howItWorksKey = GlobalKey();
-  final GlobalKey _floorplanKey = GlobalKey();
-  final GlobalKey _pricingKey = GlobalKey();
-  final GlobalKey _leaderboardKey = GlobalKey();
-  final GlobalKey _locationKey = GlobalKey();
-  String _activeWebSection = 'home';
+  String _activeTab = 'command';
   String _selectedLanguage = 'ENG';
 
-  @override
-  void dispose() {
-    _desktopScrollController.dispose();
-    super.dispose();
-  }
-
-  void _scrollToKey(GlobalKey key, String sectionName) {
-    setState(() => _activeWebSection = sectionName);
-    final ctx = key.currentContext;
-    if (ctx != null) {
-      Scrollable.ensureVisible(
-        ctx,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOutCubic,
+  void _onNavChange(String id) {
+    setState(() => _activeTab = id);
+    if (id == 'tv') {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => const DisplayLeaderboardScreen(),
+        ),
       );
-    }
-  }
-
-  void _scrollToTop() {
-    setState(() => _activeWebSection = 'home');
-    if (_desktopScrollController.hasClients) {
-      _desktopScrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOutCubic,
-      );
+    } else if (id == 'passes') {
+      AppNavigator.toPass(context);
+    } else if (id == 'league') {
+      AppNavigator.toLeaderboard(context);
+    } else if (id == 'challenge') {
+      AppNavigator.toChallengeBoard(context);
+    } else if (id == 'radar') {
+      AppNavigator.toTables(context);
     }
   }
 
@@ -122,131 +106,62 @@ class _SplashScreenState extends State<SplashScreen> {
           bottom: false,
           child: Column(
             children: [
-              // Sticky Corporate Desktop Web Header
+              // 56px Fixed Corporate Desktop Web Header
               DesktopWebHeader(
-                activeSection: _activeWebSection,
-                onHomeTap: _scrollToTop,
-                onHowItWorksTap: () => _scrollToKey(_howItWorksKey, 'how-it-works'),
-                onFloorplanTap: () => _scrollToKey(_floorplanKey, 'floorplan'),
-                onPricingTap: () => _scrollToKey(_pricingKey, 'pricing'),
-                onLeaderboardTap: () => _scrollToKey(_leaderboardKey, 'leaderboard'),
-                onLocationTap: () => _scrollToKey(_locationKey, 'location'),
-                onWalkInTap: widget.onWalkInTap ??
-                    widget.onRegisterTap ??
-                    () => AppNavigator.toPlan(context),
-                onPassTap: () => AppNavigator.toPass(context),
+                activeTab: _activeTab,
+                onTabChanged: _onNavChange,
+                onTvTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const DisplayLeaderboardScreen(),
+                    ),
+                  );
+                },
+                onXpTap: () => AppNavigator.toXpStore(context),
+                onProfileTap: () => AppNavigator.toProfile(context),
               ),
 
-              // Continuous Full Website Scroll
+              // 100vh Shell Body: 56px Left Icon Dock Rail + Centered Bento Canvas
               Expanded(
-                child: SingleChildScrollView(
-                  controller: _desktopScrollController,
-                  child: Column(
-                    children: [
-                      // SECTION 1: ATHLETIC WIDESCREEN HERO STAGE & 3D COURT
-                      Center(
+                child: Row(
+                  children: [
+                    // Left Icon Dock Rail (56px fixed)
+                    DesktopDockRail(
+                      activeItem: _activeTab,
+                      onItemTap: _onNavChange,
+                    ),
+
+                    // Main Bento Command Center Canvas
+                    Expanded(
+                      child: Center(
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1380),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                            child: Container(
-                              key: _homeKey,
-                              child: DesktopWebSections.buildHeroJustPlaySection(
-                                context,
-                                isDark,
-                                onWalkInTap: widget.onWalkInTap ??
-                                    widget.onRegisterTap ??
-                                    () => AppNavigator.toPlan(context),
-                                onPassTap: () => AppNavigator.toPass(context),
-                                onTvTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => const DisplayLeaderboardScreen(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+                          constraints: const BoxConstraints(
+                            maxWidth: 1680,
+                            minHeight: 680,
+                          ),
+                          child: DesktopWebSections.buildFullScreenCommandCenter(
+                            context,
+                            isDark,
+                            onWalkInTap: widget.onWalkInTap ??
+                                widget.onRegisterTap ??
+                                () => AppNavigator.toPlan(context),
+                            onPassTap: () => AppNavigator.toPass(context),
+                            onTvTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const DisplayLeaderboardScreen(),
+                                ),
+                              );
+                            },
+                            onRadarTap: () => _onNavChange('radar'),
+                            onLeaderboardTap: () => _onNavChange('league'),
+                            onChallengeTap: () => _onNavChange('challenge'),
+                            onXpTap: () => AppNavigator.toXpStore(context),
                           ),
                         ),
                       ),
-
-                      // SECTION 2: HOW NO MAN SHOW WORKS (4-STEP UNMANNED FLOW)
-                      Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1380),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                            child: Container(
-                              key: _howItWorksKey,
-                              child: DesktopWebSections.buildHowItWorksSection(context, isDark),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // SECTION 3: LIVE 10-COURT ARCHITECTURAL FLOORPLAN
-                      Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1380),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                            child: Container(
-                              key: _floorplanKey,
-                              child: DesktopWebSections.buildTenTableFloorplan(context, isDark),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // SECTION 4: MEMBERSHIP TIERS & PASS COMPARISON MATRIX
-                      Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1380),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                            child: Container(
-                              key: _pricingKey,
-                              child: DesktopWebSections.buildPricingSection(context, isDark),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // SECTION 5: LIVE ARENA LEADERBOARD SHOWCASE & PODIUM
-                      Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1380),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                            child: Container(
-                              key: _leaderboardKey,
-                              child: DesktopWebSections.buildLeaderboardShowcase(context, isDark),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // SECTION 6: VENUE LOCATION, AMENITIES & IOT TELEMETRY
-                      Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 1380),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                            child: Container(
-                              key: _locationKey,
-                              child: DesktopWebSections.buildLocationAmenitiesSection(context, isDark),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 36),
-
-                      // SECTION 7: PROFESSIONAL CORPORATE WEBSITE FOOTER
-                      DesktopWebSections.buildWebsiteFooter(context, isDark),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
