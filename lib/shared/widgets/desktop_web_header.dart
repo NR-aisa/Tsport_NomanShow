@@ -42,44 +42,42 @@ class DesktopWebHeader extends StatelessWidget {
           // ==========================================
           // SEARCH INPUT BAR (PILL-SHAPED)
           // ==========================================
-          Expanded(
-            flex: 48,
-            child: Container(
-              height: 38,
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              decoration: BoxDecoration(
-                color: luxuryCardBg,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.05),
-                  width: 1,
+          Container(
+            width: 340,
+            height: 38,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            decoration: BoxDecoration(
+              color: luxuryCardBg,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.05),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.search_rounded,
+                  size: 16,
+                  color: luxuryMutedText,
                 ),
-              ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.search_rounded,
-                    size: 16,
-                    color: luxuryMutedText,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      'Search player, court (T01-T10), or live match...',
-                      style: AppTypography.ui(
-                        fontSize: 12,
-                        color: luxuryMutedText,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Search player, court (T01-T10), or live match...',
+                    style: AppTypography.ui(
+                      fontSize: 12,
+                      color: luxuryMutedText,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
 
-          const Spacer(flex: 12),
+          const SizedBox(width: 14),
 
           // ==========================================
           // VENUE TELEMETRY PILL (6/10 FREE)
@@ -119,10 +117,10 @@ class DesktopWebHeader extends StatelessWidget {
             ),
           ),
 
-          // Safe buffer margin on the right so the floating presentation
-          // switcher bar (Mobile / Tab / Web / 55" TV / Dark-Light toggle)
-          // has completely clear space with zero overlap or collision.
-          const SizedBox(width: 320),
+          const Spacer(),
+
+          // Buffer for the top-right floating switcher bar
+          const SizedBox(width: 420),
         ],
       ),
     );
