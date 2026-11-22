@@ -128,7 +128,7 @@ class DesktopDockRail extends StatelessWidget {
           _buildNavItem(
             id: 'iot',
             icon: Icons.sensors_rounded,
-            label: 'Venue Telemetry',
+            label: 'Smart Arena Hub',
           ),
           const SizedBox(height: 4),
           _buildNavItem(

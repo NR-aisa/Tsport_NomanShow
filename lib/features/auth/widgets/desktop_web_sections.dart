@@ -2431,7 +2431,7 @@ class _DesktopPassesView extends StatelessWidget {
 }
 
 // ============================================================
-// 4. DESKTOP VENUE TELEMETRY & IOT SENSOR HUB VIEW
+// 4. DESKTOP 24/7 SMART ARENA LIVE HUB (HIGH-TECH & FUNCTIONAL)
 // ============================================================
 class _DesktopTelemetryView extends StatelessWidget {
   final VoidCallback onBackToCommand;
@@ -2446,79 +2446,539 @@ class _DesktopTelemetryView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header Bar
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: onBackToCommand,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: DesktopWebSections.luxuryCardBg,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.arrow_back_rounded, size: 14, color: Colors.white),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Back to Dashboard',
-                          style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white),
+              Row(
+                children: [
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: onBackToCommand,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: DesktopWebSections.luxuryCardBg,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                         ),
-                      ],
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.arrow_back_rounded, size: 14, color: Colors.white),
+                            const SizedBox(width: 6),
+                            Text(
+                              'Back to Dashboard',
+                              style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  const SizedBox(width: 14),
+                  Text(
+                    '24/7 Autonomous Smart Arena Live Hub',
+                    style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: -0.3),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.5), width: 1.2),
+                    ),
+                    child: Text(
+                      '● 24/7 UNMANNED ARENA ACTIVE',
+                      style: AppTypography.ui(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                        color: DesktopWebSections.luxuryVoltEmerald,
+                        letterSpacing: 0.6,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 14),
               Text(
-                'Smart Venue 24/7 Telemetry & IoT Sensor Hub',
-                style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white),
+                '3 Damansara Mall Level 2 · Self-Service',
+                style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w700, color: const Color(0xFFBAC0D4)),
               ),
             ],
           ),
-          const SizedBox(height: 18),
+
+          const SizedBox(height: 12),
+
+          // Main Canvas (3 Rows)
           Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 1.8,
+            child: ListView(
               children: [
-                _buildTelemetryBento(
-                  icon: Icons.ac_unit_rounded,
-                  title: 'HVAC CLIMATE CONTROL',
-                  metric: '23.0°C / 54% Humidity',
-                  status: 'OPTIMAL · AUTO BALANCED',
-                  color: DesktopWebSections.luxuryVoltEmerald,
-                  desc: 'Dual split inverter chillers maintaining ITTF tournament standard humidity and ambient temperature 24/7.',
+                // ==========================================
+                // ROW 1: LIVE AI MATCH RADAR & TURNSTILE CONTROLLER
+                // ==========================================
+                SizedBox(
+                  height: 240,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // LEFT: LIVE CENTRE COURT (T04) AI VISION RADAR (Flex 58)
+                      Expanded(
+                        flex: 58,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: DesktopWebSections.luxuryCardBg,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: DesktopWebSections.luxuryCoralRose.withValues(alpha: 0.35)),
+                            boxShadow: const [
+                              BoxShadow(color: Colors.black26, blurRadius: 16, offset: Offset(0, 4)),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(18),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 8,
+                                        height: 8,
+                                        decoration: const BoxDecoration(
+                                          color: DesktopWebSections.luxuryCoralRose,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'CENTRE COURT T04 · LIVE AI OPTICAL RADAR',
+                                        style: AppTypography.ui(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white,
+                                          letterSpacing: 0.8,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                    decoration: BoxDecoration(
+                                      color: DesktopWebSections.luxuryCoralRose.withValues(alpha: 0.2),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      'MATCH IN PROGRESS · GAME 3',
+                                      style: AppTypography.ui(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w900,
+                                        color: DesktopWebSections.luxuryCoralRose,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              // Interactive Court Graphic with Player Scores
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                decoration: BoxDecoration(
+                                  color: DesktopWebSections.luxuryCardBgElevated,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  children: [
+                                    // Player 1
+                                    CircleAvatar(radius: 18, backgroundImage: AssetImage(DemoAvatars.jason)),
+                                    const SizedBox(width: 10),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Jason T.', style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white)),
+                                        Text('Lvl 14 · Pro', style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: const Color(0xFF94A3B8))),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    // Score Readout
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black45,
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+                                      ),
+                                      child: Text(
+                                        '14  —  11',
+                                        style: AppTypography.ui(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white,
+                                          letterSpacing: 2.0,
+                                        ),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    // Player 2 (User)
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text('Alman R.', style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white)),
+                                        Text('Lvl 12 · You', style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: DesktopWebSections.luxuryVoltEmerald)),
+                                      ],
+                                    ),
+                                    const SizedBox(width: 10),
+                                    CircleAvatar(radius: 18, backgroundImage: AssetImage(DemoAvatars.user)),
+                                  ],
+                                ),
+                              ),
+
+                              // 4 Live AI Sensor Readouts
+                              Row(
+                                children: [
+                                  _buildAiMetricBadge(Icons.speed_rounded, 'MAX SMASH', '84.6 km/h', DesktopWebSections.luxuryCoralRose),
+                                  const SizedBox(width: 10),
+                                  _buildAiMetricBadge(Icons.repeat_rounded, 'ACTIVE RALLY', '14 Hits', DesktopWebSections.luxuryElectricBlue),
+                                  const SizedBox(width: 10),
+                                  _buildAiMetricBadge(Icons.videocam_rounded, 'OPTICAL AI', '60 FPS', DesktopWebSections.luxuryVoltEmerald),
+                                  const SizedBox(width: 10),
+                                  _buildAiMetricBadge(Icons.sports_tennis_rounded, 'MATCH BALL', 'DHS 3-Star', DesktopWebSections.luxuryTangerineGold),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(width: 16),
+
+                      // RIGHT: UNMANNED TURNSTILE GATE ACCESS CONTROLLER (Flex 42)
+                      Expanded(
+                        flex: 42,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: DesktopWebSections.luxuryCardBg,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.35)),
+                            boxShadow: const [
+                              BoxShadow(color: Colors.black26, blurRadius: 16, offset: Offset(0, 4)),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(18),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.door_sliding_rounded, size: 18, color: DesktopWebSections.luxuryVoltEmerald),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'UNMANNED TURNSTILE GATE',
+                                        style: AppTypography.ui(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white,
+                                          letterSpacing: 0.8,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                    decoration: BoxDecoration(
+                                      color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.2),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      'GATE 1 & 2 ONLINE',
+                                      style: AppTypography.ui(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w900,
+                                        color: DesktopWebSections.luxuryVoltEmerald,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              // Pass Card & Room Code Box
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: DesktopWebSections.luxuryCardBgElevated,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 44,
+                                      height: 44,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withValues(alpha: 0.08),
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                                      ),
+                                      child: const Icon(Icons.qr_code_2_rounded, size: 28, color: Colors.white),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('DOOR PASS CODE', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: const Color(0xFF94A3B8))),
+                                          Text('KX8VQS', style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 2.0)),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.15),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        '0.3s SCAN',
+                                        style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w900, color: DesktopWebSections.luxuryVoltEmerald),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              // Unlock Door CTA Button
+                              MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 42,
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [Color(0xFF10B981), Color(0xFF059669)],
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xFF10B981).withValues(alpha: 0.35),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.lock_open_rounded, size: 16, color: Colors.white),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Unlock Gate 1 (Instant Turnstile) →',
+                                        style: AppTypography.ui(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              Text(
+                                'Anti-tailgating optical sensors active · Automated fire safety fail-open integration.',
+                                style: AppTypography.ui(fontSize: 10.5, color: const Color(0xFFBAC0D4)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                _buildTelemetryBento(
-                  icon: Icons.lightbulb_rounded,
-                  title: 'ARENA ITTF LIGHTING',
-                  metric: '480 Lux LED Units',
-                  status: '5000K NEUTRAL WHITE',
-                  color: DesktopWebSections.luxuryTangerineGold,
-                  desc: 'Glare-free anti-stroboscopic lighting focused on table play areas with zero flicker for high-speed camera tracking.',
+
+                const SizedBox(height: 14),
+
+                // ==========================================
+                // ROW 2: 24-HOUR CROWD PATTERN & HAPPY HOUR GUIDE
+                // ==========================================
+                Container(
+                  height: 140,
+                  decoration: BoxDecoration(
+                    color: DesktopWebSections.luxuryCardBg,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: DesktopWebSections.luxuryBorderSubtle),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.analytics_rounded, size: 16, color: DesktopWebSections.luxuryTangerineGold),
+                              const SizedBox(width: 8),
+                              Text(
+                                '24-HOUR ARENA CROWD PATTERN & BEST TIME TO PLAY',
+                                style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 0.8),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.18),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              '● CURRENT: 11:20 AM · 6 OF 10 TABLES FREE · WALK-IN READY',
+                              style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w900, color: DesktopWebSections.luxuryVoltEmerald),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // 4 Time-Zone Guide Strips
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildTimezoneStrip(
+                              period: '12 AM – 8 AM',
+                              label: 'MIDNIGHT CHILL',
+                              status: 'HAPPY HOUR 50% OFF',
+                              color: DesktopWebSections.luxuryCoralRose,
+                              isSpecial: true,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _buildTimezoneStrip(
+                              period: '8 AM – 4 PM',
+                              label: 'DAY OPEN PLAY',
+                              status: 'Solo Robot Practice',
+                              color: DesktopWebSections.luxuryVoltEmerald,
+                              isSpecial: false,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _buildTimezoneStrip(
+                              period: '4 PM – 8 PM',
+                              label: 'AFTER-WORK MATCHES',
+                              status: 'Casual 1v1 Sparring',
+                              color: DesktopWebSections.luxuryElectricBlue,
+                              isSpecial: false,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _buildTimezoneStrip(
+                              period: '8 PM – 11 PM',
+                              label: 'PEAK RUSH HOUR',
+                              status: 'Olympic League Matches',
+                              color: DesktopWebSections.luxuryTangerineGold,
+                              isSpecial: false,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                _buildTelemetryBento(
-                  icon: Icons.videocam_rounded,
-                  title: 'EDGE AI OPTICAL CAMERAS',
-                  metric: '10 Cameras · 60 FPS',
-                  status: 'TRACKING ACTIVE',
-                  color: DesktopWebSections.luxuryCoralRose,
-                  desc: 'Overhead optical tracking cameras recording ball velocity, rally counts, edge hits, and tournament scores.',
-                ),
-                _buildTelemetryBento(
-                  icon: Icons.door_sliding_rounded,
-                  title: 'UNMANNED TURNSTILE GATE',
-                  metric: 'Optical QR & RFID',
-                  status: 'GATE 1 & 2 ONLINE',
-                  color: DesktopWebSections.luxuryElectricBlue,
-                  desc: '0.3-second response turnstiles with anti-tailgating sensors and live fire safety fail-open integration.',
+
+                const SizedBox(height: 14),
+
+                // ==========================================
+                // ROW 3: 3 SELF-SERVICE AMENITIES BENTO CARDS
+                // ==========================================
+                SizedBox(
+                  height: 155,
+                  child: Row(
+                    children: [
+                      // Card 1: Auto Ball Dispenser & Robot Trainer
+                      Expanded(
+                        child: _buildAmenityBento(
+                          icon: Icons.smart_toy_rounded,
+                          title: 'AUTO BALL & ROBOT TRAINER',
+                          metric: '240 Balls Ready',
+                          status: 'T08 & T10 ACTIVE',
+                          color: DesktopWebSections.luxuryVoltEmerald,
+                          desc: 'Self-service DHS 3-star ball dispensers & solo practice robots with Topspin and Backspin drills.',
+                          buttonText: 'Dispense 10 Balls (Tap RFID) →',
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+
+                      // Card 2: Climate & ITTF Table Lighting
+                      Expanded(
+                        child: _buildAmenityBento(
+                          icon: Icons.ac_unit_rounded,
+                          title: 'CLIMATE & ITTF LIGHTING',
+                          metric: '23.0°C / 480 Lux',
+                          status: 'ITTF CERTIFIED',
+                          color: DesktopWebSections.luxuryElectricBlue,
+                          desc: 'Dual inverter chillers & shadowless 5000K neutral white LED units ensuring tournament standard conditions 24/7.',
+                          buttonText: 'View Telemetry Specs →',
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+
+                      // Card 3: Live Turnstile Entry Feed
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: DesktopWebSections.luxuryCardBg,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: DesktopWebSections.luxuryBorderSubtle),
+                          ),
+                          padding: const EdgeInsets.all(14),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.history_rounded, size: 16, color: DesktopWebSections.luxuryCoralRose),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        'LIVE TURNSTILE ACCESS LOG',
+                                        style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 0.8),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: DesktopWebSections.luxuryCoralRose.withValues(alpha: 0.2),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      'REAL-TIME',
+                                      style: AppTypography.ui(fontSize: 9, fontWeight: FontWeight.w900, color: DesktopWebSections.luxuryCoralRose),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              _buildAccessLogRow('Jason T. (Lvl 14)', 'Gate 1 Turnstile', '18m ago'),
+                              _buildAccessLogRow('Sara K. (Lvl 18)', 'Gate 2 Turnstile', '12m ago'),
+                              _buildAccessLogRow('Tournament T04', 'Referee Optical Cam', '9m ago'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -2528,21 +2988,90 @@ class _DesktopTelemetryView extends StatelessWidget {
     );
   }
 
-  Widget _buildTelemetryBento({
+  Widget _buildAiMetricBadge(IconData icon, String title, String value, Color color) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: DesktopWebSections.luxuryCardBgElevated,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(icon, size: 12, color: color),
+                const SizedBox(width: 4),
+                Text(title, style: AppTypography.ui(fontSize: 9.5, fontWeight: FontWeight.w800, color: const Color(0xFFBAC0D4))),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(value, style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTimezoneStrip({
+    required String period,
+    required String label,
+    required String status,
+    required Color color,
+    required bool isSpecial,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: isSpecial ? color.withValues(alpha: 0.15) : DesktopWebSections.luxuryCardBgElevated,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: isSpecial ? color : Colors.white.withValues(alpha: 0.05),
+          width: isSpecial ? 1.4 : 1.0,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(period, style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: const Color(0xFFBAC0D4))),
+              if (isSpecial)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(4)),
+                  child: Text('50% OFF', style: AppTypography.ui(fontSize: 9, fontWeight: FontWeight.w900, color: Colors.white)),
+                ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(label, style: AppTypography.ui(fontSize: 12.5, fontWeight: FontWeight.w900, color: Colors.white)),
+          Text(status, style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: color)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAmenityBento({
     required IconData icon,
     required String title,
     required String metric,
     required String status,
     required Color color,
     required String desc,
+    required String buttonText,
   }) {
     return Container(
       decoration: BoxDecoration(
         color: DesktopWebSections.luxuryCardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withValues(alpha: 0.35)),
+        border: Border.all(color: DesktopWebSections.luxuryBorderSubtle),
       ),
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2552,23 +3081,54 @@ class _DesktopTelemetryView extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(icon, size: 20, color: color),
-                  const SizedBox(width: 8),
-                  Text(title, style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 0.8)),
+                  Icon(icon, size: 16, color: color),
+                  const SizedBox(width: 6),
+                  Text(title, style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 0.6)),
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.18),
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: BorderRadius.circular(4),
                 ),
-                child: Text(status, style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w900, color: color)),
+                child: Text(status, style: AppTypography.ui(fontSize: 9.5, fontWeight: FontWeight.w900, color: color)),
               ),
             ],
           ),
-          Text(metric, style: AppTypography.ui(fontSize: 24, fontWeight: FontWeight.w900, color: Colors.white)),
-          Text(desc, style: AppTypography.ui(fontSize: 11.5, color: const Color(0xFFBAC0D4))),
+          Text(metric, style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white)),
+          Text(desc, style: AppTypography.ui(fontSize: 10.5, color: const Color(0xFFBAC0D4)), maxLines: 2, overflow: TextOverflow.ellipsis),
+          Container(
+            height: 28,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.18),
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: color.withValues(alpha: 0.4)),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              buttonText,
+              style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w800, color: color),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAccessLogRow(String user, String location, String time) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: DesktopWebSections.luxuryCardBgElevated,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(user, style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.white)),
+          Text(location, style: AppTypography.ui(fontSize: 10, color: const Color(0xFFBAC0D4))),
+          Text(time, style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: DesktopWebSections.luxuryVoltEmerald)),
         ],
       ),
     );
