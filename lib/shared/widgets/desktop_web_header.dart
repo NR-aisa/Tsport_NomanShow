@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/session/demo_avatars.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme_controller.dart';
 import '../../core/theme/app_typography.dart';
-import '../../features/display/screens/display_leaderboard_screen.dart';
 
 /// Elite Luxury Top Search & Profile Bar for JOMNITTAKU Desktop.
 ///
@@ -37,8 +33,6 @@ class DesktopWebHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = AppColors.isDark;
-
     return Container(
       height: 64,
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -125,132 +119,10 @@ class DesktopWebHeader extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(width: 14),
-
-          // ==========================================
-          // 55" TV FEED BUTTON
-          // ==========================================
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: onTvTap ??
-                  () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const DisplayLeaderboardScreen(),
-                      ),
-                    );
-                  },
-              child: Container(
-                height: 34,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: luxuryCardBg,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.08),
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.tv_rounded,
-                      size: 14,
-                      color: Color(0xFF60A5FA),
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      '55" Stadium TV',
-                      style: AppTypography.ui(
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF60A5FA),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(width: 14),
-
-          // ==========================================
-          // THEME TOGGLE (DARK / LIGHT)
-          // ==========================================
-          GestureDetector(
-            onTap: () => AppThemeController.toggleTheme(),
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: Container(
-                height: 34,
-                padding: const EdgeInsets.symmetric(horizontal: 9),
-                decoration: BoxDecoration(
-                  color: luxuryCardBg,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.08),
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
-                      size: 14,
-                      color: isDark ? const Color(0xFFFFA533) : const Color(0xFFFF7A00),
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      isDark ? 'Dark' : 'Light',
-                      style: AppTypography.ui(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(width: 14),
-
-          // ==========================================
-          // USER PROFILE CHIP (ALMAN R.)
-          // ==========================================
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: onProfileTap,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CircleAvatar(
-                    radius: 14,
-                    backgroundImage: AssetImage(DemoAvatars.user),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Alman R.',
-                    style: AppTypography.ui(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  const Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    size: 16,
-                    color: luxuryMutedText,
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Safe buffer margin on the right so the floating presentation
+          // switcher bar (Mobile / Tab / Web / 55" TV / Dark-Light toggle)
+          // has completely clear space with zero overlap or collision.
+          const SizedBox(width: 320),
         ],
       ),
     );

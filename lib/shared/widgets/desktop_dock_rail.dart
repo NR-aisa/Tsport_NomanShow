@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/session/demo_avatars.dart';
 import '../../core/theme/app_typography.dart';
 
 /// Elite Luxury Sidebar Navigation for JOMNITTAKU Desktop Web.
@@ -238,6 +239,73 @@ class DesktopDockRail extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
+
+          // ==========================================
+          // USER PROFILE CHIP (ALMAN RAHMAN)
+          // ==========================================
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF222533),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.06),
+              ),
+            ),
+            child: Row(
+              children: [
+                Stack(
+                  children: [
+                    const CircleAvatar(
+                      radius: 14,
+                      backgroundImage: AssetImage(DemoAvatars.user),
+                    ),
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        width: 7,
+                        height: 7,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF10B981),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: luxurySidebarBg, width: 1.5),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Alman Rahman',
+                        style: AppTypography.ui(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        'Pro Member',
+                        style: AppTypography.ui(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w600,
+                          color: luxuryCoralRose,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
         ],
       ),
     );

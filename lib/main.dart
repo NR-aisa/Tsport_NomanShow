@@ -209,6 +209,17 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                             onTap: openTvDisplay,
                             isDark: isDark,
                           ),
+                          // Subtle Vertical Divider
+                          Container(
+                            height: 16,
+                            width: 1,
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            color: isDark
+                                ? Colors.white.withValues(alpha: 0.15)
+                                : AppColors.slate300,
+                          ),
+                          // High-Visibility Light / Dark Theme Toggle
+                          _buildThemeTogglePill(isDark: isDark),
                         ],
                       ),
                     ),
@@ -219,6 +230,48 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
           },
         );
       },
+    );
+  }
+
+  Widget _buildThemeTogglePill({required bool isDark}) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () => AppThemeController.toggleTheme(),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF2A2E44) : const Color(0xFFEFF2F8),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isDark
+                  ? const Color(0xFFFFA533).withValues(alpha: 0.4)
+                  : const Color(0xFFFF7A00).withValues(alpha: 0.4),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+                size: 13,
+                color: isDark ? const Color(0xFFFFA533) : const Color(0xFFFF7A00),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                isDark ? 'Dark' : 'Light',
+                style: AppTypography.ui(
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.w800,
+                  color: isDark ? Colors.white : AppColors.slate900,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
