@@ -448,59 +448,73 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
   // ========================================================================
   // 2. HERO SECTION ("Midnight Smashes. Zero Staff.")
-  // KITA Architecture: Bright Cinematic Video + Clean 2-Color Focus
+  // KITA 100vh Full-Screen First View Architecture: Video Canvas + Scrim + Floating Offer Card
   // ========================================================================
   Widget _buildHeroSection(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 960;
         final isMobile = constraints.maxWidth < 600;
+        final screenHeight = MediaQuery.of(context).size.height;
+        // On desktop, the hero section fills the full desktop screen (100vh minus navbar)!
+        final heroMinHeight = isDesktop 
+            ? (screenHeight - 65).clamp(700.0, 1400.0) 
+            : 0.0;
 
-        return Stack(
-          children: [
-            // --------------------------------------------------------------
-            // LAYER 1: Full-Bleed Background Video Canvas (Bright & Cinematic)
-            // --------------------------------------------------------------
-            const Positioned.fill(
-              child: ArenaVideoPlayer(
-                videoPath: 'videos/arena_highlight.mp4',
-                fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
-                borderRadius: 0,
-                showVignette: false,
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: heroMinHeight,
+            minWidth: double.infinity,
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // --------------------------------------------------------------
+              // LAYER 1: Full-Bleed 100vh Background Video Canvas
+              // --------------------------------------------------------------
+              const Positioned.fill(
+                child: ArenaVideoPlayer(
+                  videoPath: 'videos/arena_highlight.mp4',
+                  fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
+                  borderRadius: 0,
+                  showVignette: false,
+                ),
               ),
-            ),
 
-            // --------------------------------------------------------------
-            // LAYER 2: Subtle Directional Scrim Overlay (KITA Technique)
-            // Soft 40%-65% gradient ensures video is bright & clear while text is sharp
-            // --------------------------------------------------------------
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      const Color(0xFF0A0B10).withValues(alpha: 0.45),
-                      const Color(0xFF0A0B10).withValues(alpha: 0.55),
-                      const Color(0xFF0A0B10).withValues(alpha: 0.85),
-                    ],
-                    stops: const [0.0, 0.60, 1.0],
+              // --------------------------------------------------------------
+              // LAYER 2: Subtle Directional Scrim Overlay (KITA Technique)
+              // Soft 40%-50% gradient: video stays bright & visible across 100vh
+              // --------------------------------------------------------------
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        const Color(0xFF0A0B10).withValues(alpha: 0.40),
+                        const Color(0xFF0A0B10).withValues(alpha: 0.50),
+                        const Color(0xFF0A0B10).withValues(alpha: 0.85),
+                      ],
+                      stops: const [0.0, 0.60, 1.0],
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            // --------------------------------------------------------------
-            // LAYER 3: Clean, Focused Content Layer (Minimalist Typography)
-            // --------------------------------------------------------------
-            Center(
-              child: Container(
+              // --------------------------------------------------------------
+              // LAYER 3: Clean, Focused Content Layer (Vertically Centered in 100vh)
+              // --------------------------------------------------------------
+              Container(
+                constraints: BoxConstraints(
+                  minHeight: heroMinHeight,
+                  maxWidth: 1300,
+                ),
                 padding: EdgeInsets.symmetric(
                   horizontal: isDesktop ? 60 : (isMobile ? 16 : 24),
-                  vertical: isDesktop ? 70 : (isMobile ? 28 : 40),
+                  vertical: isDesktop ? 40 : (isMobile ? 28 : 40),
                 ),
-                constraints: const BoxConstraints(maxWidth: 1300),
+                alignment: Alignment.center,
                 child: isDesktop
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -520,15 +534,16 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                       )
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           _buildHeroLeftContent(context, isMobile: isMobile),
-                          SizedBox(height: isMobile ? 28 : 36),
+                          SizedBox(height: isMobile ? 24 : 32),
                           _buildHeroRightCard(context, isMobile: isMobile),
                         ],
                       ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
