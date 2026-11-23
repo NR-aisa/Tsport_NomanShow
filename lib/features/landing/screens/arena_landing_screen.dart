@@ -625,144 +625,174 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
         const SizedBox(height: 24),
 
-        // Live Trust Badges
-        Row(
-          children: [
-            const Icon(
-              Icons.check_circle_rounded,
-              size: 14,
-              color: luxuryVoltEmerald,
+        // Dr. Arefin Authority Trust Strip (Inline row under CTAs with vertical dividers)
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.03),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.08),
+              width: 1,
             ),
-            const SizedBox(width: 6),
-            Text(
-              'No Membership Required',
-              style: AppTypography.ui(
-                fontSize: 11.5,
-                fontWeight: FontWeight.w600,
-                color: luxuryMuted,
-              ),
-            ),
-            const SizedBox(width: 16),
-            const Icon(
-              Icons.check_circle_rounded,
-              size: 14,
-              color: luxuryVoltEmerald,
-            ),
-            const SizedBox(width: 6),
-            Text(
-              'Equipment Included (Paddles & Balls)',
-              style: AppTypography.ui(
-                fontSize: 11.5,
-                fontWeight: FontWeight.w600,
-                color: luxuryMuted,
-              ),
-            ),
-          ],
+          ),
+          child: Wrap(
+            spacing: 12,
+            runSpacing: 10,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              _buildHeroTrustItem('24 / 7', 'Always Unlocked'),
+              _buildHeroTrustDivider(),
+              _buildHeroTrustItem('10 Courts', 'ITTF Olympic'),
+              _buildHeroTrustDivider(),
+              _buildHeroTrustItem('0.3 Sec', 'Fastest QR Gate'),
+              _buildHeroTrustDivider(),
+              _buildHeroTrustItem('RM17', 'Instant Walk-In'),
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildHeroRightCard(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: luxuryCard,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.1),
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.4),
-            blurRadius: 24,
-            offset: const Offset(0, 10),
+  Widget _buildHeroTrustItem(String value, String label) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          value,
+          style: AppTypography.ui(
+            fontSize: 15,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
           ),
-        ],
-      ),
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label.toUpperCase(),
+          style: AppTypography.ui(
+            fontSize: 9,
+            fontWeight: FontWeight.w700,
+            color: luxuryVoltEmerald,
+            letterSpacing: 0.6,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeroTrustDivider() {
+    return Container(
+      width: 1,
+      height: 24,
+      color: Colors.white.withValues(alpha: 0.1),
+    );
+  }
+
+  // ========================================================================
+  // DR. AREFIN MEDIA SPEC: FRAMELESS FLOATING VIDEO WITH AMBIENT GLOW HALO
+  // Zero outer TV box, zero nested bezels, pure organic high-res video canvas
+  // ========================================================================
+  Widget _buildHeroRightCard(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          // Clean Hero Teaser Video Showcase (Natural Brightness, Zero Fake Scoreboards)
-          ClipRRect(
-            borderRadius: BorderRadius.circular(18),
+          // 1. Dr. Arefin's Signature Ambient Glowing Halo behind the media
+          Positioned.fill(
             child: Container(
-              height: 320,
+              margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(32),
+                boxShadow: [
+                  BoxShadow(
+                    color: luxuryCoralRose.withValues(alpha: 0.24),
+                    blurRadius: 70,
+                    spreadRadius: 8,
+                  ),
+                  BoxShadow(
+                    color: const Color(0xFF00F0FF).withValues(alpha: 0.14),
+                    blurRadius: 90,
+                    spreadRadius: 4,
+                    offset: const Offset(-15, 15),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // 2. Frameless, Cinema-Grade 16:10 Video Canvas (Pure Video, Zero TV Bezels)
+          AspectRatio(
+            aspectRatio: 16 / 10,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.12),
-                  width: 1,
+                  color: Colors.white.withValues(alpha: 0.16),
+                  width: 1.2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.6),
+                    blurRadius: 36,
+                    offset: const Offset(0, 18),
+                  ),
+                ],
+              ),
+              child: const ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(23)),
+                child: ArenaVideoPlayer(
+                  videoPath: 'videos/arena_highlight.mp4',
+                  fallbackImagePath: 'assets/images/arena_live_rally.jpg',
+                  borderRadius: 23,
+                  showVignette: false,
                 ),
               ),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // Native 60 FPS Looping Video Player (Clean natural color, zero heavy vignette)
-                  const ArenaVideoPlayer(
-                    videoPath: 'videos/arena_highlight.mp4',
-                    fallbackImagePath: 'assets/images/arena_live_rally.jpg',
-                    borderRadius: 18,
-                    showVignette: false,
-                  ),
+            ),
+          ),
 
-                  // Top Pill: Clean Teaser Badge
-                  Positioned(
-                    top: 14,
-                    left: 14,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.65),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.15),
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.play_circle_outline_rounded,
-                            size: 14,
-                            color: luxuryCoralRose,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            'ARENA SHOWREEL',
-                            style: AppTypography.ui(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
-                              letterSpacing: 0.8,
-                            ),
-                          ),
-                        ],
-                      ),
+          // 3. Dr. Arefin Floating Glass Chip 1 (Top-Left, overlapping edge)
+          Positioned(
+            top: -14,
+            left: 20,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+              decoration: BoxDecoration(
+                color: const Color(0xFF161925).withValues(alpha: 0.94),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: luxuryCoralRose.withValues(alpha: 0.45),
+                  width: 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.45),
+                    blurRadius: 14,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 7,
+                    height: 7,
+                    decoration: const BoxDecoration(
+                      color: luxuryCoralRose,
+                      shape: BoxShape.circle,
                     ),
                   ),
-
-                  // Bottom Watermark Pill
-                  Positioned(
-                    bottom: 14,
-                    right: 14,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.65),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        '3 DAMANSARA (L2)',
-                        style: AppTypography.ui(
-                          fontSize: 9.5,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white.withValues(alpha: 0.8),
-                          letterSpacing: 0.6,
-                        ),
-                      ),
+                  const SizedBox(width: 7),
+                  Text(
+                    '24/7 UNMANNED ARENA',
+                    style: AppTypography.ui(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                      letterSpacing: 0.8,
                     ),
                   ),
                 ],
@@ -770,118 +800,47 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
             ),
           ),
 
-          const SizedBox(height: 16),
-
-          // Authentic Venue Highlights (3 Clean Glass Pills)
-          Row(
-            children: [
-              Expanded(
-                child: _buildVenueFeaturePill(
-                  icon: Icons.all_inclusive_rounded,
-                  label: '24/7 Unlocked',
-                  accentColor: luxuryVoltEmerald,
+          // 4. Dr. Arefin Floating Glass Chip 2 (Bottom-Right, overlapping edge)
+          Positioned(
+            bottom: -14,
+            right: 20,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+              decoration: BoxDecoration(
+                color: const Color(0xFF161925).withValues(alpha: 0.94),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: luxuryVoltEmerald.withValues(alpha: 0.45),
+                  width: 1,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.45),
+                    blurRadius: 14,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: _buildVenueFeaturePill(
-                  icon: Icons.sports_tennis_rounded,
-                  label: '10 ITTF Tables',
-                  accentColor: luxuryCoralRose,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: _buildVenueFeaturePill(
-                  icon: Icons.qr_code_rounded,
-                  label: '0.3s QR Access',
-                  accentColor: luxuryElectricCyan,
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 14),
-
-          // Real Walk-In Action Banner
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
-            decoration: BoxDecoration(
-              color: luxuryVoltEmerald.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: luxuryVoltEmerald.withValues(alpha: 0.25),
-              ),
-            ),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.bolt_rounded,
-                  size: 16,
-                  color: luxuryVoltEmerald,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'No membership required — walk in, scan QR, and play anytime.',
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.location_on_rounded,
+                    size: 13,
+                    color: luxuryVoltEmerald,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    '3 DAMANSARA (L2)',
                     style: AppTypography.ui(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
                       color: Colors.white,
+                      letterSpacing: 0.8,
                     ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: widget.onWalkInTap,
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: Text(
-                      'Play Now →',
-                      style: AppTypography.ui(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w900,
-                        color: luxuryVoltEmerald,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildVenueFeaturePill({
-    required IconData icon,
-    required String label,
-    required Color accentColor,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      decoration: BoxDecoration(
-        color: luxuryCardElevated,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.06),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 13, color: accentColor),
-          const SizedBox(width: 5),
-          Flexible(
-            child: Text(
-              label,
-              style: AppTypography.ui(
-                fontSize: 10.5,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+                ],
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -1478,48 +1437,83 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
     VoidCallback? onTap,
     String? ctaLabel,
   }) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        decoration: BoxDecoration(
-          color: luxuryCard,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: Colors.white.withValues(alpha: 0.08),
-            width: 1,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: luxuryCard,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.08),
+          width: 1,
         ),
-        child: Stack(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.25),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Atmospheric Background Photograph if present
+            // Dr. Arefin Canonical Pattern: 16/10 High-Res Image Header
             if (backgroundImageAsset != null)
-              Positioned.fill(
-                child: Image.asset(
-                  backgroundImageAsset,
-                  fit: BoxFit.cover,
-                ),
-              ),
-
-            // High-depth dark vignette gradient to guarantee pristine copy contrast
-            if (backgroundImageAsset != null)
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        const Color(0xFF0C0E15).withValues(alpha: 0.88),
-                        const Color(0xFF161925).withValues(alpha: 0.94),
-                      ],
+              AspectRatio(
+                aspectRatio: 16 / 10,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      backgroundImageAsset,
+                      fit: BoxFit.cover,
                     ),
-                  ),
+                    // Subtle bottom vignette gradient to blend image seamlessly into card body
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            luxuryCard.withValues(alpha: 0.75),
+                          ],
+                          stops: const [0.65, 1.0],
+                        ),
+                      ),
+                    ),
+                    // Top floating badge
+                    Positioned(
+                      top: 14,
+                      right: 14,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.7),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.15),
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          badgeText,
+                          style: AppTypography.ui(
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
-            // Card Foreground Content
+            // Card Body Content (Clean Typography & Accent Kicker)
             Padding(
-              padding: const EdgeInsets.all(28),
+              padding: const EdgeInsets.all(26),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -1527,12 +1521,12 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
                           color: accentColor.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: accentColor.withValues(alpha: 0.3),
+                            color: accentColor.withValues(alpha: 0.35),
                             width: 1,
                           ),
                         ),
@@ -1553,28 +1547,29 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                           ],
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.08),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          badgeText,
-                          style: AppTypography.ui(
-                            fontSize: 9.5,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
+                      if (backgroundImageAsset == null)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.08),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            badgeText,
+                            style: AppTypography.ui(
+                              fontSize: 9.5,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 16),
                   Text(
                     title,
                     style: AppTypography.ui(
-                      fontSize: 18,
+                      fontSize: 19,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
                     ),
@@ -1600,12 +1595,12 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                             Text(
                               ctaLabel,
                               style: AppTypography.ui(
-                                fontSize: 12,
+                                fontSize: 12.5,
                                 fontWeight: FontWeight.w900,
                                 color: accentColor,
                               ),
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: 5),
                             Icon(Icons.arrow_forward_rounded, size: 14, color: accentColor),
                           ],
                         ),
