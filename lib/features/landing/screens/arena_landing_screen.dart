@@ -448,7 +448,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
   // ========================================================================
   // 2. HERO SECTION ("Midnight Smashes. Zero Staff.")
-  // KITA Full-Bleed Video Architecture: Video Canvas + Scrim + Floating Offer Card
+  // KITA Architecture: Bright Cinematic Video + Clean 2-Color Focus
   // ========================================================================
   Widget _buildHeroSection(BuildContext context) {
     return LayoutBuilder(
@@ -459,7 +459,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
         return Stack(
           children: [
             // --------------------------------------------------------------
-            // LAYER 1: Full-Bleed Background Video Canvas (KITA Architecture)
+            // LAYER 1: Full-Bleed Background Video Canvas (Bright & Cinematic)
             // --------------------------------------------------------------
             const Positioned.fill(
               child: ArenaVideoPlayer(
@@ -471,8 +471,8 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
             ),
 
             // --------------------------------------------------------------
-            // LAYER 2: Dark Gradient Scrim Overlay (KITA Contrast Technique)
-            // 76% to 96% obsidian navy gradient guarantees >10:1 WCAG AAA text contrast
+            // LAYER 2: Subtle Directional Scrim Overlay (KITA Technique)
+            // Soft 40%-65% gradient ensures video is bright & clear while text is sharp
             // --------------------------------------------------------------
             Positioned.fill(
               child: Container(
@@ -481,39 +481,39 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      luxuryBg.withValues(alpha: 0.78),
-                      luxuryBg.withValues(alpha: 0.88),
-                      luxuryBg,
+                      const Color(0xFF0A0B10).withValues(alpha: 0.45),
+                      const Color(0xFF0A0B10).withValues(alpha: 0.55),
+                      const Color(0xFF0A0B10).withValues(alpha: 0.85),
                     ],
-                    stops: const [0.0, 0.65, 1.0],
+                    stops: const [0.0, 0.60, 1.0],
                   ),
                 ),
               ),
             ),
 
             // --------------------------------------------------------------
-            // LAYER 3: Interactive Content Layer (Typography + Floating Card)
+            // LAYER 3: Clean, Focused Content Layer (Minimalist Typography)
             // --------------------------------------------------------------
             Center(
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: isDesktop ? 60 : (isMobile ? 16 : 24),
-                  vertical: isDesktop ? 64 : (isMobile ? 24 : 36),
+                  vertical: isDesktop ? 70 : (isMobile ? 28 : 40),
                 ),
-                constraints: const BoxConstraints(maxWidth: 1400),
+                constraints: const BoxConstraints(maxWidth: 1300),
                 child: isDesktop
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // Left Column: High-Impact Typography & Sales Funnel
+                          // Left Column: Clean, High-Impact Narrative
                           Expanded(
-                            flex: 54,
+                            flex: 55,
                             child: _buildHeroLeftContent(context, isMobile: false),
                           ),
-                          const SizedBox(width: 44),
-                          // Right Column: KITA-Style Floating Glassmorphic Offer Card
+                          const SizedBox(width: 50),
+                          // Right Column: KITA-Style Focused Offer Card
                           Expanded(
-                            flex: 46,
+                            flex: 45,
                             child: _buildHeroRightCard(context, isMobile: false),
                           ),
                         ],
@@ -538,35 +538,35 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Tagline Pill
+        // Clean Minimalist Pill (Yellow/Coral like KITA's RTO badge)
         Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 10 : 12,
-            vertical: isMobile ? 5 : 6,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
           decoration: BoxDecoration(
-            color: luxuryCoralRose.withValues(alpha: 0.12),
+            color: const Color(0xFFFF5C38).withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: luxuryCoralRose.withValues(alpha: 0.35),
+              color: const Color(0xFFFF5C38).withValues(alpha: 0.4),
               width: 1,
             ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.bolt_rounded,
-                size: 14,
-                color: luxuryCoralRose,
+              Container(
+                width: 6,
+                height: 6,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFF5C38),
+                  shape: BoxShape.circle,
+                ),
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: 7),
               Text(
-                'MALAYSIA’S 1ST 24/7 UNMANNED ARENA',
+                '24/7 UNMANNED ARENA',
                 style: AppTypography.ui(
-                  fontSize: isMobile ? 9.5 : 10.5,
-                  fontWeight: FontWeight.w900,
-                  color: luxuryCoralRose,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFFFF5C38),
                   letterSpacing: 0.8,
                 ),
               ),
@@ -576,37 +576,27 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
         SizedBox(height: isMobile ? 14 : 20),
 
-        // Bold Punchy Headline with Clean Mobile Breakpoints
+        // Clean, High-Impact Headline (2-Color Discipline: Crisp White + Single Coral Accent)
         RichText(
           text: TextSpan(
             children: [
               TextSpan(
                 text: 'Midnight Smashes.\n',
                 style: AppTypography.ui(
-                  fontSize: isMobile ? 28 : 44,
+                  fontSize: isMobile ? 32 : 48,
                   fontWeight: FontWeight.w900,
                   color: Colors.white,
-                  height: 1.15,
+                  height: 1.12,
                   letterSpacing: -0.5,
                 ),
               ),
               TextSpan(
-                text: isMobile ? 'Zero Staff.\n' : 'Zero Staff. ',
+                text: 'Zero Staff.',
                 style: AppTypography.ui(
-                  fontSize: isMobile ? 28 : 44,
+                  fontSize: isMobile ? 32 : 48,
                   fontWeight: FontWeight.w900,
-                  color: luxuryCoralRose,
-                  height: 1.15,
-                  letterSpacing: -0.5,
-                ),
-              ),
-              TextSpan(
-                text: 'Are You Feeling The Energy?',
-                style: AppTypography.ui(
-                  fontSize: isMobile ? 24 : 44,
-                  fontWeight: FontWeight.w900,
-                  color: const Color(0xFF00F0FF),
-                  height: 1.15,
+                  color: const Color(0xFFFF5C38),
+                  height: 1.12,
                   letterSpacing: -0.5,
                 ),
               ),
@@ -614,307 +604,189 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
           ),
         ),
 
-        SizedBox(height: isMobile ? 14 : 20),
+        SizedBox(height: isMobile ? 12 : 16),
 
-        // Persuasive Story Copy
+        // Short, Punchy 2-Line Subtitle (No Paragraph Wall)
         Text(
-          'Smashes at 3 AM! No receptionists, no booking friction, no queues. 10 ITTF Olympic tables, smart robot ball dispensers, and optical smash tracking cameras open 24/7 at 3 Damansara Mall (Level 2). Scan your dynamic QR, step through the 0.3s turnstile, and experience pure table tennis adrenaline.',
+          '10 Olympic ITTF tables, robot ball dispensers, and optical smash tracking. Open 24/7 at 3 Damansara Mall (Level 2). Scan, enter, and play.',
           style: AppTypography.ui(
-            fontSize: isMobile ? 13 : 15,
+            fontSize: isMobile ? 13.5 : 16,
             fontWeight: FontWeight.w400,
-            color: const Color(0xFFC0C5DC),
+            color: const Color(0xFFCBD5E1),
             height: 1.5,
           ),
         ),
 
-        SizedBox(height: isMobile ? 22 : 30),
+        SizedBox(height: isMobile ? 22 : 28),
 
-        // CTA Buttons Row
-        Wrap(
-          spacing: 14,
-          runSpacing: 12,
+        // 2 Clean Buttons (Exactly like KITA's [Courses] and [Our Impact])
+        Row(
           children: [
-            // Instant QR Walk-In Button
+            // Primary Action Button (Solid Coral)
             MouseRegion(
               cursor: SystemMouseCursors.click,
               child: GestureDetector(
                 onTap: widget.onWalkInTap,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 14,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 18 : 24,
+                    vertical: isMobile ? 12 : 14,
                   ),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFF4B72), Color(0xFFFF6B4A)],
-                    ),
-                    borderRadius: BorderRadius.circular(12),
+                    color: const Color(0xFFFF5C38),
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.25),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
+                        color: const Color(0xFFFF5C38).withValues(alpha: 0.35),
+                        blurRadius: 14,
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.qr_code_2_rounded,
-                        size: 18,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Walk In & Play Now (RM17) →',
-                        style: AppTypography.ui(
-                          fontSize: 13.5,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    'Walk In (RM17)',
+                    style: AppTypography.ui(
+                      fontSize: isMobile ? 13 : 14,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                      letterSpacing: 0.2,
+                    ),
                   ),
                 ),
               ),
             ),
 
-            // Enter Live Arena Hub Button
+            const SizedBox(width: 14),
+
+            // Secondary Action Button (Clean Ghost Outline)
             MouseRegion(
               cursor: SystemMouseCursors.click,
               child: GestureDetector(
                 onTap: widget.onLaunchHub,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 14,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 18 : 24,
+                    vertical: isMobile ? 12 : 14,
                   ),
                   decoration: BoxDecoration(
-                    color: luxuryCardElevated,
-                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.15),
+                      color: Colors.white.withValues(alpha: 0.25),
                       width: 1,
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.sensors_rounded,
-                        size: 16,
-                        color: luxuryElectricCyan,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Open Live Arena Hub',
-                        style: AppTypography.ui(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    'Live Arena Hub',
+                    style: AppTypography.ui(
+                      fontSize: isMobile ? 13 : 14,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
           ],
         ),
-
-        const SizedBox(height: 24),
-
-        // Dr. Arefin Authority Trust Strip (Inline row under CTAs with vertical dividers)
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.03),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.08),
-              width: 1,
-            ),
-          ),
-          child: Wrap(
-            spacing: 12,
-            runSpacing: 10,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              _buildHeroTrustItem('24 / 7', 'Always Unlocked'),
-              _buildHeroTrustDivider(),
-              _buildHeroTrustItem('10 Courts', 'ITTF Olympic'),
-              _buildHeroTrustDivider(),
-              _buildHeroTrustItem('0.3 Sec', 'Fastest QR Gate'),
-              _buildHeroTrustDivider(),
-              _buildHeroTrustItem('RM17', 'Instant Walk-In'),
-            ],
-          ),
-        ),
       ],
-    );
-  }
-
-  Widget _buildHeroTrustItem(String value, String label) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          value,
-          style: AppTypography.ui(
-            fontSize: 15,
-            fontWeight: FontWeight.w900,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label.toUpperCase(),
-          style: AppTypography.ui(
-            fontSize: 9,
-            fontWeight: FontWeight.w700,
-            color: luxuryVoltEmerald,
-            letterSpacing: 0.6,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildHeroTrustDivider() {
-    return Container(
-      width: 1,
-      height: 24,
-      color: Colors.white.withValues(alpha: 0.1),
     );
   }
 
   // ========================================================================
   // KITA FLOATING HERO OFFER CARD (Right Column)
-  // High-converting glassmorphic pass rotator with live telemetry and instant QR CTA
+  // Single Clear Offer: Clean, Ultra-Readable, Zero Visual Clutter
   // ========================================================================
   Widget _buildHeroRightCard(BuildContext context, {bool isMobile = false}) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF141722).withValues(alpha: 0.88),
-        borderRadius: BorderRadius.circular(isMobile ? 20 : 24),
+        color: const Color(0xFF11141E).withValues(alpha: 0.88),
+        borderRadius: BorderRadius.circular(isMobile ? 18 : 20),
         border: Border.all(
-          color: luxuryCoralRose.withValues(alpha: 0.35),
-          width: 1.5,
+          color: Colors.white.withValues(alpha: 0.12),
+          width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: luxuryCoralRose.withValues(alpha: 0.18),
-            blurRadius: 36,
-            spreadRadius: 2,
-            offset: const Offset(0, 10),
-          ),
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.6),
-            blurRadius: 30,
-            offset: const Offset(0, 16),
+            color: Colors.black.withValues(alpha: 0.5),
+            blurRadius: 28,
+            offset: const Offset(0, 12),
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(isMobile ? 20 : 24),
+        borderRadius: BorderRadius.circular(isMobile ? 18 : 20),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
           child: Padding(
-            padding: EdgeInsets.all(isMobile ? 18 : 26),
+            padding: EdgeInsets.all(isMobile ? 18 : 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Top Kicker & Live Status Pill
+                // Top Offer Pill & Location Badge
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                       decoration: BoxDecoration(
-                        color: luxuryVoltEmerald.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: luxuryVoltEmerald.withValues(alpha: 0.35),
-                          width: 1,
+                        color: const Color(0xFFFF5C38).withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        'INSTANT PASS',
+                        style: AppTypography.ui(
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFFFF5C38),
+                          letterSpacing: 0.6,
                         ),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 7,
-                            height: 7,
-                            decoration: const BoxDecoration(
-                              color: luxuryVoltEmerald,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            'LIVE ARENA RADAR',
-                            style: AppTypography.ui(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w900,
-                              color: luxuryVoltEmerald,
-                              letterSpacing: 0.6,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
-                    const Spacer(),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.06),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.12),
+                          width: 1,
+                        ),
                       ),
                       child: Text(
                         '3 DAMANSARA (L2)',
                         style: AppTypography.ui(
                           fontSize: 9.5,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white70,
-                          letterSpacing: 0.5,
+                          color: const Color(0xFF94A3B8),
                         ),
                       ),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
 
-                // Card Main Headline
+                // Card Main Headline (White + Coral Accent)
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Instant Walk-In Pass ',
+                        text: 'Get In. ',
                         style: AppTypography.ui(
-                          fontSize: isMobile ? 19 : 22,
+                          fontSize: isMobile ? 20 : 23,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
                           height: 1.2,
                         ),
                       ),
                       TextSpan(
-                        text: 'Now Includes\n',
+                        text: 'Start Playing.',
                         style: AppTypography.ui(
-                          fontSize: isMobile ? 19 : 22,
+                          fontSize: isMobile ? 20 : 23,
                           fontWeight: FontWeight.w900,
-                          color: luxuryCoralRose,
-                          height: 1.2,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'ITTF Rackets & Unlimited Balls!',
-                        style: AppTypography.ui(
-                          fontSize: isMobile ? 17 : 20,
-                          fontWeight: FontWeight.w800,
-                          color: const Color(0xFF00F0FF),
+                          color: const Color(0xFFFF5C38),
                           height: 1.2,
                         ),
                       ),
@@ -922,48 +794,32 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 6),
 
                 Text(
-                  'No hidden equipment rental. No receptionist delay. Scan your dynamic QR, grab pro gear from the robotic dispenser, and start smashing immediately.',
+                  'Dynamic QR unlocks turnstiles in 0.3s. No receptionist, no booking friction, no queues.',
                   style: AppTypography.ui(
                     fontSize: isMobile ? 12 : 13,
                     fontWeight: FontWeight.w400,
-                    color: const Color(0xFFC0C5DC),
-                    height: 1.45,
+                    color: const Color(0xFF94A3B8),
+                    height: 1.4,
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
 
-                // Live Value Matrix (3 key bullets)
-                _buildCardValueItem(
-                  icon: Icons.flash_on_rounded,
-                  iconColor: luxuryVoltEmerald,
-                  title: '0.3s Fast Turnstile QR Access',
-                  subtitle: 'Walk in anytime 24/7/365, even at 3 AM',
-                  isMobile: isMobile,
-                ),
-                const SizedBox(height: 8),
-                _buildCardValueItem(
-                  icon: Icons.sports_tennis_rounded,
-                  iconColor: luxuryCoralRose,
-                  title: '6 of 10 ITTF Courts Free Now',
-                  subtitle: 'Real-time sensor occupancy tracking',
-                  isMobile: isMobile,
-                ),
-                const SizedBox(height: 8),
-                _buildCardValueItem(
-                  icon: Icons.videocam_rounded,
-                  iconColor: luxuryElectricCyan,
-                  title: '60 FPS AI Optical Smash Tracking',
-                  subtitle: 'Speedometer & live rally hit counter active',
-                  isMobile: isMobile,
-                ),
+                // Clean Checklist (Exactly like KITA's bundle list)
+                _buildCleanCheckItem('10 ITTF Olympic Tables (6 Free Now)', isMobile: isMobile),
+                const SizedBox(height: 7),
+                _buildCleanCheckItem('Carbon Pro Rackets & Balls Included', isMobile: isMobile),
+                const SizedBox(height: 7),
+                _buildCleanCheckItem('Smart Robot Ball Dispensers Active', isMobile: isMobile),
+                const SizedBox(height: 7),
+                _buildCleanCheckItem('60 FPS AI Smash Tracking & Speedometer', isMobile: isMobile),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 18),
 
-                // High-Converting CTA Button with Pulse Glow
+                // Clean Solid Action Button (Like KITA's [BOOK NOW])
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
@@ -972,37 +828,26 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(vertical: 13),
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFFF4B72), Color(0xFFFF6B4A)],
-                        ),
-                        borderRadius: BorderRadius.circular(12),
+                        color: const Color(0xFFFF5C38),
+                        borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFFF4B72).withValues(alpha: 0.4),
-                            blurRadius: 16,
+                            color: const Color(0xFFFF5C38).withValues(alpha: 0.35),
+                            blurRadius: 14,
                             offset: const Offset(0, 4),
                           ),
                         ],
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.qr_code_scanner_rounded,
-                            size: 18,
+                      child: Center(
+                        child: Text(
+                          'Unlock Turnstile (RM17) →',
+                          style: AppTypography.ui(
+                            fontSize: isMobile ? 13 : 14,
+                            fontWeight: FontWeight.w800,
                             color: Colors.white,
+                            letterSpacing: 0.2,
                           ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Get Walk-In Pass (RM17) →',
-                            style: AppTypography.ui(
-                              fontSize: isMobile ? 13 : 14,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
-                              letterSpacing: 0.3,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -1010,19 +855,18 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
                 const SizedBox(height: 10),
 
-                // Secondary VIP Membership Hook
+                // Quiet secondary link
                 Center(
                   child: MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: () => _scrollTo(_pricingKey),
                       child: Text(
-                        'Or get Unlimited 24/7 VIP Pass for RM27/mo (90 sen/day) →',
+                        'or RM27/mo Unlimited VIP Pass →',
                         style: AppTypography.ui(
                           fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: luxuryGold,
-                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF94A3B8),
                         ),
                       ),
                     ),
@@ -1036,52 +880,26 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
     );
   }
 
-  Widget _buildCardValueItem({
-    required IconData icon,
-    required Color iconColor,
-    required String title,
-    required String subtitle,
-    bool isMobile = false,
-  }) {
+  Widget _buildCleanCheckItem(String text, {bool isMobile = false}) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            color: iconColor.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(
-            icon,
-            size: isMobile ? 14 : 15,
-            color: iconColor,
+          width: 5,
+          height: 5,
+          decoration: const BoxDecoration(
+            color: Color(0xFFFF5C38),
+            shape: BoxShape.circle,
           ),
         ),
-        const SizedBox(width: 9),
+        const SizedBox(width: 8),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: AppTypography.ui(
-                  fontSize: isMobile ? 11.5 : 12.5,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                  letterSpacing: 0.2,
-                ),
-              ),
-              const SizedBox(height: 1),
-              Text(
-                subtitle,
-                style: AppTypography.ui(
-                  fontSize: isMobile ? 10 : 11,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFF94A3B8),
-                ),
-              ),
-            ],
+          child: Text(
+            text,
+            style: AppTypography.ui(
+              fontSize: isMobile ? 11.5 : 12.5,
+              fontWeight: FontWeight.w600,
+              color: Colors.white.withValues(alpha: 0.9),
+            ),
           ),
         ),
       ],
