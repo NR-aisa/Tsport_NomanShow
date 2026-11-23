@@ -286,46 +286,13 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
               // Action Button / Capsule
               isMobile
-                  ? MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: widget.onWalkInTap,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFFFF4B72), Color(0xFFFF6B4A)],
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.2),
-                                blurRadius: 4,
-                                offset: const Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                Icons.bolt_rounded,
-                                size: 14,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                'Walk In (RM17)',
-                                style: AppTypography.ui(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                  ? ArenaInteractiveButton(
+                      label: 'Walk In (RM17)',
+                      icon: Icons.bolt_rounded,
+                      onTap: widget.onWalkInTap,
+                      isPrimary: true,
+                      fontSize: 11,
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                     )
                   : Container(
                       decoration: BoxDecoration(
@@ -341,80 +308,25 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           // State A: Instant Walk-In
-                          MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: widget.onWalkInTap,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [Color(0xFFFF4B72), Color(0xFFFF6B4A)],
-                                  ),
-                                  borderRadius: BorderRadius.circular(9),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.2),
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 1),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(
-                                      Icons.bolt_rounded,
-                                      size: 13,
-                                      color: Colors.white,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      'Walk In (RM17)',
-                                      style: AppTypography.ui(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          ArenaInteractiveButton(
+                            label: 'Walk In (RM17)',
+                            icon: Icons.bolt_rounded,
+                            onTap: widget.onWalkInTap,
+                            isPrimary: true,
+                            fontSize: 11,
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            borderRadius: BorderRadius.circular(9),
                           ),
                           const SizedBox(width: 4),
                           // State B: Arena Hub Destination
-                          MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: widget.onLaunchHub,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
-                                decoration: BoxDecoration(
-                                  color: luxuryCardElevated,
-                                  borderRadius: BorderRadius.circular(9),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(
-                                      Icons.grid_view_rounded,
-                                      size: 12,
-                                      color: luxuryElectricCyan,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      'Arena Hub →',
-                                      style: AppTypography.ui(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          ArenaInteractiveButton(
+                            label: 'Arena Hub →',
+                            icon: Icons.grid_view_rounded,
+                            onTap: widget.onLaunchHub,
+                            isPrimary: false,
+                            fontSize: 11,
+                            padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+                            borderRadius: BorderRadius.circular(9),
                           ),
                         ],
                       ),
@@ -635,71 +547,32 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
         SizedBox(height: isMobile ? 22 : 28),
 
         // 2 Clean Buttons (Exactly like KITA's [Courses] and [Our Impact])
+        // With luxury satisfying hover color transitions
         Row(
           children: [
-            // Primary Action Button (Solid Coral)
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                onTap: widget.onWalkInTap,
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isMobile ? 18 : 24,
-                    vertical: isMobile ? 12 : 14,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFF5C38),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFFF5C38).withValues(alpha: 0.35),
-                        blurRadius: 14,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    'Walk In (RM17)',
-                    style: AppTypography.ui(
-                      fontSize: isMobile ? 13 : 14,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                ),
+            // Primary Action Button (Solid Coral -> Electric Golden Amber on Hover)
+            ArenaInteractiveButton(
+              label: 'Walk In (RM17)',
+              onTap: widget.onWalkInTap,
+              isPrimary: true,
+              fontSize: isMobile ? 13 : 14,
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 18 : 24,
+                vertical: isMobile ? 12 : 14,
               ),
             ),
 
             const SizedBox(width: 14),
 
-            // Secondary Action Button (Clean Ghost Outline)
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                onTap: widget.onLaunchHub,
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isMobile ? 18 : 24,
-                    vertical: isMobile ? 12 : 14,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.25),
-                      width: 1,
-                    ),
-                  ),
-                  child: Text(
-                    'Live Arena Hub',
-                    style: AppTypography.ui(
-                      fontSize: isMobile ? 13 : 14,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+            // Secondary Action Button (Clean Ghost Outline -> Solid White on Hover)
+            ArenaInteractiveButton(
+              label: 'Live Arena Hub',
+              onTap: widget.onLaunchHub,
+              isPrimary: false,
+              fontSize: isMobile ? 13 : 14,
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 18 : 24,
+                vertical: isMobile ? 12 : 14,
               ),
             ),
           ],
@@ -834,38 +707,14 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
                 const SizedBox(height: 18),
 
-                // Clean Solid Action Button (Like KITA's [BOOK NOW])
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: widget.onWalkInTap,
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 13),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFF5C38),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFFFF5C38).withValues(alpha: 0.35),
-                            blurRadius: 14,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Unlock Turnstile (RM17) →',
-                          style: AppTypography.ui(
-                            fontSize: isMobile ? 13 : 14,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
-                            letterSpacing: 0.2,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                // Clean Solid Action Button (Like KITA's [BOOK NOW] -> Electric Golden Amber on hover)
+                ArenaInteractiveButton(
+                  label: 'Unlock Turnstile (RM17) →',
+                  onTap: widget.onWalkInTap,
+                  isPrimary: true,
+                  isFullWidth: true,
+                  fontSize: isMobile ? 13 : 14,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
 
                 const SizedBox(height: 10),
@@ -2219,38 +2068,14 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
           ),
           const SizedBox(height: 20),
           // Action Button
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: onTap,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                decoration: BoxDecoration(
-                  gradient: isPopular
-                      ? const LinearGradient(
-                          colors: [Color(0xFFFF4B72), Color(0xFFFF6B4A)],
-                        )
-                      : null,
-                  color: isPopular ? null : Colors.white.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(12),
-                  border: isPopular
-                      ? null
-                      : Border.all(
-                          color: Colors.white.withValues(alpha: 0.12),
-                        ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  ctaText,
-                  style: AppTypography.ui(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+          ArenaInteractiveButton(
+            label: ctaText,
+            onTap: onTap,
+            isPrimary: isPopular,
+            isFullWidth: true,
+            borderRadius: BorderRadius.circular(12),
+            fontSize: 13,
+            padding: const EdgeInsets.symmetric(vertical: 14),
           ),
         ],
       ),
@@ -2719,3 +2544,154 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
     );
   }
 }
+
+// ============================================================================
+// LUXURY INTERACTIVE HOVER BUTTON
+// Smooth, tactile hover transition into a satisfying, luminous contrasting color
+// ============================================================================
+class ArenaInteractiveButton extends StatefulWidget {
+  final String label;
+  final VoidCallback onTap;
+  final bool isPrimary;
+  final bool isFullWidth;
+  final IconData? icon;
+  final double? fontSize;
+  final EdgeInsetsGeometry? padding;
+  final BorderRadius? borderRadius;
+  final Color? normalColor;
+  final Color? hoverColor;
+  final Color? normalTextColor;
+  final Color? hoverTextColor;
+
+  const ArenaInteractiveButton({
+    super.key,
+    required this.label,
+    required this.onTap,
+    this.isPrimary = true,
+    this.isFullWidth = false,
+    this.icon,
+    this.fontSize,
+    this.padding,
+    this.borderRadius,
+    this.normalColor,
+    this.hoverColor,
+    this.normalTextColor,
+    this.hoverTextColor,
+  });
+
+  @override
+  State<ArenaInteractiveButton> createState() => _ArenaInteractiveButtonState();
+}
+
+class _ArenaInteractiveButtonState extends State<ArenaInteractiveButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final br = widget.borderRadius ?? BorderRadius.circular(10);
+
+    // Primary: Signature Warm Coral (#FF5C38) -> Electric Golden Amber (#FFB800) with dark obsidian text (#0A0B10)
+    // Secondary: Dark Glass White (0.08) -> Pure Luminous White (#FFFFFF) with dark obsidian text (#0A0B10)
+    final Color defaultNormalColor = widget.isPrimary
+        ? const Color(0xFFFF5C38)
+        : Colors.white.withValues(alpha: 0.08);
+
+    final Color defaultHoverColor = widget.isPrimary
+        ? const Color(0xFFFFB800)
+        : Colors.white;
+
+    final Color bgColor = _isHovered
+        ? (widget.hoverColor ?? defaultHoverColor)
+        : (widget.normalColor ?? defaultNormalColor);
+
+    const Color defaultNormalTextColor = Colors.white;
+    const Color defaultHoverTextColor = Color(0xFF0A0B10);
+
+    final Color textColor = _isHovered
+        ? (widget.hoverTextColor ?? defaultHoverTextColor)
+        : (widget.normalTextColor ?? defaultNormalTextColor);
+
+    final Border? border = widget.isPrimary
+        ? null
+        : Border.all(
+            color: _isHovered ? Colors.white : Colors.white.withValues(alpha: 0.25),
+            width: 1,
+          );
+
+    final List<BoxShadow> shadows = widget.isPrimary
+        ? [
+            BoxShadow(
+              color: _isHovered
+                  ? const Color(0xFFFFB800).withValues(alpha: 0.55)
+                  : const Color(0xFFFF5C38).withValues(alpha: 0.35),
+              blurRadius: _isHovered ? 22 : 14,
+              spreadRadius: _isHovered ? 1 : 0,
+              offset: _isHovered ? const Offset(0, 6) : const Offset(0, 4),
+            ),
+          ]
+        : [
+            if (_isHovered)
+              BoxShadow(
+                color: Colors.white.withValues(alpha: 0.4),
+                blurRadius: 18,
+                offset: const Offset(0, 4),
+              ),
+          ];
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          transform: _isHovered
+              ? Matrix4.translationValues(0.0, -2.0, 0.0)
+              : Matrix4.identity(),
+          width: widget.isFullWidth ? double.infinity : null,
+          padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 22, vertical: 13),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: br,
+            border: border,
+            boxShadow: shadows,
+          ),
+          child: Row(
+            mainAxisSize: widget.isFullWidth ? MainAxisSize.max : MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (widget.icon != null) ...[
+                AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 220),
+                  style: TextStyle(color: textColor),
+                  child: Icon(
+                    widget.icon,
+                    size: (widget.fontSize ?? 14) + 1,
+                    color: textColor,
+                  ),
+                ),
+                const SizedBox(width: 6),
+              ],
+              AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 220),
+                style: AppTypography.ui(
+                  fontSize: widget.fontSize ?? 14,
+                  fontWeight: FontWeight.w800,
+                  color: textColor,
+                  letterSpacing: 0.2,
+                ),
+                child: Text(
+                  widget.label,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
