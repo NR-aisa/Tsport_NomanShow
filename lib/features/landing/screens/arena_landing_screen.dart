@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/session/demo_avatars.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../shared/widgets/arena_video_player.dart';
 
@@ -681,150 +680,89 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Live Video Window with Edge AI Telemetry Overlay
-          Container(
-            height: 220,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.12),
-                width: 1,
+          // Clean Hero Teaser Video Showcase (Natural Brightness, Zero Fake Scoreboards)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(18),
+            child: Container(
+              height: 320,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.12),
+                  width: 1,
+                ),
               ),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  // Native 60 FPS Looping Video Player (with action photo fallback)
+                  // Native 60 FPS Looping Video Player (Clean natural color, zero heavy vignette)
                   const ArenaVideoPlayer(
                     videoPath: 'videos/arena_highlight.mp4',
                     fallbackImagePath: 'assets/images/arena_live_rally.jpg',
-                    borderRadius: 16,
+                    borderRadius: 18,
+                    showVignette: false,
                   ),
 
-                  // Top Overlay Bar: Live Cam Badge + 60 FPS Edge AI
+                  // Top Pill: Clean Teaser Badge
                   Positioned(
-                    top: 12,
-                    left: 12,
-                    right: 12,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.7),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: luxuryCoralRose.withValues(alpha: 0.5),
-                              width: 1,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 8,
-                                height: 8,
-                                decoration: const BoxDecoration(
-                                  color: luxuryCoralRose,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              Text(
-                                'CENTRE COURT T04 • LIVE CAM',
-                                style: AppTypography.ui(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white,
-                                  letterSpacing: 0.6,
-                                ),
-                              ),
-                            ],
-                          ),
+                    top: 14,
+                    left: 14,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.65),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.15),
+                          width: 1,
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: luxuryVoltEmerald.withValues(alpha: 0.25),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: luxuryVoltEmerald.withValues(alpha: 0.6),
-                              width: 1,
-                            ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.play_circle_outline_rounded,
+                            size: 14,
+                            color: luxuryCoralRose,
                           ),
-                          child: Text(
-                            '60 FPS EDGE AI',
+                          const SizedBox(width: 6),
+                          Text(
+                            'ARENA SHOWREEL',
                             style: AppTypography.ui(
-                              fontSize: 9.5,
+                              fontSize: 10,
                               fontWeight: FontWeight.w900,
-                              color: luxuryVoltEmerald,
+                              color: Colors.white,
+                              letterSpacing: 0.8,
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
 
-                  // Bottom Telemetry Overlay
+                  // Bottom Watermark Pill
                   Positioned(
-                    bottom: 12,
-                    left: 12,
-                    right: 12,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.7),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.speed_rounded, size: 12, color: luxuryCoralRose),
-                              const SizedBox(width: 5),
-                              Text(
-                                'Smash: 84.6 km/h',
-                                style: AppTypography.ui(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
+                    bottom: 14,
+                    right: 14,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.65),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        '3 DAMANSARA (L2)',
+                        style: AppTypography.ui(
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white.withValues(alpha: 0.8),
+                          letterSpacing: 0.6,
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.7),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.repeat_rounded, size: 12, color: luxuryElectricCyan),
-                              const SizedBox(width: 5),
-                              Text(
-                                'Rally: 14 Hits',
-                                style: AppTypography.ui(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ],
@@ -834,124 +772,58 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
           const SizedBox(height: 16),
 
-          // Live Match Scoreboard
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            decoration: BoxDecoration(
-              color: luxuryCardElevated,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.06),
+          // Authentic Venue Highlights (3 Clean Glass Pills)
+          Row(
+            children: [
+              Expanded(
+                child: _buildVenueFeaturePill(
+                  icon: Icons.all_inclusive_rounded,
+                  label: '24/7 Unlocked',
+                  accentColor: luxuryVoltEmerald,
+                ),
               ),
-            ),
-            child: Row(
-              children: [
-                // Player 1
-                const CircleAvatar(
-                  radius: 17,
-                  backgroundImage: AssetImage(DemoAvatars.jason),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildVenueFeaturePill(
+                  icon: Icons.sports_tennis_rounded,
+                  label: '10 ITTF Tables',
+                  accentColor: luxuryCoralRose,
                 ),
-                const SizedBox(width: 9),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Jason T.',
-                        style: AppTypography.ui(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        'Damansara Lvl 14',
-                        style: AppTypography.ui(
-                          fontSize: 9.5,
-                          fontWeight: FontWeight.w600,
-                          color: luxuryMuted,
-                        ),
-                      ),
-                    ],
-                  ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildVenueFeaturePill(
+                  icon: Icons.qr_code_rounded,
+                  label: '0.3s QR Access',
+                  accentColor: luxuryElectricCyan,
                 ),
-                // Score
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.4),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    '14 — 11',
-                    style: AppTypography.ui(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w900,
-                      color: luxuryCoralRose,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 9),
-                // Player 2
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Alman R.',
-                        style: AppTypography.ui(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        'Pro Member Lvl 12',
-                        style: AppTypography.ui(
-                          fontSize: 9.5,
-                          fontWeight: FontWeight.w600,
-                          color: luxuryMuted,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 9),
-                const CircleAvatar(
-                  radius: 17,
-                  backgroundImage: AssetImage(DemoAvatars.user),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
 
           const SizedBox(height: 14),
 
-          // Instant Play Callout
+          // Real Walk-In Action Banner
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
             decoration: BoxDecoration(
               color: luxuryVoltEmerald.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: luxuryVoltEmerald.withValues(alpha: 0.3),
+                color: luxuryVoltEmerald.withValues(alpha: 0.25),
               ),
             ),
             child: Row(
               children: [
                 const Icon(
-                  Icons.electric_bolt_rounded,
+                  Icons.bolt_rounded,
                   size: 16,
                   color: luxuryVoltEmerald,
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Court T03 & T05 Free Right Now — Instant Turnstile QR ready.',
+                    'No membership required — walk in, scan QR, and play anytime.',
                     style: AppTypography.ui(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
@@ -974,6 +846,42 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                   ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildVenueFeaturePill({
+    required IconData icon,
+    required String label,
+    required Color accentColor,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      decoration: BoxDecoration(
+        color: luxuryCardElevated,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.06),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 13, color: accentColor),
+          const SizedBox(width: 5),
+          Flexible(
+            child: Text(
+              label,
+              style: AppTypography.ui(
+                fontSize: 10.5,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

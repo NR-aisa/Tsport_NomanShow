@@ -13,6 +13,7 @@ class ArenaVideoPlayer extends StatefulWidget {
   final String videoPath;
   final String fallbackImagePath;
   final double borderRadius;
+  final bool showVignette;
   final Widget? overlay;
 
   const ArenaVideoPlayer({
@@ -20,6 +21,7 @@ class ArenaVideoPlayer extends StatefulWidget {
     this.videoPath = 'videos/arena_highlight.mp4',
     this.fallbackImagePath = 'assets/images/arena_live_rally.jpg',
     this.borderRadius = 20.0,
+    this.showVignette = false,
     this.overlay,
   });
 
@@ -83,20 +85,21 @@ class _ArenaVideoPlayerState extends State<ArenaVideoPlayer> {
               fit: BoxFit.cover,
             ),
 
-          // Vignette Gradient Overlay so HUD text and telemetry pop cleanly
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black.withValues(alpha: 0.15),
-                  Colors.black.withValues(alpha: 0.75),
-                ],
-                stops: const [0.4, 1.0],
+          // Optional Vignette Gradient Overlay
+          if (widget.showVignette)
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withValues(alpha: 0.1),
+                    Colors.black.withValues(alpha: 0.65),
+                  ],
+                  stops: const [0.4, 1.0],
+                ),
               ),
             ),
-          ),
 
           // Custom Overlay (HUD Telemetry, Court Status, Badges)
           if (widget.overlay != null) widget.overlay!,
