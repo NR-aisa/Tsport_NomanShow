@@ -282,13 +282,13 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
 
           // Desktop Nav Links
           if (!isCompact) ...[
-            const SizedBox(width: 24),
+            const SizedBox(width: 20),
             _buildNavLink('The Vibe', () => _scrollTo(_vibeKey)),
-            const SizedBox(width: 18),
+            const SizedBox(width: 16),
             _buildNavLink('How It Works', () => _scrollTo(_howItWorksKey)),
-            const SizedBox(width: 18),
-            _buildNavLink('10 Courts Radar', () => _scrollTo(_courtsKey)),
-            const SizedBox(width: 18),
+            const SizedBox(width: 16),
+            _buildNavLink('10 Courts', () => _scrollTo(_courtsKey)),
+            const SizedBox(width: 16),
             _buildNavLink('Passes & Pricing', () => _scrollTo(_pricingKey)),
           ],
 
@@ -330,7 +330,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
             ),
           ),
 
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
 
           // Primary Launch Dashboard Button
           MouseRegion(
@@ -338,7 +338,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
             child: GestureDetector(
               onTap: widget.onLaunchHub,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [Color(0xFFFF4B72), Color(0xFFFF6B4A)],
@@ -347,7 +347,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
                   boxShadow: [
                     BoxShadow(
                       color: luxuryCoralRose.withValues(alpha: 0.35),
-                      blurRadius: 12,
+                      blurRadius: 10,
                       offset: const Offset(0, 3),
                     ),
                   ],
@@ -357,14 +357,14 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
                   children: [
                     const Icon(
                       Icons.dashboard_rounded,
-                      size: 14,
+                      size: 13,
                       color: Colors.white,
                     ),
-                    const SizedBox(width: 6),
+                    const SizedBox(width: 5),
                     Text(
-                      'Launch Arena Hub →',
+                      'Arena Hub →',
                       style: AppTypography.ui(
-                        fontSize: 12,
+                        fontSize: 11.5,
                         fontWeight: FontWeight.w900,
                         color: Colors.white,
                       ),
@@ -375,8 +375,8 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
             ),
           ),
 
-          // Safe buffer margin on the right so the floating presentation switcher bar has clean space with zero overlap
-          const SizedBox(width: 390),
+          // Generous safe buffer margin on the right so the floating presentation switcher bar has clean space with zero overlap
+          const SizedBox(width: 440),
         ],
       ),
     );
