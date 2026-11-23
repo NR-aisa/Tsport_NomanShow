@@ -26,11 +26,8 @@ class ArenaLandingScreen extends StatefulWidget {
   State<ArenaLandingScreen> createState() => _ArenaLandingScreenState();
 }
 
-class _ArenaLandingScreenState extends State<ArenaLandingScreen>
-    with SingleTickerProviderStateMixin {
+class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   final ScrollController _scrollController = ScrollController();
-  late AnimationController _pulseController;
-  late Animation<double> _pulseAnimation;
 
   // Global Keys for smooth scrolling to sections
   final GlobalKey _vibeKey = GlobalKey();
@@ -43,21 +40,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
   int _selectedPreviewCourt = 4; // Center Court (T04)
 
   @override
-  void initState() {
-    super.initState();
-    _pulseController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    )..repeat(reverse: true);
-
-    _pulseAnimation = Tween<double>(begin: 0.96, end: 1.04).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
   void dispose() {
-    _pulseController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -87,62 +70,19 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: luxuryBg,
-      body: Stack(
-        children: [
-          // Background ambient glows
-          Positioned(
-            top: -150,
-            left: -100,
-            child: Container(
-              width: 500,
-              height: 500,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: luxuryCoralRose.withValues(alpha: 0.08),
-                boxShadow: [
-                  BoxShadow(
-                    color: luxuryCoralRose.withValues(alpha: 0.12),
-                    blurRadius: 180,
-                    spreadRadius: 100,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 400,
-            right: -100,
-            child: Container(
-              width: 600,
-              height: 600,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: luxuryElectricCyan.withValues(alpha: 0.06),
-                boxShadow: [
-                  BoxShadow(
-                    color: luxuryElectricCyan.withValues(alpha: 0.08),
-                    blurRadius: 220,
-                    spreadRadius: 80,
-                  ),
-                ],
-              ),
-            ),
-          ),
+      body: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Top Glass Navbar
+            _buildNavbar(context),
 
-          // Main Scrollable Body
-          SingleChildScrollView(
-            controller: _scrollController,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Top Glass Navbar
-                _buildNavbar(context),
+            // Hero Section: "Midnight Smashes. Zero Staff."
+            _buildHeroSection(context),
 
-                // Hero Section: "Midnight Smashes. Zero Staff."
-                _buildHeroSection(context),
-
-                // Live Arena Energy & Stats Ticker
-                _buildLiveEnergyTicker(context),
+            // Live Arena Energy & Stats Ticker
+            _buildLiveEnergyTicker(context),
 
                 // Section 2: "How It Works" (4-Step Unmanned Funnel)
                 _buildHowItWorksSection(context),
@@ -167,8 +107,6 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
               ],
             ),
           ),
-        ],
-      ),
     );
   }
 
@@ -346,9 +284,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: luxuryCoralRose.withValues(alpha: 0.35),
-                      blurRadius: 10,
-                      offset: const Offset(0, 3),
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
                     ),
                   ],
                 ),
@@ -537,50 +475,47 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
           runSpacing: 12,
           children: [
             // Instant QR Walk-In Button
-            ScaleTransition(
-              scale: _pulseAnimation,
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: widget.onWalkInTap,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 14,
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: widget.onWalkInTap,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 14,
+                  ),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFFF4B72), Color(0xFFFF6B4A)],
                     ),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFFFF4B72), Color(0xFFFF6B4A)],
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.25),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
                       ),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: luxuryCoralRose.withValues(alpha: 0.45),
-                          blurRadius: 18,
-                          offset: const Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.qr_code_2_rounded,
-                          size: 18,
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.qr_code_2_rounded,
+                        size: 18,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Walk In & Play Now (RM17) →',
+                        style: AppTypography.ui(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w900,
                           color: Colors.white,
+                          letterSpacing: 0.3,
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Walk In & Play Now (RM17) →',
-                          style: AppTypography.ui(
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                            letterSpacing: 0.3,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -680,14 +615,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.5),
-            blurRadius: 32,
-            offset: const Offset(0, 16),
-          ),
-          BoxShadow(
-            color: luxuryCoralRose.withValues(alpha: 0.1),
-            blurRadius: 40,
-            spreadRadius: 2,
+            color: Colors.black.withValues(alpha: 0.4),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
@@ -1874,9 +1804,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
         boxShadow: isPopular
             ? [
                 BoxShadow(
-                  color: luxuryCoralRose.withValues(alpha: 0.2),
-                  blurRadius: 28,
-                  offset: const Offset(0, 8),
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
                 ),
               ]
             : [],
@@ -2180,14 +2110,14 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
         ),
         borderRadius: BorderRadius.circular(28),
         border: Border.all(
-          color: luxuryCoralRose.withValues(alpha: 0.35),
-          width: 1.5,
+          color: Colors.white.withValues(alpha: 0.1),
+          width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: luxuryCoralRose.withValues(alpha: 0.15),
-            blurRadius: 40,
-            offset: const Offset(0, 10),
+            color: Colors.black.withValues(alpha: 0.35),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -2256,9 +2186,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: luxuryCoralRose.withValues(alpha: 0.4),
-                            blurRadius: 20,
-                            offset: const Offset(0, 6),
+                            color: Colors.black.withValues(alpha: 0.25),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
                           ),
                         ],
                       ),
