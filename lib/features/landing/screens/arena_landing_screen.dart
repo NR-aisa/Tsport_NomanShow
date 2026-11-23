@@ -385,11 +385,13 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               // LAYER 1: Full-Bleed 100vh Background Video Canvas
               // --------------------------------------------------------------
               const Positioned.fill(
-                child: ArenaVideoPlayer(
-                  videoPath: 'videos/arena_highlight.mp4',
-                  fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
-                  borderRadius: 0,
-                  showVignette: false,
+                child: IgnorePointer(
+                  child: ArenaVideoPlayer(
+                    videoPath: 'videos/arena_highlight.mp4',
+                    fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
+                    borderRadius: 0,
+                    showVignette: false,
+                  ),
                 ),
               ),
 
@@ -398,17 +400,19 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               // Soft 40%-50% gradient: video stays bright & visible across 100vh
               // --------------------------------------------------------------
               Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        const Color(0xFF0A0B10).withValues(alpha: 0.40),
-                        const Color(0xFF0A0B10).withValues(alpha: 0.50),
-                        const Color(0xFF0A0B10).withValues(alpha: 0.85),
-                      ],
-                      stops: const [0.0, 0.60, 1.0],
+                child: IgnorePointer(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          const Color(0xFF0A0B10).withValues(alpha: 0.40),
+                          const Color(0xFF0A0B10).withValues(alpha: 0.50),
+                          const Color(0xFF0A0B10).withValues(alpha: 0.85),
+                        ],
+                        stops: const [0.0, 0.60, 1.0],
+                      ),
                     ),
                   ),
                 ),
@@ -2642,8 +2646,17 @@ class _ArenaInteractiveButtonState extends State<ArenaInteractiveButton> {
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
-      child: GestureDetector(
+      child: InkWell(
         onTap: widget.onTap,
+        onHover: (hovering) {
+          if (_isHovered != hovering) {
+            setState(() => _isHovered = hovering);
+          }
+        },
+        borderRadius: br,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 220),
           curve: Curves.easeOutCubic,
@@ -2663,28 +2676,21 @@ class _ArenaInteractiveButtonState extends State<ArenaInteractiveButton> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (widget.icon != null) ...[
-                AnimatedDefaultTextStyle(
-                  duration: const Duration(milliseconds: 220),
-                  style: TextStyle(color: textColor),
-                  child: Icon(
-                    widget.icon,
-                    size: (widget.fontSize ?? 14) + 1,
-                    color: textColor,
-                  ),
+                Icon(
+                  widget.icon,
+                  size: (widget.fontSize ?? 14) + 1,
+                  color: textColor,
                 ),
                 const SizedBox(width: 6),
               ],
-              AnimatedDefaultTextStyle(
-                duration: const Duration(milliseconds: 220),
+              Text(
+                widget.label,
+                textAlign: TextAlign.center,
                 style: AppTypography.ui(
                   fontSize: widget.fontSize ?? 14,
                   fontWeight: FontWeight.w800,
                   color: textColor,
                   letterSpacing: 0.2,
-                ),
-                child: Text(
-                  widget.label,
-                  textAlign: TextAlign.center,
                 ),
               ),
             ],
