@@ -282,17 +282,17 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
 
           // Desktop Nav Links
           if (!isCompact) ...[
-            _buildNavLink('The Vibe', () => _scrollTo(_vibeKey)),
-            const SizedBox(width: 20),
-            _buildNavLink('How It Works', () => _scrollTo(_howItWorksKey)),
-            const SizedBox(width: 20),
-            _buildNavLink('10 Courts Radar', () => _scrollTo(_courtsKey)),
-            const SizedBox(width: 20),
-            _buildNavLink('Passes & Pricing', () => _scrollTo(_pricingKey)),
-            const SizedBox(width: 20),
-            _buildNavLink('Night Entrance', () => _scrollTo(_locationKey)),
             const SizedBox(width: 24),
+            _buildNavLink('The Vibe', () => _scrollTo(_vibeKey)),
+            const SizedBox(width: 18),
+            _buildNavLink('How It Works', () => _scrollTo(_howItWorksKey)),
+            const SizedBox(width: 18),
+            _buildNavLink('10 Courts Radar', () => _scrollTo(_courtsKey)),
+            const SizedBox(width: 18),
+            _buildNavLink('Passes & Pricing', () => _scrollTo(_pricingKey)),
           ],
+
+          const Spacer(),
 
           // Live Courts Badge
           Container(
@@ -330,7 +330,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
             ),
           ),
 
-          const SizedBox(width: 14),
+          const SizedBox(width: 12),
 
           // Primary Launch Dashboard Button
           MouseRegion(
@@ -374,6 +374,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
               ),
             ),
           ),
+
+          // Safe buffer margin on the right so the floating presentation switcher bar has clean space with zero overlap
+          const SizedBox(width: 390),
         ],
       ),
     );
