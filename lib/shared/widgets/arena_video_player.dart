@@ -71,39 +71,42 @@ class _ArenaVideoPlayerState extends State<ArenaVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(widget.borderRadius),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Background: Video on Web, or High-Res Action Image fallback
-          if (kIsWeb && _initialized)
-            HtmlElementView(viewType: _viewType)
-          else
-            Image.asset(
-              widget.fallbackImagePath,
-              fit: BoxFit.cover,
-            ),
+    return Container(
+      color: const Color(0xFF0A0B10),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(widget.borderRadius),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Background: Video on Web, or High-Res Action Image fallback
+            if (kIsWeb && _initialized)
+              HtmlElementView(viewType: _viewType)
+            else
+              Image.asset(
+                widget.fallbackImagePath,
+                fit: BoxFit.cover,
+              ),
 
-          // Optional Vignette Gradient Overlay
-          if (widget.showVignette)
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withValues(alpha: 0.1),
-                    Colors.black.withValues(alpha: 0.65),
-                  ],
-                  stops: const [0.4, 1.0],
+            // Optional Vignette Gradient Overlay
+            if (widget.showVignette)
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.1),
+                      Colors.black.withValues(alpha: 0.65),
+                    ],
+                    stops: const [0.4, 1.0],
+                  ),
                 ),
               ),
-            ),
 
-          // Custom Overlay (HUD Telemetry, Court Status, Badges)
-          if (widget.overlay != null) widget.overlay!,
-        ],
+            // Custom Overlay (HUD Telemetry, Court Status, Badges)
+            if (widget.overlay != null) widget.overlay!,
+          ],
+        ),
       ),
     );
   }
