@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_typography.dart';
 import '../../../shared/widgets/arena_video_player.dart';
+import '../widgets/kita_stacking_cards.dart';
 
 /// High-Converting, Pulse-Pounding Public Landing Page for JOMNITTAKU.
 ///
@@ -1207,340 +1208,88 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
           ),
           const SizedBox(height: 48),
 
-          // Bento Grid: 2 rows with Real High-Intensity Photography
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final isDesktop = constraints.maxWidth >= 960;
-              return Column(
-                children: [
-                  // Row 1: Midnight Owl Culture + 90 sen pass
-                  isDesktop
-                      ? Row(
-                          children: [
-                            Expanded(
-                              flex: 58,
-                              child: _buildBentoCard(
-                                tag: '12 AM – 8 AM MIDNIGHT CHILL',
-                                title: 'The 3 AM Table Tennis Rush',
-                                desc:
-                                    'When the city goes to sleep, the smashes get louder. Enjoy 50% discount during midnight happy hours, ambient lofi-electronic beats, and zero queue stress.',
-                                icon: Icons.dark_mode_rounded,
-                                accentColor: const Color(0xFF818CF8),
-                                badgeText: '50% OFF MIDNIGHT',
-                                backgroundImageAsset: 'assets/images/arena_match_intensity.jpg',
-                                ctaLabel: 'Experience Midnight Rush',
-                                onTap: widget.onWalkInTap,
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              flex: 42,
-                              child: _buildBentoCard(
-                                tag: 'UNBEATABLE VALUE',
-                                title: '90 Sen / Day Freedom',
-                                desc:
-                                    'Cheaper than a cup of Kopi Ais (RM0.90/day). One monthly VIP pass gives you and your friends 24/7 unlimited walk-in freedom.',
-                                icon: Icons.stars_rounded,
-                                accentColor: luxuryCoralRose,
-                                badgeText: 'RM27 / MO',
-                                ctaLabel: 'View VIP Passes',
-                                onTap: widget.onWalkInTap,
-                              ),
-                            ),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            _buildBentoCard(
-                              tag: '12 AM – 8 AM MIDNIGHT CHILL',
-                              title: 'The 3 AM Table Tennis Rush',
-                              desc:
-                                    'When the city goes to sleep, the smashes get louder. Enjoy 50% discount during midnight happy hours, ambient lofi-electronic beats, and zero queue stress.',
-                              icon: Icons.dark_mode_rounded,
-                              accentColor: const Color(0xFF818CF8),
-                              badgeText: '50% OFF MIDNIGHT',
-                              backgroundImageAsset: 'assets/images/arena_match_intensity.jpg',
-                              ctaLabel: 'Experience Midnight Rush',
-                              onTap: widget.onWalkInTap,
-                            ),
-                            const SizedBox(height: 16),
-                            _buildBentoCard(
-                              tag: 'UNBEATABLE VALUE',
-                              title: '90 Sen / Day Freedom',
-                              desc:
-                                  'Cheaper than a cup of Kopi Ais (RM0.90/day). One monthly VIP pass gives you 24/7 unlimited walk-in freedom.',
-                              icon: Icons.stars_rounded,
-                              accentColor: luxuryCoralRose,
-                              badgeText: 'RM27 / MO',
-                              ctaLabel: 'View VIP Passes',
-                              onTap: widget.onWalkInTap,
-                            ),
-                          ],
-                        ),
-
-                  const SizedBox(height: 20),
-
-                  // Row 2: 1v1 Challenge Pot + ITTF Olympic standard
-                  isDesktop
-                      ? Row(
-                          children: [
-                            Expanded(
-                              flex: 42,
-                              child: _buildBentoCard(
-                                tag: 'LIVE RADAR CHALLENGE',
-                                title: '1v1 Match Pots & Elo Rank',
-                                desc:
-                                    'Scan the radar for nearby rivals. Bet XP or cash pots (RM50 – RM200) in verified AI-scored 1v1 matches.',
-                                icon: Icons.local_fire_department_rounded,
-                                accentColor: luxuryGold,
-                                badgeText: 'RM200 POTS',
-                                backgroundImageAsset: 'assets/images/arena_live_rally.jpg',
-                                ctaLabel: 'Find Rivals on Radar',
-                                onTap: widget.onViewCourtsTap,
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              flex: 58,
-                              child: _buildBentoCard(
-                                tag: 'ITTF OLYMPIC EQUIPMENT',
-                                title: 'Pro DHS & Nittaku Tables',
-                                desc:
-                                    'Championship-standard DHS Rainbow & Nittaku Premium 25mm bounce surfaces. Dual-split climate chillers (23°C / 54% humidity) and 480 Lux anti-stroboscopic LED lighting.',
-                                icon: Icons.verified_rounded,
-                                accentColor: luxuryVoltEmerald,
-                                badgeText: '100% ITTF CERTIFIED',
-                                backgroundImageAsset: 'assets/images/arena_table_equipment.jpg',
-                                ctaLabel: 'Check Table Availability',
-                                onTap: widget.onViewCourtsTap,
-                              ),
-                            ),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            _buildBentoCard(
-                              tag: 'LIVE RADAR CHALLENGE',
-                              title: '1v1 Match Pots & Elo Rank',
-                              desc:
-                                  'Scan the radar for nearby rivals. Bet XP or cash pots in verified AI-scored 1v1 matches.',
-                              icon: Icons.local_fire_department_rounded,
-                              accentColor: luxuryGold,
-                              badgeText: 'RM200 POTS',
-                              backgroundImageAsset: 'assets/images/arena_live_rally.jpg',
-                              ctaLabel: 'Find Rivals on Radar',
-                              onTap: widget.onViewCourtsTap,
-                            ),
-                            const SizedBox(height: 16),
-                            _buildBentoCard(
-                              tag: 'ITTF OLYMPIC EQUIPMENT',
-                              title: 'Pro DHS & Nittaku Tables',
-                              desc:
-                                  'Championship-standard DHS Rainbow & Nittaku Premium 25mm surfaces. 23°C climate chillers and 480 Lux lighting.',
-                              icon: Icons.verified_rounded,
-                              accentColor: luxuryVoltEmerald,
-                              badgeText: '100% ITTF CERTIFIED',
-                              backgroundImageAsset: 'assets/images/arena_table_equipment.jpg',
-                              ctaLabel: 'Check Table Availability',
-                              onTap: widget.onViewCourtsTap,
-                            ),
-                          ],
-                        ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBentoCard({
-    required String tag,
-    required String title,
-    required String desc,
-    required IconData icon,
-    required Color accentColor,
-    required String badgeText,
-    String? backgroundImageAsset,
-    VoidCallback? onTap,
-    String? ctaLabel,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: luxuryCard,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.08),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Dr. Arefin Canonical Pattern: 16/10 High-Res Image Header
-            if (backgroundImageAsset != null)
-              AspectRatio(
-                aspectRatio: 16 / 10,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.asset(
-                      backgroundImageAsset,
-                      fit: BoxFit.cover,
-                    ),
-                    // Subtle bottom vignette gradient to blend image seamlessly into card body
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            luxuryCard.withValues(alpha: 0.75),
-                          ],
-                          stops: const [0.65, 1.0],
-                        ),
-                      ),
-                    ),
-                    // Top floating badge
-                    Positioned(
-                      top: 14,
-                      right: 14,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.7),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.15),
-                            width: 1,
-                          ),
-                        ),
-                        child: Text(
-                          badgeText,
-                          style: AppTypography.ui(
-                            fontSize: 9.5,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-            // Card Body Content (Clean Typography & Accent Kicker)
-            Padding(
-              padding: const EdgeInsets.all(26),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: accentColor.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: accentColor.withValues(alpha: 0.35),
-                            width: 1,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(icon, size: 14, color: accentColor),
-                            const SizedBox(width: 6),
-                            Text(
-                              tag,
-                              style: AppTypography.ui(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w900,
-                                color: accentColor,
-                                letterSpacing: 0.6,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (backgroundImageAsset == null)
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.08),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            badgeText,
-                            style: AppTypography.ui(
-                              fontSize: 9.5,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    title,
-                    style: AppTypography.ui(
-                      fontSize: 19,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    desc,
-                    style: AppTypography.ui(
-                      fontSize: 13.5,
-                      color: const Color(0xFFBAC0D6),
-                      height: 1.55,
-                    ),
-                  ),
-                  if (ctaLabel != null && onTap != null) ...[
-                    const SizedBox(height: 18),
-                    MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: onTap,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              ctaLabel,
-                              style: AppTypography.ui(
-                                fontSize: 12.5,
-                                fontWeight: FontWeight.w900,
-                                color: accentColor,
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                            Icon(Icons.arrow_forward_rounded, size: 14, color: accentColor),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+          // KITA-Style Interactive Tactile Stacking Deck
+          KitaStackingDeck(
+            cards: [
+              KitaCardItem(
+                step: '01',
+                tag: '12 AM – 8 AM MIDNIGHT CHILL',
+                title: 'The 3 AM Table Tennis Rush',
+                description:
+                    'When the city goes to sleep, the smashes get louder. Enjoy 50% discount during midnight happy hours, ambient lofi-electronic beats, and zero queue stress.',
+                icon: Icons.dark_mode_rounded,
+                accentColor: const Color(0xFF818CF8),
+                surfaceColor: const Color(0xFF131726),
+                badgeText: '50% OFF MIDNIGHT',
+                imageAsset: 'assets/images/arena_match_intensity.jpg',
+                ctaLabel: 'Experience Midnight Rush',
+                onTap: widget.onWalkInTap,
+                stats: const [
+                  {'value': '3:00 AM', 'label': 'Peak Rush'},
+                  {'value': '50% OFF', 'label': 'Midnight Pass'},
+                  {'value': 'Lo-Fi', 'label': 'Soundscape'},
                 ],
               ),
-            ),
-          ],
-        ),
+              KitaCardItem(
+                step: '02',
+                tag: 'UNBEATABLE VALUE',
+                title: '90 Sen / Day Freedom',
+                description:
+                    'Cheaper than a cup of Kopi Ais (RM0.90/day). One monthly VIP pass gives you and your friends 24/7 unlimited walk-in freedom with zero equipment fees.',
+                icon: Icons.stars_rounded,
+                accentColor: const Color(0xFFFFB800),
+                surfaceColor: const Color(0xFF1E190E),
+                badgeText: 'RM27 / MO',
+                imageAsset: 'assets/images/arena_table_equipment.jpg',
+                ctaLabel: 'View VIP Passes',
+                onTap: widget.onWalkInTap,
+                stats: const [
+                  {'value': 'RM 0.90', 'label': 'Per Day'},
+                  {'value': '24/7/365', 'label': 'Unlimited Walk-In'},
+                  {'value': 'RM 0', 'label': 'Gear Rental'},
+                ],
+              ),
+              KitaCardItem(
+                step: '03',
+                tag: '100% ITTF CERTIFIED',
+                title: 'Pro DHS & Nittaku Tables',
+                description:
+                    'Championship-standard DHS Rainbow & Nittaku Premium 25mm bounce surfaces. Dual-split climate chillers (23°C / 54% humidity) and 480 Lux anti-stroboscopic LED lighting.',
+                icon: Icons.verified_rounded,
+                accentColor: const Color(0xFF00D2FF),
+                surfaceColor: const Color(0xFF0C1B2B),
+                badgeText: 'OLYMPIC GRADE',
+                imageAsset: 'assets/images/arena_table_equipment.jpg',
+                ctaLabel: 'Check Table Availability',
+                onTap: widget.onViewCourtsTap,
+                stats: const [
+                  {'value': '25mm', 'label': 'Pro Bounce Surface'},
+                  {'value': '480 Lux', 'label': 'Anti-Glare LED'},
+                  {'value': '23°C', 'label': 'Climate Chilled'},
+                ],
+              ),
+              KitaCardItem(
+                step: '04',
+                tag: 'LIVE RADAR CHALLENGE',
+                title: '1v1 Match Pots & Elo Rank',
+                description:
+                    'Scan the radar for nearby rivals. Bet XP or cash pots (RM50 – RM200) in verified AI-scored 1v1 matches with instant automated Elo rating updates.',
+                icon: Icons.local_fire_department_rounded,
+                accentColor: const Color(0xFFFF5C38),
+                surfaceColor: const Color(0xFF241217),
+                badgeText: 'RM200 POTS',
+                imageAsset: 'assets/images/arena_live_rally.jpg',
+                ctaLabel: 'Find Rivals on Radar',
+                onTap: widget.onViewCourtsTap,
+                stats: const [
+                  {'value': 'RM 50–200', 'label': 'Match Pots'},
+                  {'value': 'AI Scored', 'label': 'Zero Disputes'},
+                  {'value': 'Live Elo', 'label': 'Leaderboard Rank'},
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
