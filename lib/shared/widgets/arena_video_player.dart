@@ -54,6 +54,11 @@ class _ArenaVideoPlayerState extends State<ArenaVideoPlayer> {
           ..loop = true
           ..muted = true
           ..playsInline = true
+          ..preload = 'auto'
+          ..setAttribute('autoplay', '')
+          ..setAttribute('muted', '')
+          ..setAttribute('playsinline', '')
+          ..setAttribute('loop', '')
           ..style.width = '100%'
           ..style.height = '100%'
           ..style.objectFit = 'cover'
@@ -61,7 +66,9 @@ class _ArenaVideoPlayerState extends State<ArenaVideoPlayer> {
           ..style.pointerEvents = 'none';
 
         // Play video safely
-        video.play();
+        try {
+          video.play();
+        } catch (_) {}
         return video;
       });
     } catch (_) {
