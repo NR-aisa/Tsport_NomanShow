@@ -7,7 +7,7 @@ import '../../../core/theme/app_typography.dart';
 ///
 /// Theme: "Malaysia's 1st 24/7 Autonomous Unmanned Table Tennis Arena"
 /// Location: 3 Damansara Mall, Level 2
-/// Core Goal: Attract, excite, and convert visitors with raw athletic energy ("ধুমধাম খেলা হইতেছে! Are you feeling the energy?").
+/// Core Goal: Attract, excite, and convert visitors with raw athletic energy ("Are you feeling the energy?").
 class ArenaLandingScreen extends StatefulWidget {
   final VoidCallback onLaunchHub;
   final VoidCallback onWalkInTap;
@@ -520,7 +520,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen>
 
         // Persuasive Story Copy
         Text(
-          'রাত ৩টায় খেলা হবে ধুমধাম! কোনো রিসেপশনিস্ট নেই, কোনো বুকিংয়ের ঝামেলা নেই। ৩ দামানসারা মলে ১০টি অলিম্পিক টেবিল, অটোমেটিক বল ডিসপেনসার আর অপটিক্যাল স্ম্যাশ রাডার ২৪ ঘণ্টাই চালু। ফোন দিয়ে QR স্ক্যান করুন, টার্নস্টাইল আনলক হবে—বাকিটা শুধুই পিওর অ্যাড্রেনালিন!',
+          'Smashes at 3 AM! No receptionists, no booking friction, no queues. 10 ITTF Olympic tables, smart robot ball dispensers, and optical smash tracking cameras open 24/7 at 3 Damansara Mall (Level 2). Scan your dynamic QR, step through the 0.3s turnstile, and experience pure table tennis adrenaline.',
           style: AppTypography.ui(
             fontSize: 15,
             fontWeight: FontWeight.w400,
