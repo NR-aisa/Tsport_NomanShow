@@ -99,6 +99,14 @@ class DesktopDockRail extends StatelessWidget {
           // NAVIGATION MENU LIST
           // ==========================================
           _buildNavItem(
+            id: 'landing',
+            icon: Icons.public_rounded,
+            label: 'Public Website',
+            badge: 'LIVE',
+            badgeColor: const Color(0xFF10B981),
+          ),
+          const SizedBox(height: 6),
+          _buildNavItem(
             id: 'command',
             icon: Icons.home_rounded,
             label: 'Home',

@@ -16,6 +16,7 @@ import '../../../shared/widgets/desktop_web_header.dart';
 import '../../../core/theme/viewport_controller.dart';
 import '../widgets/desktop_web_sections.dart';
 import '../../display/screens/display_leaderboard_screen.dart';
+import '../../landing/screens/arena_landing_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   final VoidCallback? onRegisterTap;
@@ -57,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String _activeTab = 'command';
+  String _activeTab = 'landing';
   String _selectedLanguage = 'ENG';
 
   void _onNavChange(String id) {
@@ -109,6 +110,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Widget _buildDesktopWebsiteScaffold(BuildContext context, bool isDark) {
+    if (_activeTab == 'landing') {
+      return ArenaLandingScreen(
+        onLaunchHub: () => _onNavChange('command'),
+        onWalkInTap: () => _onNavChange('passes'),
+        onViewCourtsTap: () => _onNavChange('radar'),
+        onViewLeagueTap: () => _onNavChange('league'),
+      );
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFF161720),
       body: SafeArea(
@@ -146,6 +156,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _buildDesktopContent(BuildContext context, bool isDark) {
     switch (_activeTab) {
+      case 'landing':
+        return ArenaLandingScreen(
+          onLaunchHub: () => _onNavChange('command'),
+          onWalkInTap: () => _onNavChange('passes'),
+          onViewCourtsTap: () => _onNavChange('radar'),
+          onViewLeagueTap: () => _onNavChange('league'),
+        );
       case 'radar':
         return DesktopWebSections.buildRadarFloorplanSection(
           context,
@@ -195,6 +212,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Widget _buildMobileScaffold(BuildContext context, bool isDark, BoxConstraints constraints) {
+    if (_activeTab == 'landing') {
+      return ArenaLandingScreen(
+        onLaunchHub: () => _onNavChange('command'),
+        onWalkInTap: () => _onNavChange('passes'),
+        onViewCourtsTap: () => _onNavChange('radar'),
+        onViewLeagueTap: () => _onNavChange('league'),
+      );
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: AppColors.canvasBg,
@@ -2263,6 +2289,10 @@ class _SplashScreenState extends State<SplashScreen> {
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: [
+                  _buildDrawerTile(Icons.public_rounded, 'Public Website & Vibe 🌐', () {
+                    Navigator.pop(context);
+                    _onNavChange('landing');
+                  }),
                   _buildDrawerTile(Icons.home_rounded, 'Venue Home', () => Navigator.pop(context)),
                   _buildDrawerTile(Icons.door_front_door_rounded, 'Gate Pass & Door Unlock (KX8VQS)', () {
                     Navigator.pop(context);

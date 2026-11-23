@@ -117,6 +117,46 @@ class DesktopWebHeader extends StatelessWidget {
             ),
           ),
 
+          const SizedBox(width: 14),
+
+          // Quick Public Website Switcher Pill
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: () => onTabChanged?.call('landing'),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF222533),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.1),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.public_rounded,
+                      size: 13,
+                      color: Color(0xFF60A5FA),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      'Public Website',
+                      style: AppTypography.ui(
+                        fontSize: 10.5,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
           const Spacer(),
 
           // Buffer for the top-right floating switcher bar
