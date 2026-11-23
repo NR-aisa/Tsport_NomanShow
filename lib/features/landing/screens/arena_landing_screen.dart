@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/session/demo_avatars.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../shared/widgets/arena_video_player.dart';
 
 /// High-Converting, Pulse-Pounding Public Landing Page for JOMNITTAKU.
 ///
@@ -228,88 +229,147 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
             _buildNavLink('10 Courts', () => _scrollTo(_courtsKey)),
             const SizedBox(width: 16),
             _buildNavLink('Passes & Pricing', () => _scrollTo(_pricingKey)),
+            const SizedBox(width: 16),
+            _buildNavLink('Tournaments', widget.onViewLeagueTap),
           ],
 
           const Spacer(),
 
-          // Live Courts Badge
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: luxuryVoltEmerald.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: luxuryVoltEmerald.withValues(alpha: 0.35),
-                width: 1,
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 7,
-                  height: 7,
-                  decoration: const BoxDecoration(
-                    color: luxuryVoltEmerald,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  '6 OF 10 FREE',
-                  style: AppTypography.ui(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w900,
-                    color: luxuryVoltEmerald,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(width: 10),
-
-          // Primary Launch Dashboard Button
+          // Live Courts Badge (clickable to open Radar)
           MouseRegion(
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
-              onTap: widget.onLaunchHub,
+              onTap: widget.onViewCourtsTap,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFFF4B72), Color(0xFFFF6B4A)],
+                  color: luxuryVoltEmerald.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: luxuryVoltEmerald.withValues(alpha: 0.35),
+                    width: 1,
                   ),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
-                      Icons.dashboard_rounded,
-                      size: 13,
-                      color: Colors.white,
+                    Container(
+                      width: 7,
+                      height: 7,
+                      decoration: const BoxDecoration(
+                        color: luxuryVoltEmerald,
+                        shape: BoxShape.circle,
+                      ),
                     ),
-                    const SizedBox(width: 5),
+                    const SizedBox(width: 6),
                     Text(
-                      'Arena Hub →',
+                      '6 OF 10 FREE',
                       style: AppTypography.ui(
-                        fontSize: 11.5,
+                        fontSize: 10,
                         fontWeight: FontWeight.w900,
-                        color: Colors.white,
+                        color: luxuryVoltEmerald,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ],
                 ),
               ),
+            ),
+          ),
+
+          const SizedBox(width: 10),
+
+          // Dual-State Action Capsule: [ ⚡ Walk In (RM17) | 🌐 Arena Hub → ]
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.05),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.12),
+                width: 1,
+              ),
+            ),
+            padding: const EdgeInsets.all(3),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // State A: Instant Walk-In
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: widget.onWalkInTap,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFFFF4B72), Color(0xFFFF6B4A)],
+                        ),
+                        borderRadius: BorderRadius.circular(9),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            blurRadius: 4,
+                            offset: const Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.bolt_rounded,
+                            size: 13,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            'Walk In (RM17)',
+                            style: AppTypography.ui(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                // State B: Arena Hub Destination
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: widget.onLaunchHub,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: luxuryCardElevated,
+                        borderRadius: BorderRadius.circular(9),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.grid_view_rounded,
+                            size: 12,
+                            color: luxuryElectricCyan,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            'Arena Hub →',
+                            style: AppTypography.ui(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
 
@@ -621,59 +681,162 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header: Court & Tracking Badge
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+          // Live Video Window with Edge AI Telemetry Overlay
+          Container(
+            height: 220,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.12),
+                width: 1,
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Stack(
+                fit: StackFit.expand,
                 children: [
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: const BoxDecoration(
-                      color: luxuryCoralRose,
-                      shape: BoxShape.circle,
+                  // Native 60 FPS Looping Video Player (with action photo fallback)
+                  const ArenaVideoPlayer(
+                    videoPath: 'videos/arena_highlight.mp4',
+                    fallbackImagePath: 'assets/images/arena_live_rally.jpg',
+                    borderRadius: 16,
+                  ),
+
+                  // Top Overlay Bar: Live Cam Badge + 60 FPS Edge AI
+                  Positioned(
+                    top: 12,
+                    left: 12,
+                    right: 12,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.7),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: luxuryCoralRose.withValues(alpha: 0.5),
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: const BoxDecoration(
+                                  color: luxuryCoralRose,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                'CENTRE COURT T04 • LIVE CAM',
+                                style: AppTypography.ui(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                  letterSpacing: 0.6,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: luxuryVoltEmerald.withValues(alpha: 0.25),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: luxuryVoltEmerald.withValues(alpha: 0.6),
+                              width: 1,
+                            ),
+                          ),
+                          child: Text(
+                            '60 FPS EDGE AI',
+                            style: AppTypography.ui(
+                              fontSize: 9.5,
+                              fontWeight: FontWeight.w900,
+                              color: luxuryVoltEmerald,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'CENTRE COURT T04 • LIVE HUD',
-                    style: AppTypography.ui(
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                      letterSpacing: 0.8,
+
+                  // Bottom Telemetry Overlay
+                  Positioned(
+                    bottom: 12,
+                    left: 12,
+                    right: 12,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.7),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.speed_rounded, size: 12, color: luxuryCoralRose),
+                              const SizedBox(width: 5),
+                              Text(
+                                'Smash: 84.6 km/h',
+                                style: AppTypography.ui(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.7),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.repeat_rounded, size: 12, color: luxuryElectricCyan),
+                              const SizedBox(width: 5),
+                              Text(
+                                'Rally: 14 Hits',
+                                style: AppTypography.ui(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: luxuryVoltEmerald.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  '60 FPS EDGE AI',
-                  style: AppTypography.ui(
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.w900,
-                    color: luxuryVoltEmerald,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
 
           // Live Match Scoreboard
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
               color: luxuryCardElevated,
               borderRadius: BorderRadius.circular(16),
@@ -685,10 +848,10 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               children: [
                 // Player 1
                 const CircleAvatar(
-                  radius: 18,
+                  radius: 17,
                   backgroundImage: AssetImage(DemoAvatars.jason),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 9),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -696,7 +859,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                       Text(
                         'Jason T.',
                         style: AppTypography.ui(
-                          fontSize: 13,
+                          fontSize: 12.5,
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
                         ),
@@ -704,7 +867,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                       Text(
                         'Damansara Lvl 14',
                         style: AppTypography.ui(
-                          fontSize: 10,
+                          fontSize: 9.5,
                           fontWeight: FontWeight.w600,
                           color: luxuryMuted,
                         ),
@@ -715,24 +878,24 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                 // Score
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
+                    horizontal: 10,
+                    vertical: 5,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.4),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     '14 — 11',
                     style: AppTypography.ui(
-                      fontSize: 16,
+                      fontSize: 15,
                       fontWeight: FontWeight.w900,
                       color: luxuryCoralRose,
                       letterSpacing: 1.2,
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 9),
                 // Player 2
                 Expanded(
                   child: Column(
@@ -741,7 +904,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                       Text(
                         'Alman R.',
                         style: AppTypography.ui(
-                          fontSize: 13,
+                          fontSize: 12.5,
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
                         ),
@@ -749,7 +912,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                       Text(
                         'Pro Member Lvl 12',
                         style: AppTypography.ui(
-                          fontSize: 10,
+                          fontSize: 9.5,
                           fontWeight: FontWeight.w600,
                           color: luxuryMuted,
                         ),
@@ -757,50 +920,16 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 9),
                 const CircleAvatar(
-                  radius: 18,
+                  radius: 17,
                   backgroundImage: AssetImage(DemoAvatars.user),
                 ),
               ],
             ),
           ),
 
-          const SizedBox(height: 18),
-
-          // 3 Live Metric Mini-Cards
-          Row(
-            children: [
-              Expanded(
-                child: _buildHeroMetricPill(
-                  label: 'Smash Speed',
-                  value: '84.6 km/h',
-                  icon: Icons.speed_rounded,
-                  color: luxuryCoralRose,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _buildHeroMetricPill(
-                  label: 'Active Rally',
-                  value: '14 Hits',
-                  icon: Icons.repeat_rounded,
-                  color: luxuryElectricCyan,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _buildHeroMetricPill(
-                  label: 'Turnstile',
-                  value: '0.3s Open',
-                  icon: Icons.door_sliding_rounded,
-                  color: luxuryVoltEmerald,
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 18),
+          const SizedBox(height: 14),
 
           // Instant Play Callout
           Container(
@@ -852,115 +981,231 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
     );
   }
 
-  Widget _buildHeroMetricPill({
-    required String label,
-    required String value,
-    required IconData icon,
-    required Color color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
-        color: luxuryCardElevated,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.05),
+  // ========================================================================
+  // 3. LIVE ENERGY & STATS TICKER (Floating Glass Island with Razor Alignment)
+  // ========================================================================
+  Widget _buildLiveEnergyTicker(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isDesktop = screenWidth >= 960;
+
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 1200),
+        margin: EdgeInsets.symmetric(
+          horizontal: isDesktop ? 40 : 16,
+          vertical: 20,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 12, color: color),
-              const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  label,
-                  style: AppTypography.ui(
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.w700,
-                    color: luxuryMuted,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+        padding: EdgeInsets.symmetric(
+          horizontal: isDesktop ? 28 : 16,
+          vertical: isDesktop ? 22 : 18,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.03),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.08),
+            width: 1,
           ),
-          const SizedBox(height: 4),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.25),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: isDesktop
+            ? Row(
+                children: [
+                  Expanded(
+                    child: _build3TierStat(
+                      kicker: 'ALWAYS UNLOCKED',
+                      metric: '24 / 7',
+                      label: 'Open 365 Days • Midnight Friendly',
+                      accentColor: luxuryVoltEmerald,
+                    ),
+                  ),
+                  _buildStatDivider(),
+                  Expanded(
+                    child: _build3TierStat(
+                      kicker: 'ITTF CERTIFIED',
+                      metric: '10 Courts',
+                      label: 'Olympic DHS & Nittaku Tables',
+                      accentColor: luxuryCoralRose,
+                    ),
+                  ),
+                  _buildStatDivider(),
+                  Expanded(
+                    child: _build3TierStat(
+                      kicker: 'OPTICAL SPEED',
+                      metric: '0.3 Sec',
+                      label: 'Fastest Turnstile Gate in KL',
+                      accentColor: luxuryElectricCyan,
+                    ),
+                  ),
+                  _buildStatDivider(),
+                  Expanded(
+                    child: _build3TierStat(
+                      kicker: 'UNBEATABLE VALUE',
+                      metric: '90 Sen',
+                      label: 'Per Day Unlimited VIP Pass',
+                      accentColor: luxuryGold,
+                    ),
+                  ),
+                  _buildStatDivider(),
+                  Expanded(
+                    child: _build3TierStat(
+                      kicker: 'EDGE VISION',
+                      metric: '60 FPS AI',
+                      label: 'Smash Speed & Rally Camera',
+                      accentColor: luxuryVoltEmerald,
+                    ),
+                  ),
+                ],
+              )
+            : Wrap(
+                spacing: 16,
+                runSpacing: 18,
+                alignment: WrapAlignment.spaceEvenly,
+                children: [
+                  _build3TierStatMobile(
+                    kicker: 'ALWAYS UNLOCKED',
+                    metric: '24 / 7',
+                    label: 'Open 365 Days',
+                    accentColor: luxuryVoltEmerald,
+                  ),
+                  _build3TierStatMobile(
+                    kicker: 'ITTF CERTIFIED',
+                    metric: '10 Courts',
+                    label: 'Olympic Tables',
+                    accentColor: luxuryCoralRose,
+                  ),
+                  _build3TierStatMobile(
+                    kicker: 'OPTICAL SPEED',
+                    metric: '0.3s Gate',
+                    label: 'QR Turnstile',
+                    accentColor: luxuryElectricCyan,
+                  ),
+                  _build3TierStatMobile(
+                    kicker: 'UNBEATABLE VALUE',
+                    metric: '90 Sen/d',
+                    label: 'VIP Unlimited',
+                    accentColor: luxuryGold,
+                  ),
+                  _build3TierStatMobile(
+                    kicker: 'EDGE VISION',
+                    metric: '60 FPS AI',
+                    label: 'Smash Tracking',
+                    accentColor: luxuryVoltEmerald,
+                  ),
+                ],
+              ),
+      ),
+    );
+  }
+
+  Widget _buildStatDivider() {
+    return Container(
+      width: 1,
+      height: 48,
+      margin: const EdgeInsets.symmetric(horizontal: 12),
+      color: Colors.white.withValues(alpha: 0.07),
+    );
+  }
+
+  Widget _build3TierStat({
+    required String kicker,
+    required String metric,
+    required String label,
+    required Color accentColor,
+  }) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          kicker,
+          style: AppTypography.ui(
+            fontSize: 9.5,
+            fontWeight: FontWeight.w900,
+            color: accentColor,
+            letterSpacing: 0.8,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          metric,
+          style: AppTypography.ui(
+            fontSize: 24,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+            letterSpacing: 0.2,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: AppTypography.ui(
+            fontSize: 10.5,
+            fontWeight: FontWeight.w600,
+            color: luxuryMuted,
+            height: 1.25,
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
+    );
+  }
+
+  Widget _build3TierStatMobile({
+    required String kicker,
+    required String metric,
+    required String label,
+    required Color accentColor,
+  }) {
+    return SizedBox(
+      width: 130,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
           Text(
-            value,
+            kicker,
             style: AppTypography.ui(
-              fontSize: 13,
+              fontSize: 9,
+              fontWeight: FontWeight.w900,
+              color: accentColor,
+              letterSpacing: 0.6,
+            ),
+            maxLines: 1,
+          ),
+          const SizedBox(height: 3),
+          Text(
+            metric,
+            style: AppTypography.ui(
+              fontSize: 20,
               fontWeight: FontWeight.w900,
               color: Colors.white,
             ),
           ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: AppTypography.ui(
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+              color: luxuryMuted,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
-    );
-  }
-
-  // ========================================================================
-  // 3. LIVE ENERGY & STATS TICKER
-  // ========================================================================
-  Widget _buildLiveEnergyTicker(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-      decoration: BoxDecoration(
-        color: luxuryCard,
-        border: Border.symmetric(
-          horizontal: BorderSide(
-            color: Colors.white.withValues(alpha: 0.06),
-            width: 1,
-          ),
-        ),
-      ),
-      child: Center(
-        child: Wrap(
-          alignment: WrapAlignment.spaceEvenly,
-          spacing: 36,
-          runSpacing: 18,
-          children: [
-            _buildStatItem('24 / 7', 'Always Unlocked (Open 365 Days)'),
-            _buildStatItem('10 Courts', 'ITTF Olympic Tournament Tables'),
-            _buildStatItem('0.3 Sec', 'Fastest Turnstile Gate in KL'),
-            _buildStatItem('90 Sen / Day', 'Unbeatable Pass Pricing'),
-            _buildStatItem('60 FPS AI', 'Smash Speed & Rally Camera Tracking'),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatItem(String number, String label) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          number,
-          style: AppTypography.ui(
-            fontSize: 22,
-            fontWeight: FontWeight.w900,
-            color: Colors.white,
-            letterSpacing: 0.5,
-          ),
-        ),
-        const SizedBox(width: 10),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 160),
-          child: Text(
-            label,
-            style: AppTypography.ui(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: luxuryMuted,
-              height: 1.25,
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -1147,7 +1392,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   }
 
   // ========================================================================
-  // 5. "ARE YOU FEELING THE ENERGY?" (VIBE & CULTURE BENTO GRID)
+  // 5. "ARE YOU FEELING THE ENERGY?" (VIBE & CULTURE BENTO GRID WITH REAL PHOTOGRAPHY)
   // ========================================================================
   Widget _buildVibeCultureSection(BuildContext context) {
     return Container(
@@ -1162,11 +1407,11 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
             tag: 'ARE YOU FEELING THE ENERGY?',
             title: 'Table Tennis Like You’ve Never Seen Before',
             subtitle:
-                'Forget humid community halls with broken nets. JOMNITTAKU combines cyberpunk stadium lighting, tournament hardware, and electric 24/7 culture.',
+                'Forget humid community halls with broken nets. JOMNITTAKU combines cyberpunk stadium lighting, Olympic tournament hardware, and electric 24/7 culture.',
           ),
           const SizedBox(height: 48),
 
-          // Bento Grid: 2 rows
+          // Bento Grid: 2 rows with Real High-Intensity Photography
           LayoutBuilder(
             builder: (context, constraints) {
               final isDesktop = constraints.maxWidth >= 960;
@@ -1186,6 +1431,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                                 icon: Icons.dark_mode_rounded,
                                 accentColor: const Color(0xFF818CF8),
                                 badgeText: '50% OFF MIDNIGHT',
+                                backgroundImageAsset: 'assets/images/arena_match_intensity.jpg',
+                                ctaLabel: 'Experience Midnight Rush',
+                                onTap: widget.onWalkInTap,
                               ),
                             ),
                             const SizedBox(width: 20),
@@ -1199,6 +1447,8 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                                 icon: Icons.stars_rounded,
                                 accentColor: luxuryCoralRose,
                                 badgeText: 'RM27 / MO',
+                                ctaLabel: 'View VIP Passes',
+                                onTap: widget.onWalkInTap,
                               ),
                             ),
                           ],
@@ -1209,10 +1459,13 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                               tag: '12 AM – 8 AM MIDNIGHT CHILL',
                               title: 'The 3 AM Table Tennis Rush',
                               desc:
-                                  'When the city goes to sleep, the smashes get louder. Enjoy 50% discount during midnight happy hours, ambient lofi-electronic beats, and zero queue stress.',
+                                    'When the city goes to sleep, the smashes get louder. Enjoy 50% discount during midnight happy hours, ambient lofi-electronic beats, and zero queue stress.',
                               icon: Icons.dark_mode_rounded,
                               accentColor: const Color(0xFF818CF8),
                               badgeText: '50% OFF MIDNIGHT',
+                              backgroundImageAsset: 'assets/images/arena_match_intensity.jpg',
+                              ctaLabel: 'Experience Midnight Rush',
+                              onTap: widget.onWalkInTap,
                             ),
                             const SizedBox(height: 16),
                             _buildBentoCard(
@@ -1223,6 +1476,8 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                               icon: Icons.stars_rounded,
                               accentColor: luxuryCoralRose,
                               badgeText: 'RM27 / MO',
+                              ctaLabel: 'View VIP Passes',
+                              onTap: widget.onWalkInTap,
                             ),
                           ],
                         ),
@@ -1243,6 +1498,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                                 icon: Icons.local_fire_department_rounded,
                                 accentColor: luxuryGold,
                                 badgeText: 'RM200 POTS',
+                                backgroundImageAsset: 'assets/images/arena_live_rally.jpg',
+                                ctaLabel: 'Find Rivals on Radar',
+                                onTap: widget.onViewCourtsTap,
                               ),
                             ),
                             const SizedBox(width: 20),
@@ -1256,6 +1514,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                                 icon: Icons.verified_rounded,
                                 accentColor: luxuryVoltEmerald,
                                 badgeText: '100% ITTF CERTIFIED',
+                                backgroundImageAsset: 'assets/images/arena_table_equipment.jpg',
+                                ctaLabel: 'Check Table Availability',
+                                onTap: widget.onViewCourtsTap,
                               ),
                             ),
                           ],
@@ -1270,6 +1531,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                               icon: Icons.local_fire_department_rounded,
                               accentColor: luxuryGold,
                               badgeText: 'RM200 POTS',
+                              backgroundImageAsset: 'assets/images/arena_live_rally.jpg',
+                              ctaLabel: 'Find Rivals on Radar',
+                              onTap: widget.onViewCourtsTap,
                             ),
                             const SizedBox(height: 16),
                             _buildBentoCard(
@@ -1280,6 +1544,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                               icon: Icons.verified_rounded,
                               accentColor: luxuryVoltEmerald,
                               badgeText: '100% ITTF CERTIFIED',
+                              backgroundImageAsset: 'assets/images/arena_table_equipment.jpg',
+                              ctaLabel: 'Check Table Availability',
+                              onTap: widget.onViewCourtsTap,
                             ),
                           ],
                         ),
@@ -1299,81 +1566,149 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
     required IconData icon,
     required Color accentColor,
     required String badgeText,
+    String? backgroundImageAsset,
+    VoidCallback? onTap,
+    String? ctaLabel,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(28),
-      decoration: BoxDecoration(
-        color: luxuryCard,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.08),
-          width: 1,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        decoration: BoxDecoration(
+          color: luxuryCard,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.08),
+            width: 1,
+          ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Icon(icon, size: 14, color: accentColor),
-                    const SizedBox(width: 6),
-                    Text(
-                      tag,
-                      style: AppTypography.ui(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w900,
-                        color: accentColor,
-                        letterSpacing: 0.6,
-                      ),
-                    ),
-                  ],
+        child: Stack(
+          children: [
+            // Atmospheric Background Photograph if present
+            if (backgroundImageAsset != null)
+              Positioned.fill(
+                child: Image.asset(
+                  backgroundImageAsset,
+                  fit: BoxFit.cover,
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  badgeText,
-                  style: AppTypography.ui(
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
+
+            // High-depth dark vignette gradient to guarantee pristine copy contrast
+            if (backgroundImageAsset != null)
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        const Color(0xFF0C0E15).withValues(alpha: 0.88),
+                        const Color(0xFF161925).withValues(alpha: 0.94),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 18),
-          Text(
-            title,
-            style: AppTypography.ui(
-              fontSize: 18,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
+
+            // Card Foreground Content
+            Padding(
+              padding: const EdgeInsets.all(28),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: accentColor.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: accentColor.withValues(alpha: 0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(icon, size: 14, color: accentColor),
+                            const SizedBox(width: 6),
+                            Text(
+                              tag,
+                              style: AppTypography.ui(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w900,
+                                color: accentColor,
+                                letterSpacing: 0.6,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          badgeText,
+                          style: AppTypography.ui(
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  Text(
+                    title,
+                    style: AppTypography.ui(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    desc,
+                    style: AppTypography.ui(
+                      fontSize: 13.5,
+                      color: const Color(0xFFBAC0D6),
+                      height: 1.55,
+                    ),
+                  ),
+                  if (ctaLabel != null && onTap != null) ...[
+                    const SizedBox(height: 18),
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: onTap,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              ctaLabel,
+                              style: AppTypography.ui(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w900,
+                                color: accentColor,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Icon(Icons.arrow_forward_rounded, size: 14, color: accentColor),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            desc,
-            style: AppTypography.ui(
-              fontSize: 13.5,
-              color: const Color(0xFFBAC0D6),
-              height: 1.55,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -2099,10 +2434,10 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 56),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [
-            const Color(0xFF1E1428),
-            const Color(0xFF16192E),
+            Color(0xFF1E1428),
+            Color(0xFF16192E),
             luxuryCard,
           ],
           begin: Alignment.topLeft,
