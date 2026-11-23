@@ -165,6 +165,9 @@ class _DisplayLeaderboardScreenState extends State<DisplayLeaderboardScreen> {
               ],
             ),
           ),
+
+          // Safe buffer margin on the right so the floating presentation switcher bar has clean space with zero overlap
+          const SizedBox(width: 400),
         ],
       ),
     );

@@ -98,7 +98,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
             }
 
             return Scaffold(
-              backgroundColor: isDark ? const Color(0xFF10121A) : AppColors.lightBorder,
+              backgroundColor: const Color(0xFF0F111A),
               body: Stack(
                 children: [
                   // Main Presentation Surface
@@ -108,7 +108,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                       curve: Curves.easeInOut,
                       constraints: BoxConstraints(
                         maxWidth: _viewportMode == 3
-                            ? 1440
+                            ? double.infinity
                             : (_viewportMode == 2
                                 ? double.infinity
                                 : (_viewportMode == 1 ? 820 : 440)),
@@ -118,20 +118,22 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                       ),
                       margin: EdgeInsets.symmetric(
                         vertical: (_viewportMode == 2 || _viewportMode == 3) ? 0 : 16,
-                        horizontal: _viewportMode == 2 ? 0 : (_viewportMode == 3 ? 24 : 10),
+                        horizontal: (_viewportMode == 2 || _viewportMode == 3) ? 0 : (_viewportMode == 1 ? 20 : 10),
                       ),
                       decoration: BoxDecoration(
-                        color: _viewportMode == 2 ? const Color(0xFF161720) : AppColors.canvasBg,
+                        color: (_viewportMode == 2 || _viewportMode == 3)
+                            ? (_viewportMode == 3 ? const Color(0xFF0C0E15) : const Color(0xFF161720))
+                            : AppColors.canvasBg,
                         borderRadius: BorderRadius.circular(
-                          _viewportMode == 2
+                          (_viewportMode == 2 || _viewportMode == 3)
                               ? 0
-                              : (_viewportMode == 3 ? 20 : (_viewportMode == 1 ? 24 : 44)),
+                              : (_viewportMode == 1 ? 24 : 44),
                         ),
-                        boxShadow: _viewportMode == 2
+                        boxShadow: (_viewportMode == 2 || _viewportMode == 3)
                             ? []
                             : [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha: isDark ? 0.55 : 0.15),
+                                  color: Colors.black.withValues(alpha: isDark ? 0.55 : 0.25),
                                   blurRadius: 36,
                                   offset: const Offset(0, 16),
                                 ),
@@ -139,9 +141,9 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(
-                          _viewportMode == 2
+                          (_viewportMode == 2 || _viewportMode == 3)
                               ? 0
-                              : (_viewportMode == 3 ? 20 : (_viewportMode == 1 ? 24 : 44)),
+                              : (_viewportMode == 1 ? 24 : 44),
                         ),
                         child: child ?? const SizedBox(),
                       ),
@@ -155,17 +157,15 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                       decoration: BoxDecoration(
-                        color: isDark
-                            ? const Color(0xFF1E2232).withValues(alpha: 0.92)
-                            : Colors.white.withValues(alpha: 0.95),
+                        color: const Color(0xFF1A1D2B).withValues(alpha: 0.95),
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(
-                          color: isDark ? Colors.white.withValues(alpha: 0.12) : AppColors.slate300,
+                          color: Colors.white.withValues(alpha: 0.12),
                           width: 1,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: isDark ? 0.40 : 0.10),
+                            color: Colors.black.withValues(alpha: 0.45),
                             blurRadius: 16,
                             offset: const Offset(0, 4),
                           ),
@@ -242,12 +242,12 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
           decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF2A2E44) : const Color(0xFFEFF2F8),
+            color: isDark ? const Color(0xFF262A3C) : const Color(0xFF2C3246),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isDark
                   ? const Color(0xFFFFA533).withValues(alpha: 0.4)
-                  : const Color(0xFFFF7A00).withValues(alpha: 0.4),
+                  : const Color(0xFFFF9A3C).withValues(alpha: 0.5),
               width: 1,
             ),
           ),
@@ -257,7 +257,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
               Icon(
                 isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                 size: 13,
-                color: isDark ? const Color(0xFFFFA533) : const Color(0xFFFF7A00),
+                color: isDark ? const Color(0xFFFFA533) : const Color(0xFFFF9A3C),
               ),
               const SizedBox(width: 4),
               Text(
@@ -265,7 +265,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                 style: AppTypography.ui(
                   fontSize: 10.5,
                   fontWeight: FontWeight.w800,
-                  color: isDark ? Colors.white : AppColors.slate900,
+                  color: Colors.white,
                 ),
               ),
             ],
@@ -282,35 +282,38 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
     required VoidCallback onTap,
     required bool isDark,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? (const Color(0xFFFF4B72)) // Luxury Coral Rose
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 13,
-              color: isSelected ? Colors.white : (isDark ? Colors.white60 : AppColors.slate500),
-            ),
-            const SizedBox(width: 4),
-            Text(
-              label,
-              style: AppTypography.ui(
-                fontSize: 10.5,
-                fontWeight: FontWeight.w800,
-                color: isSelected ? Colors.white : (isDark ? Colors.white60 : AppColors.slate500),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? (const Color(0xFFFF4B72)) // Luxury Coral Rose
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 13,
+                color: isSelected ? Colors.white : Colors.white70,
               ),
-            ),
-          ],
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: AppTypography.ui(
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.w800,
+                  color: isSelected ? Colors.white : Colors.white70,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

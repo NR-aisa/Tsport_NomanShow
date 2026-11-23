@@ -43,7 +43,7 @@ class DesktopWebHeader extends StatelessWidget {
           // SEARCH INPUT BAR (PILL-SHAPED)
           // ==========================================
           Container(
-            width: 340,
+            width: 260,
             height: 38,
             padding: const EdgeInsets.symmetric(horizontal: 14),
             decoration: BoxDecoration(
