@@ -420,21 +420,23 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               ),
 
               // --------------------------------------------------------------
-              // LAYER 3: Clean, Focused Content Layer (Vertically Centered in 100vh)
+              // LAYER 3: Clean, Focused Content Layer (Anchored at Bottom of 100vh)
               // --------------------------------------------------------------
               Container(
                 constraints: BoxConstraints(
                   minHeight: heroMinHeight,
                   maxWidth: 1300,
                 ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: isDesktop ? 60 : (isMobile ? 16 : 24),
-                  vertical: isDesktop ? 40 : (isMobile ? 28 : 40),
+                padding: EdgeInsets.fromLTRB(
+                  isDesktop ? 60 : (isMobile ? 16 : 24),
+                  isDesktop ? 100 : (isMobile ? 60 : 80),
+                  isDesktop ? 60 : (isMobile ? 16 : 24),
+                  isDesktop ? 64 : (isMobile ? 28 : 40),
                 ),
-                alignment: Alignment.center,
+                alignment: Alignment.bottomCenter,
                 child: isDesktop
                     ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           // Left Column: Clean, High-Impact Narrative
                           Expanded(
@@ -450,6 +452,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                         ],
                       )
                     : Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -470,44 +473,6 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Clean Minimalist Pill (Yellow/Coral like KITA's RTO badge)
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFF5C38).withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: const Color(0xFFFF5C38).withValues(alpha: 0.4),
-              width: 1,
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 6,
-                height: 6,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFF5C38),
-                  shape: BoxShape.circle,
-                ),
-              ),
-              const SizedBox(width: 7),
-              Text(
-                '24/7 UNMANNED ARENA',
-                style: AppTypography.ui(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w800,
-                  color: const Color(0xFFFF5C38),
-                  letterSpacing: 0.8,
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        SizedBox(height: isMobile ? 14 : 20),
-
         // Clean, High-Impact Headline (2-Color Discipline: Crisp White + Single Coral Accent)
         RichText(
           text: TextSpan(
