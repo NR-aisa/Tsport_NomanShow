@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_typography.dart';
 import '../../../shared/widgets/arena_video_player.dart';
+import '../widgets/how_it_works_stacking_deck.dart';
 
 /// High-Converting, Pulse-Pounding Public Landing Page for JOMNITTAKU.
 ///
@@ -1020,167 +1021,45 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
             subtitle:
                 'No reception desk, no queues, no phone bookings. Complete autonomy from parking lot to match point.',
           ),
-          const SizedBox(height: 48),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final isDesktop = constraints.maxWidth >= 900;
-              return isDesktop
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: _buildStepCard(
-                            step: '01',
-                            title: 'Show Up Anytime (24/7)',
-                            desc:
-                                'Arrive at 2 PM or 3 AM. Even when 3 Damansara Mall is closed, Basement P2 lifts take you straight up to Level 2.',
-                            icon: Icons.nightlife_rounded,
-                            accentColor: luxuryVoltEmerald,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: _buildStepCard(
-                            step: '02',
-                            title: '0.3s Optical QR Turnstile',
-                            desc:
-                                'Flash your phone QR code at Gate 1 or Gate 2. Anti-tailgating optical scanners verify and open the gates instantly.',
-                            icon: Icons.qr_code_scanner_rounded,
-                            accentColor: luxuryCoralRose,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: _buildStepCard(
-                            step: '03',
-                            title: 'Smart Gear & Robot Dispenser',
-                            desc:
-                                'Sanitized ITTF 3-star balls dispense automatically at each court. Professional carbon composite paddles ready in your locker.',
-                            icon: Icons.sports_tennis_rounded,
-                            accentColor: luxuryElectricCyan,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: _buildStepCard(
-                            step: '04',
-                            title: 'AI Optical HUD & XP Rewards',
-                            desc:
-                                'Overhead vision cameras record your smash velocity, spin, and match scores. Earn XP to climb the Damansara Leaderboard.',
-                            icon: Icons.military_tech_rounded,
-                            accentColor: luxuryGold,
-                          ),
-                        ),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        _buildStepCard(
-                          step: '01',
-                          title: 'Show Up Anytime (24/7)',
-                          desc:
-                              'Arrive at 2 PM or 3 AM. Basement P2 lifts take you straight up to Level 2 even when the mall is dark.',
-                          icon: Icons.nightlife_rounded,
-                          accentColor: luxuryVoltEmerald,
-                        ),
-                        const SizedBox(height: 16),
-                        _buildStepCard(
-                          step: '02',
-                          title: '0.3s Optical QR Turnstile',
-                          desc:
-                              'Flash your phone QR code at Gate 1 or 2. Turnstiles unlock in 300 milliseconds.',
-                          icon: Icons.qr_code_scanner_rounded,
-                          accentColor: luxuryCoralRose,
-                        ),
-                        const SizedBox(height: 16),
-                        _buildStepCard(
-                          step: '03',
-                          title: 'Smart Gear & Robot Dispenser',
-                          desc:
-                              'Sanitized balls dispense automatically. Carbon rackets ready in your locker.',
-                          icon: Icons.sports_tennis_rounded,
-                          accentColor: luxuryElectricCyan,
-                        ),
-                        const SizedBox(height: 16),
-                        _buildStepCard(
-                          step: '04',
-                          title: 'AI Optical HUD & XP Rewards',
-                          desc:
-                              '60 FPS cameras track smash velocity and earn you leaderboard XP.',
-                          icon: Icons.military_tech_rounded,
-                          accentColor: luxuryGold,
-                        ),
-                      ],
-                    );
-            },
-          ),
-        ],
-      ),
-    );
-  }
+          const SizedBox(height: 36),
 
-  Widget _buildStepCard({
-    required String step,
-    required String title,
-    required String desc,
-    required IconData icon,
-    required Color accentColor,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: luxuryCard,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.07),
-          width: 1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: accentColor.withValues(alpha: 0.35),
-                  ),
-                ),
-                child: Icon(icon, color: accentColor, size: 22),
+          // Scroll-Driven Tactile Stacking Deck for the 4-Step Funnel
+          HowItWorksStackingDeck(
+            scrollController: _scrollController,
+            steps: const [
+              HowItWorksStepItem(
+                step: '01',
+                title: 'Show Up Anytime (24/7)',
+                desc:
+                    'Arrive at 2 PM or 3 AM. Basement P2 lifts take you straight up to Level 2 even when the mall is dark.',
+                icon: Icons.nightlife_rounded,
+                accentColor: luxuryVoltEmerald,
               ),
-              Text(
-                step,
-                style: AppTypography.ui(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white.withValues(alpha: 0.15),
-                ),
+              HowItWorksStepItem(
+                step: '02',
+                title: '0.3s Optical QR Turnstile',
+                desc:
+                    'Flash your phone QR code at Gate 1 or 2. Turnstiles unlock in 300 milliseconds.',
+                icon: Icons.qr_code_scanner_rounded,
+                accentColor: luxuryCoralRose,
+              ),
+              HowItWorksStepItem(
+                step: '03',
+                title: 'Smart Gear & Robot Dispenser',
+                desc:
+                    'Sanitized balls dispense automatically. Carbon rackets ready in your locker.',
+                icon: Icons.sports_tennis_rounded,
+                accentColor: luxuryElectricCyan,
+              ),
+              HowItWorksStepItem(
+                step: '04',
+                title: 'AI Optical HUD & XP Rewards',
+                desc:
+                    '60 FPS cameras track smash velocity and earn you leaderboard XP.',
+                icon: Icons.military_tech_rounded,
+                accentColor: luxuryGold,
               ),
             ],
-          ),
-          const SizedBox(height: 20),
-          Text(
-            title,
-            style: AppTypography.ui(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            desc,
-            style: AppTypography.ui(
-              fontSize: 13,
-              color: luxuryMuted,
-              height: 1.5,
-            ),
           ),
         ],
       ),
