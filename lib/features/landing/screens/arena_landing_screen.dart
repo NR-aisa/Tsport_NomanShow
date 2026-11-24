@@ -1219,11 +1219,11 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                 description:
                     'When the city goes to sleep, the smashes get louder. Enjoy 50% discount during midnight happy hours, ambient lofi-electronic beats, and zero queue stress.',
                 icon: Icons.dark_mode_rounded,
-                surfaceColor: const Color(0xFFFAF6EE), // Warm Ivory Cream (KITA Card 1)
-                textColor: const Color(0xFF111827), // Deep Ink Charcoal
-                mutedTextColor: const Color(0xFF4B5563), // Slate body
-                accentColor: const Color(0xFF4F46E5), // Indigo Violet
-                borderColor: const Color(0x334F46E5), // Hairline outline
+                surfaceColor: const Color(0xFFF9F6EE), // Smooth Pale Linen Cream (KITA Card 1)
+                textColor: const Color(0xFF2A241E), // Soft Deep Espresso Ink
+                mutedTextColor: const Color(0xFF594F44), // Smooth warm body slate
+                accentColor: const Color(0xFF635647), // Refined warm taupe/mocha
+                borderColor: const Color(0x18000000), // Delicate hairline rim
                 badgeText: '50% OFF MIDNIGHT',
                 imageAsset: 'assets/images/arena_match_intensity.jpg',
                 ctaLabel: 'Experience Midnight Rush',
@@ -1241,11 +1241,11 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                 description:
                     'Cheaper than a cup of Kopi Ais (RM0.90/day). One monthly VIP pass gives you and your friends 24/7 unlimited walk-in freedom with zero equipment fees.',
                 icon: Icons.stars_rounded,
-                surfaceColor: const Color(0xFFFEF0C7), // Warm Sunny Buttercup (KITA Card 2)
-                textColor: const Color(0xFF2B1A04), // Deep Warm Espresso
-                mutedTextColor: const Color(0xFF784D12), // Warm dark amber
-                accentColor: const Color(0xFFD97706), // Rich Honey Amber
-                borderColor: const Color(0x40D97706), // Warm amber hairline
+                surfaceColor: const Color(0xFFF7EED8), // Soft Vanilla Sand (KITA Card 2)
+                textColor: const Color(0xFF2A2118), // Rich Warm Espresso
+                mutedTextColor: const Color(0xFF5E4F3E), // Soft warm amber body
+                accentColor: const Color(0xFF8C5E1E), // Warm Honey Ochre
+                borderColor: const Color(0x18000000), // Delicate hairline rim
                 badgeText: 'RM27 / MO',
                 imageAsset: 'assets/images/arena_table_equipment.jpg',
                 ctaLabel: 'View VIP Passes',
@@ -1263,11 +1263,11 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                 description:
                     'Championship-standard DHS Rainbow & Nittaku Premium 25mm bounce surfaces. Dual-split climate chillers (23°C / 54% humidity) and 480 Lux anti-stroboscopic LED lighting.',
                 icon: Icons.verified_rounded,
-                surfaceColor: const Color(0xFF0284C7), // Vivid Ocean Cobalt / Cyan
-                textColor: Colors.white,
-                mutedTextColor: const Color(0xFFE0F2FE), // Soft ice cyan
-                accentColor: const Color(0xFF38BDF8), // Vivid electric cyan
-                borderColor: const Color(0x6638BDF8), // Electric cyan outline
+                surfaceColor: const Color(0xFFEADBB9), // Warm Muted Sandstone / Wheat (KITA Card 3)
+                textColor: const Color(0xFF241D15), // Deep warm charcoal
+                mutedTextColor: const Color(0xFF564838), // Soft warm mocha body
+                accentColor: const Color(0xFF754E18), // Warm Muted Gold
+                borderColor: const Color(0x18000000), // Delicate hairline rim
                 badgeText: 'OLYMPIC GRADE',
                 imageAsset: 'assets/images/arena_table_equipment.jpg',
                 ctaLabel: 'Check Table Availability',
@@ -1285,11 +1285,11 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                 description:
                     'Scan the radar for nearby rivals. Bet XP or cash pots (RM50 – RM200) in verified AI-scored 1v1 matches with instant automated Elo rating updates.',
                 icon: Icons.local_fire_department_rounded,
-                surfaceColor: const Color(0xFF0E121E), // Deep Midnight Obsidian
-                textColor: Colors.white,
-                mutedTextColor: const Color(0xFF94A3B8), // Platinum slate
-                accentColor: const Color(0xFFFF5C38), // Hot Cyber Coral
-                borderColor: const Color(0x66FF5C38), // Glowing coral hairline
+                surfaceColor: const Color(0xFF15171D), // Soft Midnight Charcoal Noir (KITA Card 4)
+                textColor: const Color(0xFFF7F5EE), // Soft off-white
+                mutedTextColor: const Color(0xFF9EA5B4), // Smooth platinum slate
+                accentColor: const Color(0xFFE55D3E), // Warm terracotta flame
+                borderColor: const Color(0x22FFFFFF), // Subtle hairline rim
                 badgeText: 'RM200 POTS',
                 imageAsset: 'assets/images/arena_live_rally.jpg',
                 ctaLabel: 'Find Rivals on Radar',

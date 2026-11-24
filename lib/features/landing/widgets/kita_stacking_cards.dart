@@ -144,9 +144,9 @@ class _KitaStackingDeckState extends State<KitaStackingDeck> {
                     right: 0,
                     child: Center(
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 1060),
+                        constraints: const BoxConstraints(maxWidth: 1220),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             mainAxisSize: MainAxisSize.min,
@@ -187,15 +187,21 @@ class _KitaStackingDeckState extends State<KitaStackingDeck> {
                                         ),
                                         decoration: BoxDecoration(
                                           color: isSelected
-                                              ? item.accentColor
+                                              ? item.surfaceColor
                                               : Colors.transparent,
                                           borderRadius: BorderRadius.circular(999),
+                                          border: isSelected
+                                              ? Border.all(
+                                                  color: (item.textColor ?? Colors.white).withValues(alpha: 0.2),
+                                                  width: 1,
+                                                )
+                                              : null,
                                           boxShadow: isSelected
                                               ? [
                                                   BoxShadow(
-                                                    color: item.accentColor.withValues(alpha: 0.35),
-                                                    blurRadius: 14,
-                                                    offset: const Offset(0, 4),
+                                                    color: Colors.black.withValues(alpha: 0.25),
+                                                    blurRadius: 12,
+                                                    offset: const Offset(0, 3),
                                                   ),
                                                 ]
                                               : null,
@@ -209,9 +215,7 @@ class _KitaStackingDeckState extends State<KitaStackingDeck> {
                                                 fontSize: 11,
                                                 fontWeight: FontWeight.w900,
                                                 color: isSelected
-                                                    ? (item.accentColor.computeLuminance() > 0.4
-                                                        ? const Color(0xFF0A0D14)
-                                                        : Colors.white)
+                                                    ? (item.textColor ?? Colors.white)
                                                     : Colors.white.withValues(alpha: 0.4),
                                               ),
                                             ),
@@ -222,9 +226,7 @@ class _KitaStackingDeckState extends State<KitaStackingDeck> {
                                                 fontSize: 11.5,
                                                 fontWeight: FontWeight.w700,
                                                 color: isSelected
-                                                    ? (item.accentColor.computeLuminance() > 0.4
-                                                        ? const Color(0xFF0A0D14)
-                                                        : Colors.white)
+                                                    ? (item.textColor ?? Colors.white)
                                                     : Colors.white.withValues(alpha: 0.7),
                                               ),
                                             ),
@@ -365,44 +367,25 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: _isHovered
-                ? item.accentColor
-                : (item.borderColor ?? textColor.withValues(alpha: 0.15)),
-            width: 1.5,
+                ? (item.borderColor ?? textColor.withValues(alpha: 0.25))
+                : (item.borderColor ?? textColor.withValues(alpha: 0.12)),
+            width: 1.0,
           ),
           // Dr. Arefin & KITA signature negative-spread ambient drop shadow (casts realistic shadow over card beneath)
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: _isHovered ? 0.65 : 0.45),
-              blurRadius: _isHovered ? 36 : 28,
+              color: Colors.black.withValues(alpha: _isHovered ? 0.35 : 0.22),
+              blurRadius: _isHovered ? 32 : 24,
               spreadRadius: -6, // Essential negative spread
-              offset: const Offset(0, 10),
+              offset: const Offset(0, 8),
             ),
-            if (_isHovered)
-              BoxShadow(
-                color: item.accentColor.withValues(alpha: 0.25),
-                blurRadius: 28,
-                spreadRadius: -4,
-                offset: const Offset(0, 4),
-              ),
           ],
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Top Accent Indicator Line
-              Container(
-                height: 3.5,
-                decoration: BoxDecoration(
-                  color: item.accentColor,
-                ),
-              ),
-              widget.isDesktop
-                  ? _buildDesktopLayout(context, item)
-                  : _buildMobileLayout(context, item),
-            ],
-          ),
+          child: widget.isDesktop
+              ? _buildDesktopLayout(context, item)
+              : _buildMobileLayout(context, item),
         ),
       ),
     );
@@ -611,75 +594,57 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
 
           const SizedBox(width: 32),
 
-          // Right Column (48%): Framed Inset Photography (Never edge-to-edge)
+          // Right Column (48%): Clean Inset Photography with subtle hairline rim
           Expanded(
             flex: 48,
-            child: Container(
-              padding: const EdgeInsets.all(6), // Dedicated outer border frame
-              decoration: BoxDecoration(
-                color: textColor.withValues(alpha: 0.04),
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(
-                  color: item.borderColor ?? textColor.withValues(alpha: 0.18),
-                  width: 1.5,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.22),
-                    blurRadius: 16,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: AspectRatio(
-                  aspectRatio: 16 / 10,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      if (item.imageAsset != null)
-                        AnimatedScale(
-                          scale: _isHovered ? 1.03 : 1.0,
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeOutCubic,
-                          child: Image.asset(
-                            item.imageAsset!,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      else
-                        Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                item.accentColor.withValues(alpha: 0.2),
-                                item.surfaceColor,
-                              ],
-                            ),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              item.icon,
-                              size: 64,
-                              color: item.accentColor.withValues(alpha: 0.5),
-                            ),
-                          ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: AspectRatio(
+                aspectRatio: 16 / 10,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    if (item.imageAsset != null)
+                      AnimatedScale(
+                        scale: _isHovered ? 1.03 : 1.0,
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeOutCubic,
+                        child: Image.asset(
+                          item.imageAsset!,
+                          fit: BoxFit.cover,
                         ),
-                      // Inner soft contrast rim
+                      )
+                    else
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.12),
-                            width: 1,
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              item.accentColor.withValues(alpha: 0.2),
+                              item.surfaceColor,
+                            ],
+                          ),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            item.icon,
+                            size: 64,
+                            color: item.accentColor.withValues(alpha: 0.5),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    // Delicate hairline rim matching the reference UI
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: textColor.withValues(alpha: 0.10),
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -696,55 +661,41 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Framed Image Header
+        // Clean Image Header
         if (item.imageAsset != null)
           Padding(
-            padding: const EdgeInsets.fromLTRB(14, 14, 14, 0),
-            child: Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                  color: item.borderColor ?? textColor.withValues(alpha: 0.18),
-                  width: 1.5,
-                ),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14),
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Image.asset(
-                        item.imageAsset!,
-                        fit: BoxFit.cover,
-                      ),
-                      Positioned(
-                        top: 10,
-                        right: 10,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.75),
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.2),
-                              width: 1,
-                            ),
-                          ),
-                          child: Text(
-                            item.badgeText,
-                            style: AppTypography.ui(
-                              fontSize: 9.5,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
-                            ),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      item.imageAsset!,
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.75),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          item.badgeText,
+                          style: AppTypography.ui(
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
