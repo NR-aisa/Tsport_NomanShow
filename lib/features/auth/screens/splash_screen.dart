@@ -91,10 +91,10 @@ class _SplashScreenState extends State<SplashScreen> {
           builder: (context, mode, _) {
             return LayoutBuilder(
               builder: (context, constraints) {
-                final isDesktopWeb = ViewportController.isWeb ||
-                    (constraints.maxWidth >= 900 &&
-                        !ViewportController.isMobile &&
-                        !ViewportController.isTab);
+                final isMobileScreen = constraints.maxWidth < 768 || ViewportController.isMobile;
+                final isDesktopWeb = !isMobileScreen &&
+                    (ViewportController.isWeb ||
+                        (constraints.maxWidth >= 900 && !ViewportController.isTab));
 
                 if (isDesktopWeb) {
                   return _buildDesktopWebsiteScaffold(context, isDark);

@@ -183,15 +183,20 @@ class DesktopWebSections {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    title,
-                    style: AppTypography.ui(
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w800,
-                      color: const Color(0xFF94A3B8),
-                      letterSpacing: 1.0,
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: AppTypography.ui(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFF94A3B8),
+                        letterSpacing: 0.8,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(

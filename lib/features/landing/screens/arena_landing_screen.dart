@@ -737,7 +737,8 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
                 // Clean Solid Action Button (Like KITA's [BOOK NOW] -> Electric Golden Amber on hover)
                 ArenaInteractiveButton(
-                  label: 'Unlock Turnstile (RM17) →',
+                  label: 'Unlock Turnstile (RM17)',
+                  icon: Icons.arrow_forward_rounded,
                   onTap: widget.onWalkInTap,
                   isPrimary: true,
                   isFullWidth: true,
@@ -753,13 +754,20 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: () => _scrollTo(_pricingKey),
-                      child: Text(
-                        'or RM27/mo Unlimited VIP Pass →',
-                        style: AppTypography.ui(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF94A3B8),
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'or RM27/mo Unlimited VIP Pass',
+                            style: AppTypography.ui(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF94A3B8),
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(Icons.arrow_forward_rounded, size: 12, color: Color(0xFF94A3B8)),
+                        ],
                       ),
                     ),
                   ),
