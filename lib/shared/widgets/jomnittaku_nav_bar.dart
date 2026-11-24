@@ -55,7 +55,9 @@ class JomnittakuNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (ViewportController.isWeb) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isDesktop = screenWidth >= 768 && !ViewportController.isMobile;
+    if (isDesktop) {
       return const SizedBox.shrink();
     }
 

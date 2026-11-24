@@ -238,34 +238,58 @@ class _HowItWorksStackingDeckState extends State<HowItWorksStackingDeck> {
                                     final double targetPinnedTop = i * stepExposure;
 
                                     double currentCardTop;
+                                    double cardOpacity;
                                     if (i == 0) {
                                       currentCardTop = 0.0;
+                                      cardOpacity = 1.0;
                                     } else {
                                       final double entryStart = (i - 1) * travelPerStep;
                                       final double entryEnd = i * travelPerStep;
 
                                       if (scrollProgress <= entryStart) {
-                                        currentCardTop = cardHeight + 40.0;
+                                        // Card has not arrived yet: keep below viewport and 100% invisible
+                                        currentCardTop = stackViewportHeight + 80.0;
+                                        cardOpacity = 0.0;
                                       } else if (scrollProgress >= entryEnd) {
+                                        // Card locked in place at its stepped stacked deck position
                                         currentCardTop = targetPinnedTop;
+                                        cardOpacity = 1.0;
                                       } else {
                                         final double t = (scrollProgress - entryStart) / travelPerStep;
                                         final double curveT = Curves.easeOutCubic.transform(t);
-                                        currentCardTop = (1.0 - curveT) * (cardHeight + 40.0) + (curveT * targetPinnedTop);
+                                        // Glide up smoothly from below stack to its target stepped rim
+                                        final double startY = stackViewportHeight + 60.0;
+                                        currentCardTop = (1.0 - curveT) * startY + (curveT * targetPinnedTop);
+                                        // Quick fade-in during the first 35% of glide
+                                        cardOpacity = (t * 2.8).clamp(0.0, 1.0);
                                       }
                                     }
+
+                                    // Subtle tactile depth scale for cards resting behind the active card
+                                    final int stepsBehind = (_activeStepIndex > i) ? (_activeStepIndex - i) : 0;
+                                    final double depthScale = (1.0 - (stepsBehind * 0.015)).clamp(0.94, 1.0);
 
                                     return Positioned(
                                       top: currentCardTop,
                                       left: 0,
                                       right: 0,
                                       child: RepaintBoundary(
-                                        child: _RichHowItWorksCard(
-                                          item: item,
-                                          index: i,
-                                          isDesktop: isDesktop,
-                                          isActive: _activeStepIndex == i,
-                                          onTap: () => _jumpToStep(i, travelPerStep, navbarPinY),
+                                        child: Opacity(
+                                          opacity: cardOpacity,
+                                          child: IgnorePointer(
+                                            ignoring: cardOpacity < 0.5,
+                                            child: Transform.scale(
+                                              scale: depthScale,
+                                              alignment: Alignment.topCenter,
+                                              child: _RichHowItWorksCard(
+                                                item: item,
+                                                index: i,
+                                                isDesktop: isDesktop,
+                                                isActive: _activeStepIndex == i,
+                                                onTap: () => _jumpToStep(i, travelPerStep, navbarPinY),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     );
