@@ -10,6 +10,9 @@ class KitaCardItem {
   final String badgeText;
   final Color accentColor;
   final Color surfaceColor;
+  final Color? textColor;
+  final Color? mutedTextColor;
+  final Color? borderColor;
   final IconData icon;
   final String? imageAsset;
   final String ctaLabel;
@@ -24,6 +27,9 @@ class KitaCardItem {
     required this.badgeText,
     required this.accentColor,
     required this.surfaceColor,
+    this.textColor,
+    this.mutedTextColor,
+    this.borderColor,
     required this.icon,
     this.imageAsset,
     required this.ctaLabel,
@@ -136,10 +142,15 @@ class _KitaStackingDeckState extends State<KitaStackingDeck> {
                     top: pinnedTopOffset,
                     left: 0,
                     right: 0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 1060),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
                         // Interactive Deck Index Tabs
                         Center(
                           child: SingleChildScrollView(
@@ -198,7 +209,9 @@ class _KitaStackingDeckState extends State<KitaStackingDeck> {
                                                 fontSize: 11,
                                                 fontWeight: FontWeight.w900,
                                                 color: isSelected
-                                                    ? const Color(0xFF0A0D14)
+                                                    ? (item.accentColor.computeLuminance() > 0.4
+                                                        ? const Color(0xFF0A0D14)
+                                                        : Colors.white)
                                                     : Colors.white.withValues(alpha: 0.4),
                                               ),
                                             ),
@@ -209,7 +222,9 @@ class _KitaStackingDeckState extends State<KitaStackingDeck> {
                                                 fontSize: 11.5,
                                                 fontWeight: FontWeight.w700,
                                                 color: isSelected
-                                                    ? const Color(0xFF0A0D14)
+                                                    ? (item.accentColor.computeLuminance() > 0.4
+                                                        ? const Color(0xFF0A0D14)
+                                                        : Colors.white)
                                                     : Colors.white.withValues(alpha: 0.7),
                                               ),
                                             ),
@@ -281,6 +296,9 @@ class _KitaStackingDeckState extends State<KitaStackingDeck> {
                       ],
                     ),
                   ),
+                ),
+              ),
+            ),
                 ],
               ),
             );
@@ -331,6 +349,7 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
+    final textColor = item.textColor ?? Colors.white;
 
     return MouseRegion(
       onEnter: (_) {
@@ -346,21 +365,21 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: _isHovered
-                ? item.accentColor.withValues(alpha: 0.35)
-                : Colors.white.withValues(alpha: 0.08),
-            width: 1,
+                ? item.accentColor
+                : (item.borderColor ?? textColor.withValues(alpha: 0.15)),
+            width: 1.5,
           ),
           // Dr. Arefin & KITA signature negative-spread ambient drop shadow (casts realistic shadow over card beneath)
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: _isHovered ? 0.75 : 0.55),
-              blurRadius: _isHovered ? 40 : 32,
-              spreadRadius: -8, // Essential negative spread
+              color: Colors.black.withValues(alpha: _isHovered ? 0.65 : 0.45),
+              blurRadius: _isHovered ? 36 : 28,
+              spreadRadius: -6, // Essential negative spread
               offset: const Offset(0, 10),
             ),
             if (_isHovered)
               BoxShadow(
-                color: item.accentColor.withValues(alpha: 0.15),
+                color: item.accentColor.withValues(alpha: 0.25),
                 blurRadius: 28,
                 spreadRadius: -4,
                 offset: const Offset(0, 4),
@@ -369,17 +388,32 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(24),
-          child: widget.isDesktop
-              ? _buildDesktopLayout(context, item)
-              : _buildMobileLayout(context, item),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Top Accent Indicator Line
+              Container(
+                height: 3.5,
+                decoration: BoxDecoration(
+                  color: item.accentColor,
+                ),
+              ),
+              widget.isDesktop
+                  ? _buildDesktopLayout(context, item)
+                  : _buildMobileLayout(context, item),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildDesktopLayout(BuildContext context, KitaCardItem item) {
+    final textColor = item.textColor ?? Colors.white;
+    final mutedColor = item.mutedTextColor ?? textColor.withValues(alpha: 0.72);
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 34),
+      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -402,7 +436,7 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                         color: item.accentColor.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: item.accentColor.withValues(alpha: 0.35),
+                          color: item.accentColor.withValues(alpha: 0.4),
                           width: 1,
                         ),
                       ),
@@ -430,7 +464,7 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.06),
+                        color: textColor.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
@@ -438,14 +472,14 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                         style: AppTypography.ui(
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
-                          color: Colors.white.withValues(alpha: 0.8),
+                          color: textColor.withValues(alpha: 0.85),
                           letterSpacing: 0.5,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 18),
+                const SizedBox(height: 16),
 
                 // Card Title
                 AnimatedDefaultTextStyle(
@@ -453,7 +487,7 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                   style: AppTypography.ui(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
-                    color: _isHovered ? item.accentColor : Colors.white,
+                    color: _isHovered ? item.accentColor : textColor,
                     height: 1.25,
                     letterSpacing: -0.5,
                   ),
@@ -466,11 +500,11 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                   item.description,
                   style: AppTypography.ui(
                     fontSize: 13.5,
-                    color: const Color(0xFFBAC0D6),
+                    color: mutedColor,
                     height: 1.6,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 18),
 
                 // Tactile Stats Row (KITA Metric Pillars)
                 if (item.stats.isNotEmpty) ...[
@@ -486,7 +520,7 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                               style: AppTypography.ui(
                                 fontSize: 15.5,
                                 fontWeight: FontWeight.w900,
-                                color: Colors.white,
+                                color: textColor,
                               ),
                             ),
                             const SizedBox(height: 3),
@@ -495,7 +529,7 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                               style: AppTypography.ui(
                                 fontSize: 9.5,
                                 fontWeight: FontWeight.w700,
-                                color: Colors.white.withValues(alpha: 0.45),
+                                color: textColor.withValues(alpha: 0.5),
                                 letterSpacing: 0.6,
                               ),
                             ),
@@ -504,7 +538,7 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                       );
                     }).toList(),
                   ),
-                  const SizedBox(height: 22),
+                  const SizedBox(height: 20),
                 ],
 
                 // KITA Dynamic Inversion Pill CTA
@@ -522,12 +556,12 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                       decoration: BoxDecoration(
                         color: _isHovered
                             ? item.accentColor
-                            : Colors.transparent,
+                            : textColor.withValues(alpha: 0.06),
                         borderRadius: BorderRadius.circular(999),
                         border: Border.all(
                           color: _isHovered
                               ? item.accentColor
-                              : Colors.white.withValues(alpha: 0.2),
+                              : (item.borderColor ?? textColor.withValues(alpha: 0.25)),
                           width: 1.2,
                         ),
                         boxShadow: _isHovered
@@ -549,8 +583,10 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                               fontSize: 12.5,
                               fontWeight: FontWeight.w900,
                               color: _isHovered
-                                  ? const Color(0xFF090C14)
-                                  : Colors.white,
+                                  ? (item.accentColor.computeLuminance() > 0.4
+                                      ? const Color(0xFF090C14)
+                                      : Colors.white)
+                                  : textColor,
                               letterSpacing: 0.3,
                             ),
                           ),
@@ -559,7 +595,9 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                             Icons.arrow_forward_rounded,
                             size: 15,
                             color: _isHovered
-                                ? const Color(0xFF090C14)
+                                ? (item.accentColor.computeLuminance() > 0.4
+                                    ? const Color(0xFF090C14)
+                                    : Colors.white)
                                 : item.accentColor,
                           ),
                         ],
@@ -573,57 +611,75 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
 
           const SizedBox(width: 32),
 
-          // Right Column (48%): 16:9 Sub-Pixel Clipped Photography with Micro-Zoom
+          // Right Column (48%): Framed Inset Photography (Never edge-to-edge)
           Expanded(
             flex: 48,
-            child: AspectRatio(
-              aspectRatio: 16 / 10,
+            child: Container(
+              padding: const EdgeInsets.all(6), // Dedicated outer border frame
+              decoration: BoxDecoration(
+                color: textColor.withValues(alpha: 0.04),
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(
+                  color: item.borderColor ?? textColor.withValues(alpha: 0.18),
+                  width: 1.5,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.22),
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    if (item.imageAsset != null)
-                      AnimatedScale(
-                        scale: _isHovered ? 1.03 : 1.0,
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeOutCubic,
-                        child: Image.asset(
-                          item.imageAsset!,
-                          fit: BoxFit.cover,
+                borderRadius: BorderRadius.circular(16),
+                child: AspectRatio(
+                  aspectRatio: 16 / 10,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      if (item.imageAsset != null)
+                        AnimatedScale(
+                          scale: _isHovered ? 1.03 : 1.0,
+                          duration: const Duration(milliseconds: 400),
+                          curve: Curves.easeOutCubic,
+                          child: Image.asset(
+                            item.imageAsset!,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      else
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                item.accentColor.withValues(alpha: 0.2),
+                                item.surfaceColor,
+                              ],
+                            ),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              item.icon,
+                              size: 64,
+                              color: item.accentColor.withValues(alpha: 0.5),
+                            ),
+                          ),
                         ),
-                      )
-                    else
+                      // Inner soft contrast rim
                       Container(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              item.accentColor.withValues(alpha: 0.2),
-                              item.surfaceColor,
-                            ],
-                          ),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            item.icon,
-                            size: 64,
-                            color: item.accentColor.withValues(alpha: 0.5),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.12),
+                            width: 1,
                           ),
                         ),
                       ),
-                    // Inner soft contrast rim
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.12),
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -634,49 +690,68 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
   }
 
   Widget _buildMobileLayout(BuildContext context, KitaCardItem item) {
+    final textColor = item.textColor ?? Colors.white;
+    final mutedColor = item.mutedTextColor ?? textColor.withValues(alpha: 0.72);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Image Header
+        // Framed Image Header
         if (item.imageAsset != null)
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Image.asset(
-                  item.imageAsset!,
-                  fit: BoxFit.cover,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(14, 14, 14, 0),
+            child: Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(
+                  color: item.borderColor ?? textColor.withValues(alpha: 0.18),
+                  width: 1.5,
                 ),
-                Positioned(
-                  top: 12,
-                  right: 12,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.75),
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        width: 1,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.asset(
+                        item.imageAsset!,
+                        fit: BoxFit.cover,
                       ),
-                    ),
-                    child: Text(
-                      item.badgeText,
-                      style: AppTypography.ui(
-                        fontSize: 9.5,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.75),
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              width: 1,
+                            ),
+                          ),
+                          child: Text(
+                            item.badgeText,
+                            style: AppTypography.ui(
+                              fontSize: 9.5,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
 
         Padding(
-          padding: const EdgeInsets.all(22),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -695,26 +770,26 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
               Text(
                 item.title,
                 style: AppTypography.ui(
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
-                  color: Colors.white,
+                  color: textColor,
                   height: 1.25,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 8),
               Text(
                 item.description,
                 style: AppTypography.ui(
                   fontSize: 13,
-                  color: const Color(0xFFBAC0D6),
+                  color: mutedColor,
                   height: 1.55,
                 ),
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 16),
               if (item.stats.isNotEmpty) ...[
                 Row(
                   children: item.stats.map((stat) {
@@ -728,7 +803,7 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                             style: AppTypography.ui(
                               fontSize: 14,
                               fontWeight: FontWeight.w900,
-                              color: Colors.white,
+                              color: textColor,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -737,7 +812,7 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                             style: AppTypography.ui(
                               fontSize: 9,
                               fontWeight: FontWeight.w700,
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: textColor.withValues(alpha: 0.5),
                             ),
                           ),
                         ],
@@ -745,7 +820,7 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                     );
                   }).toList(),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 18),
               ],
               GestureDetector(
                 onTap: item.onTap,
@@ -766,14 +841,18 @@ class _KitaIndividualCardState extends State<_KitaIndividualCard> {
                         style: AppTypography.ui(
                           fontSize: 12,
                           fontWeight: FontWeight.w900,
-                          color: const Color(0xFF090C14),
+                          color: item.accentColor.computeLuminance() > 0.4
+                              ? const Color(0xFF090C14)
+                              : Colors.white,
                         ),
                       ),
                       const SizedBox(width: 6),
-                      const Icon(
+                      Icon(
                         Icons.arrow_forward_rounded,
                         size: 14,
-                        color: Color(0xFF090C14),
+                        color: item.accentColor.computeLuminance() > 0.4
+                            ? const Color(0xFF090C14)
+                            : Colors.white,
                       ),
                     ],
                   ),
