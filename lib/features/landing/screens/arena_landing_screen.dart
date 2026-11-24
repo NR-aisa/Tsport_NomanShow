@@ -1208,8 +1208,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
           ),
           const SizedBox(height: 48),
 
-          // KITA-Style Interactive Tactile Stacking Deck
+          // KITA-Style Interactive Tactile Stacking Deck (Scroll-Driven Overlapping Stacks)
           KitaStackingDeck(
+            scrollController: _scrollController,
             cards: [
               KitaCardItem(
                 step: '01',
