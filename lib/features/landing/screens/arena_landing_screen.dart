@@ -361,13 +361,19 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
   // ========================================================================
   // 2. HERO SECTION ("Midnight Smashes. Zero Staff.")
-  // KITA 100vh Full-Screen First View Architecture: Video Canvas + Scrim + Floating Offer Card
+  // KITA Full-Screen First View: Desktop 100vh Full-Bleed Canvas + Mobile Media-First Stage
   // ========================================================================
   Widget _buildHeroSection(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 960;
-        final isMobile = constraints.maxWidth < 600;
+        final isMobile = constraints.maxWidth < 768;
+
+        // Dedicated Mobile Architecture: Top Cinematic Video Stage + Narrative + Frosted Card
+        if (isMobile) {
+          return _buildMobileHeroSection(context);
+        }
+
         final screenHeight = MediaQuery.of(context).size.height;
         // On desktop, the hero section fills the full desktop screen (100vh minus navbar)!
         final heroMinHeight = isDesktop 
@@ -428,44 +434,163 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                   maxWidth: 1300,
                 ),
                 padding: EdgeInsets.fromLTRB(
-                  isDesktop ? 60 : (isMobile ? 16 : 24),
-                  isDesktop ? 100 : (isMobile ? 60 : 80),
-                  isDesktop ? 60 : (isMobile ? 16 : 24),
-                  isDesktop ? 64 : (isMobile ? 28 : 40),
+                  isDesktop ? 60 : 24,
+                  isDesktop ? 100 : 80,
+                  isDesktop ? 60 : 24,
+                  isDesktop ? 64 : 40,
                 ),
                 alignment: Alignment.bottomCenter,
-                child: isDesktop
-                    ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          // Left Column: Clean, High-Impact Narrative
-                          Expanded(
-                            flex: 55,
-                            child: _buildHeroLeftContent(context, isMobile: false),
-                          ),
-                          const SizedBox(width: 50),
-                          // Right Column: KITA-Style Focused Offer Card
-                          Expanded(
-                            flex: 45,
-                            child: _buildHeroRightCard(context, isMobile: false),
-                          ),
-                        ],
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          _buildHeroLeftContent(context, isMobile: isMobile),
-                          SizedBox(height: isMobile ? 24 : 32),
-                          _buildHeroRightCard(context, isMobile: isMobile),
-                        ],
-                      ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    // Left Column: Clean, High-Impact Narrative
+                    Expanded(
+                      flex: 55,
+                      child: _buildHeroLeftContent(context, isMobile: false),
+                    ),
+                    const SizedBox(width: 50),
+                    // Right Column: KITA-Style Focused Offer Card
+                    Expanded(
+                      flex: 45,
+                      child: _buildHeroRightCard(context, isMobile: false),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         );
       },
+    );
+  }
+
+  // ========================================================================
+  // MOBILE HERO SECTION (Media-First Cinematic Top Video + Clear Narrative + Frosted Pass)
+  // ========================================================================
+  Widget _buildMobileHeroSection(BuildContext context) {
+    return Container(
+      color: const Color(0xFF0A0B10),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // 1. Dedicated Cinematic 16:9 Video Stage (Live Match/Rally Showcase)
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: const Color(0xFFFF5C38).withValues(alpha: 0.35),
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFFF5C38).withValues(alpha: 0.12),
+                  blurRadius: 18,
+                  offset: const Offset(0, 6),
+                ),
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.6),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    const ArenaVideoPlayer(
+                      videoPath: 'videos/arena_highlight.mp4',
+                      fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
+                      borderRadius: 15,
+                      showVignette: false,
+                    ),
+
+                    // Top Live Camera Indicator Badge
+                    Positioned(
+                      top: 10,
+                      left: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.65),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: const Color(0xFFFF5C38).withValues(alpha: 0.5),
+                            width: 1,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 6,
+                              height: 6,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFFF5C38),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              'LIVE COURT CAM',
+                              style: AppTypography.ui(
+                                fontSize: 9.5,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                                letterSpacing: 0.6,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Bottom-Right 24/7 Unmanned Tag
+                    Positioned(
+                      bottom: 10,
+                      right: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.70),
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.15),
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          '24/7 UNMANNED ARENA',
+                          style: AppTypography.ui(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFFCBD5E1),
+                            letterSpacing: 0.4,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // 2. High-Impact Headline & Subtitle & Action CTAs
+          _buildHeroLeftContent(context, isMobile: true),
+
+          const SizedBox(height: 24),
+
+          // 3. Frosted Glassmorphic Signboard Card
+          _buildHeroRightCard(context, isMobile: true),
+        ],
+      ),
     );
   }
 
@@ -558,17 +683,21 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   Widget _buildHeroRightCard(BuildContext context, {bool isMobile = false}) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF11141E).withValues(alpha: 0.88),
+        color: isMobile
+            ? const Color(0xFF11141E).withValues(alpha: 0.58)
+            : const Color(0xFF11141E).withValues(alpha: 0.88),
         borderRadius: BorderRadius.circular(isMobile ? 18 : 20),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.12),
+          color: isMobile
+              ? Colors.white.withValues(alpha: 0.16)
+              : Colors.white.withValues(alpha: 0.12),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.5),
-            blurRadius: 28,
-            offset: const Offset(0, 12),
+            color: Colors.black.withValues(alpha: isMobile ? 0.35 : 0.5),
+            blurRadius: isMobile ? 20 : 28,
+            offset: Offset(0, isMobile ? 8 : 12),
           ),
         ],
       ),
