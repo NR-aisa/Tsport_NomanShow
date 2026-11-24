@@ -21,10 +21,10 @@ class DesktopDockRail extends StatelessWidget {
     this.onWalkInTap,
   });
 
-  static const Color luxurySidebarBg = Color(0xFF1A1C26);
-  static const Color luxuryActivePill = Color(0xFF2E3244);
-  static const Color luxuryCoralRose = Color(0xFFFF4B72);
-  static const Color luxuryMutedText = Color(0xFF8A8E9E);
+  static const Color luxurySidebarBg = Color(0xFF090B10);
+  static const Color luxuryActivePill = Color(0x24FF5C38);
+  static const Color luxuryCoralRose = Color(0xFFFF5C38);
+  static const Color luxuryMutedText = Color(0xFF7E869B);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class DesktopDockRail extends StatelessWidget {
         color: luxurySidebarBg,
         border: Border(
           right: BorderSide(
-            color: Color(0x0FFFFFFF),
+            color: Color(0x18FFFFFF),
             width: 1,
           ),
         ),
@@ -155,12 +155,19 @@ class DesktopDockRail extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFF222533),
+              color: const Color(0xFF10131E),
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.06),
+                color: Colors.white.withValues(alpha: 0.08),
                 width: 1,
               ),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black45,
+                  blurRadius: 16,
+                  offset: Offset(0, 4),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,10 +261,10 @@ class DesktopDockRail extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFF222533),
+              color: const Color(0xFF10131E),
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.06),
+                color: Colors.white.withValues(alpha: 0.08),
               ),
             ),
             child: Row(
@@ -340,13 +347,19 @@ class DesktopDockRail extends StatelessWidget {
           decoration: BoxDecoration(
             color: isActive ? luxuryActivePill : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
+            border: isActive
+                ? Border.all(
+                    color: const Color(0xFFFF5C38).withValues(alpha: 0.35),
+                    width: 1,
+                  )
+                : null,
           ),
           child: Row(
             children: [
               Icon(
                 icon,
                 size: 18,
-                color: isActive ? Colors.white : luxuryMutedText,
+                color: isActive ? const Color(0xFFFF5C38) : luxuryMutedText,
               ),
               const SizedBox(width: 10),
               Expanded(

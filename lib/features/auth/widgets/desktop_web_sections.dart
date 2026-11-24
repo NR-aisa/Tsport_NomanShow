@@ -16,18 +16,18 @@ class DesktopWebSections {
   DesktopWebSections._();
 
   // Luxury high-contrast palette
-  static const Color luxuryCanvasBg = Color(0xFF161720);
-  static const Color luxuryCardBg = Color(0xFF20222F);
-  static const Color luxuryCardBgElevated = Color(0xFF262938);
-  static const Color luxuryCoralRose = Color(0xFFFF4B72);
-  static const Color luxuryTangerineGold = Color(0xFFFFA533);
-  static const Color luxuryVoltEmerald = Color(0xFF10B981);
-  static const Color luxuryElectricBlue = Color(0xFF3B82F6);
-  static const Color luxuryAmethystPurple = Color(0xFF8B5CF6);
+  static const Color luxuryCanvasBg = Color(0xFF07080B);
+  static const Color luxuryCardBg = Color(0xFF0D101A);
+  static const Color luxuryCardBgElevated = Color(0xFF131724);
+  static const Color luxuryCoralRose = Color(0xFFFF5C38);
+  static const Color luxuryTangerineGold = Color(0xFFFF9900);
+  static const Color luxuryVoltEmerald = Color(0xFF00F59B);
+  static const Color luxuryElectricBlue = Color(0xFF38BDF8);
+  static const Color luxuryAmethystPurple = Color(0xFFA855F7);
   static const Color luxuryTextPrimary = Colors.white;
-  static const Color luxuryTextSecondary = Color(0xFFBAC0D4);
-  static const Color luxuryTextMuted = Color(0xFF9095AA);
-  static const Color luxuryBorderSubtle = Color(0x14FFFFFF);
+  static const Color luxuryTextSecondary = Color(0xFFCBD5E1);
+  static const Color luxuryTextMuted = Color(0xFF7E869B);
+  static const Color luxuryBorderSubtle = Color(0x18FFFFFF);
 
   // ============================================================
   // MASTER COMMAND CENTER ORCHESTRATOR
@@ -384,11 +384,25 @@ class DesktopWebSections {
                   height: 56,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: index.isEven ? luxuryCardBgElevated : const Color(0xFF232535),
+                    color: isMatch
+                        ? const Color(0xFF1B1218)
+                        : (index.isEven ? const Color(0xFF101320) : const Color(0xFF0C0E16)),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: isMatch ? luxuryCoralRose.withValues(alpha: 0.4) : Colors.white.withValues(alpha: 0.04),
+                      color: isMatch
+                          ? const Color(0xFFFF2E54).withValues(alpha: 0.45)
+                          : Colors.white.withValues(alpha: 0.06),
+                      width: isMatch ? 1.2 : 1.0,
                     ),
+                    boxShadow: isMatch
+                        ? [
+                            BoxShadow(
+                              color: const Color(0xFFFF2E54).withValues(alpha: 0.18),
+                              blurRadius: 14,
+                              offset: const Offset(0, 2),
+                            ),
+                          ]
+                        : null,
                   ),
                   child: Row(
                     children: [
@@ -506,12 +520,12 @@ class DesktopWebSections {
                                     padding: const EdgeInsets.symmetric(horizontal: 10),
                                     decoration: BoxDecoration(
                                       gradient: const LinearGradient(
-                                        colors: [Color(0xFF10B981), Color(0xFF059669)],
+                                        colors: [Color(0xFF00F59B), Color(0xFF00C77A)],
                                       ),
                                       borderRadius: BorderRadius.circular(8),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: const Color(0xFF10B981).withValues(alpha: 0.35),
+                                          color: const Color(0xFF00F59B).withValues(alpha: 0.35),
                                           blurRadius: 8,
                                           offset: const Offset(0, 2),
                                         ),
@@ -540,12 +554,12 @@ class DesktopWebSections {
                                         padding: const EdgeInsets.symmetric(horizontal: 10),
                                         decoration: BoxDecoration(
                                           gradient: const LinearGradient(
-                                            colors: [Color(0xFFFF4B72), Color(0xFFE11D48)],
+                                            colors: [Color(0xFFFF2E54), Color(0xFFD61238)],
                                           ),
                                           borderRadius: BorderRadius.circular(8),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: const Color(0xFFFF4B72).withValues(alpha: 0.35),
+                                              color: const Color(0xFFFF2E54).withValues(alpha: 0.35),
                                               blurRadius: 8,
                                               offset: const Offset(0, 2),
                                             ),
@@ -637,7 +651,14 @@ class DesktopWebSections {
       decoration: BoxDecoration(
         color: luxuryCardBg,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: luxuryBorderSubtle),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black45,
+            blurRadius: 14,
+            offset: Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
@@ -956,15 +977,16 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
 
   final List<Map<String, dynamic>> _passes = [
     {
-      'title': 'JOMNITTAKU PASS',
+      'title': 'JOMNITTAKU VIP PASS',
       'highlight': '90 sen / day',
       'subtitle': 'Alman Rahman · 24/7 Unlimited Access',
       'code': 'KX8VQS',
       'badge': 'VIP PASS',
-      'colors': [const Color(0xFFFFA533), const Color(0xFFFF7A00)],
-      'shadow': const Color(0xFFFF7A00),
+      'colors': [const Color(0xFF1E2436), const Color(0xFF0F121E)],
+      'accent': const Color(0xFFFF5C38),
+      'shadow': const Color(0xFFFF5C38),
       'icon': Icons.sports_tennis_rounded,
-      'isDarkText': true,
+      'isDarkText': false,
     },
     {
       'title': 'OLYMPIC LEAGUE PRO',
@@ -972,8 +994,9 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
       'subtitle': 'Damansara Master · Zero Table Fees',
       'code': 'PRO-042',
       'badge': 'PRO LEAGUE',
-      'colors': [const Color(0xFF8B5CF6), const Color(0xFF6366F1)],
-      'shadow': const Color(0xFF8B5CF6),
+      'colors': [const Color(0xFF1E1B38), const Color(0xFF100E22)],
+      'accent': const Color(0xFFA855F7),
+      'shadow': const Color(0xFFA855F7),
       'icon': Icons.military_tech_rounded,
       'isDarkText': false,
     },
@@ -983,8 +1006,9 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
       'subtitle': 'Autonomous Ball Dispenser & Robot Active',
       'code': 'RFID-7701',
       'badge': 'RFID SMART',
-      'colors': [const Color(0xFF06B6D4), const Color(0xFF10B981)],
-      'shadow': const Color(0xFF10B981),
+      'colors': [const Color(0xFF0E2224), const Color(0xFF071416)],
+      'accent': const Color(0xFF00F59B),
+      'shadow': const Color(0xFF00F59B),
       'icon': Icons.contactless_rounded,
       'isDarkText': false,
     },
@@ -994,8 +1018,9 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
       'subtitle': '50% OFF All Tables · Free Energy Drink',
       'code': 'NIGHT-50',
       'badge': 'MIDNIGHT',
-      'colors': [const Color(0xFFFF4B72), const Color(0xFFE11D48)],
-      'shadow': const Color(0xFFFF4B72),
+      'colors': [const Color(0xFF2E121E), const Color(0xFF16080E)],
+      'accent': const Color(0xFFFF2E54),
+      'shadow': const Color(0xFFFF2E54),
       'icon': Icons.nightlight_round,
       'isDarkText': false,
     },
@@ -1304,11 +1329,15 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                   colors: colors,
                 ),
                 borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: (card['accent'] as Color? ?? Colors.white).withValues(alpha: depth == 0 ? 0.45 : 0.15),
+                  width: depth == 0 ? 1.4 : 1.0,
+                ),
                 boxShadow: depth == 0
                     ? [
                         BoxShadow(
-                          color: shadowColor.withValues(alpha: 0.4),
-                          blurRadius: 18,
+                          color: (card['accent'] as Color? ?? shadowColor).withValues(alpha: 0.35),
+                          blurRadius: 20,
                           offset: const Offset(0, 6),
                         ),
                       ]

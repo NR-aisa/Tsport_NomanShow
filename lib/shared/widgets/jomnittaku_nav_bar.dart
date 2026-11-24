@@ -86,7 +86,7 @@ class JomnittakuNavBar extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                 decoration: BoxDecoration(
                   color: isDark
-                      ? const Color(0xFF0D1526).withValues(alpha: 0.88)
+                      ? const Color(0xFF090C14).withValues(alpha: 0.90)
                       : Colors.white.withValues(alpha: 0.90), // Fluent acrylic tint
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
@@ -160,14 +160,14 @@ class JomnittakuNavBar extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 2),
-            // Windows 11 Active Indicator Pill
+            // Active Indicator Pill
             AnimatedContainer(
               duration: const Duration(milliseconds: 180),
               width: isSelected ? 16 : 0,
               height: 3,
               decoration: BoxDecoration(
                 color: isSelected
-                    ? (isDark ? AppColors.tobyCtaStart : AppColors.actionBlue)
+                    ? (isDark ? const Color(0xFFFF5C38) : AppColors.actionBlue)
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(2),
               ),
@@ -195,18 +195,22 @@ class JomnittakuNavBar extends StatelessWidget {
               width: 42,
               height: 42,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), // Windows 11 Fluent squircle
-                gradient: AppColors.tobyCtaGradient,
+                borderRadius: BorderRadius.circular(10),
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFFFF5C38), Color(0xFFFF3310)],
+                ),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.tobyCtaGlow.withValues(alpha: isDark ? 0.45 : 0.28),
+                    color: const Color(0xFFFF5C38).withValues(alpha: isDark ? 0.45 : 0.28),
                     blurRadius: 10,
                     offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: const Icon(
-                Icons.sports_mma_rounded,
+                Icons.sports_tennis_rounded,
                 color: Colors.white,
                 size: 22,
               ),
@@ -229,7 +233,7 @@ class JomnittakuNavBar extends StatelessWidget {
               width: isSelected ? 16 : 0,
               height: 3,
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.tobyCtaStart : Colors.transparent,
+                color: isSelected ? const Color(0xFFFF5C38) : Colors.transparent,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),

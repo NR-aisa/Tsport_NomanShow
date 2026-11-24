@@ -120,7 +120,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFF161720),
+      backgroundColor: const Color(0xFF07080B),
       body: SafeArea(
         child: Row(
           children: [
@@ -887,210 +887,144 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   // ============================================================
-  // 3D TABLE TENNIS COURT STAGE (Fills right side of Hero Card)
+  // CYBER-ATHLETIC CENTRE COURT HUD (Replaces 2D drawing)
   // ============================================================
   Widget _build3dTableTennisStage(BuildContext context, bool isDark) {
     return GestureDetector(
       onTap: () => AppNavigator.toTables(context),
       child: Container(
-        height: 118,
+        height: 122,
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: isDark
-                ? [AppColors.ittfTableBlue, AppColors.darkObsidianCard]
-                : [AppColors.ittfTableBlue, AppColors.ittfTableBlue],
-          ),
+          color: const Color(0xFF0C0F1A),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isDark
-                ? AppColors.ittfTableBorder.withValues(alpha: 0.35)
-                : AppColors.slate300,
+            color: const Color(0xFFFF2E54).withValues(alpha: 0.35),
             width: 1.2,
           ),
           boxShadow: [
             BoxShadow(
-              color: isDark
-                  ? Colors.black.withValues(alpha: 0.35)
-                  : AppColors.ittfTableBlue.withValues(alpha: 0.15),
-              blurRadius: 6,
-              offset: const Offset(0, 3),
+              color: const Color(0xFFFF2E54).withValues(alpha: 0.12),
+              blurRadius: 16,
+              offset: const Offset(0, 4),
+            ),
+            const BoxShadow(
+              color: Colors.black54,
+              blurRadius: 10,
+              offset: Offset(0, 4),
             ),
           ],
         ),
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Table top perspective representation (Championship ITTF Blue Court)
-            Positioned(
-              top: 22,
-              left: 14,
-              right: 14,
-              bottom: 22,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppColors.ittfTableSurface, AppColors.ittfTableBlue],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.white, width: 1.5),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.4),
-                      blurRadius: 8,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    // Center White Line
-                    Container(width: 1.2, color: Colors.white.withValues(alpha: 0.7)),
-                    // Center Net (White Mesh)
-                    Container(
-                      height: 4,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.3),
-                            blurRadius: 2,
-                            offset: const Offset(0, 1),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Top-Left: Player 2 Paddle (Black Rubber - Jason)
-            Positioned(
-              top: 8,
-              left: 10,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.paddleBlack,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.white30, width: 0.8),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.sports_tennis_rounded, size: 10, color: Colors.white70),
-                    const SizedBox(width: 3),
-                    Text(
-                      'Jason',
-                      style: AppTypography.ui(
-                        fontSize: 8,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Bottom-Right: Player 1 Paddle (Red Rubber - Aiman)
-            Positioned(
-              bottom: 8,
-              right: 10,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.paddleRed,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.white30, width: 0.8),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.sports_tennis_rounded, size: 10, color: Colors.white),
-                    const SizedBox(width: 3),
-                    Text(
-                      'Aiman',
-                      style: AppTypography.ui(
-                        fontSize: 8,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Center: 40+ Tournament Orange Ping Pong Ball
-            Positioned(
-              top: 48,
-              left: 48,
-              child: Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: AppColors.pingPongOrange,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 1),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.pingPongOrange.withValues(alpha: 0.6),
-                      blurRadius: 4,
-                      offset: const Offset(0, 1),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Floating Live Score Badge (Top Right)
-            Positioned(
-              top: 6,
-              right: 8,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.slate900,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.radiantGold, width: 1),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.4),
-                      blurRadius: 4,
-                    ),
-                  ],
-                ),
-                child: Row(
+            // Top HUD Status Bar
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: 5,
-                      height: 5,
+                      width: 6,
+                      height: 6,
                       decoration: const BoxDecoration(
-                        color: AppColors.electricCrimson,
+                        color: Color(0xFFFF2E54),
                         shape: BoxShape.circle,
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: 5),
                     Text(
-                      'T4 · 11-9',
+                      'T04 LIVE MATCH',
                       style: AppTypography.ui(
-                        fontSize: 9,
+                        fontSize: 9.5,
                         fontWeight: FontWeight.w900,
-                        color: AppColors.radiantGold,
+                        color: const Color(0xFFFF2E54),
+                        letterSpacing: 0.8,
                       ),
                     ),
                   ],
                 ),
-              ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF00F59B).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                      color: const Color(0xFF00F59B).withValues(alpha: 0.4),
+                      width: 0.8,
+                    ),
+                  ),
+                  child: Text(
+                    '60 FPS HUD',
+                    style: AppTypography.ui(
+                      fontSize: 8.5,
+                      fontWeight: FontWeight.w800,
+                      color: const Color(0xFF00F59B),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            // Center Match Score
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '14',
+                  style: AppTypography.ui(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
+                    letterSpacing: -1.0,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    ':',
+                    style: AppTypography.ui(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      color: const Color(0xFFFF5C38),
+                    ),
+                  ),
+                ),
+                Text(
+                  '11',
+                  style: AppTypography.ui(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w900,
+                    color: const Color(0xFF94A3B8),
+                    letterSpacing: -1.0,
+                  ),
+                ),
+              ],
+            ),
+
+            // Bottom Player Names & Smash Speed
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Jason vs Alman',
+                  style: AppTypography.ui(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFFCBD5E1),
+                  ),
+                ),
+                Text(
+                  '⚡ 118 KM/H',
+                  style: AppTypography.ui(
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.w900,
+                    color: const Color(0xFFFFB800),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -1225,13 +1159,21 @@ class _SplashScreenState extends State<SplashScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.obsidianCard,
-        borderRadius: BorderRadius.circular(12),
+        color: isDark ? const Color(0xFF0C0F1A) : AppColors.obsidianCard,
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark ? Colors.white.withValues(alpha: 0.06) : AppColors.lightBorder,
+          color: isDark ? Colors.white.withValues(alpha: 0.08) : AppColors.lightBorder,
           width: 1,
         ),
-        boxShadow: AppColors.cardShadow,
+        boxShadow: isDark
+            ? const [
+                BoxShadow(
+                  color: Colors.black45,
+                  blurRadius: 16,
+                  offset: Offset(0, 4),
+                ),
+              ]
+            : AppColors.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1260,7 +1202,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: AppTypography.ui(
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    color: isDark ? AppColors.ittfTableBorder : AppColors.ittfTableSurface,
+                    color: const Color(0xFFFF5C38),
                   ),
                 ),
               ),
@@ -1406,24 +1348,24 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               // Win streak mini-badge
               Positioned(
-                top: -5,
-                right: -6,
+                top: -4,
+                right: -4,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
                   decoration: BoxDecoration(
-                    color: isDark ? AppColors.slate900 : AppColors.lightCanvasBg,
-                    borderRadius: BorderRadius.circular(8),
+                    color: const Color(0xFF0F121C),
+                    borderRadius: BorderRadius.circular(6),
                     border: Border.all(
-                      color: isDark ? AppColors.radiantGold : AppColors.xpGold,
+                      color: const Color(0xFFFFB800).withValues(alpha: 0.6),
                       width: 0.8,
                     ),
                   ),
                   child: Text(
                     streak,
                     style: AppTypography.ui(
-                      fontSize: 8,
+                      fontSize: 8.5,
                       fontWeight: FontWeight.w900,
-                      color: isDark ? AppColors.btnGold : AppColors.electricCrimson,
+                      color: const Color(0xFFFFB800),
                     ),
                   ),
                 ),
@@ -1507,13 +1449,19 @@ class _SplashScreenState extends State<SplashScreen> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        gradient: AppColors.promoBannerGradient,
-        borderRadius: BorderRadius.circular(10), // Windows 11 Fluent 10px
+        color: isDark ? const Color(0xFF13101E) : AppColors.promoBannerGradient.colors.first,
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isDark ? AppColors.radiantGold.withValues(alpha: 0.25) : AppColors.xpGold,
-          width: 0.8,
+          color: isDark ? const Color(0xFFFFB800).withValues(alpha: 0.3) : AppColors.xpGold,
+          width: 1,
         ),
-        boxShadow: AppColors.cardShadow,
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFFFB800).withValues(alpha: isDark ? 0.08 : 0.15),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
@@ -1522,9 +1470,9 @@ class _SplashScreenState extends State<SplashScreen> {
             height: 36,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [AppColors.radiantGold, AppColors.pingPongOrange],
+                colors: [Color(0xFFFFB800), Color(0xFFFF5C38)],
               ),
-              borderRadius: BorderRadius.circular(6), // Windows 11 squircle
+              borderRadius: BorderRadius.circular(8),
             ),
             child: const Icon(Icons.bolt_rounded, color: Colors.white, size: 20),
           ),
@@ -1538,37 +1486,35 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: AppTypography.ui(
                     fontSize: 13,
                     fontWeight: FontWeight.w900,
-                    color: isDark ? AppColors.lightBorder : AppColors.electricCrimson,
+                    color: isDark ? Colors.white : AppColors.electricCrimson,
                   ),
                 ),
                 Text(
                   'All tables 50 sen/hour for members',
                   style: AppTypography.ui(
                     fontSize: 11,
-                    color: isDark ? Colors.white.withValues(alpha: 0.70) : AppColors.paddleRed,
+                    color: isDark ? const Color(0xFF94A3B8) : AppColors.paddleRed,
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
             decoration: BoxDecoration(
-              color: AppColors.electricCrimson,
-              borderRadius: BorderRadius.circular(6), // Windows 11 badge
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.electricCrimson.withValues(alpha: 0.25),
-                  blurRadius: 4,
-                ),
-              ],
+              color: const Color(0xFFFF2E54).withValues(alpha: 0.18),
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(
+                color: const Color(0xFFFF2E54).withValues(alpha: 0.5),
+                width: 1,
+              ),
             ),
             child: Text(
               '18m : 45s',
               style: AppTypography.ui(
                 fontSize: 11,
                 fontWeight: FontWeight.w900,
-                color: Colors.white,
+                color: const Color(0xFFFF2E54),
                 letterSpacing: 0.5,
               ),
             ),
@@ -1632,13 +1578,21 @@ class _SplashScreenState extends State<SplashScreen> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              gradient: AppColors.cardGradient,
-              borderRadius: BorderRadius.circular(12), // Windows 11 Fluent 12px
+              color: isDark ? const Color(0xFF0C0F1A) : AppColors.obsidianCard,
+              borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                color: isDark ? Colors.white.withValues(alpha: 0.06) : AppColors.lightBorder,
+                color: isDark ? Colors.white.withValues(alpha: 0.08) : AppColors.lightBorder,
                 width: 1,
               ),
-              boxShadow: AppColors.cardShadow,
+              boxShadow: isDark
+                  ? const [
+                      BoxShadow(
+                        color: Colors.black45,
+                        blurRadius: 14,
+                        offset: Offset(0, 4),
+                      ),
+                    ]
+                  : AppColors.cardShadow,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

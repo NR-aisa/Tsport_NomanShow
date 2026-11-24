@@ -25,18 +25,26 @@ class DesktopWebHeader extends StatelessWidget {
     this.onProfileTap,
   });
 
-  static const Color luxuryCanvasBg = Color(0xFF161720);
-  static const Color luxuryCardBg = Color(0xFF222533);
-  static const Color luxuryCoralRose = Color(0xFFFF4B72);
-  static const Color luxuryVoltEmerald = Color(0xFF10B981);
-  static const Color luxuryMutedText = Color(0xFF8A8E9E);
+  static const Color luxuryCanvasBg = Color(0xFF07080B);
+  static const Color luxuryCardBg = Color(0xFF0F121C);
+  static const Color luxuryCoralRose = Color(0xFFFF5C38);
+  static const Color luxuryVoltEmerald = Color(0xFF00F59B);
+  static const Color luxuryMutedText = Color(0xFF7E869B);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 64,
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      color: luxuryCanvasBg,
+      decoration: const BoxDecoration(
+        color: luxuryCanvasBg,
+        border: Border(
+          bottom: BorderSide(
+            color: Color(0x12FFFFFF),
+            width: 1,
+          ),
+        ),
+      ),
       child: Row(
         children: [
           // ==========================================
@@ -50,7 +58,7 @@ class DesktopWebHeader extends StatelessWidget {
               color: luxuryCardBg,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.05),
+                color: Colors.white.withValues(alpha: 0.08),
                 width: 1,
               ),
             ),
@@ -127,10 +135,10 @@ class DesktopWebHeader extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF222533),
+                  color: const Color(0xFF10131E),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.1),
+                    color: Colors.white.withValues(alpha: 0.12),
                     width: 1,
                   ),
                 ),
