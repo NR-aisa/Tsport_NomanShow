@@ -497,84 +497,13 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: AspectRatio(
+              child: const AspectRatio(
                 aspectRatio: 16 / 9,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    const ArenaVideoPlayer(
-                      videoPath: 'videos/arena_highlight.mp4',
-                      fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
-                      borderRadius: 15,
-                      showVignette: false,
-                    ),
-
-                    // Top Live Camera Indicator Badge
-                    Positioned(
-                      top: 10,
-                      left: 10,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.65),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: const Color(0xFFFF5C38).withValues(alpha: 0.5),
-                            width: 1,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 6,
-                              height: 6,
-                              decoration: const BoxDecoration(
-                                color: Color(0xFFFF5C38),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              'LIVE COURT CAM',
-                              style: AppTypography.ui(
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white,
-                                letterSpacing: 0.6,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    // Bottom-Right 24/7 Unmanned Tag
-                    Positioned(
-                      bottom: 10,
-                      right: 10,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.70),
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.15),
-                            width: 1,
-                          ),
-                        ),
-                        child: Text(
-                          '24/7 UNMANNED ARENA',
-                          style: AppTypography.ui(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFFCBD5E1),
-                            letterSpacing: 0.4,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: ArenaVideoPlayer(
+                  videoPath: 'videos/arena_highlight.mp4',
+                  fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
+                  borderRadius: 15,
+                  showVignette: false,
                 ),
               ),
             ),
