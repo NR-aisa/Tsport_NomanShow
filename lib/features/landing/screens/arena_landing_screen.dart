@@ -451,9 +451,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                     alignment: Alignment.bottomCenter,
                     padding: EdgeInsets.fromLTRB(
                       isMobile ? 16 : 32,
-                      isDesktop ? 100 : 50,
+                      isDesktop ? 80 : 40,
                       isMobile ? 16 : 32,
-                      isDesktop ? 76 : 48,
+                      isDesktop ? 42 : 32,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -648,17 +648,17 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   Widget _buildHeroRightCard(BuildContext context, {bool isMobile = false}) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF11141E).withValues(alpha: 0.35),
+        color: const Color(0xFF0F121C).withValues(alpha: 0.18),
         borderRadius: BorderRadius.circular(isMobile ? 18 : 20),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.25),
+          color: Colors.white.withValues(alpha: 0.20),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isMobile ? 0.30 : 0.40),
-            blurRadius: isMobile ? 18 : 26,
-            offset: Offset(0, isMobile ? 6 : 10),
+            color: Colors.black.withValues(alpha: isMobile ? 0.20 : 0.25),
+            blurRadius: isMobile ? 16 : 22,
+            offset: Offset(0, isMobile ? 4 : 8),
           ),
         ],
       ),
@@ -765,7 +765,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                 const SizedBox(height: 7),
                 _buildCleanCheckItem('60 FPS AI Smash Tracking & Speedometer', isMobile: isMobile),
 
-                const SizedBox(height: 18),
+                const SizedBox(height: 22),
 
                 // Clean Solid Action Button (Like KITA's [BOOK NOW] -> Electric Golden Amber on hover)
                 ArenaInteractiveButton(
