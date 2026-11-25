@@ -122,10 +122,6 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
         final isCompact = constraints.maxWidth < 1100;
 
         return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 12 : (isCompact ? 20 : 40),
-            vertical: isMobile ? 12 : 16,
-          ),
           decoration: BoxDecoration(
             color: luxuryBg.withValues(alpha: 0.85),
             border: Border(
@@ -135,207 +131,215 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               ),
             ),
           ),
-          child: Row(
-            children: [
-              // Brand Logo + Tag
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: () {
-                    _scrollController.animateTo(
-                      0,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: isMobile ? 32 : 38,
-                        height: isMobile ? 32 : 38,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: luxuryCoralRose.withValues(alpha: 0.15),
-                          border: Border.all(
-                            color: luxuryCoralRose.withValues(alpha: 0.4),
-                            width: 1.5,
-                          ),
-                        ),
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/company_logo.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'JOMNITTAKU',
-                                style: AppTypography.ui(
-                                  fontSize: isMobile ? 13 : 15,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white,
-                                  letterSpacing: 1.0,
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 5,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: luxuryCoralRose.withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(
-                                  '24/7',
-                                  style: AppTypography.ui(
-                                    fontSize: 8.5,
-                                    fontWeight: FontWeight.w900,
-                                    color: luxuryCoralRose,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          if (!isMobile)
-                            Text(
-                              'NO MAN SHOW • 3 DAMANSARA (L2)',
-                              style: AppTypography.ui(
-                                fontSize: 9,
-                                fontWeight: FontWeight.w700,
-                                color: luxuryVoltEmerald,
-                                letterSpacing: 0.8,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ],
-                  ),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1240),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 16 : 32,
+                  vertical: isMobile ? 12 : 16,
                 ),
-              ),
-
-              const Spacer(),
-
-              // Desktop Nav Links (Hidden on Compact/Mobile)
-              if (!isCompact) ...[
-                const SizedBox(width: 20),
-                _buildNavLink('The Vibe', () => _scrollTo(_vibeKey)),
-                const SizedBox(width: 16),
-                _buildNavLink('How It Works', () => _scrollTo(_howItWorksKey)),
-                const SizedBox(width: 16),
-                _buildNavLink('10 Courts', () => _scrollTo(_courtsKey)),
-                const SizedBox(width: 16),
-                _buildNavLink('Passes & Pricing', () => _scrollTo(_pricingKey)),
-                const SizedBox(width: 16),
-                _buildNavLink('Tournaments', widget.onViewLeagueTap),
-                const Spacer(),
-              ],
-
-              // Live Courts Badge (clickable to open Radar, compact on mobile)
-              if (!isMobile)
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: widget.onViewCourtsTap,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: luxuryVoltEmerald.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: luxuryVoltEmerald.withValues(alpha: 0.35),
-                          width: 1,
+                child: Row(
+                  children: [
+                    // Brand Logo + Tag
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          _scrollController.animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: isMobile ? 32 : 38,
+                              height: isMobile ? 32 : 38,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: luxuryCoralRose.withValues(alpha: 0.15),
+                                border: Border.all(
+                                  color: luxuryCoralRose.withValues(alpha: 0.4),
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: ClipOval(
+                                child: Image.asset(
+                                  'assets/images/company_logo.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'JOMNITTAKU',
+                                      style: AppTypography.ui(
+                                        fontSize: isMobile ? 13 : 15,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.white,
+                                        letterSpacing: 1.0,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 5,
+                                        vertical: 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: luxuryCoralRose.withValues(alpha: 0.2),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        '24/7',
+                                        style: AppTypography.ui(
+                                          fontSize: 8.5,
+                                          fontWeight: FontWeight.w900,
+                                          color: luxuryCoralRose,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                if (!isMobile)
+                                  Text(
+                                    'NO MAN SHOW • 3 DAMANSARA (L2)',
+                                    style: AppTypography.ui(
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.w700,
+                                      color: luxuryVoltEmerald,
+                                      letterSpacing: 0.8,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 7,
-                            height: 7,
-                            decoration: const BoxDecoration(
-                              color: luxuryVoltEmerald,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            '6 OF 10 FREE',
-                            style: AppTypography.ui(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w900,
-                              color: luxuryVoltEmerald,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                        ],
                       ),
                     ),
-                  ),
-                ),
 
-              if (!isMobile) const SizedBox(width: 10),
+                    const Spacer(),
 
-              // Action Button / Capsule
-              isMobile
-                  ? ArenaInteractiveButton(
-                      label: 'Walk In (RM17)',
-                      icon: Icons.bolt_rounded,
-                      onTap: widget.onWalkInTap,
-                      isPrimary: true,
-                      fontSize: 11,
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                    )
-                  : Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.05),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.12),
-                          width: 1,
+                    // Desktop Nav Links (Hidden on Compact/Mobile)
+                    if (!isCompact) ...[
+                      const SizedBox(width: 20),
+                      _buildNavLink('The Vibe', () => _scrollTo(_vibeKey)),
+                      const SizedBox(width: 16),
+                      _buildNavLink('How It Works', () => _scrollTo(_howItWorksKey)),
+                      const SizedBox(width: 16),
+                      _buildNavLink('10 Courts', () => _scrollTo(_courtsKey)),
+                      const SizedBox(width: 16),
+                      _buildNavLink('Passes & Pricing', () => _scrollTo(_pricingKey)),
+                      const SizedBox(width: 16),
+                      _buildNavLink('Tournaments', widget.onViewLeagueTap),
+                      const Spacer(),
+                    ],
+
+                    // Live Courts Badge (clickable to open Radar, compact on mobile)
+                    if (!isMobile)
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: widget.onViewCourtsTap,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: luxuryVoltEmerald.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: luxuryVoltEmerald.withValues(alpha: 0.35),
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 7,
+                                  height: 7,
+                                  decoration: const BoxDecoration(
+                                    color: luxuryVoltEmerald,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  '6 OF 10 FREE',
+                                  style: AppTypography.ui(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w900,
+                                    color: luxuryVoltEmerald,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                      padding: const EdgeInsets.all(3),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // State A: Instant Walk-In
-                          ArenaInteractiveButton(
+
+                    if (!isMobile) const SizedBox(width: 10),
+
+                    // Action Button / Capsule
+                    isMobile
+                        ? ArenaInteractiveButton(
                             label: 'Walk In (RM17)',
                             icon: Icons.bolt_rounded,
                             onTap: widget.onWalkInTap,
                             isPrimary: true,
                             fontSize: 11,
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                            borderRadius: BorderRadius.circular(9),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.05),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.12),
+                                width: 1,
+                              ),
+                            ),
+                            padding: const EdgeInsets.all(3),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // State A: Instant Walk-In
+                                ArenaInteractiveButton(
+                                  label: 'Walk In (RM17)',
+                                  icon: Icons.bolt_rounded,
+                                  onTap: widget.onWalkInTap,
+                                  isPrimary: true,
+                                  fontSize: 11,
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
+                                const SizedBox(width: 4),
+                                // State B: Arena Hub Destination
+                                ArenaInteractiveButton(
+                                  label: 'Arena Hub →',
+                                  icon: Icons.grid_view_rounded,
+                                  onTap: widget.onLaunchHub,
+                                  isPrimary: false,
+                                  fontSize: 11,
+                                  padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
+                              ],
+                            ),
                           ),
-                          const SizedBox(width: 4),
-                          // State B: Arena Hub Destination
-                          ArenaInteractiveButton(
-                            label: 'Arena Hub →',
-                            icon: Icons.grid_view_rounded,
-                            onTap: widget.onLaunchHub,
-                            isPrimary: false,
-                            fontSize: 11,
-                            padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
-                            borderRadius: BorderRadius.circular(9),
-                          ),
-                        ],
-                      ),
-                    ),
-
-              // Desktop safe margin for floating presentation switcher bar (ONLY ON DESKTOP!)
-              if (!isCompact) const SizedBox(width: 440),
-            ],
+                  ],
+                ),
+              ),
+            ),
           ),
         );
       },
@@ -375,9 +379,9 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
         }
 
         final screenHeight = MediaQuery.of(context).size.height;
-        // On desktop, the hero section fills the full desktop screen (100vh minus navbar)!
+        // On desktop, balanced optical hero viewport height
         final heroMinHeight = isDesktop 
-            ? (screenHeight - 65).clamp(700.0, 1400.0) 
+            ? (screenHeight - 65).clamp(560.0, 840.0) 
             : 0.0;
 
         return ConstrainedBox(
@@ -426,35 +430,36 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               ),
 
               // --------------------------------------------------------------
-              // LAYER 3: Clean, Focused Content Layer (Anchored at Bottom of 100vh)
+              // LAYER 3: Clean, Focused Content Layer (Perfect Grid Alignment with Navbar)
               // --------------------------------------------------------------
-              Container(
-                constraints: BoxConstraints(
-                  minHeight: heroMinHeight,
-                  maxWidth: 1300,
-                ),
-                padding: EdgeInsets.fromLTRB(
-                  isDesktop ? 60 : 24,
-                  isDesktop ? 100 : 80,
-                  isDesktop ? 60 : 24,
-                  isDesktop ? 64 : 40,
-                ),
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    // Left Column: Clean, High-Impact Narrative
-                    Expanded(
-                      flex: 55,
-                      child: _buildHeroLeftContent(context, isMobile: false),
+              Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: heroMinHeight,
+                    maxWidth: 1240,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isMobile ? 16 : 32,
+                      vertical: isDesktop ? 48 : 28,
                     ),
-                    const SizedBox(width: 50),
-                    // Right Column: KITA-Style Focused Offer Card
-                    Expanded(
-                      flex: 45,
-                      child: _buildHeroRightCard(context, isMobile: false),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Left Column: Clean, High-Impact Narrative
+                        Expanded(
+                          flex: 55,
+                          child: _buildHeroLeftContent(context, isMobile: false),
+                        ),
+                        const SizedBox(width: 48),
+                        // Right Column: KITA-Style Focused Offer Card
+                        Expanded(
+                          flex: 45,
+                          child: _buildHeroRightCard(context, isMobile: false),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],

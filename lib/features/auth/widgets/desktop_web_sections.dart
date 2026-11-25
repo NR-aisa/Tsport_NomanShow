@@ -522,16 +522,14 @@ class DesktopWebSections {
                             child: isFree
                                 ? Container(
                                     height: 34,
-                                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                                    padding: const EdgeInsets.symmetric(horizontal: 12),
                                     decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [Color(0xFF00F59B), Color(0xFF00C77A)],
-                                      ),
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: const Color(0xFF00F59B).withValues(alpha: 0.35),
-                                          blurRadius: 8,
+                                          color: Colors.white.withValues(alpha: 0.18),
+                                          blurRadius: 10,
                                           offset: const Offset(0, 2),
                                         ),
                                       ],
@@ -545,11 +543,11 @@ class DesktopWebSections {
                                           style: AppTypography.ui(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w900,
-                                            color: Colors.white,
+                                            color: const Color(0xFF07080B),
                                           ),
                                         ),
                                         const SizedBox(width: 4),
-                                        const Icon(Icons.arrow_forward_rounded, size: 13, color: Colors.white),
+                                        const Icon(Icons.arrow_forward_rounded, size: 13, color: Color(0xFF07080B)),
                                       ],
                                     ),
                                   )
@@ -558,32 +556,36 @@ class DesktopWebSections {
                                         height: 34,
                                         padding: const EdgeInsets.symmetric(horizontal: 10),
                                         decoration: BoxDecoration(
-                                          gradient: const LinearGradient(
-                                            colors: [Color(0xFFFF2E54), Color(0xFFD61238)],
-                                          ),
+                                          color: const Color(0xFF240E14),
                                           borderRadius: BorderRadius.circular(8),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: const Color(0xFFFF2E54).withValues(alpha: 0.35),
-                                              blurRadius: 8,
-                                              offset: const Offset(0, 2),
-                                            ),
-                                          ],
+                                          border: Border.all(
+                                            color: const Color(0xFFE11D48).withValues(alpha: 0.5),
+                                            width: 1.2,
+                                          ),
                                         ),
                                         alignment: Alignment.center,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
+                                            Container(
+                                              width: 6,
+                                              height: 6,
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xFFEF4444),
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 5),
                                             Text(
                                               'Live HUD',
                                               style: AppTypography.ui(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w900,
-                                                color: Colors.white,
+                                                color: const Color(0xFFFDA4AF),
                                               ),
                                             ),
                                             const SizedBox(width: 4),
-                                            const Icon(Icons.sensors_rounded, size: 14, color: Colors.white),
+                                            const Icon(Icons.sensors_rounded, size: 13, color: Color(0xFFFDA4AF)),
                                           ],
                                         ),
                                       )
@@ -591,10 +593,10 @@ class DesktopWebSections {
                                         height: 34,
                                         padding: const EdgeInsets.symmetric(horizontal: 10),
                                         decoration: BoxDecoration(
-                                          color: luxuryElectricBlue.withValues(alpha: 0.18),
+                                          color: const Color(0xFF0D111A),
                                           borderRadius: BorderRadius.circular(8),
                                           border: Border.all(
-                                            color: luxuryElectricBlue.withValues(alpha: 0.6),
+                                            color: const Color(0xFF263248),
                                             width: 1.2,
                                           ),
                                         ),
@@ -606,12 +608,12 @@ class DesktopWebSections {
                                               'Watch HUD',
                                               style: AppTypography.ui(
                                                 fontSize: 12,
-                                                fontWeight: FontWeight.w900,
-                                                color: const Color(0xFF60A5FA),
+                                                fontWeight: FontWeight.w800,
+                                                color: const Color(0xFF94A3B8),
                                               ),
                                             ),
                                             const SizedBox(width: 4),
-                                            const Icon(Icons.visibility_rounded, size: 13, color: Color(0xFF60A5FA)),
+                                            const Icon(Icons.visibility_rounded, size: 13, color: Color(0xFF94A3B8)),
                                           ],
                                         ),
                                       ),
@@ -2447,15 +2449,34 @@ class _DesktopPassesView extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            height: 40,
+            height: 42,
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: colors),
-              borderRadius: BorderRadius.circular(8),
+              color: badge == 'MOST POPULAR' ? Colors.white : const Color(0xFF131826),
+              borderRadius: BorderRadius.circular(9),
+              border: Border.all(
+                color: badge == 'MOST POPULAR'
+                    ? Colors.white
+                    : Colors.white.withValues(alpha: 0.15),
+                width: 1,
+              ),
+              boxShadow: badge == 'MOST POPULAR'
+                  ? [
+                      BoxShadow(
+                        color: Colors.white.withValues(alpha: 0.15),
+                        blurRadius: 14,
+                        offset: const Offset(0, 3),
+                      ),
+                    ]
+                  : null,
             ),
             alignment: Alignment.center,
             child: Text(
               'Select Pass →',
-              style: AppTypography.ui(fontSize: 13, fontWeight: FontWeight.w900, color: Colors.white),
+              style: AppTypography.ui(
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                color: badge == 'MOST POPULAR' ? const Color(0xFF07080B) : Colors.white,
+              ),
             ),
           ),
         ],

@@ -24,6 +24,7 @@ class JomnittakuApp extends StatefulWidget {
 class _JomnittakuAppState extends State<JomnittakuApp> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   int _viewportMode = 2; // 0 = Mobile (440px), 1 = Tab (820px), 2 = Desktop Web (Full bleed), 3 = 55" TV (1440px)
+  bool _isControlsCollapsed = false;
 
   @override
   void initState() {
@@ -150,78 +151,149 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                     ),
                   ),
 
-                  // Floating Presentation Switcher Bar (Top Right)
+                  // Floating Presentation Switcher Bar (Top Right, Collapsible)
                   Positioned(
                     top: 14,
                     right: 20,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1A1D2B).withValues(alpha: 0.95),
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.12),
-                          width: 1,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.45),
-                            blurRadius: 16,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      transitionBuilder: (child, animation) => FadeTransition(
+                        opacity: animation,
+                        child: child,
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Mobile View
-                          _buildModePill(
-                            icon: Icons.phone_iphone_rounded,
-                            label: 'Mobile',
-                            isSelected: _viewportMode == 0,
-                            onTap: openMobileFlow,
-                            isDark: isDark,
-                          ),
-                          const SizedBox(width: 3),
-                          // Tablet View
-                          _buildModePill(
-                            icon: Icons.tablet_mac_rounded,
-                            label: 'Tab',
-                            isSelected: _viewportMode == 1,
-                            onTap: openTabDisplay,
-                            isDark: isDark,
-                          ),
-                          const SizedBox(width: 3),
-                          // Web View
-                          _buildModePill(
-                            icon: Icons.laptop_chromebook_rounded,
-                            label: 'Web',
-                            isSelected: _viewportMode == 2,
-                            onTap: openWebDisplay,
-                            isDark: isDark,
-                          ),
-                          const SizedBox(width: 3),
-                          // 55" TV View
-                          _buildModePill(
-                            icon: Icons.tv_rounded,
-                            label: '55" TV',
-                            isSelected: _viewportMode == 3,
-                            onTap: openTvDisplay,
-                            isDark: isDark,
-                          ),
-                          // Subtle Vertical Divider
-                          Container(
-                            height: 16,
-                            width: 1,
-                            margin: const EdgeInsets.symmetric(horizontal: 5),
-                            color: isDark
-                                ? Colors.white.withValues(alpha: 0.15)
-                                : AppColors.slate300,
-                          ),
-                          // High-Visibility Light / Dark Theme Toggle
-                          _buildThemeTogglePill(isDark: isDark),
-                        ],
-                      ),
+                      child: _isControlsCollapsed
+                          ? MouseRegion(
+                              key: const ValueKey('collapsed_controls'),
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () => setState(() => _isControlsCollapsed = false),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF1A1D2B).withValues(alpha: 0.95),
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: Colors.white.withValues(alpha: 0.15),
+                                      width: 1,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withValues(alpha: 0.45),
+                                        blurRadius: 14,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.tune_rounded, size: 14, color: Color(0xFFFF5C38)),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        'Controls',
+                                        style: AppTypography.ui(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      const Icon(Icons.arrow_back_ios_new_rounded, size: 11, color: Colors.white70),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(
+                              key: const ValueKey('expanded_controls'),
+                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF1A1D2B).withValues(alpha: 0.95),
+                                borderRadius: BorderRadius.circular(24),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.12),
+                                  width: 1,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.45),
+                                    blurRadius: 16,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  // Mobile View
+                                  _buildModePill(
+                                    icon: Icons.phone_iphone_rounded,
+                                    label: 'Mobile',
+                                    isSelected: _viewportMode == 0,
+                                    onTap: openMobileFlow,
+                                    isDark: isDark,
+                                  ),
+                                  const SizedBox(width: 3),
+                                  // Tablet View
+                                  _buildModePill(
+                                    icon: Icons.tablet_mac_rounded,
+                                    label: 'Tab',
+                                    isSelected: _viewportMode == 1,
+                                    onTap: openTabDisplay,
+                                    isDark: isDark,
+                                  ),
+                                  const SizedBox(width: 3),
+                                  // Web View
+                                  _buildModePill(
+                                    icon: Icons.laptop_chromebook_rounded,
+                                    label: 'Web',
+                                    isSelected: _viewportMode == 2,
+                                    onTap: openWebDisplay,
+                                    isDark: isDark,
+                                  ),
+                                  const SizedBox(width: 3),
+                                  // 55" TV View
+                                  _buildModePill(
+                                    icon: Icons.tv_rounded,
+                                    label: '55" TV',
+                                    isSelected: _viewportMode == 3,
+                                    onTap: openTvDisplay,
+                                    isDark: isDark,
+                                  ),
+                                  // Subtle Vertical Divider
+                                  Container(
+                                    height: 16,
+                                    width: 1,
+                                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                                    color: isDark
+                                        ? Colors.white.withValues(alpha: 0.15)
+                                        : AppColors.slate300,
+                                  ),
+                                  // High-Visibility Light / Dark Theme Toggle
+                                  _buildThemeTogglePill(isDark: isDark),
+                                  const SizedBox(width: 4),
+                                  // Collapse arrow button
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () => setState(() => _isControlsCollapsed = true),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withValues(alpha: 0.08),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 11,
+                                          color: Colors.white70,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                     ),
                   ),
                 ],
