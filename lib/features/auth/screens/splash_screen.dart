@@ -120,7 +120,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFF07080B),
+      backgroundColor: isDark ? const Color(0xFF090B10) : const Color(0xFFF8FAFC),
       body: SafeArea(
         child: Row(
           children: [
@@ -129,6 +129,7 @@ class _SplashScreenState extends State<SplashScreen> {
               activeItem: _activeTab,
               onItemTap: _onNavChange,
               onWalkInTap: () => _onNavChange('passes'),
+              isDark: isDark,
             ),
 
             // Right Canvas: Top Search & Header Bar + Dynamic Desktop Content
@@ -141,6 +142,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     onTvTap: () => _onNavChange('tv'),
                     onXpTap: () => _onNavChange('league'),
                     onProfileTap: () => AppNavigator.toProfile(context),
+                    isDark: isDark,
                   ),
                   Expanded(
                     child: _buildDesktopContent(context, isDark),
@@ -193,6 +195,7 @@ class _SplashScreenState extends State<SplashScreen> {
       case 'tv':
         return DesktopWebSections.buildTvSection(
           context,
+          isDark,
           onBackToCommand: () => _onNavChange('command'),
         );
       case 'command':

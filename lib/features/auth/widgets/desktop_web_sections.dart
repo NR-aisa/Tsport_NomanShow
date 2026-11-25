@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/session/demo_avatars.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../shared/widgets/arena_widgets.dart';
 import '../../display/screens/display_leaderboard_screen.dart';
 
 /// Elite Luxury Desktop Web Command Center Sections for JOMNITTAKU.
@@ -43,8 +44,10 @@ class DesktopWebSections {
     required VoidCallback onChallengeTap,
     required VoidCallback onXpTap,
   }) {
+    final canvasBg = isDark ? const Color(0xFF090B10) : const Color(0xFFF8FAFC);
+
     return Container(
-      color: luxuryCanvasBg,
+      color: canvasBg,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,8 +65,9 @@ class DesktopWebSections {
                     title: 'VENUE AVAILABILITY',
                     value: '6 of 10 Free',
                     badge: '↑ 2 tables freed up',
-                    badgeColor: luxuryVoltEmerald,
-                    waveColor: luxuryVoltEmerald,
+                    badgeColor: isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488),
+                    waveColor: isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488),
+                    isDark: isDark,
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -73,8 +77,9 @@ class DesktopWebSections {
                     title: 'CENTRE COURT HUD (T04)',
                     value: 'Jason 14 - 11 Alman',
                     badge: '● Active Rally: 9 hits · Game 3',
-                    badgeColor: luxuryElectricBlue,
-                    waveColor: luxuryElectricBlue,
+                    badgeColor: const Color(0xFF38BDF8),
+                    waveColor: const Color(0xFF38BDF8),
+                    isDark: isDark,
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -84,8 +89,9 @@ class DesktopWebSections {
                     title: 'LEAGUE PROGRESSION',
                     value: '1,240 XP (#4 Rank)',
                     badge: '↑ 155 XP to reach Top 3',
-                    badgeColor: luxuryTangerineGold,
-                    waveColor: luxuryTangerineGold,
+                    badgeColor: isDark ? const Color(0xFFF59E0B) : const Color(0xFFD97706),
+                    waveColor: isDark ? const Color(0xFFF59E0B) : const Color(0xFFD97706),
+                    isDark: isDark,
                   ),
                 ),
               ],
@@ -106,6 +112,7 @@ class DesktopWebSections {
                   flex: 65,
                   child: _buildTenCourtActivityTable(
                     context,
+                    isDark: isDark,
                     onPassTap: onPassTap,
                     onChallengeTap: onChallengeTap,
                   ),
@@ -115,6 +122,7 @@ class DesktopWebSections {
                 Expanded(
                   flex: 35,
                   child: InteractiveArenaPassDeck(
+                    isDark: isDark,
                     onPassTap: onPassTap,
                     onWalkInTap: onWalkInTap,
                     onXpTap: onXpTap,
@@ -132,6 +140,7 @@ class DesktopWebSections {
           // ====================================================
           _buildQuickSparringRivalsRow(
             context,
+            isDark: isDark,
             onChallengeTap: onChallengeTap,
           ),
         ],
@@ -148,31 +157,40 @@ class DesktopWebSections {
     required String badge,
     required Color badgeColor,
     required Color waveColor,
+    required bool isDark,
   }) {
+    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
+    final borderColor = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textMuted = isDark ? const Color(0xFF8A99AD) : const Color(0xFF64748B);
+
     return Container(
       decoration: BoxDecoration(
-        color: luxuryCardBg,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: luxuryBorderSubtle),
-        boxShadow: const [
+        border: Border.all(color: borderColor),
+        boxShadow: [
           BoxShadow(
-            color: Colors.black26,
+            color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.04),
             blurRadius: 16,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       child: Stack(
         children: [
-          // Bottom subtle wave painter
+          // Bottom subtle wave painter (clean opacity, zero neon halo)
           Positioned(
             left: 0,
             right: 0,
             bottom: 0,
             height: 38,
-            child: CustomPaint(
-              painter: _MetricWavePainter(waveColor: waveColor),
+            child: Opacity(
+              opacity: isDark ? 0.40 : 0.25,
+              child: CustomPaint(
+                painter: _MetricWavePainter(waveColor: waveColor),
+              ),
             ),
           ),
           // Text content
@@ -189,7 +207,7 @@ class DesktopWebSections {
                       style: AppTypography.ui(
                         fontSize: 11.5,
                         fontWeight: FontWeight.w800,
-                        color: const Color(0xFF94A3B8),
+                        color: textMuted,
                         letterSpacing: 0.8,
                       ),
                       maxLines: 1,
@@ -198,18 +216,18 @@ class DesktopWebSections {
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3.5),
                     decoration: BoxDecoration(
-                      color: badgeColor.withValues(alpha: 0.18),
+                      color: badgeColor.withValues(alpha: isDark ? 0.15 : 0.10),
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(
-                        color: badgeColor.withValues(alpha: 0.4),
+                        color: badgeColor.withValues(alpha: isDark ? 0.35 : 0.25),
                       ),
                     ),
                     child: Text(
                       badge,
                       style: AppTypography.ui(
-                        fontSize: 11.5,
+                        fontSize: 11,
                         fontWeight: FontWeight.w900,
                         color: badgeColor,
                       ),
@@ -220,9 +238,9 @@ class DesktopWebSections {
               Text(
                 value,
                 style: AppTypography.ui(
-                  fontSize: 25,
+                  fontSize: 24,
                   fontWeight: FontWeight.w900,
-                  color: Colors.white,
+                  color: textPrimary,
                   letterSpacing: -0.5,
                 ),
               ),
@@ -239,6 +257,7 @@ class DesktopWebSections {
   // ============================================================
   static Widget _buildTenCourtActivityTable(
     BuildContext context, {
+    required bool isDark,
     required VoidCallback onPassTap,
     required VoidCallback onChallengeTap,
   }) {
@@ -255,16 +274,22 @@ class DesktopWebSections {
       {'id': 'T10', 'type': 'Practice Court DHS', 'player': 'Court Free & Ready', 'avatar': null, 'time': 'Free Now', 'status': 'free'},
     ];
 
+    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
+    final borderColor = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
+    final tableHeaderBg = isDark ? const Color(0xFF161A26) : const Color(0xFFF1F5F9);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textMuted = isDark ? const Color(0xFF8A99AD) : const Color(0xFF64748B);
+
     return Container(
       decoration: BoxDecoration(
-        color: luxuryCardBg,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: luxuryBorderSubtle),
-        boxShadow: const [
+        border: Border.all(color: borderColor),
+        boxShadow: [
           BoxShadow(
-            color: Colors.black26,
+            color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.04),
             blurRadius: 18,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -283,7 +308,7 @@ class DesktopWebSections {
                     style: AppTypography.ui(
                       fontSize: 18,
                       fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                      color: textPrimary,
                       letterSpacing: -0.3,
                     ),
                   ),
@@ -291,10 +316,10 @@ class DesktopWebSections {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: luxuryVoltEmerald.withValues(alpha: 0.2),
+                      color: (isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488)).withValues(alpha: isDark ? 0.18 : 0.10),
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(
-                        color: luxuryVoltEmerald.withValues(alpha: 0.5),
+                        color: (isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488)).withValues(alpha: isDark ? 0.40 : 0.25),
                         width: 1.2,
                       ),
                     ),
@@ -303,7 +328,7 @@ class DesktopWebSections {
                       style: AppTypography.ui(
                         fontSize: 11.5,
                         fontWeight: FontWeight.w900,
-                        color: luxuryVoltEmerald,
+                        color: isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488),
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -313,11 +338,11 @@ class DesktopWebSections {
               // Filter pills
               Row(
                 children: [
-                  _buildFilterPill('All (10)', true),
+                  _buildFilterPill('All (10)', true, isDark),
                   const SizedBox(width: 8),
-                  _buildFilterPill('Free (6)', false),
+                  _buildFilterPill('Free (6)', false, isDark),
                   const SizedBox(width: 8),
-                  _buildFilterPill('In Play (3)', false),
+                  _buildFilterPill('In Play (3)', false, isDark),
                 ],
               ),
             ],
@@ -329,30 +354,30 @@ class DesktopWebSections {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
-              color: luxuryCardBgElevated.withValues(alpha: 0.6),
+              color: tableHeaderBg,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
                 SizedBox(
                   width: 80,
-                  child: Text('COURT', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: const Color(0xFF94A3B8), letterSpacing: 0.8)),
+                  child: Text('COURT', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: textMuted, letterSpacing: 0.8)),
                 ),
                 SizedBox(
                   width: 165,
-                  child: Text('SPECIFICATION', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: const Color(0xFF94A3B8), letterSpacing: 0.8)),
+                  child: Text('SPECIFICATION', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: textMuted, letterSpacing: 0.8)),
                 ),
                 Expanded(
                   flex: 38,
-                  child: Text('OCCUPANT / MATCH', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: const Color(0xFF94A3B8), letterSpacing: 0.8)),
+                  child: Text('OCCUPANT / MATCH', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: textMuted, letterSpacing: 0.8)),
                 ),
                 SizedBox(
                   width: 125,
-                  child: Text('STATUS', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: const Color(0xFF94A3B8), letterSpacing: 0.8)),
+                  child: Text('STATUS', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: textMuted, letterSpacing: 0.8)),
                 ),
                 SizedBox(
                   width: 110,
-                  child: Text('ACTION', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: const Color(0xFF94A3B8), letterSpacing: 0.8)),
+                  child: Text('ACTION', style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: textMuted, letterSpacing: 0.8)),
                 ),
               ],
             ),
@@ -360,7 +385,7 @@ class DesktopWebSections {
 
           const SizedBox(height: 8),
 
-          // Horizontal Court Rows (Spacious 56px rows with high contrast)
+          // Horizontal Court Rows (Spacious 56px rows with tactical precision)
           Expanded(
             child: ListView.separated(
               itemCount: courts.length,
@@ -372,62 +397,53 @@ class DesktopWebSections {
                 final isMatch = status == 'match';
                 final isReserved = status == 'reserved';
 
-                Color statusColor = luxuryVoltEmerald;
-                String statusLabel = 'FREE NOW';
+                Color statusColor = isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488);
+                String statusLabel = 'AVAILABLE';
                 if (status == 'busy') {
-                  statusColor = luxuryTangerineGold;
+                  statusColor = isDark ? const Color(0xFFF59E0B) : const Color(0xFFD97706);
                   statusLabel = 'IN PLAY';
                 } else if (isMatch) {
-                  statusColor = luxuryCoralRose;
+                  statusColor = isDark ? const Color(0xFFFF4655) : const Color(0xFFE11D48);
                   statusLabel = 'LIVE MATCH';
                 } else if (isReserved) {
-                  statusColor = luxuryAmethystPurple;
+                  statusColor = isDark ? const Color(0xFF8B5CF6) : const Color(0xFF7C3AED);
                   statusLabel = 'RESERVED';
                 }
+
+                final rowBg = isMatch
+                    ? (isDark ? const Color(0xFF1B1218) : const Color(0xFFFFF1F2))
+                    : (index.isEven
+                        ? (isDark ? const Color(0xFF101320) : Colors.white)
+                        : (isDark ? const Color(0xFF0C0E16) : const Color(0xFFF8FAFC)));
+
+                final rowBorder = isMatch
+                    ? (isDark ? const Color(0x55FF4655) : const Color(0x55E11D48))
+                    : borderColor;
 
                 return Container(
                   height: 56,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: isMatch
-                        ? const Color(0xFF1B1218)
-                        : (index.isEven ? const Color(0xFF101320) : const Color(0xFF0C0E16)),
+                    color: rowBg,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: isMatch
-                          ? const Color(0xFFFF2E54).withValues(alpha: 0.45)
-                          : Colors.white.withValues(alpha: 0.06),
+                      color: rowBorder,
                       width: isMatch ? 1.2 : 1.0,
                     ),
-                    boxShadow: isMatch
-                        ? [
-                            BoxShadow(
-                              color: const Color(0xFFFF2E54).withValues(alpha: 0.18),
-                              blurRadius: 14,
-                              offset: const Offset(0, 2),
-                            ),
-                          ]
-                        : null,
                   ),
                   child: Row(
                     children: [
-                      // Court ID with larger neon dot
+                      // Court ID with solid dot (NO neon blur)
                       SizedBox(
                         width: 80,
                         child: Row(
                           children: [
                             Container(
-                              width: 9,
-                              height: 9,
+                              width: 8,
+                              height: 8,
                               decoration: BoxDecoration(
                                 color: statusColor,
                                 shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: statusColor.withValues(alpha: 0.6),
-                                    blurRadius: 8,
-                                  ),
-                                ],
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -436,7 +452,7 @@ class DesktopWebSections {
                               style: AppTypography.ui(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w900,
-                                color: Colors.white,
+                                color: textPrimary,
                               ),
                             ),
                           ],
@@ -450,7 +466,7 @@ class DesktopWebSections {
                           style: AppTypography.ui(
                             fontSize: 13.5,
                             fontWeight: FontWeight.w700,
-                            color: const Color(0xFFE2E8F0),
+                            color: isDark ? const Color(0xFFCBD5E1) : const Color(0xFF334155),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -475,7 +491,9 @@ class DesktopWebSections {
                                 style: AppTypography.ui(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w800,
-                                  color: isFree ? luxuryVoltEmerald : Colors.white,
+                                  color: isFree
+                                      ? (isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488))
+                                      : textPrimary,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -492,17 +510,17 @@ class DesktopWebSections {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                               decoration: BoxDecoration(
-                                color: statusColor.withValues(alpha: 0.18),
+                                color: statusColor.withValues(alpha: isDark ? 0.16 : 0.10),
                                 borderRadius: BorderRadius.circular(6),
                                 border: Border.all(
-                                  color: statusColor.withValues(alpha: 0.5),
+                                  color: statusColor.withValues(alpha: isDark ? 0.40 : 0.25),
                                   width: 1.2,
                                 ),
                               ),
                               child: Text(
                                 '● $statusLabel',
                                 style: AppTypography.ui(
-                                  fontSize: 11,
+                                  fontSize: 10.5,
                                   fontWeight: FontWeight.w900,
                                   color: statusColor,
                                   letterSpacing: 0.5,
@@ -512,112 +530,164 @@ class DesktopWebSections {
                           ],
                         ),
                       ),
-                      // Action Button (Real Tactile Button!)
+                      // Action Button (Tactile Obsidian / Platinum / Crimson with Soft Satisfying Hover)
                       SizedBox(
                         width: 110,
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            onTap: isFree ? onPassTap : onChallengeTap,
-                            child: isFree
-                                ? Container(
-                                    height: 34,
-                                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.white.withValues(alpha: 0.18),
-                                          blurRadius: 10,
-                                          offset: const Offset(0, 2),
-                                        ),
-                                      ],
+                        child: SoftHoverButton(
+                          onTap: isFree ? onPassTap : onChallengeTap,
+                          builder: (context, isHovered) {
+                            if (isFree) {
+                              final normalBg = isDark ? Colors.white : const Color(0xFF0F172A);
+                              final hoverBg = isDark ? const Color(0xFFE2E8F0) : const Color(0xFF1E293B);
+                              final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.35) : const Color(0xFF334155);
+
+                              return AnimatedContainer(
+                                duration: const Duration(milliseconds: 160),
+                                curve: Curves.easeOutCubic,
+                                height: 34,
+                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                decoration: BoxDecoration(
+                                  color: isHovered ? hoverBg : normalBg,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: isHovered ? hoverBorder : Colors.transparent,
+                                    width: 1.2,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(alpha: isHovered ? (isDark ? 0.35 : 0.20) : (isDark ? 0.20 : 0.10)),
+                                      blurRadius: isHovered ? 12 : 8,
+                                      offset: const Offset(0, 2),
                                     ),
-                                    alignment: Alignment.center,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          'Play Now',
-                                          style: AppTypography.ui(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w900,
-                                            color: const Color(0xFF07080B),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 4),
-                                        const Icon(Icons.arrow_forward_rounded, size: 13, color: Color(0xFF07080B)),
-                                      ],
-                                    ),
-                                  )
-                                : isMatch
-                                    ? Container(
-                                        height: 34,
-                                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF240E14),
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border.all(
-                                            color: const Color(0xFFE11D48).withValues(alpha: 0.5),
-                                            width: 1.2,
-                                          ),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              width: 6,
-                                              height: 6,
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xFFEF4444),
-                                                shape: BoxShape.circle,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 5),
-                                            Text(
-                                              'Live HUD',
-                                              style: AppTypography.ui(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w900,
-                                                color: const Color(0xFFFDA4AF),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            const Icon(Icons.sensors_rounded, size: 13, color: Color(0xFFFDA4AF)),
-                                          ],
-                                        ),
-                                      )
-                                    : Container(
-                                        height: 34,
-                                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF0D111A),
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border.all(
-                                            color: const Color(0xFF263248),
-                                            width: 1.2,
-                                          ),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              'Watch HUD',
-                                              style: AppTypography.ui(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w800,
-                                                color: const Color(0xFF94A3B8),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            const Icon(Icons.visibility_rounded, size: 13, color: Color(0xFF94A3B8)),
-                                          ],
-                                        ),
+                                  ],
+                                ),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'Play Now',
+                                      style: AppTypography.ui(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w900,
+                                        color: isDark ? const Color(0xFF090B10) : Colors.white,
                                       ),
-                          ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Icon(
+                                      Icons.arrow_forward_rounded,
+                                      size: 13,
+                                      color: isDark ? const Color(0xFF090B10) : Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else if (isMatch) {
+                              final normalBg = isDark ? const Color(0xFF240E14) : const Color(0xFFFFE4E6);
+                              final hoverBg = isDark ? const Color(0xFF3B1621) : const Color(0xFFFECDD3);
+                              final normalBorder = isDark
+                                  ? const Color(0xFFFF4655).withValues(alpha: 0.5)
+                                  : const Color(0xFFE11D48).withValues(alpha: 0.4);
+                              final hoverBorder = isDark
+                                  ? const Color(0xFFFF4655).withValues(alpha: 0.85)
+                                  : const Color(0xFFE11D48).withValues(alpha: 0.75);
+
+                              return AnimatedContainer(
+                                duration: const Duration(milliseconds: 160),
+                                curve: Curves.easeOutCubic,
+                                height: 34,
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  color: isHovered ? hoverBg : normalBg,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: isHovered ? hoverBorder : normalBorder,
+                                    width: 1.2,
+                                  ),
+                                  boxShadow: isHovered
+                                      ? [
+                                          BoxShadow(
+                                            color: const Color(0xFFFF4655).withValues(alpha: 0.25),
+                                            blurRadius: 10,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ]
+                                      : null,
+                                ),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: 6,
+                                      height: 6,
+                                      decoration: BoxDecoration(
+                                        color: isDark ? const Color(0xFFFF4655) : const Color(0xFFE11D48),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      'Live HUD',
+                                      style: AppTypography.ui(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w900,
+                                        color: isDark ? const Color(0xFFFDA4AF) : const Color(0xFFBE123C),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Icon(
+                                      Icons.sensors_rounded,
+                                      size: 13,
+                                      color: isDark ? const Color(0xFFFDA4AF) : const Color(0xFFBE123C),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              final normalBg = isDark ? const Color(0xFF141824) : const Color(0xFFF1F5F9);
+                              final hoverBg = isDark ? const Color(0xFF22293C) : const Color(0xFFE2E8F0);
+                              final normalBorder = isDark ? const Color(0x1AFFFFFF) : const Color(0xFFCBD5E1);
+                              final hoverBorder = isDark ? const Color(0x44FFFFFF) : const Color(0xFF94A3B8);
+                              final hoverText = isDark ? Colors.white : const Color(0xFF0F172A);
+                              final normalText = isDark ? const Color(0xFFCBD5E1) : const Color(0xFF334155);
+
+                              return AnimatedContainer(
+                                duration: const Duration(milliseconds: 160),
+                                curve: Curves.easeOutCubic,
+                                height: 34,
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  color: isHovered ? hoverBg : normalBg,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: isHovered ? hoverBorder : normalBorder,
+                                    width: 1.2,
+                                  ),
+                                ),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'Watch HUD',
+                                      style: AppTypography.ui(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w800,
+                                        color: isHovered ? hoverText : normalText,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Icon(
+                                      Icons.visibility_rounded,
+                                      size: 13,
+                                      color: isHovered ? hoverText : normalText,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          },
                         ),
                       ),
                     ],
@@ -641,6 +711,7 @@ class DesktopWebSections {
   // ============================================================
   static Widget _buildQuickSparringRivalsRow(
     BuildContext context, {
+    required bool isDark,
     required VoidCallback onChallengeTap,
   }) {
     final rivals = [
@@ -652,18 +723,25 @@ class DesktopWebSections {
       {'name': 'Rajan M.', 'level': 'Lvl 16', 'avatar': DemoAvatars.rajan},
     ];
 
+    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
+    final cardBgElevated = isDark ? const Color(0xFF181D2A) : const Color(0xFFF8FAFC);
+    final borderColor = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final levelColor = isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488);
+    final crimsonAccent = isDark ? const Color(0xFFFF4655) : const Color(0xFFE11D48);
+
     return Container(
       height: 66,
       padding: const EdgeInsets.symmetric(horizontal: 18),
       decoration: BoxDecoration(
-        color: luxuryCardBg,
+        color: cardBg,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-        boxShadow: const [
+        border: Border.all(color: borderColor),
+        boxShadow: [
           BoxShadow(
-            color: Colors.black45,
+            color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.04),
             blurRadius: 14,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -674,29 +752,39 @@ class DesktopWebSections {
             style: AppTypography.ui(
               fontSize: 13,
               fontWeight: FontWeight.w900,
-              color: Colors.white,
+              color: textPrimary,
             ),
           ),
           const SizedBox(width: 16),
-          // Pink Add Button
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: onChallengeTap,
-              child: Container(
-                width: 38,
-                height: 38,
-                decoration: const BoxDecoration(
-                  color: luxuryCoralRose,
+          // Crimson Add Button (Soft Glow Hover, Zero Layout Shift)
+          SoftHoverButton(
+            onTap: onChallengeTap,
+            builder: (context, isHovered) {
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 160),
+                curve: Curves.easeOutCubic,
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: isHovered ? const Color(0xFFFF5C7A) : crimsonAccent,
                   shape: BoxShape.circle,
+                  boxShadow: isHovered
+                      ? [
+                          BoxShadow(
+                            color: crimsonAccent.withValues(alpha: 0.45),
+                            blurRadius: 12,
+                            offset: const Offset(0, 2),
+                          ),
+                        ]
+                      : null,
                 ),
                 child: const Icon(
                   Icons.add_rounded,
-                  size: 22,
+                  size: 20,
                   color: Colors.white,
                 ),
-              ),
-            ),
+              );
+            },
           ),
           const SizedBox(width: 14),
           // Horizontal avatar row
@@ -707,17 +795,21 @@ class DesktopWebSections {
               separatorBuilder: (context, index) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final rival = rivals[index];
-                return MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: onChallengeTap,
-                    child: Container(
+                return SoftHoverButton(
+                  onTap: onChallengeTap,
+                  builder: (context, isHovered) {
+                    final hoverBg = isDark ? const Color(0xFF222A3C) : const Color(0xFFF1F5F9);
+                    final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.25) : const Color(0xFFCBD5E1);
+
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 160),
+                      curve: Curves.easeOutCubic,
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                       decoration: BoxDecoration(
-                        color: luxuryCardBgElevated,
+                        color: isHovered ? hoverBg : cardBgElevated,
                         borderRadius: BorderRadius.circular(22),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: isHovered ? hoverBorder : borderColor,
                         ),
                       ),
                       child: Row(
@@ -737,7 +829,7 @@ class DesktopWebSections {
                                 style: AppTypography.ui(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w800,
-                                  color: Colors.white,
+                                  color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
                                 ),
                               ),
                               Text(
@@ -745,7 +837,7 @@ class DesktopWebSections {
                                 style: AppTypography.ui(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w700,
-                                  color: luxuryVoltEmerald,
+                                  color: levelColor,
                                 ),
                               ),
                             ],
@@ -753,8 +845,8 @@ class DesktopWebSections {
                           const SizedBox(width: 4),
                         ],
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 );
               },
             ),
@@ -767,25 +859,48 @@ class DesktopWebSections {
   // ============================================================
   // HELPER WIDGETS
   // ============================================================
-  static Widget _buildFilterPill(String label, bool isActive) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-      decoration: BoxDecoration(
-        color: isActive ? luxuryCoralRose.withValues(alpha: 0.2) : luxuryCardBgElevated,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: isActive ? luxuryCoralRose : Colors.transparent,
-          width: 1.2,
-        ),
-      ),
-      child: Text(
-        label,
-        style: AppTypography.ui(
-          fontSize: 12,
-          fontWeight: isActive ? FontWeight.w900 : FontWeight.w700,
-          color: isActive ? luxuryCoralRose : luxuryTextSecondary,
-        ),
-      ),
+  static Widget _buildFilterPill(String label, bool isActive, bool isDark, [VoidCallback? onTap]) {
+    final activeBg = isDark ? const Color(0x18FF4655) : const Color(0xFFF1F5F9);
+    final activeBorder = isDark ? const Color(0x55FF4655) : const Color(0xFFCBD5E1);
+    final activeText = isDark ? const Color(0xFFFF4655) : const Color(0xFF0F172A);
+
+    final inactiveBg = isDark ? const Color(0xFF161A26) : const Color(0xFFF8FAFC);
+    final hoverInactiveBg = isDark ? const Color(0xFF22293C) : const Color(0xFFF1F5F9);
+    final hoverInactiveBorder = isDark ? Colors.white.withValues(alpha: 0.20) : const Color(0xFFCBD5E1);
+    final inactiveText = isDark ? const Color(0xFF8A99AD) : const Color(0xFF64748B);
+    final hoverInactiveText = isDark ? Colors.white : const Color(0xFF0F172A);
+
+    return SoftHoverButton(
+      onTap: onTap,
+      builder: (context, isHovered) {
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: isActive
+                ? activeBg
+                : (isHovered ? hoverInactiveBg : inactiveBg),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isActive
+                  ? activeBorder
+                  : (isHovered ? hoverInactiveBorder : Colors.transparent),
+              width: 1.2,
+            ),
+          ),
+          child: Text(
+            label,
+            style: AppTypography.ui(
+              fontSize: 12,
+              fontWeight: isActive ? FontWeight.w900 : FontWeight.w700,
+              color: isActive
+                  ? activeText
+                  : (isHovered ? hoverInactiveText : inactiveText),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -797,6 +912,7 @@ class DesktopWebSections {
     required VoidCallback onChallengeTap,
   }) {
     return _DesktopRadarFloorplanView(
+      isDark: isDark,
       onBackToCommand: onBackToCommand,
       onPassTap: onPassTap,
       onChallengeTap: onChallengeTap,
@@ -810,6 +926,7 @@ class DesktopWebSections {
     required VoidCallback onChallengeTap,
   }) {
     return _DesktopLeagueView(
+      isDark: isDark,
       onBackToCommand: onBackToCommand,
       onChallengeTap: onChallengeTap,
     );
@@ -821,6 +938,7 @@ class DesktopWebSections {
     required VoidCallback onBackToCommand,
   }) {
     return _DesktopPassesView(
+      isDark: isDark,
       onBackToCommand: onBackToCommand,
     );
   }
@@ -831,60 +949,77 @@ class DesktopWebSections {
     required VoidCallback onBackToCommand,
   }) {
     return _DesktopTelemetryView(
+      isDark: isDark,
       onBackToCommand: onBackToCommand,
     );
   }
 
   static Widget buildTvSection(
-    BuildContext context, {
+    BuildContext context,
+    bool isDark, {
     required VoidCallback onBackToCommand,
   }) {
+    final canvasBg = isDark ? const Color(0xFF090B10) : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+
     return Container(
-      color: luxuryCanvasBg,
+      color: canvasBg,
       child: Column(
         children: [
           Container(
             height: 48,
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            color: luxuryCardBg,
+            color: cardBg,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: onBackToCommand,
-                    child: Row(
-                      children: [
-                        const Icon(Icons.arrow_back_rounded, size: 16, color: Colors.white),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Back to Dashboard',
-                          style: AppTypography.ui(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
+                SoftHoverButton(
+                  onTap: onBackToCommand,
+                  builder: (context, isHovered) {
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 160),
+                      curve: Curves.easeOutCubic,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: isHovered
+                            ? (isDark ? Colors.white.withValues(alpha: 0.10) : const Color(0xFFE2E8F0))
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.arrow_back_rounded,
+                            size: 16,
+                            color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Back to Dashboard',
+                            style: AppTypography.ui(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w800,
+                              color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 Text(
-                  '55" STADIUM TV FEED · 3 DAMANSARA LEVEL 2',
+                  '55" Centre Court Broadcast Feed (1080p 60FPS)',
                   style: AppTypography.ui(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w900,
-                    color: luxuryCoralRose,
-                    letterSpacing: 1.0,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w800,
+                    color: textPrimary,
                   ),
                 ),
               ],
             ),
           ),
-          const Expanded(
-            child: DisplayLeaderboardScreen(),
-          ),
+          const Expanded(child: DisplayLeaderboardScreen()),
         ],
       ),
     );
@@ -966,6 +1101,7 @@ class InteractiveArenaPassDeck extends StatefulWidget {
   final VoidCallback onWalkInTap;
   final VoidCallback onXpTap;
   final VoidCallback onChallengeTap;
+  final bool isDark;
 
   const InteractiveArenaPassDeck({
     super.key,
@@ -973,6 +1109,7 @@ class InteractiveArenaPassDeck extends StatefulWidget {
     required this.onWalkInTap,
     required this.onXpTap,
     required this.onChallengeTap,
+    this.isDark = true,
   });
 
   @override
@@ -982,60 +1119,107 @@ class InteractiveArenaPassDeck extends StatefulWidget {
 class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
   int _activeCardIndex = 0;
 
-  final List<Map<String, dynamic>> _passes = [
-    {
-      'title': 'JOMNITTAKU VIP PASS',
-      'highlight': '90 sen / day',
-      'subtitle': 'Alman Rahman · 24/7 Unlimited Access',
-      'code': 'KX8VQS',
-      'badge': 'VIP PASS',
-      'colors': [const Color(0xFF1E2436), const Color(0xFF0F121E)],
-      'accent': const Color(0xFFFF5C38),
-      'shadow': const Color(0xFFFF5C38),
-      'icon': Icons.sports_tennis_rounded,
-      'isDarkText': false,
-    },
-    {
-      'title': 'OLYMPIC LEAGUE PRO',
-      'highlight': '1,240 XP · Rank #4',
-      'subtitle': 'Damansara Master · Zero Table Fees',
-      'code': 'PRO-042',
-      'badge': 'PRO LEAGUE',
-      'colors': [const Color(0xFF1E1B38), const Color(0xFF100E22)],
-      'accent': const Color(0xFFA855F7),
-      'shadow': const Color(0xFFA855F7),
-      'icon': Icons.military_tech_rounded,
-      'isDarkText': false,
-    },
-    {
-      'title': 'SMART RFID WALLET',
-      'highlight': 'RM 150.00 Balance',
-      'subtitle': 'Autonomous Ball Dispenser & Robot Active',
-      'code': 'RFID-7701',
-      'badge': 'RFID SMART',
-      'colors': [const Color(0xFF0E2224), const Color(0xFF071416)],
-      'accent': const Color(0xFF00F59B),
-      'shadow': const Color(0xFF00F59B),
-      'icon': Icons.contactless_rounded,
-      'isDarkText': false,
-    },
-    {
-      'title': 'NIGHT OWL PASS',
-      'highlight': '12 AM – 6 AM',
-      'subtitle': '50% OFF All Tables · Free Energy Drink',
-      'code': 'NIGHT-50',
-      'badge': 'MIDNIGHT',
-      'colors': [const Color(0xFF2E121E), const Color(0xFF16080E)],
-      'accent': const Color(0xFFFF2E54),
-      'shadow': const Color(0xFFFF2E54),
-      'icon': Icons.nightlight_round,
-      'isDarkText': false,
-    },
-  ];
+  List<Map<String, dynamic>> _getPasses(bool isDark) {
+    if (isDark) {
+      return [
+        {
+          'title': 'JOMNITTAKU VIP PASS',
+          'highlight': '90 sen / day',
+          'subtitle': 'Alman Rahman · 24/7 Unlimited Access',
+          'code': 'KX8VQS',
+          'badge': 'VIP PASS',
+          'colors': [const Color(0xFF1C202C), const Color(0xFF10131E)],
+          'accent': const Color(0xFFFF4655),
+          'icon': Icons.sports_tennis_rounded,
+          'isDarkText': false,
+        },
+        {
+          'title': 'OLYMPIC LEAGUE PRO',
+          'highlight': '1,240 XP · Rank #4',
+          'subtitle': 'Damansara Master · Zero Table Fees',
+          'code': 'PRO-042',
+          'badge': 'PRO LEAGUE',
+          'colors': [const Color(0xFF1A1828), const Color(0xFF0F0E1C)],
+          'accent': const Color(0xFF8B5CF6),
+          'icon': Icons.military_tech_rounded,
+          'isDarkText': false,
+        },
+        {
+          'title': 'SMART RFID WALLET',
+          'highlight': 'RM 150.00 Balance',
+          'subtitle': 'Autonomous Ball Dispenser & Robot Active',
+          'code': 'RFID-7701',
+          'badge': 'RFID SMART',
+          'colors': [const Color(0xFF0F1E20), const Color(0xFF081214)],
+          'accent': const Color(0xFF00D8A5),
+          'icon': Icons.contactless_rounded,
+          'isDarkText': false,
+        },
+        {
+          'title': 'NIGHT OWL PASS',
+          'highlight': '12 AM – 6 AM',
+          'subtitle': '50% OFF All Tables · Free Energy Drink',
+          'code': 'NIGHT-50',
+          'badge': 'MIDNIGHT',
+          'colors': [const Color(0xFF26121D), const Color(0xFF14080E)],
+          'accent': const Color(0xFFFF4655),
+          'icon': Icons.nightlight_round,
+          'isDarkText': false,
+        },
+      ];
+    } else {
+      return [
+        {
+          'title': 'JOMNITTAKU VIP PASS',
+          'highlight': '90 sen / day',
+          'subtitle': 'Alman Rahman · 24/7 Unlimited Access',
+          'code': 'KX8VQS',
+          'badge': 'VIP PASS',
+          'colors': [Colors.white, const Color(0xFFF8FAFC)],
+          'accent': const Color(0xFF0F172A),
+          'icon': Icons.sports_tennis_rounded,
+          'isDarkText': true,
+        },
+        {
+          'title': 'OLYMPIC LEAGUE PRO',
+          'highlight': '1,240 XP · Rank #4',
+          'subtitle': 'Damansara Master · Zero Table Fees',
+          'code': 'PRO-042',
+          'badge': 'PRO LEAGUE',
+          'colors': [Colors.white, const Color(0xFFFAF5FF)],
+          'accent': const Color(0xFF6B21A8),
+          'icon': Icons.military_tech_rounded,
+          'isDarkText': true,
+        },
+        {
+          'title': 'SMART RFID WALLET',
+          'highlight': 'RM 150.00 Balance',
+          'subtitle': 'Autonomous Ball Dispenser & Robot Active',
+          'code': 'RFID-7701',
+          'badge': 'RFID SMART',
+          'colors': [Colors.white, const Color(0xFFF0FDFA)],
+          'accent': const Color(0xFF0D9488),
+          'icon': Icons.contactless_rounded,
+          'isDarkText': true,
+        },
+        {
+          'title': 'NIGHT OWL PASS',
+          'highlight': '12 AM – 6 AM',
+          'subtitle': '50% OFF All Tables · Free Energy Drink',
+          'code': 'NIGHT-50',
+          'badge': 'MIDNIGHT',
+          'colors': [Colors.white, const Color(0xFFFFF1F2)],
+          'accent': const Color(0xFFBE123C),
+          'icon': Icons.nightlight_round,
+          'isDarkText': true,
+        },
+      ];
+    }
+  }
 
-  void _nextCard() {
+  void _nextCard(int length) {
     setState(() {
-      _activeCardIndex = (_activeCardIndex + 1) % _passes.length;
+      _activeCardIndex = (_activeCardIndex + 1) % length;
     });
   }
 
@@ -1047,16 +1231,24 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = widget.isDark;
+    final passes = _getPasses(isDark);
+    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
+    final borderColor = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textSecondary = isDark ? const Color(0xFF8A99AD) : const Color(0xFF64748B);
+    final elevatedBg = isDark ? const Color(0xFF161A26) : const Color(0xFFF8FAFC);
+
     return Container(
       decoration: BoxDecoration(
-        color: DesktopWebSections.luxuryCardBg,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: DesktopWebSections.luxuryBorderSubtle),
-        boxShadow: const [
+        border: Border.all(color: borderColor),
+        boxShadow: [
           BoxShadow(
-            color: Colors.black26,
+            color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.04),
             blurRadius: 18,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -1073,38 +1265,48 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                 style: AppTypography.ui(
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
-                  color: Colors.white,
+                  color: textPrimary,
                   letterSpacing: -0.2,
                 ),
               ),
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: _nextCard,
-                  child: Container(
+              SoftHoverButton(
+                onTap: () => _nextCard(passes.length),
+                builder: (context, isHovered) {
+                  final normalBg = isDark ? Colors.white.withValues(alpha: 0.08) : const Color(0xFFF1F5F9);
+                  final hoverBg = isDark ? Colors.white.withValues(alpha: 0.16) : const Color(0xFFE2E8F0);
+                  final normalBorder = isDark ? Colors.white.withValues(alpha: 0.12) : const Color(0xFFE2E8F0);
+                  final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.28) : const Color(0xFFCBD5E1);
+
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 160),
+                    curve: Curves.easeOutCubic,
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.08),
+                      color: isHovered ? hoverBg : normalBg,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                      border: Border.all(color: isHovered ? hoverBorder : normalBorder),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.swap_horiz_rounded, size: 14, color: Color(0xFFBAC0D4)),
+                        Icon(
+                          Icons.swap_horiz_rounded,
+                          size: 14,
+                          color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textSecondary,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           'Swap Pass (${_activeCardIndex + 1}/4)',
                           style: AppTypography.ui(
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFFBAC0D4),
+                            color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textSecondary,
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ],
           ),
@@ -1119,11 +1321,11 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
-                  onTap: _nextCard,
+                  onTap: () => _nextCard(passes.length),
                   child: Stack(
                     alignment: Alignment.topCenter,
                     clipBehavior: Clip.none,
-                    children: _buildAnimatedCardStack(),
+                    children: _buildAnimatedCardStack(passes, isDark),
                   ),
                 ),
               ),
@@ -1138,42 +1340,67 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
               spacing: 6,
               runSpacing: 4,
               alignment: WrapAlignment.center,
-              children: List.generate(_passes.length, (idx) {
+              children: List.generate(passes.length, (idx) {
                 final isCurrent = idx == _activeCardIndex;
-                final card = _passes[idx];
-                final color = (card['colors'] as List<Color>).first;
-                return MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () => _selectCard(idx),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
+                final card = passes[idx];
+                final accent = card['accent'] as Color;
+                return SoftHoverButton(
+                  onTap: () => _selectCard(idx),
+                  builder: (context, isHovered) {
+                    final hoverUnselectedBg = isDark
+                        ? Colors.white.withValues(alpha: 0.08)
+                        : const Color(0xFFE2E8F0);
+                    final hoverUnselectedBorder = isDark
+                        ? Colors.white.withValues(alpha: 0.22)
+                        : const Color(0xFFCBD5E1);
+
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 160),
+                      curve: Curves.easeOutCubic,
                       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                       decoration: BoxDecoration(
-                        color: isCurrent ? color.withValues(alpha: 0.22) : Colors.transparent,
+                        color: isCurrent
+                            ? accent.withValues(alpha: isDark ? 0.22 : 0.12)
+                            : (isHovered
+                                ? hoverUnselectedBg
+                                : (isDark ? Colors.transparent : const Color(0xFFF1F5F9))),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: isCurrent ? color : Colors.white.withValues(alpha: 0.1),
+                          color: isCurrent
+                              ? accent
+                              : (isHovered ? hoverUnselectedBorder : borderColor),
                           width: 1.2,
                         ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(card['icon'] as IconData, size: 11, color: isCurrent ? color : const Color(0xFF8A8E9E)),
+                          Icon(
+                            card['icon'] as IconData,
+                            size: 11,
+                            color: isCurrent
+                                ? accent
+                                : (isHovered
+                                    ? (isDark ? Colors.white : const Color(0xFF0F172A))
+                                    : textSecondary),
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             card['badge'] as String,
                             style: AppTypography.ui(
                               fontSize: 10.5,
                               fontWeight: isCurrent ? FontWeight.w900 : FontWeight.w700,
-                              color: isCurrent ? Colors.white : const Color(0xFF8A8E9E),
+                              color: isCurrent
+                                  ? textPrimary
+                                  : (isHovered
+                                      ? (isDark ? Colors.white : const Color(0xFF0F172A))
+                                      : textSecondary),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 );
               }),
             ),
@@ -1193,8 +1420,11 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                           icon: Icons.door_front_door_rounded,
                           title: 'Walk In Tonight',
                           sub: 'RM17 Single Pass',
-                          color: DesktopWebSections.luxuryCoralRose,
+                          color: const Color(0xFFFF4655),
                           onTap: widget.onWalkInTap,
+                          isDark: isDark,
+                          elevatedBg: elevatedBg,
+                          borderColor: borderColor,
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -1203,8 +1433,11 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                           icon: Icons.radar_rounded,
                           title: 'Radar Ping',
                           sub: '14 Rivals Nearby',
-                          color: DesktopWebSections.luxuryElectricBlue,
+                          color: const Color(0xFF38BDF8),
                           onTap: widget.onChallengeTap,
+                          isDark: isDark,
+                          elevatedBg: elevatedBg,
+                          borderColor: borderColor,
                         ),
                       ),
                     ],
@@ -1219,8 +1452,11 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                           icon: Icons.emoji_events_rounded,
                           title: '1v1 Match Pot',
                           sub: 'RM200 Pot Active',
-                          color: DesktopWebSections.luxuryTangerineGold,
+                          color: const Color(0xFFF59E0B),
                           onTap: widget.onChallengeTap,
+                          isDark: isDark,
+                          elevatedBg: elevatedBg,
+                          borderColor: borderColor,
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -1229,8 +1465,11 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                           icon: Icons.qr_code_2_rounded,
                           title: 'Optical QR Code',
                           sub: 'Scan Turnstile Gate',
-                          color: DesktopWebSections.luxuryVoltEmerald,
+                          color: const Color(0xFF00D8A5),
                           onTap: widget.onPassTap,
+                          isDark: isDark,
+                          elevatedBg: elevatedBg,
+                          borderColor: borderColor,
                         ),
                       ),
                     ],
@@ -1243,17 +1482,17 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                   height: 34,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
-                    color: DesktopWebSections.luxuryCardBgElevated,
+                    color: elevatedBg,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+                    border: Border.all(color: borderColor),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildTelemetryChip(Icons.ac_unit_rounded, '23°C AC'),
-                      _buildTelemetryChip(Icons.lightbulb_rounded, '480 Lux ITTF'),
-                      _buildTelemetryChip(Icons.sensors_rounded, 'Edge AI 60fps'),
-                      _buildTelemetryChip(Icons.lock_clock_rounded, '24/7 Gate'),
+                      _buildTelemetryChip(Icons.ac_unit_rounded, '23°C AC', isDark),
+                      _buildTelemetryChip(Icons.lightbulb_rounded, '480 Lux ITTF', isDark),
+                      _buildTelemetryChip(Icons.sensors_rounded, 'Edge AI 60fps', isDark),
+                      _buildTelemetryChip(Icons.lock_clock_rounded, '24/7 Gate', isDark),
                     ],
                   ),
                 ),
@@ -1265,22 +1504,21 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
     );
   }
 
-  List<Widget> _buildAnimatedCardStack() {
-    final indices = List.generate(_passes.length, (i) => i);
+  List<Widget> _buildAnimatedCardStack(List<Map<String, dynamic>> passes, bool isDark) {
+    final indices = List.generate(passes.length, (i) => i);
     indices.sort((a, b) {
-      int depthA = (a - _activeCardIndex + _passes.length) % _passes.length;
-      int depthB = (b - _activeCardIndex + _passes.length) % _passes.length;
+      int depthA = (a - _activeCardIndex + passes.length) % passes.length;
+      int depthB = (b - _activeCardIndex + passes.length) % passes.length;
       return depthB.compareTo(depthA);
     });
 
     return indices.map((i) {
-      int depth = (i - _activeCardIndex + _passes.length) % _passes.length;
-      final card = _passes[i];
+      int depth = (i - _activeCardIndex + passes.length) % passes.length;
+      final card = passes[i];
       final colors = card['colors'] as List<Color>;
-      final shadowColor = card['shadow'] as Color;
       final isDarkText = card['isDarkText'] as bool;
-      final textColor = isDarkText ? Colors.black : Colors.white;
-      final subColor = isDarkText ? Colors.black87 : Colors.white70;
+      final textColor = isDarkText ? const Color(0xFF0F172A) : Colors.white;
+      final subColor = isDarkText ? const Color(0xFF475569) : const Color(0xFFCBD5E1);
 
       double top = 0;
       double width = 310;
@@ -1314,6 +1552,8 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
         opacity = 0.0;
       }
 
+      final accent = card['accent'] as Color? ?? Colors.white;
+
       return AnimatedPositioned(
         key: ValueKey('card_$i'),
         duration: const Duration(milliseconds: 320),
@@ -1337,14 +1577,16 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                 ),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
-                  color: (card['accent'] as Color? ?? Colors.white).withValues(alpha: depth == 0 ? 0.45 : 0.15),
+                  color: isDark
+                      ? (depth == 0 ? accent.withValues(alpha: 0.45) : Colors.white.withValues(alpha: 0.10))
+                      : (depth == 0 ? const Color(0xFFCBD5E1) : const Color(0xFFE2E8F0)),
                   width: depth == 0 ? 1.4 : 1.0,
                 ),
                 boxShadow: depth == 0
                     ? [
                         BoxShadow(
-                          color: (card['accent'] as Color? ?? shadowColor).withValues(alpha: 0.35),
-                          blurRadius: 20,
+                          color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.08),
+                          blurRadius: 18,
                           offset: const Offset(0, 6),
                         ),
                       ]
@@ -1390,8 +1632,11 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                         decoration: BoxDecoration(
-                          color: isDarkText ? Colors.black26 : Colors.white.withValues(alpha: 0.2),
+                          color: isDarkText ? const Color(0xFFF1F5F9) : Colors.white.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: isDarkText ? const Color(0xFFE2E8F0) : Colors.white.withValues(alpha: 0.2),
+                          ),
                         ),
                         child: Text(
                           card['code'] as String,
@@ -1428,28 +1673,51 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
     required String sub,
     required Color color,
     required VoidCallback onTap,
+    required bool isDark,
+    required Color elevatedBg,
+    required Color borderColor,
   }) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textMuted = isDark ? const Color(0xFF8A99AD) : const Color(0xFF64748B);
+
+    return SoftHoverButton(
+      onTap: onTap,
+      builder: (context, isHovered) {
+        final hoverBg = isDark ? const Color(0xFF1F263A) : const Color(0xFFF1F5F9);
+        final hoverBorder = isDark ? color.withValues(alpha: 0.40) : color.withValues(alpha: 0.35);
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: DesktopWebSections.luxuryCardBgElevated,
+            color: isHovered ? hoverBg : elevatedBg,
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+            border: Border.all(color: isHovered ? hoverBorder : borderColor),
+            boxShadow: isHovered
+                ? [
+                    BoxShadow(
+                      color: color.withValues(alpha: 0.14),
+                      blurRadius: 10,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
           ),
           child: Row(
             children: [
-              Container(
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 160),
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.18),
+                  color: color.withValues(alpha: isHovered ? (isDark ? 0.28 : 0.16) : (isDark ? 0.16 : 0.08)),
                   borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: color.withValues(alpha: isHovered ? (isDark ? 0.55 : 0.35) : (isDark ? 0.30 : 0.18)),
+                  ),
                 ),
-                child: Icon(icon, size: 17, color: color),
+                child: Icon(icon, size: 16, color: color),
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -1462,7 +1730,7 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                       style: AppTypography.ui(
                         fontSize: 12.5,
                         fontWeight: FontWeight.w900,
-                        color: Colors.white,
+                        color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -1472,7 +1740,7 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                       style: AppTypography.ui(
                         fontSize: 10.5,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF94A3B8),
+                        color: textMuted,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -1480,26 +1748,33 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
                   ],
                 ),
               ),
-              const Icon(Icons.arrow_forward_ios_rounded, size: 10, color: Color(0xFF64748B)),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 10,
+                color: isHovered ? color : textMuted,
+              ),
             ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildTelemetryChip(IconData icon, String label) {
+  Widget _buildTelemetryChip(IconData icon, String label, bool isDark) {
+    final emerald = isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488);
+    final textMuted = isDark ? const Color(0xFF8A99AD) : const Color(0xFF64748B);
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 12, color: DesktopWebSections.luxuryVoltEmerald),
+        Icon(icon, size: 12, color: emerald),
         const SizedBox(width: 4),
         Text(
           label,
           style: AppTypography.ui(
             fontSize: 10.5,
             fontWeight: FontWeight.w700,
-            color: const Color(0xFFBAC0D4),
+            color: textMuted,
           ),
         ),
       ],
@@ -1514,11 +1789,13 @@ class _DesktopRadarFloorplanView extends StatefulWidget {
   final VoidCallback onBackToCommand;
   final VoidCallback onPassTap;
   final VoidCallback onChallengeTap;
+  final bool isDark;
 
   const _DesktopRadarFloorplanView({
     required this.onBackToCommand,
     required this.onPassTap,
     required this.onChallengeTap,
+    this.isDark = true,
   });
 
   @override
@@ -1550,9 +1827,14 @@ class _DesktopRadarFloorplanViewState extends State<_DesktopRadarFloorplanView> 
     final active = _activeCourt;
     final isFree = active['status'] == 'free';
     final isMatch = active['status'] == 'match';
+    final isDark = widget.isDark;
+    final canvasBg = isDark ? const Color(0xFF090B10) : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
+    final borderColor = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
 
     return Container(
-      color: DesktopWebSections.luxuryCanvasBg,
+      color: canvasBg,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1563,34 +1845,42 @@ class _DesktopRadarFloorplanViewState extends State<_DesktopRadarFloorplanView> 
             children: [
               Row(
                 children: [
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: widget.onBackToCommand,
-                      child: Container(
+                  SoftHoverButton(
+                    onTap: widget.onBackToCommand,
+                    builder: (context, isHovered) {
+                      final hoverBg = isDark ? const Color(0xFF1C2234) : const Color(0xFFE2E8F0);
+                      final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.22) : const Color(0xFFCBD5E1);
+
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 160),
+                        curve: Curves.easeOutCubic,
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: DesktopWebSections.luxuryCardBg,
+                          color: isHovered ? hoverBg : cardBg,
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                          border: Border.all(color: isHovered ? hoverBorder : borderColor),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.arrow_back_rounded, size: 14, color: Colors.white),
+                            Icon(
+                              Icons.arrow_back_rounded,
+                              size: 14,
+                              color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
+                            ),
                             const SizedBox(width: 6),
                             Text(
                               'Back to Dashboard',
                               style: AppTypography.ui(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w800,
-                                color: Colors.white,
+                                color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   const SizedBox(width: 14),
                   Text(
@@ -1598,7 +1888,7 @@ class _DesktopRadarFloorplanViewState extends State<_DesktopRadarFloorplanView> 
                     style: AppTypography.ui(
                       fontSize: 18,
                       fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                      color: textPrimary,
                       letterSpacing: -0.3,
                     ),
                   ),
@@ -2058,10 +2348,12 @@ class _DesktopRadarFloorplanViewState extends State<_DesktopRadarFloorplanView> 
 class _DesktopLeagueView extends StatelessWidget {
   final VoidCallback onBackToCommand;
   final VoidCallback onChallengeTap;
+  final bool isDark;
 
   const _DesktopLeagueView({
     required this.onBackToCommand,
     required this.onChallengeTap,
+    this.isDark = true,
   });
 
   @override
@@ -2076,8 +2368,12 @@ class _DesktopLeagueView extends StatelessWidget {
       {'rank': '#7', 'name': 'Nurul P.', 'xp': '1,050 XP', 'winRate': '65%', 'avatar': DemoAvatars.nurul, 'badge': 'CONTENDER'},
     ];
 
+    final canvasBg = isDark ? const Color(0xFF090B10) : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+
     return Container(
-      color: DesktopWebSections.luxuryCanvasBg,
+      color: canvasBg,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2085,35 +2381,51 @@ class _DesktopLeagueView extends StatelessWidget {
           // Header Row
           Row(
             children: [
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: onBackToCommand,
-                  child: Container(
+              SoftHoverButton(
+                onTap: onBackToCommand,
+                builder: (context, isHovered) {
+                  final hoverBg = isDark ? const Color(0xFF1C2234) : const Color(0xFFE2E8F0);
+                  final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.22) : const Color(0xFFCBD5E1);
+
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 160),
+                    curve: Curves.easeOutCubic,
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: DesktopWebSections.luxuryCardBg,
+                      color: isHovered ? hoverBg : cardBg,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                      border: Border.all(
+                        color: isHovered
+                            ? hoverBorder
+                            : (isDark ? Colors.white.withValues(alpha: 0.08) : const Color(0xFFE2E8F0)),
+                      ),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.arrow_back_rounded, size: 14, color: Colors.white),
+                        Icon(
+                          Icons.arrow_back_rounded,
+                          size: 14,
+                          color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
+                        ),
                         const SizedBox(width: 6),
                         Text(
                           'Back to Dashboard',
-                          style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white),
+                          style: AppTypography.ui(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
+                            color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
               const SizedBox(width: 14),
               Text(
                 'Olympic League & Damansara Standings',
-                style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white),
+                style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: textPrimary),
               ),
             ],
           ),
@@ -2302,48 +2614,72 @@ class _DesktopLeagueView extends StatelessWidget {
 // ============================================================
 class _DesktopPassesView extends StatelessWidget {
   final VoidCallback onBackToCommand;
+  final bool isDark;
 
-  const _DesktopPassesView({required this.onBackToCommand});
+  const _DesktopPassesView({
+    required this.onBackToCommand,
+    this.isDark = true,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final canvasBg = isDark ? const Color(0xFF090B10) : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+
     return Container(
-      color: DesktopWebSections.luxuryCanvasBg,
+      color: canvasBg,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: onBackToCommand,
-                  child: Container(
+              SoftHoverButton(
+                onTap: onBackToCommand,
+                builder: (context, isHovered) {
+                  final hoverBg = isDark ? const Color(0xFF1C2234) : const Color(0xFFE2E8F0);
+                  final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.22) : const Color(0xFFCBD5E1);
+
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 160),
+                    curve: Curves.easeOutCubic,
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: DesktopWebSections.luxuryCardBg,
+                      color: isHovered ? hoverBg : cardBg,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                      border: Border.all(
+                        color: isHovered
+                            ? hoverBorder
+                            : (isDark ? Colors.white.withValues(alpha: 0.08) : const Color(0xFFE2E8F0)),
+                      ),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.arrow_back_rounded, size: 14, color: Colors.white),
+                        Icon(
+                          Icons.arrow_back_rounded,
+                          size: 14,
+                          color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
+                        ),
                         const SizedBox(width: 6),
                         Text(
                           'Back to Dashboard',
-                          style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white),
+                          style: AppTypography.ui(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
+                            color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
               const SizedBox(width: 14),
               Text(
                 'Arena Passes & 24/7 Autonomous Membership',
-                style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white),
+                style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: textPrimary),
               ),
             ],
           ),
@@ -2357,10 +2693,14 @@ class _DesktopPassesView extends StatelessWidget {
                     title: 'JOMNITTAKU VIP PASS',
                     price: '90 sen / day',
                     sub: 'Billed monthly (RM27) · Unlimited 24/7 Arena Access',
-                    colors: [const Color(0xFFFFA533), const Color(0xFFFF7A00)],
+                    colors: isDark
+                        ? [const Color(0xFF1C202C), const Color(0xFF121520)]
+                        : [Colors.white, const Color(0xFFF8FAFC)],
+                    accentColor: isDark ? const Color(0xFFFF4655) : const Color(0xFF0F172A),
                     code: 'KX8VQS',
                     badge: 'MOST POPULAR',
                     features: ['All 10 ITTF Tables Unlimited', 'Smart Turnstile Door Unlock', 'Daily Quest +200 XP', 'Zero Wait Time'],
+                    isDark: isDark,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -2369,10 +2709,14 @@ class _DesktopPassesView extends StatelessWidget {
                     title: 'OLYMPIC LEAGUE PRO',
                     price: 'Tier 1 Master',
                     sub: 'Earned at 1,200+ XP or RM45/mo Pro Tier',
-                    colors: [const Color(0xFF8B5CF6), const Color(0xFF6366F1)],
+                    colors: isDark
+                        ? [const Color(0xFF1B192A), const Color(0xFF100E1C)]
+                        : [Colors.white, const Color(0xFFFAF5FF)],
+                    accentColor: isDark ? const Color(0xFF8B5CF6) : const Color(0xFF6B21A8),
                     code: 'PRO-042',
                     badge: 'PRO LEAGUE',
                     features: ['Free Tournament Entry', 'Centre Court T04 Priority', 'Coach AI Match Analytics', 'Exclusive Rival Challenges'],
+                    isDark: isDark,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -2381,10 +2725,14 @@ class _DesktopPassesView extends StatelessWidget {
                     title: 'SMART RFID WALLET',
                     price: 'RM 150.00 Balance',
                     sub: 'Preloaded autonomous token wallet',
-                    colors: [const Color(0xFF06B6D4), const Color(0xFF10B981)],
+                    colors: isDark
+                        ? [const Color(0xFF0F1E20), const Color(0xFF081214)]
+                        : [Colors.white, const Color(0xFFF0FDFA)],
+                    accentColor: isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488),
                     code: 'RFID-7701',
                     badge: 'INSTANT TAP',
                     features: ['Instant Physical NFC Gate Card', 'Automatic Ball Dispenser', 'Robot Trainer Dispenser', 'Auto Reload Option'],
+                    isDark: isDark,
                   ),
                 ),
               ],
@@ -2400,15 +2748,32 @@ class _DesktopPassesView extends StatelessWidget {
     required String price,
     required String sub,
     required List<Color> colors,
+    required Color accentColor,
     required String code,
     required String badge,
     required List<String> features,
+    required bool isDark,
   }) {
+    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
+    final borderColor = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textMuted = isDark ? const Color(0xFF8A99AD) : const Color(0xFF64748B);
+
     return Container(
       decoration: BoxDecoration(
-        color: DesktopWebSections.luxuryCardBg,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: colors.first.withValues(alpha: 0.4)),
+        border: Border.all(
+          color: isDark ? accentColor.withValues(alpha: 0.35) : borderColor,
+          width: 1.2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.04),
+            blurRadius: 18,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -2417,21 +2782,24 @@ class _DesktopPassesView extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: BoxDecoration(
-              color: colors.first.withValues(alpha: 0.2),
+              color: accentColor.withValues(alpha: isDark ? 0.18 : 0.10),
               borderRadius: BorderRadius.circular(6),
+              border: Border.all(
+                color: accentColor.withValues(alpha: isDark ? 0.35 : 0.20),
+              ),
             ),
             child: Text(
               badge,
-              style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w900, color: colors.first),
+              style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w900, color: accentColor),
             ),
           ),
           const SizedBox(height: 12),
-          Text(title, style: AppTypography.ui(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.white)),
+          Text(title, style: AppTypography.ui(fontSize: 16, fontWeight: FontWeight.w900, color: textPrimary)),
           const SizedBox(height: 4),
-          Text(price, style: AppTypography.ui(fontSize: 22, fontWeight: FontWeight.w900, color: colors.first)),
-          Text(sub, style: AppTypography.ui(fontSize: 11, color: const Color(0xFFBAC0D4))),
+          Text(price, style: AppTypography.ui(fontSize: 22, fontWeight: FontWeight.w900, color: accentColor)),
+          Text(sub, style: AppTypography.ui(fontSize: 11, color: textMuted)),
           const SizedBox(height: 18),
-          const Divider(color: Color(0x14FFFFFF)),
+          Divider(color: borderColor),
           const SizedBox(height: 10),
           Expanded(
             child: ListView(
@@ -2439,45 +2807,57 @@ class _DesktopPassesView extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Row(
                   children: [
-                    Icon(Icons.check_circle_rounded, size: 14, color: colors.first),
+                    Icon(Icons.check_circle_rounded, size: 14, color: accentColor),
                     const SizedBox(width: 8),
-                    Expanded(child: Text(f, style: AppTypography.ui(fontSize: 12, color: Colors.white))),
+                    Expanded(child: Text(f, style: AppTypography.ui(fontSize: 12, color: textPrimary))),
                   ],
                 ),
               )).toList(),
             ),
           ),
-          Container(
-            width: double.infinity,
-            height: 42,
-            decoration: BoxDecoration(
-              color: badge == 'MOST POPULAR' ? Colors.white : const Color(0xFF131826),
-              borderRadius: BorderRadius.circular(9),
-              border: Border.all(
-                color: badge == 'MOST POPULAR'
-                    ? Colors.white
-                    : Colors.white.withValues(alpha: 0.15),
-                width: 1,
-              ),
-              boxShadow: badge == 'MOST POPULAR'
-                  ? [
-                      BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.15),
-                        blurRadius: 14,
-                        offset: const Offset(0, 3),
-                      ),
-                    ]
-                  : null,
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'Select Pass →',
-              style: AppTypography.ui(
-                fontSize: 13,
-                fontWeight: FontWeight.w900,
-                color: badge == 'MOST POPULAR' ? const Color(0xFF07080B) : Colors.white,
-              ),
-            ),
+          SoftHoverButton(
+            onTap: () {},
+            builder: (context, isHovered) {
+              final isPopular = badge == 'MOST POPULAR';
+              final normalBg = isPopular
+                  ? (isDark ? Colors.white : const Color(0xFF0F172A))
+                  : (isDark ? const Color(0xFF161A26) : const Color(0xFFF1F5F9));
+              final hoverBg = isPopular
+                  ? (isDark ? const Color(0xFFE2E8F0) : const Color(0xFF1E293B))
+                  : (isDark ? const Color(0xFF22293C) : const Color(0xFFE2E8F0));
+              final normalBorder = isPopular
+                  ? (isDark ? Colors.white : const Color(0xFF0F172A))
+                  : (isDark ? const Color(0x1AFFFFFF) : const Color(0xFFCBD5E1));
+              final hoverBorder = isPopular
+                  ? (isDark ? Colors.white : const Color(0xFF334155))
+                  : (isDark ? const Color(0x44FFFFFF) : const Color(0xFF94A3B8));
+
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 160),
+                curve: Curves.easeOutCubic,
+                width: double.infinity,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: isHovered ? hoverBg : normalBg,
+                  borderRadius: BorderRadius.circular(9),
+                  border: Border.all(
+                    color: isHovered ? hoverBorder : normalBorder,
+                    width: 1,
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Select Pass →',
+                  style: AppTypography.ui(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w900,
+                    color: isPopular
+                        ? (isDark ? const Color(0xFF090B10) : Colors.white)
+                        : (isDark ? Colors.white : const Color(0xFF0F172A)),
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -2486,684 +2866,807 @@ class _DesktopPassesView extends StatelessWidget {
 }
 
 // ============================================================
-// 4. DESKTOP 24/7 SMART ARENA LIVE HUB (HIGH-TECH & FUNCTIONAL)
+// 4. DESKTOP 24/7 SMART ARENA LIVE HUB (ZENITH & TYMEWISE CLEAN DESIGN)
 // ============================================================
 class _DesktopTelemetryView extends StatelessWidget {
   final VoidCallback onBackToCommand;
+  final bool isDark;
 
-  const _DesktopTelemetryView({required this.onBackToCommand});
+  const _DesktopTelemetryView({
+    required this.onBackToCommand,
+    this.isDark = true,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final canvasBg = isDark ? const Color(0xFF090B10) : const Color(0xFFF8FAFC);
+    final cardBg = isDark ? const Color(0xFF111420) : Colors.white;
+    final cardBorder = isDark ? Colors.white.withValues(alpha: 0.07) : const Color(0xFFE2E8F0);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textSecondary = isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+    final textMuted = isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8);
+    const voltEmerald = Color(0xFF10B981);
+    const electricBlue = Color(0xFF38BDF8);
+    const coralRose = Color(0xFFFF5C38);
+    const amberGold = Color(0xFFF59E0B);
+
     return Container(
-      color: DesktopWebSections.luxuryCanvasBg,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header Bar
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: onBackToCommand,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: DesktopWebSections.luxuryCardBg,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      color: canvasBg,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1320),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 1. TOP HEADER BAR
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SoftHoverButton(
+                          onTap: onBackToCommand,
+                          builder: (context, isHovered) {
+                            final hoverBg = isDark ? const Color(0xFF1C2234) : const Color(0xFFF1F5F9);
+                            final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.20) : const Color(0xFFCBD5E1);
+
+                            return AnimatedContainer(
+                              duration: const Duration(milliseconds: 160),
+                              curve: Curves.easeOutCubic,
+                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: isHovered ? hoverBg : cardBg,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: isHovered ? hoverBorder : cardBorder),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.arrow_back_rounded,
+                                    size: 14,
+                                    color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Back to Dashboard',
+                                    style: AppTypography.ui(
+                                      fontSize: 12.5,
+                                      fontWeight: FontWeight.w700,
+                                      color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                        const SizedBox(width: 16),
+                        Text(
+                          '24/7 Autonomous Smart Arena Live Hub',
+                          style: AppTypography.ui(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: textPrimary,
+                            letterSpacing: -0.3,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: voltEmerald.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: voltEmerald.withValues(alpha: 0.3)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                width: 6,
+                                height: 6,
+                                decoration: const BoxDecoration(
+                                  color: voltEmerald,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                '24/7 UNMANNED ARENA ACTIVE',
+                                style: AppTypography.ui(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                  color: voltEmerald,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      '3 Damansara Mall Level 2 • Self-Service Venue',
+                      style: AppTypography.ui(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: textMuted,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // 2. FOUR ZENITH-STYLE CALM METRICS (TOP ROW)
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildZenithMetricCard(
+                        cardBg: cardBg,
+                        cardBorder: cardBorder,
+                        title: 'TABLE AVAILABILITY',
+                        value: '6 / 10 Free',
+                        subtitle: '4 active matches • 0 queue',
+                        badgeText: 'Walk-ins Ready',
+                        badgeColor: voltEmerald,
+                        icon: Icons.sports_tennis_rounded,
+                        isDark: isDark,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildZenithMetricCard(
+                        cardBg: cardBg,
+                        cardBorder: cardBorder,
+                        title: 'CLIMATE & LIGHTING',
+                        value: '23.0°C / 480 Lux',
+                        subtitle: 'Dual inverters • 5000K',
+                        badgeText: 'ITTF Certified',
+                        badgeColor: electricBlue,
+                        icon: Icons.thermostat_rounded,
+                        isDark: isDark,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildZenithMetricCard(
+                        cardBg: cardBg,
+                        cardBorder: cardBorder,
+                        title: 'UNMANNED TURNSTILES',
+                        value: 'Gates 1 & 2 Online',
+                        subtitle: '0.3s QR • Anti-tailgating',
+                        badgeText: 'Fail-Open Ready',
+                        badgeColor: voltEmerald,
+                        icon: Icons.qr_code_scanner_rounded,
+                        isDark: isDark,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildZenithMetricCard(
+                        cardBg: cardBg,
+                        cardBorder: cardBorder,
+                        title: 'BALL DISPENSERS',
+                        value: '240 Balls Ready',
+                        subtitle: 'DHS 3-Star • T08 & T10 armed',
+                        badgeText: '100% Stocked',
+                        badgeColor: amberGold,
+                        icon: Icons.all_inclusive_rounded,
+                        isDark: isDark,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // 3. MIDDLE HERO: 24-HOUR ARENA ACTIVITY & OCCUPANCY FORECAST (TYMEWISE HOURLY BAR CHART)
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: cardBg,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: cardBorder),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header Row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(Icons.calendar_month_outlined, size: 16, color: coralRose),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    '24-Hour Arena Crowd Pattern & Best Time To Play',
+                                    style: AppTypography.ui(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w800,
+                                      color: textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 3),
+                              Text(
+                                'Real-time telemetry and predictive hourly wait times for walk-in players',
+                                style: AppTypography.ui(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: voltEmerald.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: voltEmerald.withValues(alpha: 0.3)),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: const BoxDecoration(
+                                    color: voltEmerald,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'NOW: 11:20 AM • 6 OF 10 TABLES FREE',
+                                  style: AppTypography.ui(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w800,
+                                    color: voltEmerald,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Tymewise Vertical Hourly Bar Chart
+                      _buildCrowdPatternChart(isDark: isDark),
+                      const SizedBox(height: 20),
+
+                      // Schedule Phase Tags Row (Clean Saas Badges)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildScheduleTag(
+                              timeRange: '12 AM – 8 AM',
+                              title: 'MIDNIGHT CHILL',
+                              subtitle: 'Happy Hour 50% Off Pass',
+                              color: coralRose,
+                              isDark: isDark,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _buildScheduleTag(
+                              timeRange: '8 AM – 4 PM',
+                              title: 'DAY OPEN PLAY',
+                              subtitle: 'Solo Robot Practice • Free Tables',
+                              color: electricBlue,
+                              isDark: isDark,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _buildScheduleTag(
+                              timeRange: '4 PM – 8 PM',
+                              title: 'AFTER-WORK MATCHES',
+                              subtitle: 'Casual 1v1 Sparring & Groups',
+                              color: voltEmerald,
+                              isDark: isDark,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _buildScheduleTag(
+                              timeRange: '8 PM – 11 PM',
+                              title: 'PEAK RUSH HOUR',
+                              subtitle: 'Olympic League Matches',
+                              color: amberGold,
+                              isDark: isDark,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // 4. BOTTOM 50/50 SPLIT: AUTONOMOUS HARDWARE & LIVE CHECK-IN FEED
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // LEFT COLUMN: AUTONOMOUS HARDWARE SUBSYSTEMS
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: cardBg,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: cardBorder),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(Icons.arrow_back_rounded, size: 14, color: Colors.white),
-                            const SizedBox(width: 6),
-                            Text(
-                              'Back to Dashboard',
-                              style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.memory_rounded, size: 16, color: electricBlue),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Autonomous Subsystems',
+                                      style: AppTypography.ui(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w800,
+                                        color: textPrimary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  decoration: BoxDecoration(
+                                    color: voltEmerald.withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    '100% HEALTHY',
+                                    style: AppTypography.ui(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w800,
+                                      color: voltEmerald,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 14),
+                            _buildHardwareRow(
+                              title: 'Turnstile Gates (1 & 2)',
+                              desc: 'Optical QR reader • Anti-tailgating active',
+                              statusText: 'GATE 1 & 2 ONLINE',
+                              statusColor: voltEmerald,
+                              isDark: isDark,
+                            ),
+                            const SizedBox(height: 8),
+                            _buildHardwareRow(
+                              title: 'Optical Radar & AI Cameras',
+                              desc: '60 FPS smash velocity • Ball trajectory model',
+                              statusText: 'ACTIVE ON T04',
+                              statusColor: electricBlue,
+                              isDark: isDark,
+                            ),
+                            const SizedBox(height: 8),
+                            _buildHardwareRow(
+                              title: 'Robot Ball Feeders',
+                              desc: 'Courts T08 & T10 • DHS 3-Star automated cycle',
+                              statusText: 'ARMED & READY',
+                              statusColor: amberGold,
+                              isDark: isDark,
+                            ),
+                            const SizedBox(height: 8),
+                            _buildHardwareRow(
+                              title: 'Climate & Neutral Lighting',
+                              desc: 'Dual inverter chillers • Shadowless 5000K white',
+                              statusText: '23.0°C / 480 LUX',
+                              statusColor: textPrimary,
+                              isDark: isDark,
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 14),
-                  Text(
-                    '24/7 Autonomous Smart Arena Live Hub',
-                    style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: -0.3),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.5), width: 1.2),
-                    ),
-                    child: Text(
-                      '● 24/7 UNMANNED ARENA ACTIVE',
-                      style: AppTypography.ui(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w900,
-                        color: DesktopWebSections.luxuryVoltEmerald,
-                        letterSpacing: 0.6,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                '3 Damansara Mall Level 2 · Self-Service',
-                style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w700, color: const Color(0xFFBAC0D4)),
-              ),
-            ],
-          ),
+                    const SizedBox(width: 16),
 
-          const SizedBox(height: 12),
-
-          // Main Canvas (3 Rows)
-          Expanded(
-            child: ListView(
-              children: [
-                // ==========================================
-                // ROW 1: LIVE AI MATCH RADAR & TURNSTILE CONTROLLER
-                // ==========================================
-                SizedBox(
-                  height: 240,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // LEFT: LIVE CENTRE COURT (T04) AI VISION RADAR (Flex 58)
-                      Expanded(
-                        flex: 58,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: DesktopWebSections.luxuryCardBg,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: DesktopWebSections.luxuryCoralRose.withValues(alpha: 0.35)),
-                            boxShadow: const [
-                              BoxShadow(color: Colors.black26, blurRadius: 16, offset: Offset(0, 4)),
-                            ],
-                          ),
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 8,
-                                        height: 8,
-                                        decoration: const BoxDecoration(
-                                          color: DesktopWebSections.luxuryCoralRose,
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        'CENTRE COURT T04 · LIVE AI OPTICAL RADAR',
-                                        style: AppTypography.ui(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.white,
-                                          letterSpacing: 0.8,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                    decoration: BoxDecoration(
-                                      color: DesktopWebSections.luxuryCoralRose.withValues(alpha: 0.2),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Text(
-                                      'MATCH IN PROGRESS · GAME 3',
-                                      style: AppTypography.ui(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w900,
-                                        color: DesktopWebSections.luxuryCoralRose,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              // Interactive Court Graphic with Player Scores
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                decoration: BoxDecoration(
-                                  color: DesktopWebSections.luxuryCardBgElevated,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Row(
-                                  children: [
-                                    // Player 1
-                                    CircleAvatar(radius: 18, backgroundImage: AssetImage(DemoAvatars.jason)),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Jason T.', style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white)),
-                                        Text('Lvl 14 · Pro', style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: const Color(0xFF94A3B8))),
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                    // Score Readout
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                                      decoration: BoxDecoration(
-                                        color: Colors.black45,
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-                                      ),
-                                      child: Text(
-                                        '14  —  11',
-                                        style: AppTypography.ui(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.white,
-                                          letterSpacing: 2.0,
-                                        ),
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    // Player 2 (User)
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        Text('Alman R.', style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white)),
-                                        Text('Lvl 12 · You', style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: DesktopWebSections.luxuryVoltEmerald)),
-                                      ],
-                                    ),
-                                    const SizedBox(width: 10),
-                                    CircleAvatar(radius: 18, backgroundImage: AssetImage(DemoAvatars.user)),
-                                  ],
-                                ),
-                              ),
-
-                              // 4 Live AI Sensor Readouts
-                              Row(
-                                children: [
-                                  _buildAiMetricBadge(Icons.speed_rounded, 'MAX SMASH', '84.6 km/h', DesktopWebSections.luxuryCoralRose),
-                                  const SizedBox(width: 10),
-                                  _buildAiMetricBadge(Icons.repeat_rounded, 'ACTIVE RALLY', '14 Hits', DesktopWebSections.luxuryElectricBlue),
-                                  const SizedBox(width: 10),
-                                  _buildAiMetricBadge(Icons.videocam_rounded, 'OPTICAL AI', '60 FPS', DesktopWebSections.luxuryVoltEmerald),
-                                  const SizedBox(width: 10),
-                                  _buildAiMetricBadge(Icons.sports_tennis_rounded, 'MATCH BALL', 'DHS 3-Star', DesktopWebSections.luxuryTangerineGold),
-                                ],
-                              ),
-                            ],
-                          ),
+                    // RIGHT COLUMN: LIVE ARENA CHECK-IN & MATCH ACTIVITY FEED
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: cardBg,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: cardBorder),
                         ),
-                      ),
-
-                      const SizedBox(width: 16),
-
-                      // RIGHT: UNMANNED TURNSTILE GATE ACCESS CONTROLLER (Flex 42)
-                      Expanded(
-                        flex: 42,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: DesktopWebSections.luxuryCardBg,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.35)),
-                            boxShadow: const [
-                              BoxShadow(color: Colors.black26, blurRadius: 16, offset: Offset(0, 4)),
-                            ],
-                          ),
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.door_sliding_rounded, size: 18, color: DesktopWebSections.luxuryVoltEmerald),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        'UNMANNED TURNSTILE GATE',
-                                        style: AppTypography.ui(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.white,
-                                          letterSpacing: 0.8,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                    decoration: BoxDecoration(
-                                      color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.2),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Text(
-                                      'GATE 1 & 2 ONLINE',
-                                      style: AppTypography.ui(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w900,
-                                        color: DesktopWebSections.luxuryVoltEmerald,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              // Pass Card & Room Code Box
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                                decoration: BoxDecoration(
-                                  color: DesktopWebSections.luxuryCardBgElevated,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
                                   children: [
-                                    Container(
-                                      width: 44,
-                                      height: 44,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.08),
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
-                                      ),
-                                      child: const Icon(Icons.qr_code_2_rounded, size: 28, color: Colors.white),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('DOOR PASS CODE', style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: const Color(0xFF94A3B8))),
-                                          Text('KX8VQS', style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 2.0)),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.15),
-                                        borderRadius: BorderRadius.circular(6),
-                                      ),
-                                      child: Text(
-                                        '0.3s SCAN',
-                                        style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w900, color: DesktopWebSections.luxuryVoltEmerald),
+                                    const Icon(Icons.history_rounded, size: 16, color: voltEmerald),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Live Arena Check-In Feed',
+                                      style: AppTypography.ui(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w800,
+                                        color: textPrimary,
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-
-                              // Unlock Door CTA Button
-                              MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 42,
-                                  decoration: BoxDecoration(
-                                    gradient: const LinearGradient(
-                                      colors: [Color(0xFF10B981), Color(0xFF059669)],
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF10B981).withValues(alpha: 0.35),
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(Icons.lock_open_rounded, size: 16, color: Colors.white),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        'Unlock Gate 1 (Instant Turnstile) →',
-                                        style: AppTypography.ui(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
+                                Text(
+                                  'REAL-TIME SYNC',
+                                  style: AppTypography.ui(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w800,
+                                    color: textMuted,
+                                    letterSpacing: 0.5,
                                   ),
                                 ),
-                              ),
-
-                              Text(
-                                'Anti-tailgating optical sensors active · Automated fire safety fail-open integration.',
-                                style: AppTypography.ui(fontSize: 10.5, color: const Color(0xFFBAC0D4)),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
+                            const SizedBox(height: 14),
+                            _buildFeedRow(
+                              avatar: 'JT',
+                              name: 'Jason T. (Lvl 14)',
+                              action: 'Unlocked Gate 1 Turnstile via Dynamic QR',
+                              timeAgo: '2m ago',
+                              accentColor: voltEmerald,
+                              isDark: isDark,
+                            ),
+                            const SizedBox(height: 8),
+                            _buildFeedRow(
+                              avatar: '04',
+                              name: 'Court T04 Match Active',
+                              action: 'Jason T. vs Alman R. (Game 3 • 14 - 11)',
+                              timeAgo: '5m ago',
+                              accentColor: electricBlue,
+                              isDark: isDark,
+                            ),
+                            const SizedBox(height: 8),
+                            _buildFeedRow(
+                              avatar: 'SK',
+                              name: 'Sara K. (Lvl 18)',
+                              action: 'Dispensed 10 Balls at Robot Trainer T08',
+                              timeAgo: '12m ago',
+                              accentColor: amberGold,
+                              isDark: isDark,
+                            ),
+                            const SizedBox(height: 8),
+                            _buildFeedRow(
+                              avatar: 'AI',
+                              name: 'Tournament Court T01',
+                              action: 'Optical Radar calibration completed (60 FPS)',
+                              timeAgo: '19m ago',
+                              accentColor: textSecondary,
+                              isDark: isDark,
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-
-                const SizedBox(height: 14),
-
-                // ==========================================
-                // ROW 2: 24-HOUR CROWD PATTERN & HAPPY HOUR GUIDE
-                // ==========================================
-                Container(
-                  height: 140,
-                  decoration: BoxDecoration(
-                    color: DesktopWebSections.luxuryCardBg,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: DesktopWebSections.luxuryBorderSubtle),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(Icons.analytics_rounded, size: 16, color: DesktopWebSections.luxuryTangerineGold),
-                              const SizedBox(width: 8),
-                              Text(
-                                '24-HOUR ARENA CROWD PATTERN & BEST TIME TO PLAY',
-                                style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 0.8),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: DesktopWebSections.luxuryVoltEmerald.withValues(alpha: 0.18),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              '● CURRENT: 11:20 AM · 6 OF 10 TABLES FREE · WALK-IN READY',
-                              style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w900, color: DesktopWebSections.luxuryVoltEmerald),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      // 4 Time-Zone Guide Strips
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _buildTimezoneStrip(
-                              period: '12 AM – 8 AM',
-                              label: 'MIDNIGHT CHILL',
-                              status: 'HAPPY HOUR 50% OFF',
-                              color: DesktopWebSections.luxuryCoralRose,
-                              isSpecial: true,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: _buildTimezoneStrip(
-                              period: '8 AM – 4 PM',
-                              label: 'DAY OPEN PLAY',
-                              status: 'Solo Robot Practice',
-                              color: DesktopWebSections.luxuryVoltEmerald,
-                              isSpecial: false,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: _buildTimezoneStrip(
-                              period: '4 PM – 8 PM',
-                              label: 'AFTER-WORK MATCHES',
-                              status: 'Casual 1v1 Sparring',
-                              color: DesktopWebSections.luxuryElectricBlue,
-                              isSpecial: false,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: _buildTimezoneStrip(
-                              period: '8 PM – 11 PM',
-                              label: 'PEAK RUSH HOUR',
-                              status: 'Olympic League Matches',
-                              color: DesktopWebSections.luxuryTangerineGold,
-                              isSpecial: false,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 14),
-
-                // ==========================================
-                // ROW 3: 3 SELF-SERVICE AMENITIES BENTO CARDS
-                // ==========================================
-                SizedBox(
-                  height: 155,
-                  child: Row(
-                    children: [
-                      // Card 1: Auto Ball Dispenser & Robot Trainer
-                      Expanded(
-                        child: _buildAmenityBento(
-                          icon: Icons.smart_toy_rounded,
-                          title: 'AUTO BALL & ROBOT TRAINER',
-                          metric: '240 Balls Ready',
-                          status: 'T08 & T10 ACTIVE',
-                          color: DesktopWebSections.luxuryVoltEmerald,
-                          desc: 'Self-service DHS 3-star ball dispensers & solo practice robots with Topspin and Backspin drills.',
-                          buttonText: 'Dispense 10 Balls (Tap RFID) →',
-                        ),
-                      ),
-                      const SizedBox(width: 14),
-
-                      // Card 2: Climate & ITTF Table Lighting
-                      Expanded(
-                        child: _buildAmenityBento(
-                          icon: Icons.ac_unit_rounded,
-                          title: 'CLIMATE & ITTF LIGHTING',
-                          metric: '23.0°C / 480 Lux',
-                          status: 'ITTF CERTIFIED',
-                          color: DesktopWebSections.luxuryElectricBlue,
-                          desc: 'Dual inverter chillers & shadowless 5000K neutral white LED units ensuring tournament standard conditions 24/7.',
-                          buttonText: 'View Telemetry Specs →',
-                        ),
-                      ),
-                      const SizedBox(width: 14),
-
-                      // Card 3: Live Turnstile Entry Feed
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: DesktopWebSections.luxuryCardBg,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: DesktopWebSections.luxuryBorderSubtle),
-                          ),
-                          padding: const EdgeInsets.all(14),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.history_rounded, size: 16, color: DesktopWebSections.luxuryCoralRose),
-                                      const SizedBox(width: 6),
-                                      Text(
-                                        'LIVE TURNSTILE ACCESS LOG',
-                                        style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 0.8),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: DesktopWebSections.luxuryCoralRose.withValues(alpha: 0.2),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Text(
-                                      'REAL-TIME',
-                                      style: AppTypography.ui(fontSize: 9, fontWeight: FontWeight.w900, color: DesktopWebSections.luxuryCoralRose),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              _buildAccessLogRow('Jason T. (Lvl 14)', 'Gate 1 Turnstile', '18m ago'),
-                              _buildAccessLogRow('Sara K. (Lvl 18)', 'Gate 2 Turnstile', '12m ago'),
-                              _buildAccessLogRow('Tournament T04', 'Referee Optical Cam', '9m ago'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                const SizedBox(height: 24),
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAiMetricBadge(IconData icon, String title, String value, Color color) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: BoxDecoration(
-          color: DesktopWebSections.luxuryCardBgElevated,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color.withValues(alpha: 0.3)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(icon, size: 12, color: color),
-                const SizedBox(width: 4),
-                Text(title, style: AppTypography.ui(fontSize: 9.5, fontWeight: FontWeight.w800, color: const Color(0xFFBAC0D4))),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(value, style: AppTypography.ui(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white)),
-          ],
         ),
       ),
     );
   }
 
-  Widget _buildTimezoneStrip({
-    required String period,
-    required String label,
-    required String status,
-    required Color color,
-    required bool isSpecial,
+  // Helper: Zenith-style Calm Metric Card
+  Widget _buildZenithMetricCard({
+    required Color cardBg,
+    required Color cardBorder,
+    required String title,
+    required String value,
+    required String subtitle,
+    required String badgeText,
+    required Color badgeColor,
+    required IconData icon,
+    required bool isDark,
   }) {
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textSecondary = isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: isSpecial ? color.withValues(alpha: 0.15) : DesktopWebSections.luxuryCardBgElevated,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: isSpecial ? color : Colors.white.withValues(alpha: 0.05),
-          width: isSpecial ? 1.4 : 1.0,
-        ),
+        color: cardBg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(period, style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: const Color(0xFFBAC0D4))),
-              if (isSpecial)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(4)),
-                  child: Text('50% OFF', style: AppTypography.ui(fontSize: 9, fontWeight: FontWeight.w900, color: Colors.white)),
+              Text(
+                title,
+                style: AppTypography.ui(
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.w700,
+                  color: textSecondary,
+                  letterSpacing: 0.6,
                 ),
+              ),
+              Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: badgeColor.withValues(alpha: isDark ? 0.12 : 0.08),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, size: 14, color: badgeColor),
+              ),
             ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: AppTypography.ui(
+              fontSize: 19,
+              fontWeight: FontWeight.w800,
+              color: textPrimary,
+              letterSpacing: -0.4,
+            ),
           ),
           const SizedBox(height: 4),
-          Text(label, style: AppTypography.ui(fontSize: 12.5, fontWeight: FontWeight.w900, color: Colors.white)),
-          Text(status, style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w700, color: color)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAmenityBento({
-    required IconData icon,
-    required String title,
-    required String metric,
-    required String status,
-    required Color color,
-    required String desc,
-    required String buttonText,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: DesktopWebSections.luxuryCardBg,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: DesktopWebSections.luxuryBorderSubtle),
-      ),
-      padding: const EdgeInsets.all(14),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Icon(icon, size: 16, color: color),
-                  const SizedBox(width: 6),
-                  Text(title, style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 0.6)),
-                ],
+              Expanded(
+                child: Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.ui(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: textSecondary,
+                  ),
+                ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.18),
+                  color: badgeColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Text(status, style: AppTypography.ui(fontSize: 9.5, fontWeight: FontWeight.w900, color: color)),
+                child: Text(
+                  badgeText,
+                  style: AppTypography.ui(
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.w700,
+                    color: badgeColor,
+                  ),
+                ),
               ),
             ],
           ),
-          Text(metric, style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white)),
-          Text(desc, style: AppTypography.ui(fontSize: 10.5, color: const Color(0xFFBAC0D4)), maxLines: 2, overflow: TextOverflow.ellipsis),
-          Container(
-            height: 28,
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.18),
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: color.withValues(alpha: 0.4)),
+        ],
+      ),
+    );
+  }
+
+  // Helper: Tymewise 24-Hour Crowd Pattern Hourly Bar Chart
+  Widget _buildCrowdPatternChart({required bool isDark}) {
+    final textMuted = isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8);
+    final regularBarBg = isDark ? const Color(0xFF1E2638) : const Color(0xFFE2E8F0);
+    const emerald = Color(0xFF10B981);
+    const coral = Color(0xFFFF5C38);
+    const blue = Color(0xFF38BDF8);
+
+    final slots = [
+      {'hour': '12A', 'pct': 0.12, 'isNow': false, 'color': regularBarBg},
+      {'hour': '2A', 'pct': 0.06, 'isNow': false, 'color': regularBarBg},
+      {'hour': '4A', 'pct': 0.04, 'isNow': false, 'color': regularBarBg},
+      {'hour': '6A', 'pct': 0.10, 'isNow': false, 'color': regularBarBg},
+      {'hour': '8A', 'pct': 0.28, 'isNow': false, 'color': blue.withValues(alpha: 0.6)},
+      {'hour': '10A', 'pct': 0.38, 'isNow': false, 'color': blue.withValues(alpha: 0.7)},
+      {'hour': 'NOW', 'pct': 0.40, 'isNow': true, 'color': emerald},
+      {'hour': '12P', 'pct': 0.52, 'isNow': false, 'color': blue.withValues(alpha: 0.7)},
+      {'hour': '2P', 'pct': 0.48, 'isNow': false, 'color': blue.withValues(alpha: 0.7)},
+      {'hour': '4P', 'pct': 0.65, 'isNow': false, 'color': coral.withValues(alpha: 0.7)},
+      {'hour': '6P', 'pct': 0.88, 'isNow': false, 'color': coral},
+      {'hour': '8P', 'pct': 0.95, 'isNow': false, 'color': coral},
+      {'hour': '10P', 'pct': 0.45, 'isNow': false, 'color': regularBarBg},
+    ];
+
+    return SizedBox(
+      height: 120,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: slots.map((slot) {
+          final isNow = slot['isNow'] as bool;
+          final pct = slot['pct'] as double;
+          final hour = slot['hour'] as String;
+          final barColor = slot['color'] as Color;
+
+          return Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if (isNow)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: emerald,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        '11:20',
+                        style: AppTypography.ui(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  else
+                    const SizedBox(height: 16),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      child: FractionallySizedBox(
+                        heightFactor: pct.clamp(0.08, 1.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: barColor,
+                            borderRadius: const BorderRadius.vertical(top: Radius.circular(5)),
+                            border: isNow ? Border.all(color: Colors.white.withValues(alpha: 0.6), width: 1.5) : null,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    hour,
+                    style: AppTypography.ui(
+                      fontSize: 10,
+                      fontWeight: isNow ? FontWeight.w800 : FontWeight.w600,
+                      color: isNow ? emerald : textMuted,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            alignment: Alignment.center,
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  // Helper: Schedule Phase Tag
+  Widget _buildScheduleTag({
+    required String timeRange,
+    required String title,
+    required String subtitle,
+    required Color color,
+    required bool isDark,
+  }) {
+    final bg = isDark ? color.withValues(alpha: 0.08) : color.withValues(alpha: 0.05);
+    final border = isDark ? color.withValues(alpha: 0.25) : color.withValues(alpha: 0.2);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+
+    return SoftHoverButton(
+      onTap: () {},
+      builder: (context, isHovered) {
+        final hoverBg = isDark ? color.withValues(alpha: 0.16) : color.withValues(alpha: 0.12);
+        final hoverBorder = isDark ? color.withValues(alpha: 0.50) : color.withValues(alpha: 0.40);
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: isHovered ? hoverBg : bg,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: isHovered ? hoverBorder : border),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    timeRange,
+                    style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: color),
+                  ),
+                  Container(
+                    width: 5,
+                    height: 5,
+                    decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                title,
+                style: AppTypography.ui(fontSize: 11.5, fontWeight: FontWeight.w800, color: textPrimary),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w500, color: color),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Helper: Hardware Row
+  Widget _buildHardwareRow({
+    required String title,
+    required String desc,
+    required String statusText,
+    required Color statusColor,
+    required bool isDark,
+  }) {
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textSecondary = isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+    final rowBg = isDark ? const Color(0xFF151926) : const Color(0xFFF1F5F9);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: rowBg,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: textPrimary),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                desc,
+                style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w500, color: textSecondary),
+              ),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: statusColor.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: statusColor.withValues(alpha: 0.25)),
+            ),
             child: Text(
-              buttonText,
-              style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w800, color: color),
+              statusText,
+              style: AppTypography.ui(fontSize: 9.5, fontWeight: FontWeight.w800, color: statusColor),
             ),
           ),
         ],
@@ -3171,19 +3674,63 @@ class _DesktopTelemetryView extends StatelessWidget {
     );
   }
 
-  Widget _buildAccessLogRow(String user, String location, String time) {
+  // Helper: Live Check-In / Activity Feed Row
+  Widget _buildFeedRow({
+    required String avatar,
+    required String name,
+    required String action,
+    required String timeAgo,
+    required Color accentColor,
+    required bool isDark,
+  }) {
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textSecondary = isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+    final rowBg = isDark ? const Color(0xFF151926) : const Color(0xFFF1F5F9);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
-        color: DesktopWebSections.luxuryCardBgElevated,
-        borderRadius: BorderRadius.circular(6),
+        color: rowBg,
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(user, style: AppTypography.ui(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.white)),
-          Text(location, style: AppTypography.ui(fontSize: 10, color: const Color(0xFFBAC0D4))),
-          Text(time, style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: DesktopWebSections.luxuryVoltEmerald)),
+          Container(
+            width: 28,
+            height: 28,
+            decoration: BoxDecoration(
+              color: accentColor.withValues(alpha: isDark ? 0.2 : 0.12),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              avatar,
+              style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w800, color: accentColor),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: textPrimary),
+                ),
+                Text(
+                  action,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w500, color: textSecondary),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            timeAgo,
+            style: AppTypography.ui(fontSize: 10, fontWeight: FontWeight.w700, color: accentColor),
+          ),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import 'core/theme/app_typography.dart';
 import 'core/theme/viewport_controller.dart';
 import 'features/auth/screens/splash_screen.dart';
 import 'features/display/screens/display_leaderboard_screen.dart';
+import 'shared/widgets/arena_widgets.dart';
 
 void main() {
   AppSession.signInMember();
@@ -99,7 +100,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
             }
 
             return Scaffold(
-              backgroundColor: const Color(0xFF0F111A),
+              backgroundColor: isDark ? const Color(0xFF090B10) : const Color(0xFFE2E8F0),
               body: Stack(
                 children: [
                   // Main Presentation Surface
@@ -123,7 +124,9 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                       ),
                       decoration: BoxDecoration(
                         color: (_viewportMode == 2 || _viewportMode == 3)
-                            ? (_viewportMode == 3 ? const Color(0xFF0C0E15) : const Color(0xFF161720))
+                            ? (_viewportMode == 3
+                                ? const Color(0xFF0C0E15)
+                                : (isDark ? const Color(0xFF090B10) : const Color(0xFFF8FAFC)))
                             : AppColors.canvasBg,
                         borderRadius: BorderRadius.circular(
                           (_viewportMode == 2 || _viewportMode == 3)
@@ -162,24 +165,29 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                         child: child,
                       ),
                       child: _isControlsCollapsed
-                          ? MouseRegion(
+                          ? SoftHoverButton(
                               key: const ValueKey('collapsed_controls'),
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                onTap: () => setState(() => _isControlsCollapsed = false),
-                                child: Container(
+                              onTap: () => setState(() => _isControlsCollapsed = false),
+                              builder: (context, isHovered) {
+                                return AnimatedContainer(
+                                  duration: const Duration(milliseconds: 160),
+                                  curve: Curves.easeOutCubic,
                                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF1A1D2B).withValues(alpha: 0.95),
+                                    color: isHovered
+                                        ? const Color(0xFF282F45).withValues(alpha: 0.98)
+                                        : const Color(0xFF1A1D2B).withValues(alpha: 0.95),
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                      color: Colors.white.withValues(alpha: 0.15),
+                                      color: isHovered
+                                          ? Colors.white.withValues(alpha: 0.30)
+                                          : Colors.white.withValues(alpha: 0.15),
                                       width: 1,
                                     ),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withValues(alpha: 0.45),
-                                        blurRadius: 14,
+                                        color: Colors.black.withValues(alpha: isHovered ? 0.60 : 0.45),
+                                        blurRadius: isHovered ? 18 : 14,
                                         offset: const Offset(0, 4),
                                       ),
                                     ],
@@ -201,8 +209,8 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                                       const Icon(Icons.arrow_back_ios_new_rounded, size: 11, color: Colors.white70),
                                     ],
                                   ),
-                                ),
-                              ),
+                                );
+                              },
                             )
                           : Container(
                               key: const ValueKey('expanded_controls'),
@@ -273,14 +281,17 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                                   _buildThemeTogglePill(isDark: isDark),
                                   const SizedBox(width: 4),
                                   // Collapse arrow button
-                                  MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      onTap: () => setState(() => _isControlsCollapsed = true),
-                                      child: Container(
+                                  SoftHoverButton(
+                                    onTap: () => setState(() => _isControlsCollapsed = true),
+                                    builder: (context, isHovered) {
+                                      return AnimatedContainer(
+                                        duration: const Duration(milliseconds: 160),
+                                        curve: Curves.easeOutCubic,
                                         padding: const EdgeInsets.all(5),
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withValues(alpha: 0.08),
+                                          color: isHovered
+                                              ? Colors.white.withValues(alpha: 0.20)
+                                              : Colors.white.withValues(alpha: 0.08),
                                           shape: BoxShape.circle,
                                         ),
                                         child: const Icon(
@@ -288,8 +299,8 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                                           size: 11,
                                           color: Colors.white70,
                                         ),
-                                      ),
-                                    ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
@@ -306,20 +317,27 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
   }
 
   Widget _buildThemeTogglePill({required bool isDark}) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: () => AppThemeController.toggleTheme(),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+    return SoftHoverButton(
+      onTap: () => AppThemeController.toggleTheme(),
+      builder: (context, isHovered) {
+        final normalBg = isDark ? const Color(0xFF262A3C) : const Color(0xFF2C3246);
+        final hoverBg = isDark ? const Color(0xFF383E58) : const Color(0xFF3E4660);
+        final normalBorder = isDark
+            ? const Color(0xFFFFA533).withValues(alpha: 0.4)
+            : const Color(0xFFFF9A3C).withValues(alpha: 0.5);
+        final hoverBorder = isDark
+            ? const Color(0xFFFFA533).withValues(alpha: 0.8)
+            : const Color(0xFFFF9A3C).withValues(alpha: 0.85);
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
           padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
           decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF262A3C) : const Color(0xFF2C3246),
+            color: isHovered ? hoverBg : normalBg,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: isDark
-                  ? const Color(0xFFFFA533).withValues(alpha: 0.4)
-                  : const Color(0xFFFF9A3C).withValues(alpha: 0.5),
+              color: isHovered ? hoverBorder : normalBorder,
               width: 1,
             ),
           ),
@@ -342,8 +360,8 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
               ),
             ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -354,17 +372,19 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
     required VoidCallback onTap,
     required bool isDark,
   }) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
+    return SoftHoverButton(
+      onTap: onTap,
+      builder: (context, isHovered) {
+        final unselectedBg = isHovered ? Colors.white.withValues(alpha: 0.12) : Colors.transparent;
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
             color: isSelected
-                ? (const Color(0xFFFF4B72)) // Luxury Coral Rose
-                : Colors.transparent,
+                ? const Color(0xFFFF4B72) // Luxury Coral Rose
+                : unselectedBg,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -373,7 +393,7 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
               Icon(
                 icon,
                 size: 13,
-                color: isSelected ? Colors.white : Colors.white70,
+                color: isSelected || isHovered ? Colors.white : Colors.white70,
               ),
               const SizedBox(width: 4),
               Text(
@@ -381,13 +401,13 @@ class _JomnittakuAppState extends State<JomnittakuApp> {
                 style: AppTypography.ui(
                   fontSize: 10.5,
                   fontWeight: FontWeight.w800,
-                  color: isSelected ? Colors.white : Colors.white70,
+                  color: isSelected || isHovered ? Colors.white : Colors.white70,
                 ),
               ),
             ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

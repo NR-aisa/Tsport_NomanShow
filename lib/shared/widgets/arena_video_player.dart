@@ -50,6 +50,7 @@ class _ArenaVideoPlayerState extends State<ArenaVideoPlayer> {
       ui_web.platformViewRegistry.registerViewFactory(_viewType, (int viewId) {
         final video = web.HTMLVideoElement()
           ..src = widget.videoPath
+          ..setAttribute('poster', 'assets/assets/images/arena_match_intensity.jpg')
           ..autoplay = true
           ..loop = true
           ..muted = true
@@ -63,6 +64,7 @@ class _ArenaVideoPlayerState extends State<ArenaVideoPlayer> {
           ..style.height = '100%'
           ..style.objectFit = 'cover'
           ..style.borderRadius = '${widget.borderRadius}px'
+          ..style.backgroundColor = 'transparent'
           ..style.pointerEvents = 'none';
 
         // Play video safely
@@ -78,42 +80,40 @@ class _ArenaVideoPlayerState extends State<ArenaVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xFF0A0B10),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(widget.borderRadius),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            // Background: Video on Web, or High-Res Action Image fallback
-            if (kIsWeb && _initialized)
-              HtmlElementView(viewType: _viewType)
-            else
-              Image.asset(
-                widget.fallbackImagePath,
-                fit: BoxFit.cover,
-              ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(widget.borderRadius),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // 1. High-Res Action Image (Always present as instant cinematic background)
+          Image.asset(
+            widget.fallbackImagePath,
+            fit: BoxFit.cover,
+          ),
 
-            // Optional Vignette Gradient Overlay
-            if (widget.showVignette)
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withValues(alpha: 0.1),
-                      Colors.black.withValues(alpha: 0.65),
-                    ],
-                    stops: const [0.4, 1.0],
-                  ),
+          // 2. Hardware-accelerated HTML5 Video on Web
+          if (kIsWeb && _initialized)
+            HtmlElementView(viewType: _viewType),
+
+          // 3. Optional Vignette Gradient Overlay
+          if (widget.showVignette)
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withValues(alpha: 0.1),
+                    Colors.black.withValues(alpha: 0.65),
+                  ],
+                  stops: const [0.4, 1.0],
                 ),
               ),
+            ),
 
-            // Custom Overlay (HUD Telemetry, Court Status, Badges)
-            if (widget.overlay != null) widget.overlay!,
-          ],
-        ),
+          // 4. Custom Overlay (HUD Telemetry, Court Status, Badges)
+          if (widget.overlay != null) widget.overlay!,
+        ],
       ),
     );
   }

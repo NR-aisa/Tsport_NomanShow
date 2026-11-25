@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/session/demo_avatars.dart';
 import '../../core/theme/app_typography.dart';
+import 'arena_widgets.dart';
 
 /// Elite Luxury Sidebar Navigation for JOMNITTAKU Desktop Web.
 ///
@@ -13,28 +14,33 @@ class DesktopDockRail extends StatelessWidget {
   final String activeItem;
   final ValueChanged<String> onItemTap;
   final VoidCallback? onWalkInTap;
+  final bool isDark;
 
   const DesktopDockRail({
     super.key,
     required this.activeItem,
     required this.onItemTap,
     this.onWalkInTap,
+    this.isDark = true,
   });
 
-  static const Color luxurySidebarBg = Color(0xFF090B10);
-  static const Color luxuryActivePill = Color(0x24FF5C38);
-  static const Color luxuryCoralRose = Color(0xFFFF5C38);
-  static const Color luxuryMutedText = Color(0xFF7E869B);
+  static const Color luxuryCoralRose = Color(0xFFFF4655); // Tactical Crimson/Coral
 
   @override
   Widget build(BuildContext context) {
+    final sidebarBg = isDark ? const Color(0xFF090B10) : Colors.white;
+    final borderColor = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
+    final cardBg = isDark ? const Color(0xFF12151F) : const Color(0xFFF8FAFC);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textMuted = isDark ? const Color(0xFF7E869B) : const Color(0xFF64748B);
+
     return Container(
       width: 200,
-      decoration: const BoxDecoration(
-        color: luxurySidebarBg,
+      decoration: BoxDecoration(
+        color: sidebarBg,
         border: Border(
           right: BorderSide(
-            color: Color(0x18FFFFFF),
+            color: borderColor,
             width: 1,
           ),
         ),
@@ -53,9 +59,9 @@ class DesktopDockRail extends StatelessWidget {
                 height: 32,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: luxuryCoralRose.withValues(alpha: 0.15),
+                  color: luxuryCoralRose.withValues(alpha: 0.12),
                   border: Border.all(
-                    color: luxuryCoralRose.withValues(alpha: 0.4),
+                    color: luxuryCoralRose.withValues(alpha: 0.35),
                     width: 1.5,
                   ),
                 ),
@@ -75,7 +81,7 @@ class DesktopDockRail extends StatelessWidget {
                     style: AppTypography.ui(
                       fontSize: 14,
                       fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                      color: textPrimary,
                       letterSpacing: 1.2,
                     ),
                   ),
@@ -125,7 +131,7 @@ class DesktopDockRail extends StatelessWidget {
             icon: Icons.emoji_events_rounded,
             label: 'Olympic League',
             badge: '#4',
-            badgeColor: const Color(0xFFFFA533),
+            badgeColor: const Color(0xFFF59E0B),
           ),
           const SizedBox(height: 4),
           _buildNavItem(
@@ -155,17 +161,17 @@ class DesktopDockRail extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFF10131E),
+              color: cardBg,
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.08),
+                color: borderColor,
                 width: 1,
               ),
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
-                  color: Colors.black45,
-                  blurRadius: 16,
-                  offset: Offset(0, 4),
+                  color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.04),
+                  blurRadius: 14,
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -180,13 +186,13 @@ class DesktopDockRail extends StatelessWidget {
                       style: AppTypography.ui(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
-                        color: Colors.white,
+                        color: textPrimary,
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                       decoration: BoxDecoration(
-                        color: luxuryCoralRose.withValues(alpha: 0.18),
+                        color: luxuryCoralRose.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
@@ -205,25 +211,26 @@ class DesktopDockRail extends StatelessWidget {
                   'Level 2 Autonomous Arena',
                   style: AppTypography.ui(
                     fontSize: 9.5,
-                    color: luxuryMutedText,
+                    color: textMuted,
                   ),
                 ),
                 const SizedBox(height: 12),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: onWalkInTap,
-                    child: Container(
+                SoftHoverButton(
+                  onTap: onWalkInTap,
+                  builder: (context, isHovered) {
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 160),
+                      curve: Curves.easeOutCubic,
                       width: double.infinity,
                       height: 34,
                       decoration: BoxDecoration(
-                        color: luxuryCoralRose,
+                        color: isHovered ? const Color(0xFFFF5C7A) : luxuryCoralRose,
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: luxuryCoralRose.withValues(alpha: 0.35),
-                            blurRadius: 10,
-                            offset: const Offset(0, 3),
+                            color: luxuryCoralRose.withValues(alpha: isHovered ? 0.45 : 0.20),
+                            blurRadius: isHovered ? 14 : 8,
+                            offset: const Offset(0, 2),
                           ),
                         ],
                       ),
@@ -247,8 +254,8 @@ class DesktopDockRail extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -261,10 +268,10 @@ class DesktopDockRail extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFF10131E),
+              color: cardBg,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.08),
+                color: borderColor,
               ),
             ),
             child: Row(
@@ -284,7 +291,7 @@ class DesktopDockRail extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: const Color(0xFF10B981),
                           shape: BoxShape.circle,
-                          border: Border.all(color: luxurySidebarBg, width: 1.5),
+                          border: Border.all(color: sidebarBg, width: 1.5),
                         ),
                       ),
                     ),
@@ -301,7 +308,7 @@ class DesktopDockRail extends StatelessWidget {
                         style: AppTypography.ui(
                           fontSize: 11,
                           fontWeight: FontWeight.w800,
-                          color: Colors.white,
+                          color: textPrimary,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -334,32 +341,39 @@ class DesktopDockRail extends StatelessWidget {
     Color? badgeColor,
   }) {
     final isActive = activeItem == id;
+    final activeBg = isDark ? const Color(0x18FF4655) : const Color(0xFFF1F5F9);
+    final activeBorder = isDark ? const Color(0x40FF4655) : const Color(0xFFCBD5E1);
+    final textMuted = isDark ? const Color(0xFF7E869B) : const Color(0xFF64748B);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
 
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: () => onItemTap(id),
-        child: AnimatedContainer(
+    return SoftHoverButton(
+      onTap: () => onItemTap(id),
+      builder: (context, isHovered) {
+        final hoverBg = isDark ? Colors.white.withValues(alpha: 0.07) : Colors.black.withValues(alpha: 0.04);
+        final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.12) : Colors.black.withValues(alpha: 0.08);
+
+        return AnimatedContainer(
           duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
           width: double.infinity,
           height: 40,
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: isActive ? luxuryActivePill : Colors.transparent,
+            color: isActive ? activeBg : (isHovered ? hoverBg : Colors.transparent),
             borderRadius: BorderRadius.circular(10),
-            border: isActive
-                ? Border.all(
-                    color: const Color(0xFFFF5C38).withValues(alpha: 0.35),
-                    width: 1,
-                  )
-                : null,
+            border: Border.all(
+              color: isActive ? activeBorder : (isHovered ? hoverBorder : Colors.transparent),
+              width: 1,
+            ),
           ),
           child: Row(
             children: [
               Icon(
                 icon,
                 size: 18,
-                color: isActive ? const Color(0xFFFF5C38) : luxuryMutedText,
+                color: isActive
+                    ? luxuryCoralRose
+                    : (isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textMuted),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -368,7 +382,9 @@ class DesktopDockRail extends StatelessWidget {
                   style: AppTypography.ui(
                     fontSize: 12.5,
                     fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
-                    color: isActive ? Colors.white : luxuryMutedText,
+                    color: isActive
+                        ? textPrimary
+                        : (isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textMuted),
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -378,7 +394,7 @@ class DesktopDockRail extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
                   decoration: BoxDecoration(
-                    color: (badgeColor ?? luxuryCoralRose).withValues(alpha: 0.2),
+                    color: (badgeColor ?? luxuryCoralRose).withValues(alpha: isDark ? 0.2 : 0.12),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
@@ -392,8 +408,8 @@ class DesktopDockRail extends StatelessWidget {
                 ),
             ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

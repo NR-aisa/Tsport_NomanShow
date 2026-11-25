@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_typography.dart';
+import 'arena_widgets.dart';
 
 /// Elite Luxury Top Search & Profile Bar for JOMNITTAKU Desktop.
 ///
@@ -15,6 +16,7 @@ class DesktopWebHeader extends StatelessWidget {
   final VoidCallback? onTvTap;
   final VoidCallback? onXpTap;
   final VoidCallback? onProfileTap;
+  final bool isDark;
 
   const DesktopWebHeader({
     super.key,
@@ -23,24 +25,33 @@ class DesktopWebHeader extends StatelessWidget {
     this.onTvTap,
     this.onXpTap,
     this.onProfileTap,
+    this.isDark = true,
   });
-
-  static const Color luxuryCanvasBg = Color(0xFF07080B);
-  static const Color luxuryCardBg = Color(0xFF0F121C);
-  static const Color luxuryCoralRose = Color(0xFFFF5C38);
-  static const Color luxuryVoltEmerald = Color(0xFF00F59B);
-  static const Color luxuryMutedText = Color(0xFF7E869B);
 
   @override
   Widget build(BuildContext context) {
+    final headerBg = isDark ? const Color(0xFF090B10) : Colors.white;
+    final borderColor = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
+    final searchBg = isDark ? const Color(0xFF12151F) : const Color(0xFFF1F5F9);
+    final searchBorder = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
+    final textMuted = isDark ? const Color(0xFF7E869B) : const Color(0xFF64748B);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+
+    final telemetryBg = isDark ? const Color(0x1800D8A5) : const Color(0xFFE6F9F4);
+    final telemetryBorder = isDark ? const Color(0x3300D8A5) : const Color(0xFF99E6D3);
+    final telemetryColor = isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488);
+
+    final chipBg = isDark ? const Color(0xFF12151F) : const Color(0xFFF8FAFC);
+    final chipBorder = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
+
     return Container(
       height: 64,
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      decoration: const BoxDecoration(
-        color: luxuryCanvasBg,
+      decoration: BoxDecoration(
+        color: headerBg,
         border: Border(
           bottom: BorderSide(
-            color: Color(0x12FFFFFF),
+            color: borderColor,
             width: 1,
           ),
         ),
@@ -55,19 +66,19 @@ class DesktopWebHeader extends StatelessWidget {
             height: 38,
             padding: const EdgeInsets.symmetric(horizontal: 14),
             decoration: BoxDecoration(
-              color: luxuryCardBg,
+              color: searchBg,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.08),
+                color: searchBorder,
                 width: 1,
               ),
             ),
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.search_rounded,
                   size: 16,
-                  color: luxuryMutedText,
+                  color: textMuted,
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -75,7 +86,7 @@ class DesktopWebHeader extends StatelessWidget {
                     'Search player, court (T01-T10), or live match...',
                     style: AppTypography.ui(
                       fontSize: 12,
-                      color: luxuryMutedText,
+                      color: textMuted,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -93,10 +104,10 @@ class DesktopWebHeader extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-              color: luxuryVoltEmerald.withValues(alpha: 0.15),
+              color: telemetryBg,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: luxuryVoltEmerald.withValues(alpha: 0.35),
+                color: telemetryBorder,
                 width: 1,
               ),
             ),
@@ -106,8 +117,8 @@ class DesktopWebHeader extends StatelessWidget {
                 Container(
                   width: 6,
                   height: 6,
-                  decoration: const BoxDecoration(
-                    color: luxuryVoltEmerald,
+                  decoration: BoxDecoration(
+                    color: telemetryColor,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -117,7 +128,7 @@ class DesktopWebHeader extends StatelessWidget {
                   style: AppTypography.ui(
                     fontSize: 10,
                     fontWeight: FontWeight.w900,
-                    color: luxuryVoltEmerald,
+                    color: telemetryColor,
                     letterSpacing: 0.6,
                   ),
                 ),
@@ -128,17 +139,21 @@ class DesktopWebHeader extends StatelessWidget {
           const SizedBox(width: 14),
 
           // Quick Public Website Switcher Pill
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () => onTabChanged?.call('landing'),
-              child: Container(
+          SoftHoverButton(
+            onTap: () => onTabChanged?.call('landing'),
+            builder: (context, isHovered) {
+              final hoverBg = isDark ? const Color(0xFF1E2436) : const Color(0xFFE2E8F0);
+              final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.22) : const Color(0xFFCBD5E1);
+
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 160),
+                curve: Curves.easeOutCubic,
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF10131E),
+                  color: isHovered ? hoverBg : chipBg,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.12),
+                    color: isHovered ? hoverBorder : chipBorder,
                     width: 1,
                   ),
                 ),
@@ -148,7 +163,7 @@ class DesktopWebHeader extends StatelessWidget {
                     const Icon(
                       Icons.public_rounded,
                       size: 13,
-                      color: Color(0xFF60A5FA),
+                      color: Color(0xFF3B82F6),
                     ),
                     const SizedBox(width: 5),
                     Text(
@@ -156,13 +171,13 @@ class DesktopWebHeader extends StatelessWidget {
                       style: AppTypography.ui(
                         fontSize: 10.5,
                         fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                        color: textPrimary,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
+              );
+            },
           ),
 
           const Spacer(),

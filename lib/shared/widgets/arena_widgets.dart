@@ -23,7 +23,7 @@ class ArenaToast {
       SnackBar(
         behavior: SnackBarBehavior.floating,
         backgroundColor: AppColors.darkObsidianCardLight,
-        shape: RoundedRectangleBorder(borderRadius: AppRadius.brLg),
+        shape: const RoundedRectangleBorder(borderRadius: AppRadius.brLg),
         duration: const Duration(seconds: 5),
         content: Text(
           message,
@@ -96,7 +96,7 @@ class EmptyState extends StatelessWidget {
               onTap: onAction,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColors.voltLime,
                   borderRadius: AppRadius.brSm,
                 ),
@@ -305,7 +305,7 @@ class _CoachmarkTourState extends State<CoachmarkTour> {
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppColors.voltLime,
                       borderRadius: AppRadius.brSm,
                     ),
@@ -467,6 +467,41 @@ class AvatarPhoto extends StatelessWidget {
                   ),
                 ),
               ),
+      ),
+    );
+  }
+}
+
+/// SoftHoverButton: Smooth, satisfying hover color transitions on desktop web
+/// with ZERO layout displacement, scale, or zooming.
+class SoftHoverButton extends StatefulWidget {
+  final VoidCallback? onTap;
+  final Widget Function(BuildContext context, bool isHovered) builder;
+  final MouseCursor cursor;
+
+  const SoftHoverButton({
+    super.key,
+    required this.onTap,
+    required this.builder,
+    this.cursor = SystemMouseCursors.click,
+  });
+
+  @override
+  State<SoftHoverButton> createState() => _SoftHoverButtonState();
+}
+
+class _SoftHoverButtonState extends State<SoftHoverButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: widget.cursor,
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: widget.builder(context, _isHovered),
       ),
     );
   }

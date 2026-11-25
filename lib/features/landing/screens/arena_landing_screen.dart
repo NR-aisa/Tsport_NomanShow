@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_typography.dart';
 import '../../../shared/widgets/arena_video_player.dart';
-import '../widgets/how_it_works_stacking_deck.dart';
+import '../../../shared/widgets/arena_widgets.dart';
 
 /// High-Converting, Pulse-Pounding Public Landing Page for JOMNITTAKU.
 ///
@@ -347,19 +347,20 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   }
 
   Widget _buildNavLink(String label, VoidCallback onTap) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Text(
-          label,
+    return SoftHoverButton(
+      onTap: onTap,
+      builder: (context, isHovered) {
+        return AnimatedDefaultTextStyle(
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
           style: AppTypography.ui(
             fontSize: 12.5,
             fontWeight: FontWeight.w700,
-            color: luxuryMuted,
+            color: isHovered ? Colors.white : luxuryMuted,
           ),
-        ),
-      ),
+          child: Text(label),
+        );
+      },
     );
   }
 
@@ -371,17 +372,23 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 960;
-        final isMobile = constraints.maxWidth < 768;
+        final isTablet = constraints.maxWidth >= 600 && constraints.maxWidth < 960;
+        final isMobile = constraints.maxWidth < 600;
 
-        // Dedicated Mobile Architecture: Top Cinematic Video Stage + Narrative + Frosted Card
+        // Dedicated Mobile Architecture (Stacked)
         if (isMobile) {
           return _buildMobileHeroSection(context);
         }
 
+        // Dedicated Tablet Architecture (Top Cinematic 16:9 Video Stage + 2-Column Content Below)
+        if (isTablet) {
+          return _buildTabletHeroSection(context);
+        }
+
         final screenHeight = MediaQuery.of(context).size.height;
-        // On desktop, balanced optical hero viewport height
+        // On desktop, full viewport height (minus navbar 65px) so the hero feels cinematic and expansive
         final heroMinHeight = isDesktop 
-            ? (screenHeight - 65).clamp(560.0, 840.0) 
+            ? (screenHeight - 65).clamp(720.0, 1080.0) 
             : 0.0;
 
         return ConstrainedBox(
@@ -390,7 +397,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
             minWidth: double.infinity,
           ),
           child: Stack(
-            alignment: Alignment.center,
+            alignment: Alignment.bottomCenter,
             children: [
               // --------------------------------------------------------------
               // LAYER 1: Full-Bleed 100vh Background Video Canvas
@@ -408,7 +415,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
               // --------------------------------------------------------------
               // LAYER 2: Subtle Directional Scrim Overlay (KITA Technique)
-              // Soft 40%-50% gradient: video stays bright & visible across 100vh
+              // Crystal clear at top, soft translucent at bottom for perfect readability
               // --------------------------------------------------------------
               Positioned.fill(
                 child: IgnorePointer(
@@ -418,11 +425,13 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          const Color(0xFF0A0B10).withValues(alpha: 0.40),
-                          const Color(0xFF0A0B10).withValues(alpha: 0.50),
-                          const Color(0xFF0A0B10).withValues(alpha: 0.85),
+                          const Color(0xFF0A0B10).withValues(alpha: 0.15),
+                          const Color(0xFF0A0B10).withValues(alpha: 0.02),
+                          const Color(0xFF0A0B10).withValues(alpha: 0.10),
+                          const Color(0xFF0A0B10).withValues(alpha: 0.20),
+                          const Color(0xFF0A0B10).withValues(alpha: 0.32),
                         ],
-                        stops: const [0.0, 0.60, 1.0],
+                        stops: const [0.0, 0.35, 0.60, 0.82, 1.0],
                       ),
                     ),
                   ),
@@ -430,7 +439,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               ),
 
               // --------------------------------------------------------------
-              // LAYER 3: Clean, Focused Content Layer (Perfect Grid Alignment with Navbar)
+              // LAYER 3: Clean, Focused Content Layer (Anchored to Bottom Edge)
               // --------------------------------------------------------------
               Center(
                 child: ConstrainedBox(
@@ -438,13 +447,16 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                     minHeight: heroMinHeight,
                     maxWidth: 1240,
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isMobile ? 16 : 32,
-                      vertical: isDesktop ? 48 : 28,
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    padding: EdgeInsets.fromLTRB(
+                      isMobile ? 16 : 32,
+                      isDesktop ? 100 : 50,
+                      isMobile ? 16 : 32,
+                      isDesktop ? 76 : 48,
                     ),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         // Left Column: Clean, High-Impact Narrative
                         Expanded(
@@ -452,7 +464,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                           child: _buildHeroLeftContent(context, isMobile: false),
                         ),
                         const SizedBox(width: 48),
-                        // Right Column: KITA-Style Focused Offer Card
+                        // Right Column: Focused Offer Card
                         Expanded(
                           flex: 45,
                           child: _buildHeroRightCard(context, isMobile: false),
@@ -470,58 +482,76 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   }
 
   // ========================================================================
-  // MOBILE HERO SECTION (Media-First Cinematic Top Video + Clear Narrative + Frosted Pass)
+  // TABLET HERO SECTION (Cinematic Video Stage + 2-Column Content Below)
   // ========================================================================
-  Widget _buildMobileHeroSection(BuildContext context) {
+  Widget _buildTabletHeroSection(BuildContext context) {
     return Container(
       color: const Color(0xFF0A0B10),
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // 1. Dedicated Cinematic 16:9 Video Stage (Live Match/Rally Showcase)
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: const Color(0xFFFF5C38).withValues(alpha: 0.35),
-                width: 1,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFFFF5C38).withValues(alpha: 0.12),
-                  blurRadius: 18,
-                  offset: const Offset(0, 6),
-                ),
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.6),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: const AspectRatio(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 860),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 1. Cinematic 16:9 Video Canvas
+              const AspectRatio(
                 aspectRatio: 16 / 9,
                 child: ArenaVideoPlayer(
                   videoPath: 'videos/arena_highlight.mp4',
                   fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
-                  borderRadius: 15,
+                  borderRadius: 16,
                   showVignette: false,
                 ),
               ),
+              const SizedBox(height: 24),
+              // 2. 2-Column Content Row Below Video
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    flex: 54,
+                    child: _buildHeroLeftContent(context, isMobile: true),
+                  ),
+                  const SizedBox(width: 24),
+                  Expanded(
+                    flex: 46,
+                    child: _buildHeroRightCard(context, isMobile: true),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ========================================================================
+  // MOBILE HERO SECTION (Stacked Architecture)
+  // ========================================================================
+  Widget _buildMobileHeroSection(BuildContext context) {
+    return Container(
+      color: const Color(0xFF0A0B10),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // 1. Cinematic 16:9 Video Canvas
+          const AspectRatio(
+            aspectRatio: 16 / 9,
+            child: ArenaVideoPlayer(
+              videoPath: 'videos/arena_highlight.mp4',
+              fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
+              borderRadius: 16,
+              showVignette: false,
             ),
           ),
-
           const SizedBox(height: 20),
-
-          // 2. High-Impact Headline & Subtitle & Action CTAs
+          // 2. Headline & Buttons
           _buildHeroLeftContent(context, isMobile: true),
-
-          const SizedBox(height: 24),
-
-          // 3. Frosted Glassmorphic Signboard Card
+          const SizedBox(height: 18),
+          // 3. Offer Card
           _buildHeroRightCard(context, isMobile: true),
         ],
       ),
@@ -531,6 +561,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   Widget _buildHeroLeftContent(BuildContext context, {bool isMobile = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         // Clean, High-Impact Headline (2-Color Discipline: Crisp White + Single Coral Accent)
         RichText(
@@ -617,21 +648,17 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   Widget _buildHeroRightCard(BuildContext context, {bool isMobile = false}) {
     return Container(
       decoration: BoxDecoration(
-        color: isMobile
-            ? const Color(0xFF11141E).withValues(alpha: 0.58)
-            : const Color(0xFF11141E).withValues(alpha: 0.88),
+        color: const Color(0xFF11141E).withValues(alpha: 0.35),
         borderRadius: BorderRadius.circular(isMobile ? 18 : 20),
         border: Border.all(
-          color: isMobile
-              ? Colors.white.withValues(alpha: 0.16)
-              : Colors.white.withValues(alpha: 0.12),
+          color: Colors.white.withValues(alpha: 0.25),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isMobile ? 0.35 : 0.5),
-            blurRadius: isMobile ? 20 : 28,
-            offset: Offset(0, isMobile ? 8 : 12),
+            color: Colors.black.withValues(alpha: isMobile ? 0.30 : 0.40),
+            blurRadius: isMobile ? 18 : 26,
+            offset: Offset(0, isMobile ? 6 : 10),
           ),
         ],
       ),
@@ -1046,112 +1073,204 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   // 4. "HOW IT WORKS" (4-STEP UNMANNED FUNNEL)
   // ========================================================================
   Widget _buildHowItWorksSection(BuildContext context) {
-    return Container(
-      key: _howItWorksKey,
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 70),
-      child: Column(
-        children: [
-          _buildSectionHeader(
-            tag: 'THE UNMANNED REVOLUTION',
-            title: 'How It Works in 4 Frictionless Steps',
-            subtitle:
-                'No reception desk, no queues, no phone bookings. Complete autonomy from parking lot to match point.',
-          ),
-          const SizedBox(height: 36),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isDesktop = constraints.maxWidth >= 900;
+        final isMobile = constraints.maxWidth < 768;
 
-          // Scroll-Driven Tactile Stacking Deck for the 4-Step Funnel
-          HowItWorksStackingDeck(
-            scrollController: _scrollController,
-            steps: [
-              HowItWorksStepItem(
-                step: '01',
-                tag: '12 AM – 8 AM MIDNIGHT CHILL',
-                title: 'Show Up Anytime (24/7)',
-                desc:
-                    'Arrive at 2 PM or 3 AM. Basement P2 lifts take you straight up to Level 2 even when 3 Damansara Mall is closed and dark.',
-                icon: Icons.nightlife_rounded,
-                accentColor: const Color(0xFF10B981),
-                surfaceColor: const Color(0xFF111722),
-                imageAsset: 'assets/images/arena_match_intensity.jpg',
-                hudBadgeText: 'P2 LIFT DIRECT ACCESS',
-                hudBadgeIcon: Icons.elevator_rounded,
-                ctaLabel: 'View Midnight Pass',
-                onTap: widget.onWalkInTap,
-                stats: const [
-                  {'value': '24/7/365', 'label': 'Always Open'},
-                  {'value': 'P2 Lift', 'label': 'Direct Mall Lift'},
-                  {'value': '0 Sec', 'label': 'Queue Stress'},
+        return Container(
+          key: _howItWorksKey,
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 16 : 32,
+            vertical: isDesktop ? 70 : 44,
+          ),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1240),
+              child: Column(
+                children: [
+                  _buildSectionHeader(
+                    tag: 'THE UNMANNED REVOLUTION',
+                    title: 'How It Works in 4 Frictionless Steps',
+                    subtitle:
+                        'No reception desk, no queues, no phone bookings. Complete autonomy from parking lot to match point.',
+                  ),
+                  const SizedBox(height: 48),
+                  isDesktop
+                      ? IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                child: _buildStepCard(
+                                  step: '01',
+                                  title: 'Show Up Anytime (24/7)',
+                                  desc:
+                                      'Arrive at 2 PM or 3 AM. Basement P2 lifts take you straight up to Level 2 even when the mall is dark.',
+                                  icon: Icons.nightlife_rounded,
+                                  accentColor: luxuryVoltEmerald,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: _buildStepCard(
+                                  step: '02',
+                                  title: '0.3s Optical QR Turnstile',
+                                  desc:
+                                      'Flash your phone QR code at Gate 1 or 2. Optical sensors verify and unlock gates in 300 milliseconds.',
+                                  icon: Icons.qr_code_scanner_rounded,
+                                  accentColor: luxuryCoralRose,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: _buildStepCard(
+                                  step: '03',
+                                  title: 'Smart Robot Dispensers',
+                                  desc:
+                                      'Sanitized ITTF 3-star balls dispense automatically. Professional carbon composite paddles ready in your locker.',
+                                  icon: Icons.sports_tennis_rounded,
+                                  accentColor: luxuryElectricCyan,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: _buildStepCard(
+                                  step: '04',
+                                  title: 'AI Optical HUD & XP Rewards',
+                                  desc:
+                                      'Overhead 60 FPS vision cameras record smash speed and rally scores. Earn XP to climb the Leaderboard.',
+                                  icon: Icons.military_tech_rounded,
+                                  accentColor: luxuryGold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Column(
+                          children: [
+                            _buildStepCard(
+                              step: '01',
+                              title: 'Show Up Anytime (24/7)',
+                              desc:
+                                  'Arrive at 2 PM or 3 AM. Basement P2 lifts take you straight up to Level 2 even when the mall is dark.',
+                              icon: Icons.nightlife_rounded,
+                              accentColor: luxuryVoltEmerald,
+                            ),
+                            const SizedBox(height: 16),
+                            _buildStepCard(
+                              step: '02',
+                              title: '0.3s Optical QR Turnstile',
+                              desc:
+                                  'Flash your phone QR code at Gate 1 or 2. Optical sensors verify and unlock gates in 300 milliseconds.',
+                              icon: Icons.qr_code_scanner_rounded,
+                              accentColor: luxuryCoralRose,
+                            ),
+                            const SizedBox(height: 16),
+                            _buildStepCard(
+                              step: '03',
+                              title: 'Smart Robot Dispensers',
+                              desc:
+                                  'Sanitized ITTF 3-star balls dispense automatically. Professional carbon composite paddles ready in your locker.',
+                              icon: Icons.sports_tennis_rounded,
+                              accentColor: luxuryElectricCyan,
+                            ),
+                            const SizedBox(height: 16),
+                            _buildStepCard(
+                              step: '04',
+                              title: 'AI Optical HUD & XP Rewards',
+                              desc:
+                                  'Overhead 60 FPS vision cameras record smash speed and rally scores. Earn XP to climb the Leaderboard.',
+                              icon: Icons.military_tech_rounded,
+                              accentColor: luxuryGold,
+                            ),
+                          ],
+                        ),
                 ],
               ),
-              HowItWorksStepItem(
-                step: '02',
-                tag: 'INSTANT ENTRY',
-                title: '0.3s Optical QR Turnstile',
-                desc:
-                    'Flash your phone QR code at Gate 1 or Gate 2. Anti-tailgating optical scanners verify membership and unlock in 300 milliseconds.',
-                icon: Icons.qr_code_scanner_rounded,
-                accentColor: const Color(0xFFFF5C38),
-                surfaceColor: const Color(0xFF1A131C),
-                imageAsset: 'assets/images/arena_table_equipment.jpg',
-                hudBadgeText: '300ms OPTICAL SCAN',
-                hudBadgeIcon: Icons.bolt_rounded,
-                ctaLabel: 'Test QR Access',
-                onTap: widget.onWalkInTap,
-                stats: const [
-                  {'value': '300 ms', 'label': 'Fast Unlock'},
-                  {'value': 'Gate 1 & 2', 'label': 'Anti-Tailgate'},
-                  {'value': 'Offline QR', 'label': 'Cached Auth'},
-                ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildStepCard({
+    required String step,
+    required String title,
+    required String desc,
+    required IconData icon,
+    required Color accentColor,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: luxuryCard,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.07),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: accentColor.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: accentColor.withValues(alpha: 0.35),
+                  ),
+                ),
+                child: Icon(icon, color: accentColor, size: 22),
               ),
-              HowItWorksStepItem(
-                step: '03',
-                tag: 'ZERO RENTAL FEES',
-                title: 'Smart Gear & Robot Dispenser',
-                desc:
-                    'Sanitized ITTF 3-star balls dispense automatically at each court. Professional carbon composite paddles ready in your locker.',
-                icon: Icons.sports_tennis_rounded,
-                accentColor: const Color(0xFF00D2FF),
-                surfaceColor: const Color(0xFF0E1A26),
-                imageAsset: 'assets/images/arena_table_equipment.jpg',
-                hudBadgeText: 'SANITIZED ITTF BALLS',
-                hudBadgeIcon: Icons.verified_rounded,
-                ctaLabel: 'Check Table Gear',
-                onTap: widget.onViewCourtsTap,
-                stats: const [
-                  {'value': '3-Star', 'label': 'ITTF Approved'},
-                  {'value': 'Carbon', 'label': 'Pro Paddles'},
-                  {'value': 'RM 0', 'label': 'Gear Fee'},
-                ],
-              ),
-              HowItWorksStepItem(
-                step: '04',
-                tag: 'LIVE LEADERBOARD',
-                title: 'AI Optical HUD & XP Rewards',
-                desc:
-                    'Overhead 60 FPS vision cameras record smash velocity, spin, and match scores. Earn XP to climb the Damansara Leaderboard.',
-                icon: Icons.military_tech_rounded,
-                accentColor: const Color(0xFFFFB800),
-                surfaceColor: const Color(0xFF1A1710),
-                imageAsset: 'assets/images/arena_live_rally.jpg',
-                hudBadgeText: '118 KM/H SMASH TRACKED',
-                hudBadgeIcon: Icons.speed_rounded,
-                ctaLabel: 'See Arena Leaderboard',
-                onTap: widget.onViewLeagueTap,
-                stats: const [
-                  {'value': '60 FPS', 'label': 'AI Vision'},
-                  {'value': 'Live Elo', 'label': 'Instant Rank'},
-                  {'value': '+45 XP', 'label': 'Match Win'},
-                ],
+              Text(
+                step,
+                style: AppTypography.ui(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white.withValues(alpha: 0.15),
+                ),
               ),
             ],
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 42,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                title,
+                style: AppTypography.ui(
+                  fontSize: 15.5,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                  height: 1.25,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            desc,
+            style: AppTypography.ui(
+              fontSize: 13,
+              color: luxuryMuted,
+              height: 1.5,
+            ),
           ),
         ],
       ),
     );
   }
 
-  // ========================================================================
-  // 5. "ARE YOU FEELING THE ENERGY?" (VIBE & CULTURE BENTO GRID WITH REAL PHOTOGRAPHY)
   // ========================================================================
   Widget _buildVibeCultureSection(BuildContext context) {
     return Container(
@@ -2358,103 +2477,552 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   // ========================================================================
   // 10. FOOTER
   // ========================================================================
+  // ========================================================================
+  // PROFESSIONAL MODERN FOOTER SECTION (Responsive Desktop, Tablet & Mobile)
+  // ========================================================================
   Widget _buildFooter(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
-      decoration: BoxDecoration(
-        color: const Color(0xFF090A0F),
-        border: Border(
-          top: BorderSide(
-            color: Colors.white.withValues(alpha: 0.06),
-            width: 1,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isDesktop = constraints.maxWidth >= 960;
+        final isTablet = constraints.maxWidth >= 640 && constraints.maxWidth < 960;
+        final isMobile = constraints.maxWidth < 640;
+
+        return Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: isDesktop ? 40 : 20,
+            vertical: isDesktop ? 60 : 36,
           ),
-        ),
-      ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          decoration: BoxDecoration(
+            color: const Color(0xFF07080C),
+            border: Border(
+              top: BorderSide(
+                color: Colors.white.withValues(alpha: 0.08),
+                width: 1,
+              ),
+            ),
+          ),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1240),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 32,
-                        height: 32,
+                  // 1. Top Brand & Live Status Row
+                  _buildFooterTopRow(context, isMobile: isMobile),
+                  const SizedBox(height: 36),
+                  Divider(color: Colors.white.withValues(alpha: 0.08)),
+                  const SizedBox(height: 36),
+
+                  // 2. Navigation Columns (4 Columns on Desktop, 2x2 on Tablet, Stacked on Mobile)
+                  if (isDesktop)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(flex: 32, child: _buildFooterBrandBio(context)),
+                        const SizedBox(width: 40),
+                        Expanded(flex: 22, child: _buildFooterCol('ARENA EXPERIENCE', [
+                          '10 ITTF Olympic Courts',
+                          'Smart Robot Dispensers (DHS 3★)',
+                          '60 FPS AI Optical Radar HUD',
+                          'Midnight Smashing (12 AM – 8 AM)',
+                          'Climate & ITTF Lighting (23°C / 480 Lux)',
+                          '3 Damansara Mall Access Guide',
+                        ])),
+                        const SizedBox(width: 24),
+                        Expanded(flex: 22, child: _buildFooterCol('PASSES & ACCESS', [
+                          'Instant Single Pass (RM17)',
+                          'Unlimited VIP Pass (RM27/mo)',
+                          'Midnight Chill (50% Off)',
+                          'Turnstile Dynamic QR Code',
+                          'Student & Corporate Sparring',
+                          'Carbon Racket Dispensary',
+                        ])),
+                        const SizedBox(width: 24),
+                        Expanded(flex: 26, child: _buildFooterCol('SAFETY & 24/7 SUPPORT', [
+                          '0.3s Optical Turnstiles',
+                          'Anti-Tailgating Sensor Mesh',
+                          'Automated Fire Fall-Open System',
+                          '24/7 WhatsApp Hotline: +60 12-888 9247',
+                          'Level 2, 3 Damansara Mall (P2 Lifts)',
+                          'Live Arena Operations Center',
+                        ])),
+                      ],
+                    )
+                  else if (isTablet)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildFooterBrandBio(context),
+                        const SizedBox(height: 32),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(child: _buildFooterCol('ARENA EXPERIENCE', [
+                              '10 ITTF Olympic Courts',
+                              'Smart Robot Dispensers',
+                              '60 FPS AI Optical Radar HUD',
+                              'Midnight Smashing (12 AM – 8 AM)',
+                              '3 Damansara Mall Access Guide',
+                            ])),
+                            const SizedBox(width: 24),
+                            Expanded(child: _buildFooterCol('PASSES & ACCESS', [
+                              'Instant Single Pass (RM17)',
+                              'Unlimited VIP Pass (RM27/mo)',
+                              'Midnight Chill (50% Off)',
+                              'Dynamic QR Code Access',
+                              'Carbon Racket Dispensary',
+                            ])),
+                          ],
+                        ),
+                        const SizedBox(height: 28),
+                        _buildFooterCol('SAFETY & 24/7 SUPPORT', [
+                          '0.3s Optical Turnstiles & Anti-Tailgating',
+                          'Automated Fire Fall-Open System',
+                          'WhatsApp Hotline: +60 12-888 9247',
+                          'Level 2, 3 Damansara Mall (P2 Direct Lifts)',
+                        ]),
+                      ],
+                    )
+                  else
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildFooterBrandBio(context),
+                        const SizedBox(height: 28),
+                        _buildFooterCol('ARENA EXPERIENCE', [
+                          '10 ITTF Olympic Courts',
+                          'Smart Robot Dispensers',
+                          '60 FPS AI Optical Radar HUD',
+                          'Midnight Smashing (12 AM – 8 AM)',
+                        ]),
+                        const SizedBox(height: 24),
+                        _buildFooterCol('PASSES & ACCESS', [
+                          'Instant Single Pass (RM17)',
+                          'Unlimited VIP Pass (RM27/mo)',
+                          'Midnight Chill (50% Off)',
+                          'Dynamic QR Turnstile Code',
+                        ]),
+                        const SizedBox(height: 24),
+                        _buildFooterCol('SAFETY & 24/7 SUPPORT', [
+                          '0.3s Optical Turnstiles',
+                          'WhatsApp Hotline: +60 12-888 9247',
+                          'Level 2, 3 Damansara Mall (P2 Lifts)',
+                        ]),
+                      ],
+                    ),
+
+                  const SizedBox(height: 44),
+                  Divider(color: Colors.white.withValues(alpha: 0.08)),
+                  const SizedBox(height: 24),
+
+                  // 3. Bottom Legal, Copyright & Venue Telemetry Bar
+                  _buildFooterBottomBar(context, isMobile: isMobile),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildFooterTopRow(BuildContext context, {required bool isMobile}) {
+    return isMobile
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildFooterBrandTag(),
+              const SizedBox(height: 16),
+              _buildFooterLiveTelemetryBadge(),
+            ],
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildFooterBrandTag(),
+              Row(
+                children: [
+                  _buildFooterLiveTelemetryBadge(),
+                  const SizedBox(width: 16),
+                  SoftHoverButton(
+                    onTap: () {
+                      _scrollController.animateTo(
+                        0,
+                        duration: const Duration(milliseconds: 600),
+                        curve: Curves.easeInOutCubic,
+                      );
+                    },
+                    builder: (context, isHovered) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 160),
+                        curve: Curves.easeOutCubic,
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: luxuryCoralRose.withValues(alpha: 0.15),
+                          color: isHovered
+                              ? Colors.white.withValues(alpha: 0.12)
+                              : Colors.white.withValues(alpha: 0.06),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/company_logo.png',
-                            fit: BoxFit.cover,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Back to Top',
+                              style: AppTypography.ui(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            const Icon(
+                              Icons.arrow_upward_rounded,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        'JOMNITTAKU NO MAN SHOW',
-                        style: AppTypography.ui(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
-                          letterSpacing: 0.8,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: 8,
-                        height: 8,
-                        decoration: const BoxDecoration(
-                          color: luxuryVoltEmerald,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        'ALL 10 COURTS & GATES OPERATIONAL 24/7',
-                        style: AppTypography.ui(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w800,
-                          color: luxuryVoltEmerald,
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
-              Divider(color: Colors.white.withValues(alpha: 0.05)),
-              const SizedBox(height: 18),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Level 2, 3 Damansara Mall, Petaling Jaya, Selangor, Malaysia',
-                    style: AppTypography.ui(
-                      fontSize: 11.5,
-                      color: luxuryMuted,
+            ],
+          );
+  }
+
+  Widget _buildFooterBrandTag() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: luxuryCoralRose.withValues(alpha: 0.15),
+            border: Border.all(
+              color: luxuryCoralRose.withValues(alpha: 0.4),
+              width: 1.5,
+            ),
+          ),
+          child: ClipOval(
+            child: Image.asset(
+              'assets/images/company_logo.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Text(
+                  'JOMNITTAKU',
+                  style: AppTypography.ui(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: luxuryCoralRose.withValues(alpha: 0.18),
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: luxuryCoralRose.withValues(alpha: 0.35),
+                      width: 1,
                     ),
                   ),
-                  Text(
-                    '© 2026 JOMNITTAKU. Malaysia’s 1st Unmanned Sports Arena.',
+                  child: Text(
+                    '24/7 UNMANNED',
                     style: AppTypography.ui(
-                      fontSize: 11.5,
-                      color: luxuryMuted,
+                      fontSize: 9.5,
+                      fontWeight: FontWeight.w900,
+                      color: luxuryCoralRose,
+                      letterSpacing: 0.4,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Text(
+              'NO MAN SHOW • 3 DAMANSARA (LEVEL 2)',
+              style: AppTypography.ui(
+                fontSize: 10.5,
+                fontWeight: FontWeight.w700,
+                color: luxuryMuted,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFooterLiveTelemetryBadge() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      decoration: BoxDecoration(
+        color: luxuryVoltEmerald.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: luxuryVoltEmerald.withValues(alpha: 0.28),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              color: luxuryVoltEmerald,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: luxuryVoltEmerald,
+                  blurRadius: 8,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            'ALL 10 COURTS & OPTICAL GATES OPERATIONAL 24/7',
+            style: AppTypography.ui(
+              fontSize: 10.5,
+              fontWeight: FontWeight.w800,
+              color: luxuryVoltEmerald,
+              letterSpacing: 0.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFooterBrandBio(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Midnight Smashes.\nZero Staff.',
+          style: AppTypography.ui(
+            fontSize: 22,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+            height: 1.2,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          'Malaysia’s 1st fully autonomous, 24/7 smart table tennis arena. 10 ITTF Olympic tables, smart ball dispensers, 60 FPS AI smash radar, and zero receptionist friction.',
+          style: AppTypography.ui(
+            fontSize: 13,
+            color: const Color(0xFF94A3B8),
+            height: 1.55,
+          ),
+        ),
+        const SizedBox(height: 18),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.04),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.08),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.local_parking_rounded,
+                size: 16,
+                color: luxuryCoralRose,
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  '3 Damansara Mall • Direct P2 Lift Access 24/7',
+                  style: AppTypography.ui(
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white70,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFooterCol(String title, List<String> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: AppTypography.ui(
+            fontSize: 11,
+            fontWeight: FontWeight.w900,
+            color: luxuryCoralRose,
+            letterSpacing: 0.8,
+          ),
+        ),
+        const SizedBox(height: 16),
+        ...items.map(
+          (item) => Padding(
+            padding: const EdgeInsets.only(bottom: 11),
+            child: SoftHoverButton(
+              onTap: () {},
+              builder: (context, isHovered) {
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 160),
+                  curve: Curves.easeOutCubic,
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: isHovered
+                        ? Colors.white.withValues(alpha: 0.06)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    item,
+                    style: AppTypography.ui(
+                      fontSize: 12.5,
+                      fontWeight: isHovered ? FontWeight.w600 : FontWeight.w500,
+                      color: isHovered ? Colors.white : const Color(0xFF94A3B8),
+                      height: 1.3,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFooterBottomBar(BuildContext context, {required bool isMobile}) {
+    return isMobile
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '© 2026 JOMNITTAKU SDN. BHD. (Company No. 202601004829). All rights reserved.',
+                style: AppTypography.ui(
+                  fontSize: 11.5,
+                  color: luxuryMuted,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 16,
+                runSpacing: 8,
+                children: [
+                  _buildFooterLegalLink('Privacy Policy'),
+                  _buildFooterLegalLink('Terms of Service'),
+                  _buildFooterLegalLink('Venue Safety & ITTF Standards'),
+                ],
+              ),
+            ],
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '© 2026 JOMNITTAKU SDN. BHD. (Company No. 202601004829). All rights reserved.',
+                style: AppTypography.ui(
+                  fontSize: 11.5,
+                  color: luxuryMuted,
+                ),
+              ),
+              Row(
+                children: [
+                  _buildFooterLegalLink('Privacy Policy'),
+                  _buildLegalDot(),
+                  _buildFooterLegalLink('Terms of Service'),
+                  _buildLegalDot(),
+                  _buildFooterLegalLink('Venue Safety & ITTF Standards'),
+                  _buildLegalDot(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: luxuryVoltEmerald.withValues(alpha: 0.10),
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(
+                        color: luxuryVoltEmerald.withValues(alpha: 0.25),
+                        width: 1,
+                      ),
+                    ),
+                    child: Text(
+                      'Uptime 99.98%',
+                      style: AppTypography.ui(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w800,
+                        color: luxuryVoltEmerald,
+                      ),
                     ),
                   ),
                 ],
               ),
             ],
-          ),
+          );
+  }
+
+  Widget _buildLegalDot() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Text(
+        '•',
+        style: AppTypography.ui(
+          fontSize: 12,
+          color: luxuryMuted.withValues(alpha: 0.5),
         ),
       ),
+    );
+  }
+
+  Widget _buildFooterLegalLink(String title) {
+    return SoftHoverButton(
+      onTap: () {},
+      builder: (context, isHovered) {
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+          decoration: BoxDecoration(
+            color: isHovered
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            title,
+            style: AppTypography.ui(
+              fontSize: 11.5,
+              fontWeight: isHovered ? FontWeight.w600 : FontWeight.normal,
+              color: isHovered ? Colors.white : luxuryMuted,
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -2591,16 +3159,16 @@ class _ArenaInteractiveButtonState extends State<ArenaInteractiveButton> {
               color: _isHovered
                   ? const Color(0xFFFFB800).withValues(alpha: 0.55)
                   : const Color(0xFFFF5C38).withValues(alpha: 0.35),
-              blurRadius: _isHovered ? 22 : 14,
-              spreadRadius: _isHovered ? 1 : 0,
-              offset: _isHovered ? const Offset(0, 6) : const Offset(0, 4),
+              blurRadius: _isHovered ? 20 : 12,
+              spreadRadius: 0,
+              offset: const Offset(0, 4),
             ),
           ]
         : [
             if (_isHovered)
               BoxShadow(
-                color: Colors.white.withValues(alpha: 0.4),
-                blurRadius: 18,
+                color: Colors.white.withValues(alpha: 0.35),
+                blurRadius: 16,
                 offset: const Offset(0, 4),
               ),
           ];
@@ -2621,11 +3189,8 @@ class _ArenaInteractiveButtonState extends State<ArenaInteractiveButton> {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
+          duration: const Duration(milliseconds: 180),
           curve: Curves.easeOutCubic,
-          transform: _isHovered
-              ? Matrix4.translationValues(0.0, -2.0, 0.0)
-              : Matrix4.identity(),
           width: widget.isFullWidth ? double.infinity : null,
           padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 22, vertical: 13),
           decoration: BoxDecoration(
