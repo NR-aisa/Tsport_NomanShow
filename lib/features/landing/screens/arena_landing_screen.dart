@@ -453,7 +453,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                       isMobile ? 16 : 32,
                       isDesktop ? 80 : 40,
                       isMobile ? 16 : 32,
-                      isDesktop ? 42 : 32,
+                      isDesktop ? 24 : 24,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -648,17 +648,17 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   Widget _buildHeroRightCard(BuildContext context, {bool isMobile = false}) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF0F121C).withValues(alpha: 0.18),
+        color: const Color(0xFF0F121C).withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(isMobile ? 18 : 20),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.20),
+          color: Colors.white.withValues(alpha: 0.18),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isMobile ? 0.20 : 0.25),
-            blurRadius: isMobile ? 16 : 22,
-            offset: Offset(0, isMobile ? 4 : 8),
+            color: Colors.black.withValues(alpha: isMobile ? 0.15 : 0.20),
+            blurRadius: isMobile ? 14 : 18,
+            offset: Offset(0, isMobile ? 4 : 6),
           ),
         ],
       ),
@@ -3132,7 +3132,7 @@ class _ArenaInteractiveButtonState extends State<ArenaInteractiveButton> {
         : Colors.white.withValues(alpha: 0.08);
 
     final Color defaultHoverColor = widget.isPrimary
-        ? const Color(0xFFFFB800)
+        ? const Color(0xFFFF7050)
         : Colors.white;
 
     final Color bgColor = _isHovered
@@ -3140,7 +3140,9 @@ class _ArenaInteractiveButtonState extends State<ArenaInteractiveButton> {
         : (widget.normalColor ?? defaultNormalColor);
 
     const Color defaultNormalTextColor = Colors.white;
-    const Color defaultHoverTextColor = Color(0xFF0A0B10);
+    final Color defaultHoverTextColor = widget.isPrimary
+        ? Colors.white
+        : const Color(0xFF0A0B10);
 
     final Color textColor = _isHovered
         ? (widget.hoverTextColor ?? defaultHoverTextColor)
@@ -3157,9 +3159,9 @@ class _ArenaInteractiveButtonState extends State<ArenaInteractiveButton> {
         ? [
             BoxShadow(
               color: _isHovered
-                  ? const Color(0xFFFFB800).withValues(alpha: 0.55)
-                  : const Color(0xFFFF5C38).withValues(alpha: 0.35),
-              blurRadius: _isHovered ? 20 : 12,
+                  ? const Color(0xFFFF5C38).withValues(alpha: 0.22)
+                  : const Color(0xFFFF5C38).withValues(alpha: 0.16),
+              blurRadius: _isHovered ? 12 : 8,
               spreadRadius: 0,
               offset: const Offset(0, 4),
             ),
