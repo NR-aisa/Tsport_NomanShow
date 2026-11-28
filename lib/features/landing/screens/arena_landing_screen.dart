@@ -482,47 +482,69 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   }
 
   // ========================================================================
-  // TABLET HERO SECTION (Cinematic Video Stage + 2-Column Content Below)
+  // TABLET HERO SECTION (Overlay Content Directly Over Video, Matching Web)
   // ========================================================================
   Widget _buildTabletHeroSection(BuildContext context) {
-    return Container(
-      color: const Color(0xFF0A0B10),
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 860),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 1. Cinematic 16:9 Video Canvas
-              const AspectRatio(
-                aspectRatio: 16 / 9,
-                child: ArenaVideoPlayer(
-                  videoPath: 'videos/arena_highlight.mp4',
-                  fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
-                  borderRadius: 16,
-                  showVignette: false,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minHeight: 540,
+        minWidth: double.infinity,
+      ),
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          const Positioned.fill(
+            child: IgnorePointer(
+              child: ArenaVideoPlayer(
+                videoPath: 'videos/arena_highlight.mp4',
+                fallbackImagePath: 'assets/images/arena_match_intensity.jpg',
+                borderRadius: 0,
+                showVignette: false,
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: IgnorePointer(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      const Color(0xFF0A0B10).withValues(alpha: 0.15),
+                      const Color(0xFF0A0B10).withValues(alpha: 0.04),
+                      const Color(0xFF0A0B10).withValues(alpha: 0.18),
+                      const Color(0xFF0A0B10).withValues(alpha: 0.36),
+                    ],
+                    stops: const [0.0, 0.35, 0.65, 1.0],
+                  ),
                 ),
               ),
-              const SizedBox(height: 24),
-              // 2. 2-Column Content Row Below Video
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    flex: 54,
-                    child: _buildHeroLeftContent(context, isMobile: true),
-                  ),
-                  const SizedBox(width: 24),
-                  Expanded(
-                    flex: 46,
-                    child: _buildHeroRightCard(context, isMobile: true),
-                  ),
-                ],
-              ),
-            ],
+            ),
           ),
-        ),
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 880),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 60, 24, 32),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      flex: 54,
+                      child: _buildHeroLeftContent(context, isMobile: true),
+                    ),
+                    const SizedBox(width: 24),
+                    Expanded(
+                      flex: 46,
+                      child: _buildHeroRightCard(context, isMobile: true),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
