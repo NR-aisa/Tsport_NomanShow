@@ -1884,213 +1884,202 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   }
 
   // ========================================================================
-  // 7. PRICING & PASSES SECTION
+  // 7. PRICING & PASSES SECTION (2 Focused Tiers, Compact Layout)
   // ========================================================================
   Widget _buildPricingSection(BuildContext context) {
-    return Container(
-      key: _pricingKey,
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 70),
-      decoration: BoxDecoration(
-        color: luxuryCard.withValues(alpha: 0.3),
-      ),
-      child: Column(
-        children: [
-          _buildSectionHeader(
-            tag: 'TRANSPARENT VALUE • NO HIDDEN FEES',
-            title: 'Simple, Affordable Arena Passes',
-            subtitle:
-                'Whether you want a quick 1-hour midnight smash or unlimited 24/7 access every single day, choose the pass that fits your game.',
-          ),
-          const SizedBox(height: 48),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isDesktop = constraints.maxWidth >= 780;
+        final isMobile = constraints.maxWidth < 600;
 
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final isDesktop = constraints.maxWidth >= 960;
-              return isDesktop
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: _buildPricingCard(
-                            tier: 'WALK-IN QUICK PASS',
-                            price: 'RM17',
-                            period: '/ session (1 hr)',
-                            desc: 'Perfect for quick spontaneous midnight games with a friend.',
-                            features: [
-                              'Instant 0.3s QR Turnstile Entry',
-                              '2 Carbon Composite Rackets Included',
-                              '10 ITTF 3-Star Balls Dispensed',
-                              'Standard Court Access',
-                              'No Membership Required',
-                            ],
-                            ctaText: 'Get Walk-In Pass',
-                            isPopular: false,
-                            onTap: widget.onWalkInTap,
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: _buildPricingCard(
-                            tier: 'VIP UNLIMITED PASS',
-                            price: '90 sen',
-                            period: '/ day (RM27 / month)',
-                            desc: 'Our most popular pass. Unlimited 24/7 access whenever you want.',
-                            features: [
-                              '24/7/365 Unlimited Arena Access',
-                              'Smart RFID Keycard Included',
-                              'Free Auto Robot Ball Dispenser',
-                              '50% Off Guest Passes',
-                              'AI Optical Smash Speed Tracking',
-                              'Priority Midnight Table Access',
-                            ],
-                            ctaText: 'Get VIP 90 Sen Pass →',
-                            isPopular: true,
-                            onTap: widget.onWalkInTap,
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: _buildPricingCard(
-                            tier: 'PRO OLYMPIC LEAGUE',
-                            price: 'RM59',
-                            period: '/ month',
-                            desc: 'For competitive players aiming for city rankings and tournaments.',
-                            features: [
-                              'All VIP Pass Benefits Included',
-                              'Weekly League Tournament Entry',
-                              'AI 60 FPS Match Video Downloads',
-                              'Private Dedicated Locker',
-                              'Advance Table Reservations',
-                              'Official City Ranking & Elo Profile',
-                            ],
-                            ctaText: 'Join Pro League',
-                            isPopular: false,
-                            onTap: widget.onViewLeagueTap,
-                          ),
-                        ),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        _buildPricingCard(
-                          tier: 'WALK-IN QUICK PASS',
-                          price: 'RM17',
-                          period: '/ session (1 hr)',
-                          desc: 'Perfect for quick spontaneous midnight games with a friend.',
-                          features: [
-                            'Instant 0.3s QR Turnstile Entry',
-                            '2 Carbon Composite Rackets Included',
-                            '10 ITTF 3-Star Balls Dispensed',
-                            'No Membership Required',
-                          ],
-                          ctaText: 'Get Walk-In Pass',
-                          isPopular: false,
-                          onTap: widget.onWalkInTap,
-                        ),
-                        const SizedBox(height: 20),
-                        _buildPricingCard(
-                          tier: 'VIP UNLIMITED PASS',
-                          price: '90 sen',
-                          period: '/ day (RM27 / month)',
-                          desc: 'Our most popular pass. Unlimited 24/7 access whenever you want.',
-                          features: [
-                            '24/7/365 Unlimited Arena Access',
-                            'Smart RFID Keycard Included',
-                            'Free Auto Robot Ball Dispenser',
-                            '50% Off Guest Passes',
-                            'AI Optical Smash Speed Tracking',
-                          ],
-                          ctaText: 'Get VIP 90 Sen Pass →',
-                          isPopular: true,
-                          onTap: widget.onWalkInTap,
-                        ),
-                        const SizedBox(height: 20),
-                        _buildPricingCard(
-                          tier: 'PRO OLYMPIC LEAGUE',
-                          price: 'RM59',
-                          period: '/ month',
-                          desc: 'For competitive players aiming for city rankings and tournaments.',
-                          features: [
-                            'All VIP Pass Benefits Included',
-                            'Weekly League Tournament Entry',
-                            'AI 60 FPS Match Video Downloads',
-                            'Official City Ranking & Elo Profile',
-                          ],
-                          ctaText: 'Join Pro League',
-                          isPopular: false,
-                          onTap: widget.onViewLeagueTap,
-                        ),
-                      ],
-                    );
-            },
+        final walkInCard = _buildPricingCard(
+          tier: 'WALK-IN PASS',
+          badgeText: 'PAY PER PLAY',
+          price: 'RM17',
+          period: '/ 1 hr session',
+          desc: 'Instant entry for casual or midnight games.',
+          features: const [
+            '0.3s QR Turnstile Entry (No App Needed)',
+            '2 Carbon Rackets & 10 ITTF Balls Included',
+            '1-Hour Standard Court Access',
+          ],
+          ctaText: 'Get Walk-In Pass',
+          isPopular: false,
+          isDesktop: isDesktop,
+          isMobile: isMobile,
+          onTap: widget.onWalkInTap,
+        );
+
+        final vipCard = _buildPricingCard(
+          tier: 'VIP UNLIMITED',
+          badgeText: '90 SEN / DAY',
+          price: 'RM27',
+          period: '/ month',
+          desc: 'Unlimited 24/7 play for regular smashers.',
+          features: const [
+            'Unlimited 24/7 Arena Access (All 10 Courts)',
+            'Free Auto Ball Dispenser & AI Smash Radar',
+            '50% Off Guest Passes + Priority Tables',
+          ],
+          ctaText: 'Get VIP Pass →',
+          isPopular: true,
+          isDesktop: isDesktop,
+          isMobile: isMobile,
+          onTap: widget.onWalkInTap,
+        );
+
+        return Container(
+          key: _pricingKey,
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 16 : 32,
+            vertical: isMobile ? 40 : 52,
           ),
-        ],
-      ),
+          decoration: BoxDecoration(
+            color: luxuryCard.withValues(alpha: 0.3),
+          ),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 820),
+              child: Column(
+                children: [
+                  _buildSectionHeader(
+                    tag: 'SIMPLE PRICING • NO HIDDEN FEES',
+                    title: 'Two Ways to Play 24/7',
+                    subtitle:
+                        'Drop in once for RM17 or unlock unlimited monthly access for 90 sen a day.',
+                  ),
+                  SizedBox(height: isMobile ? 24 : 32),
+
+                  isDesktop
+                      ? IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(child: walkInCard),
+                              const SizedBox(width: 20),
+                              Expanded(child: vipCard),
+                            ],
+                          ),
+                        )
+                      : Column(
+                          children: [
+                            vipCard,
+                            const SizedBox(height: 16),
+                            walkInCard,
+                          ],
+                        ),
+
+                  const SizedBox(height: 18),
+
+                  // Quiet single-line Tournament / League link instead of a 3rd heavy card
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: widget.onViewLeagueTap,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Playing competitively? Explore Weekly Pro League & Rankings',
+                            style: AppTypography.ui(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: luxuryMuted,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(
+                            Icons.arrow_forward_rounded,
+                            size: 13,
+                            color: luxuryCoralRose,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildPricingCard({
     required String tier,
+    required String badgeText,
     required String price,
     required String period,
     required String desc,
     required List<String> features,
     required String ctaText,
     required bool isPopular,
+    required bool isDesktop,
+    required bool isMobile,
     required VoidCallback onTap,
   }) {
     return Container(
-      padding: const EdgeInsets.all(28),
+      padding: EdgeInsets.all(isMobile ? 18 : 22),
       decoration: BoxDecoration(
         color: isPopular ? luxuryCardElevated : luxuryCard,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: isPopular
               ? luxuryCoralRose
               : Colors.white.withValues(alpha: 0.08),
-          width: isPopular ? 2 : 1,
+          width: isPopular ? 1.5 : 1,
         ),
         boxShadow: isPopular
             ? [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  blurRadius: 16,
+                  color: Colors.black.withValues(alpha: 0.28),
+                  blurRadius: 14,
                   offset: const Offset(0, 6),
                 ),
               ]
-            : [],
+            : const [],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (isPopular)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              margin: const EdgeInsets.only(bottom: 14),
-              decoration: BoxDecoration(
-                color: luxuryCoralRose,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                'MOST POPULAR CHOICE',
+          // Inline Tier + Pill Badge
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                tier,
                 style: AppTypography.ui(
-                  fontSize: 9.5,
+                  fontSize: 11.5,
                   fontWeight: FontWeight.w900,
-                  color: Colors.white,
+                  color: isPopular ? luxuryCoralRose : luxuryMuted,
                   letterSpacing: 0.8,
                 ),
               ),
-            ),
-          Text(
-            tier,
-            style: AppTypography.ui(
-              fontSize: 12,
-              fontWeight: FontWeight.w900,
-              color: isPopular ? luxuryCoralRose : luxuryMuted,
-              letterSpacing: 0.8,
-            ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: isPopular
+                      ? luxuryCoralRose
+                      : Colors.white.withValues(alpha: 0.07),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  badgeText,
+                  style: AppTypography.ui(
+                    fontSize: 9,
+                    fontWeight: FontWeight.w900,
+                    color: isPopular ? Colors.white : luxuryMuted,
+                    letterSpacing: 0.6,
+                  ),
+                ),
+              ),
+            ],
           ),
+
           const SizedBox(height: 10),
+
+          // Compact Price Row
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
@@ -2098,7 +2087,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               Text(
                 price,
                 style: AppTypography.ui(
-                  fontSize: 34,
+                  fontSize: isMobile ? 26 : 30,
                   fontWeight: FontWeight.w900,
                   color: Colors.white,
                 ),
@@ -2114,27 +2103,31 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+
+          const SizedBox(height: 6),
+
           Text(
             desc,
             style: AppTypography.ui(
-              fontSize: 12.5,
+              fontSize: 12,
               color: const Color(0xFFBAC0D6),
-              height: 1.4,
+              height: 1.35,
             ),
           ),
-          const SizedBox(height: 20),
-          Divider(color: Colors.white.withValues(alpha: 0.08)),
-          const SizedBox(height: 16),
-          // Features List
+
+          const SizedBox(height: 12),
+          Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
+          const SizedBox(height: 12),
+
+          // Tight 3-item checklist
           ...features.map(
             (feat) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: 7),
               child: Row(
                 children: [
                   Icon(
                     Icons.check_circle_rounded,
-                    size: 14,
+                    size: 13.5,
                     color: isPopular ? luxuryCoralRose : luxuryVoltEmerald,
                   ),
                   const SizedBox(width: 8),
@@ -2142,7 +2135,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                     child: Text(
                       feat,
                       style: AppTypography.ui(
-                        fontSize: 12,
+                        fontSize: 11.5,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                       ),
@@ -2152,16 +2145,21 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          // Action Button
+
+          if (isDesktop) ...[
+            const Spacer(),
+            const SizedBox(height: 10),
+          ] else
+            const SizedBox(height: 10),
+
           ArenaInteractiveButton(
             label: ctaText,
             onTap: onTap,
             isPrimary: isPopular,
             isFullWidth: true,
-            borderRadius: BorderRadius.circular(12),
-            fontSize: 13,
-            padding: const EdgeInsets.symmetric(vertical: 14),
+            borderRadius: BorderRadius.circular(10),
+            fontSize: 12.5,
+            padding: const EdgeInsets.symmetric(vertical: 11),
           ),
         ],
       ),

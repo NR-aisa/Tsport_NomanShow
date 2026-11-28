@@ -224,7 +224,7 @@ class DesktopDockRail extends StatelessWidget {
                       width: double.infinity,
                       height: 34,
                       decoration: BoxDecoration(
-                        color: isHovered ? const Color(0xFFFF5C7A) : luxuryCoralRose,
+                        color: isHovered ? const Color(0xFFE11D48) : luxuryCoralRose,
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(

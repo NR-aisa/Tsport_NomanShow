@@ -37,9 +37,9 @@ class DesktopWebHeader extends StatelessWidget {
     final textMuted = isDark ? const Color(0xFF7E869B) : const Color(0xFF64748B);
     final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
 
-    final telemetryBg = isDark ? const Color(0x1800D8A5) : const Color(0xFFE6F9F4);
-    final telemetryBorder = isDark ? const Color(0x3300D8A5) : const Color(0xFF99E6D3);
-    final telemetryColor = isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488);
+    final telemetryBg = isDark ? const Color(0x1810B981) : const Color(0xFFECFDF5);
+    final telemetryBorder = isDark ? const Color(0x3310B981) : const Color(0xFFA7F3D0);
+    final telemetryColor = isDark ? const Color(0xFF10B981) : const Color(0xFF059669);
 
     final chipBg = isDark ? const Color(0xFF12151F) : const Color(0xFFF8FAFC);
     final chipBorder = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);

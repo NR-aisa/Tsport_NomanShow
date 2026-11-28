@@ -1139,8 +1139,8 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
           'subtitle': 'Damansara Master · Zero Table Fees',
           'code': 'PRO-042',
           'badge': 'PRO LEAGUE',
-          'colors': [const Color(0xFF1A1828), const Color(0xFF0F0E1C)],
-          'accent': const Color(0xFF8B5CF6),
+          'colors': [const Color(0xFF161A26), const Color(0xFF0F121B)],
+          'accent': const Color(0xFFE2E8F0),
           'icon': Icons.military_tech_rounded,
           'isDarkText': false,
         },
@@ -1150,8 +1150,8 @@ class _InteractiveArenaPassDeckState extends State<InteractiveArenaPassDeck> {
           'subtitle': 'Autonomous Ball Dispenser & Robot Active',
           'code': 'RFID-7701',
           'badge': 'RFID SMART',
-          'colors': [const Color(0xFF0F1E20), const Color(0xFF081214)],
-          'accent': const Color(0xFF00D8A5),
+          'colors': [const Color(0xFF111816), const Color(0xFF0B1110)],
+          'accent': const Color(0xFF10B981),
           'icon': Icons.contactless_rounded,
           'isDarkText': false,
         },
@@ -2624,116 +2624,286 @@ class _DesktopPassesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final canvasBg = isDark ? const Color(0xFF090B10) : const Color(0xFFF8FAFC);
-    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
+    final cardBg = isDark ? const Color(0xFF11141D) : Colors.white;
+    final featuredBg = isDark ? const Color(0xFF161A26) : const Color(0xFFF8FAFC);
+    final borderCol = isDark ? Colors.white.withValues(alpha: 0.08) : const Color(0xFFE2E8F0);
     final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textSecondary = isDark ? const Color(0xFF8A94A6) : const Color(0xFF64748B);
+    const emerald = Color(0xFF10B981);
 
     return Container(
       color: canvasBg,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              SoftHoverButton(
-                onTap: onBackToCommand,
-                builder: (context, isHovered) {
-                  final hoverBg = isDark ? const Color(0xFF1C2234) : const Color(0xFFE2E8F0);
-                  final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.22) : const Color(0xFFCBD5E1);
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 980),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header Row
+                Row(
+                  children: [
+                    SoftHoverButton(
+                      onTap: onBackToCommand,
+                      builder: (context, isHovered) {
+                        final hoverBg = isDark ? const Color(0xFF1C2234) : const Color(0xFFE2E8F0);
+                        final hoverBorder = isDark ? Colors.white.withValues(alpha: 0.22) : const Color(0xFFCBD5E1);
 
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 160),
-                    curve: Curves.easeOutCubic,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: isHovered ? hoverBg : cardBg,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: isHovered
-                            ? hoverBorder
-                            : (isDark ? Colors.white.withValues(alpha: 0.08) : const Color(0xFFE2E8F0)),
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 160),
+                          curve: Curves.easeOutCubic,
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: isHovered ? hoverBg : cardBg,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: isHovered ? hoverBorder : borderCol),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.arrow_back_rounded, size: 14, color: textPrimary),
+                              const SizedBox(width: 6),
+                              Text(
+                                'Back to Dashboard',
+                                style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: textPrimary),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 14),
+                    Text(
+                      'Arena Passes & 24/7 Autonomous Membership',
+                      style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: textPrimary),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 18),
+
+                // 1. TOP COMPACT ACCOUNT & SMART RFID WALLET BAR
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                  decoration: BoxDecoration(
+                    color: cardBg,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: borderCol),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: emerald.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(Icons.contactless_rounded, size: 18, color: emerald),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'CURRENT PLAN: Pro Member',
+                                  style: AppTypography.ui(fontSize: 12.5, fontWeight: FontWeight.w800, color: textPrimary),
+                                ),
+                                const SizedBox(width: 8),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: emerald.withValues(alpha: 0.14),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    'RFID-7701 ACTIVE',
+                                    style: AppTypography.ui(fontSize: 9.5, fontWeight: FontWeight.w800, color: emerald),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Renews 1 Dec · Auto-Reload: ON · Autonomous Ball Dispenser Enabled',
+                              style: AppTypography.ui(fontSize: 11.5, color: textSecondary),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'RM 150.00',
+                            style: AppTypography.ui(fontSize: 17, fontWeight: FontWeight.w900, color: textPrimary),
+                          ),
+                          Text(
+                            'Wallet Balance',
+                            style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w600, color: textSecondary),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 16),
+                      SoftHoverButton(
+                        onTap: () {},
+                        builder: (context, isHovered) {
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 160),
+                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+                            decoration: BoxDecoration(
+                              color: isHovered
+                                  ? (isDark ? const Color(0xFF23293A) : const Color(0xFFE2E8F0))
+                                  : (isDark ? const Color(0xFF1A1F2E) : const Color(0xFFF1F5F9)),
+                              borderRadius: BorderRadius.circular(9),
+                              border: Border.all(color: isDark ? Colors.white.withValues(alpha: 0.12) : const Color(0xFFCBD5E1)),
+                            ),
+                            child: Text(
+                              'Top Up Balance',
+                              style: AppTypography.ui(fontSize: 11.5, fontWeight: FontWeight.w700, color: textPrimary),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 18),
+
+                // 2. MIDDLE 2-COLUMN PASS COMPARISON ROW
+                IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: _buildPassProductCard(
+                          title: 'WALK-IN PASS',
+                          badge: 'PAY PER PLAY',
+                          price: 'RM17',
+                          period: '/ 1 hr session',
+                          subtitle: 'Instant QR turnstile entry with zero commitment.',
+                          features: const [
+                            '0.3s QR Turnstile Entry (No App Needed)',
+                            '2 Carbon Rackets & 10 ITTF Balls Included',
+                            '1-Hour Standard Court Access',
+                          ],
+                          ctaLabel: 'Select Walk-In →',
+                          isFeatured: false,
+                          cardBg: cardBg,
+                          borderCol: borderCol,
+                          textPrimary: textPrimary,
+                          textSecondary: textSecondary,
+                        ),
+                      ),
+                      const SizedBox(width: 18),
+                      Expanded(
+                        child: _buildPassProductCard(
+                          title: 'JOMNITTAKU VIP PASS',
+                          badge: '90 SEN / DAY',
+                          price: 'RM27',
+                          period: '/ month',
+                          subtitle: 'Unlimited 24/7 access for regular players.',
+                          features: const [
+                            'Unlimited 24/7 Arena Access (All 10 Courts)',
+                            'Free Auto Ball Dispenser & AI Smash Radar',
+                            '50% Off Guest Passes + Priority Tables',
+                          ],
+                          ctaLabel: 'Select VIP Pass →',
+                          isFeatured: true,
+                          cardBg: featuredBg,
+                          borderCol: isDark ? Colors.white.withValues(alpha: 0.22) : const Color(0xFFCBD5E1),
+                          textPrimary: textPrimary,
+                          textSecondary: textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 18),
+
+                // 3. BOTTOM COMPACT ARENA PERKS & LEAGUE STRIP
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildPerkTile(
+                        icon: Icons.nightlight_round,
+                        title: 'Midnight Chill 50% Off',
+                        subtitle: '12 AM – 8 AM off-peak rates',
+                        cardBg: cardBg,
+                        borderCol: borderCol,
+                        textPrimary: textPrimary,
+                        textSecondary: textSecondary,
                       ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.arrow_back_rounded,
-                          size: 14,
-                          color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Back to Dashboard',
-                          style: AppTypography.ui(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w800,
-                            color: isHovered ? (isDark ? Colors.white : const Color(0xFF0F172A)) : textPrimary,
-                          ),
-                        ),
-                      ],
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: _buildPerkTile(
+                        icon: Icons.sports_tennis_rounded,
+                        title: 'Auto Robot & Ball Dispenser',
+                        subtitle: 'DHS 3-Star balls ready at every table',
+                        cardBg: cardBg,
+                        borderCol: borderCol,
+                        textPrimary: textPrimary,
+                        textSecondary: textSecondary,
+                      ),
                     ),
-                  );
-                },
-              ),
-              const SizedBox(width: 14),
-              Text(
-                'Arena Passes & 24/7 Autonomous Membership',
-                style: AppTypography.ui(fontSize: 18, fontWeight: FontWeight.w900, color: textPrimary),
-              ),
-            ],
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: _buildPerkTile(
+                        icon: Icons.military_tech_rounded,
+                        title: 'Olympic League: 1,240 XP',
+                        subtitle: 'Rank #4 · Weekly tournaments',
+                        cardBg: cardBg,
+                        borderCol: borderCol,
+                        textPrimary: textPrimary,
+                        textSecondary: textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 18),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPerkTile({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color cardBg,
+    required Color borderCol,
+    required Color textPrimary,
+    required Color textSecondary,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: borderCol),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 17, color: const Color(0xFF10B981)),
+          const SizedBox(width: 12),
           Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: _buildPassProductCard(
-                    title: 'JOMNITTAKU VIP PASS',
-                    price: '90 sen / day',
-                    sub: 'Billed monthly (RM27) · Unlimited 24/7 Arena Access',
-                    colors: isDark
-                        ? [const Color(0xFF1C202C), const Color(0xFF121520)]
-                        : [Colors.white, const Color(0xFFF8FAFC)],
-                    accentColor: isDark ? const Color(0xFFFF4655) : const Color(0xFF0F172A),
-                    code: 'KX8VQS',
-                    badge: 'MOST POPULAR',
-                    features: ['All 10 ITTF Tables Unlimited', 'Smart Turnstile Door Unlock', 'Daily Quest +200 XP', 'Zero Wait Time'],
-                    isDark: isDark,
-                  ),
+                Text(
+                  title,
+                  style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w800, color: textPrimary),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildPassProductCard(
-                    title: 'OLYMPIC LEAGUE PRO',
-                    price: 'Tier 1 Master',
-                    sub: 'Earned at 1,200+ XP or RM45/mo Pro Tier',
-                    colors: isDark
-                        ? [const Color(0xFF1B192A), const Color(0xFF100E1C)]
-                        : [Colors.white, const Color(0xFFFAF5FF)],
-                    accentColor: isDark ? const Color(0xFF8B5CF6) : const Color(0xFF6B21A8),
-                    code: 'PRO-042',
-                    badge: 'PRO LEAGUE',
-                    features: ['Free Tournament Entry', 'Centre Court T04 Priority', 'Coach AI Match Analytics', 'Exclusive Rival Challenges'],
-                    isDark: isDark,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildPassProductCard(
-                    title: 'SMART RFID WALLET',
-                    price: 'RM 150.00 Balance',
-                    sub: 'Preloaded autonomous token wallet',
-                    colors: isDark
-                        ? [const Color(0xFF0F1E20), const Color(0xFF081214)]
-                        : [Colors.white, const Color(0xFFF0FDFA)],
-                    accentColor: isDark ? const Color(0xFF00D8A5) : const Color(0xFF0D9488),
-                    code: 'RFID-7701',
-                    badge: 'INSTANT TAP',
-                    features: ['Instant Physical NFC Gate Card', 'Automatic Ball Dispenser', 'Robot Trainer Dispenser', 'Auto Reload Option'],
-                    isDark: isDark,
-                  ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: AppTypography.ui(fontSize: 11, color: textSecondary),
                 ),
               ],
             ),
@@ -2745,116 +2915,126 @@ class _DesktopPassesView extends StatelessWidget {
 
   Widget _buildPassProductCard({
     required String title,
-    required String price,
-    required String sub,
-    required List<Color> colors,
-    required Color accentColor,
-    required String code,
     required String badge,
+    required String price,
+    required String period,
+    required String subtitle,
     required List<String> features,
-    required bool isDark,
+    required String ctaLabel,
+    required bool isFeatured,
+    required Color cardBg,
+    required Color borderCol,
+    required Color textPrimary,
+    required Color textSecondary,
   }) {
-    final cardBg = isDark ? const Color(0xFF12151F) : Colors.white;
-    final borderColor = isDark ? const Color(0x0EFFFFFF) : const Color(0xFFE2E8F0);
-    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
-    final textMuted = isDark ? const Color(0xFF8A99AD) : const Color(0xFF64748B);
-
+    const emerald = Color(0xFF10B981);
     return Container(
+      padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? accentColor.withValues(alpha: 0.35) : borderColor,
-          width: 1.2,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.04),
-            blurRadius: 18,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: Border.all(color: borderCol, width: isFeatured ? 1.5 : 1),
       ),
-      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-            decoration: BoxDecoration(
-              color: accentColor.withValues(alpha: isDark ? 0.18 : 0.10),
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(
-                color: accentColor.withValues(alpha: isDark ? 0.35 : 0.20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w900, color: textSecondary, letterSpacing: 0.7),
               ),
-            ),
-            child: Text(
-              badge,
-              style: AppTypography.ui(fontSize: 10.5, fontWeight: FontWeight.w900, color: accentColor),
-            ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: isFeatured ? emerald.withValues(alpha: 0.14) : Colors.white.withValues(alpha: 0.06),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  badge,
+                  style: AppTypography.ui(
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.w900,
+                    color: isFeatured ? emerald : textSecondary,
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 12),
-          Text(title, style: AppTypography.ui(fontSize: 16, fontWeight: FontWeight.w900, color: textPrimary)),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                price,
+                style: AppTypography.ui(fontSize: 30, fontWeight: FontWeight.w900, color: textPrimary),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                period,
+                style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w600, color: textSecondary),
+              ),
+            ],
+          ),
           const SizedBox(height: 4),
-          Text(price, style: AppTypography.ui(fontSize: 22, fontWeight: FontWeight.w900, color: accentColor)),
-          Text(sub, style: AppTypography.ui(fontSize: 11, color: textMuted)),
-          const SizedBox(height: 18),
-          Divider(color: borderColor),
-          const SizedBox(height: 10),
-          Expanded(
-            child: ListView(
-              children: features.map((f) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  children: [
-                    Icon(Icons.check_circle_rounded, size: 14, color: accentColor),
-                    const SizedBox(width: 8),
-                    Expanded(child: Text(f, style: AppTypography.ui(fontSize: 12, color: textPrimary))),
-                  ],
-                ),
-              )).toList(),
+          Text(
+            subtitle,
+            style: AppTypography.ui(fontSize: 12, color: textSecondary),
+          ),
+          const SizedBox(height: 14),
+          Divider(color: borderCol, height: 1),
+          const SizedBox(height: 14),
+          ...features.map(
+            (f) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                children: [
+                  const Icon(Icons.check_circle_rounded, size: 15, color: emerald),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      f,
+                      style: AppTypography.ui(fontSize: 12, fontWeight: FontWeight.w600, color: textPrimary),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+          const Spacer(),
+          const SizedBox(height: 14),
           SoftHoverButton(
             onTap: () {},
             builder: (context, isHovered) {
-              final isPopular = badge == 'MOST POPULAR';
-              final normalBg = isPopular
-                  ? (isDark ? Colors.white : const Color(0xFF0F172A))
-                  : (isDark ? const Color(0xFF161A26) : const Color(0xFFF1F5F9));
-              final hoverBg = isPopular
-                  ? (isDark ? const Color(0xFFE2E8F0) : const Color(0xFF1E293B))
-                  : (isDark ? const Color(0xFF22293C) : const Color(0xFFE2E8F0));
-              final normalBorder = isPopular
-                  ? (isDark ? Colors.white : const Color(0xFF0F172A))
-                  : (isDark ? const Color(0x1AFFFFFF) : const Color(0xFFCBD5E1));
-              final hoverBorder = isPopular
-                  ? (isDark ? Colors.white : const Color(0xFF334155))
-                  : (isDark ? const Color(0x44FFFFFF) : const Color(0xFF94A3B8));
+              final bg = isFeatured
+                  ? (isDark
+                      ? (isHovered ? const Color(0xFFE2E8F0) : Colors.white)
+                      : (isHovered ? const Color(0xFF1E293B) : const Color(0xFF0F172A)))
+                  : (isDark
+                      ? (isHovered ? const Color(0xFF23293A) : const Color(0xFF1A1F2E))
+                      : (isHovered ? const Color(0xFFE2E8F0) : const Color(0xFFF1F5F9)));
+              final fg = isFeatured
+                  ? (isDark ? const Color(0xFF090B10) : Colors.white)
+                  : textPrimary;
 
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 160),
                 curve: Curves.easeOutCubic,
                 width: double.infinity,
-                height: 42,
+                padding: const EdgeInsets.symmetric(vertical: 11),
                 decoration: BoxDecoration(
-                  color: isHovered ? hoverBg : normalBg,
-                  borderRadius: BorderRadius.circular(9),
-                  border: Border.all(
-                    color: isHovered ? hoverBorder : normalBorder,
-                    width: 1,
-                  ),
+                  color: bg,
+                  borderRadius: BorderRadius.circular(10),
+                  border: isFeatured
+                      ? null
+                      : Border.all(color: isDark ? Colors.white.withValues(alpha: 0.12) : const Color(0xFFCBD5E1)),
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  'Select Pass →',
-                  style: AppTypography.ui(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w900,
-                    color: isPopular
-                        ? (isDark ? const Color(0xFF090B10) : Colors.white)
-                        : (isDark ? Colors.white : const Color(0xFF0F172A)),
-                  ),
+                  ctaLabel,
+                  style: AppTypography.ui(fontSize: 12.5, fontWeight: FontWeight.w900, color: fg),
                 ),
               );
             },
@@ -2864,10 +3044,6 @@ class _DesktopPassesView extends StatelessWidget {
     );
   }
 }
-
-// ============================================================
-// 4. DESKTOP 24/7 SMART ARENA LIVE HUB (ZENITH & TYMEWISE CLEAN DESIGN)
-// ============================================================
 class _DesktopTelemetryView extends StatelessWidget {
   final VoidCallback onBackToCommand;
   final bool isDark;
