@@ -911,7 +911,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                           kicker: 'ITTF CERTIFIED',
                           metric: '10 Courts',
                           label: 'Olympic DHS & Nittaku Tables',
-                          accentColor: luxuryCoralRose,
+                          accentColor: luxuryMuted,
                         ),
                       ),
                       _buildStatDivider(),
@@ -920,7 +920,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                           kicker: 'OPTICAL SPEED',
                           metric: '0.3 Sec',
                           label: 'Fastest Turnstile Gate in KL',
-                          accentColor: luxuryElectricCyan,
+                          accentColor: luxuryMuted,
                         ),
                       ),
                       _buildStatDivider(),
@@ -929,7 +929,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                           kicker: 'UNBEATABLE VALUE',
                           metric: '90 Sen',
                           label: 'Per Day Unlimited VIP Pass',
-                          accentColor: luxuryGold,
+                          accentColor: luxuryMuted,
                         ),
                       ),
                       _buildStatDivider(),
@@ -938,7 +938,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                           kicker: 'EDGE VISION',
                           metric: '60 FPS AI',
                           label: 'Smash Speed & Rally Camera',
-                          accentColor: luxuryVoltEmerald,
+                          accentColor: luxuryMuted,
                         ),
                       ),
                     ],
@@ -958,25 +958,25 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                         kicker: 'ITTF CERTIFIED',
                         metric: '10 Courts',
                         label: 'Olympic Tables',
-                        accentColor: luxuryCoralRose,
+                        accentColor: luxuryMuted,
                       ),
                       _build3TierStatMobile(
                         kicker: 'OPTICAL SPEED',
                         metric: '0.3s Gate',
                         label: 'QR Turnstile',
-                        accentColor: luxuryElectricCyan,
+                        accentColor: luxuryMuted,
                       ),
                       _build3TierStatMobile(
                         kicker: 'UNBEATABLE VALUE',
                         metric: '90 Sen/d',
                         label: 'VIP Unlimited',
-                        accentColor: luxuryGold,
+                        accentColor: luxuryMuted,
                       ),
                       _build3TierStatMobile(
                         kicker: 'EDGE VISION',
                         metric: '60 FPS AI',
                         label: 'Smash Tracking',
-                        accentColor: luxuryVoltEmerald,
+                        accentColor: luxuryMuted,
                       ),
                     ],
                   ),
@@ -1097,14 +1097,56 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
   Widget _buildHowItWorksSection(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isDesktop = constraints.maxWidth >= 900;
-        final isMobile = constraints.maxWidth < 768;
+        final isDesktop = constraints.maxWidth >= 960;
+        final isTablet = constraints.maxWidth >= 600 && constraints.maxWidth < 960;
+        final isMobile = constraints.maxWidth < 600;
+
+        final card1 = _buildStepCard(
+          step: '01',
+          spec: '24/7 P2 LIFT',
+          progress: 0.25,
+          title: 'Show Up Anytime (24/7)',
+          desc:
+              'Arrive at 2 PM or 3 AM. Basement P2 lifts take you straight up to Level 2 even when the mall is dark.',
+          icon: Icons.schedule_rounded,
+          isFixedRow: isDesktop || isTablet,
+        );
+        final card2 = _buildStepCard(
+          step: '02',
+          spec: '300MS GATE',
+          progress: 0.50,
+          title: '0.3s Optical QR Turnstile',
+          desc:
+              'Flash your phone QR code at Gate 1 or 2. Optical sensors verify and unlock gates in 300 milliseconds.',
+          icon: Icons.qr_code_scanner_rounded,
+          isFixedRow: isDesktop || isTablet,
+        );
+        final card3 = _buildStepCard(
+          step: '03',
+          spec: 'ITTF 3★ AUTO',
+          progress: 0.75,
+          title: 'Smart Robot Dispensers',
+          desc:
+              'Sanitized ITTF 3-star balls dispense automatically. Professional carbon composite paddles ready in your locker.',
+          icon: Icons.sports_tennis_rounded,
+          isFixedRow: isDesktop || isTablet,
+        );
+        final card4 = _buildStepCard(
+          step: '04',
+          spec: '60 FPS VISION',
+          progress: 1.0,
+          title: 'AI Optical HUD & XP Rewards',
+          desc:
+              'Overhead 60 FPS vision cameras record smash speed and rally scores. Earn XP to climb the Leaderboard.',
+          icon: Icons.military_tech_rounded,
+          isFixedRow: isDesktop || isTablet,
+        );
 
         return Container(
           key: _howItWorksKey,
           padding: EdgeInsets.symmetric(
             horizontal: isMobile ? 16 : 32,
-            vertical: isDesktop ? 70 : 44,
+            vertical: isDesktop ? 64 : 44,
           ),
           child: Center(
             child: ConstrainedBox(
@@ -1112,102 +1154,65 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
               child: Column(
                 children: [
                   _buildSectionHeader(
-                    tag: 'THE UNMANNED REVOLUTION',
+                    tag: 'HOW IT WORKS',
                     title: 'How It Works in 4 Frictionless Steps',
                     subtitle:
                         'No reception desk, no queues, no phone bookings. Complete autonomy from parking lot to match point.',
                   ),
-                  const SizedBox(height: 48),
-                  isDesktop
-                      ? IntrinsicHeight(
+                  SizedBox(height: isMobile ? 28 : 40),
+                  if (isDesktop)
+                    IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(child: card1),
+                          const SizedBox(width: 14),
+                          Expanded(child: card2),
+                          const SizedBox(width: 14),
+                          Expanded(child: card3),
+                          const SizedBox(width: 14),
+                          Expanded(child: card4),
+                        ],
+                      ),
+                    )
+                  else if (isTablet)
+                    Column(
+                      children: [
+                        IntrinsicHeight(
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Expanded(
-                                child: _buildStepCard(
-                                  step: '01',
-                                  title: 'Show Up Anytime (24/7)',
-                                  desc:
-                                      'Arrive at 2 PM or 3 AM. Basement P2 lifts take you straight up to Level 2 even when the mall is dark.',
-                                  icon: Icons.nightlife_rounded,
-                                  accentColor: luxuryVoltEmerald,
-                                ),
-                              ),
+                              Expanded(child: card1),
                               const SizedBox(width: 16),
-                              Expanded(
-                                child: _buildStepCard(
-                                  step: '02',
-                                  title: '0.3s Optical QR Turnstile',
-                                  desc:
-                                      'Flash your phone QR code at Gate 1 or 2. Optical sensors verify and unlock gates in 300 milliseconds.',
-                                  icon: Icons.qr_code_scanner_rounded,
-                                  accentColor: luxuryCoralRose,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: _buildStepCard(
-                                  step: '03',
-                                  title: 'Smart Robot Dispensers',
-                                  desc:
-                                      'Sanitized ITTF 3-star balls dispense automatically. Professional carbon composite paddles ready in your locker.',
-                                  icon: Icons.sports_tennis_rounded,
-                                  accentColor: luxuryElectricCyan,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: _buildStepCard(
-                                  step: '04',
-                                  title: 'AI Optical HUD & XP Rewards',
-                                  desc:
-                                      'Overhead 60 FPS vision cameras record smash speed and rally scores. Earn XP to climb the Leaderboard.',
-                                  icon: Icons.military_tech_rounded,
-                                  accentColor: luxuryGold,
-                                ),
-                              ),
+                              Expanded(child: card2),
                             ],
                           ),
-                        )
-                      : Column(
-                          children: [
-                            _buildStepCard(
-                              step: '01',
-                              title: 'Show Up Anytime (24/7)',
-                              desc:
-                                  'Arrive at 2 PM or 3 AM. Basement P2 lifts take you straight up to Level 2 even when the mall is dark.',
-                              icon: Icons.nightlife_rounded,
-                              accentColor: luxuryVoltEmerald,
-                            ),
-                            const SizedBox(height: 16),
-                            _buildStepCard(
-                              step: '02',
-                              title: '0.3s Optical QR Turnstile',
-                              desc:
-                                  'Flash your phone QR code at Gate 1 or 2. Optical sensors verify and unlock gates in 300 milliseconds.',
-                              icon: Icons.qr_code_scanner_rounded,
-                              accentColor: luxuryCoralRose,
-                            ),
-                            const SizedBox(height: 16),
-                            _buildStepCard(
-                              step: '03',
-                              title: 'Smart Robot Dispensers',
-                              desc:
-                                  'Sanitized ITTF 3-star balls dispense automatically. Professional carbon composite paddles ready in your locker.',
-                              icon: Icons.sports_tennis_rounded,
-                              accentColor: luxuryElectricCyan,
-                            ),
-                            const SizedBox(height: 16),
-                            _buildStepCard(
-                              step: '04',
-                              title: 'AI Optical HUD & XP Rewards',
-                              desc:
-                                  'Overhead 60 FPS vision cameras record smash speed and rally scores. Earn XP to climb the Leaderboard.',
-                              icon: Icons.military_tech_rounded,
-                              accentColor: luxuryGold,
-                            ),
-                          ],
                         ),
+                        const SizedBox(height: 16),
+                        IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(child: card3),
+                              const SizedBox(width: 16),
+                              Expanded(child: card4),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  else
+                    Column(
+                      children: [
+                        card1,
+                        const SizedBox(height: 14),
+                        card2,
+                        const SizedBox(height: 14),
+                        card3,
+                        const SizedBox(height: 14),
+                        card4,
+                      ],
+                    ),
                 ],
               ),
             ),
@@ -1219,81 +1224,120 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
 
   Widget _buildStepCard({
     required String step,
+    required String spec,
+    required double progress,
     required String title,
     required String desc,
     required IconData icon,
-    required Color accentColor,
+    required bool isFixedRow,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: luxuryCard,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.07),
-          width: 1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: accentColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: accentColor.withValues(alpha: 0.35),
+    const emerald = Color(0xFF10B981);
+
+    return SoftHoverButton(
+      onTap: () {},
+      builder: (context, isHovered) {
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: isHovered
+                  ? [const Color(0xFF1D2234), const Color(0xFF141825)]
+                  : [const Color(0xFF161A26), const Color(0xFF11141D)],
+            ),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: isHovered
+                  ? Colors.white.withValues(alpha: 0.22)
+                  : Colors.white.withValues(alpha: 0.08),
+              width: 1,
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(17),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FractionallySizedBox(
+                  widthFactor: progress,
+                  child: Container(
+                    height: 2,
+                    color: emerald.withValues(alpha: isHovered ? 0.9 : 0.55),
                   ),
                 ),
-                child: Icon(icon, color: accentColor, size: 22),
-              ),
-              Text(
-                step,
-                style: AppTypography.ui(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white.withValues(alpha: 0.15),
+                Padding(
+                  padding: EdgeInsets.all(isFixedRow ? 20 : 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 38,
+                            height: 38,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1B2030),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.10),
+                              ),
+                            ),
+                            child: Icon(icon, color: emerald, size: 19),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.05),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.08),
+                              ),
+                            ),
+                            child: Text(
+                              ' · ',
+                              style: AppTypography.ui(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                                color: const Color(0xFF94A3B8),
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        title,
+                        style: AppTypography.ui(
+                          fontSize: 15.5,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                          height: 1.25,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        desc,
+                        style: AppTypography.ui(
+                          fontSize: 12.5,
+                          color: const Color(0xFF8A94A6),
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 42,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                title,
-                style: AppTypography.ui(
-                  fontSize: 15.5,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                  height: 1.25,
-                ),
-              ),
+              ],
             ),
           ),
-          const SizedBox(height: 12),
-          Text(
-            desc,
-            style: AppTypography.ui(
-              fontSize: 13,
-              color: luxuryMuted,
-              height: 1.5,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  // ========================================================================
   Widget _buildVibeCultureSection(BuildContext context) {
     return Container(
       key: _vibeKey,
