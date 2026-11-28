@@ -453,7 +453,7 @@ class _ArenaLandingScreenState extends State<ArenaLandingScreen> {
                       isMobile ? 16 : 32,
                       isDesktop ? 80 : 40,
                       isMobile ? 16 : 32,
-                      isDesktop ? 24 : 24,
+                      isDesktop ? 40 : 28,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
